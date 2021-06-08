@@ -1,62 +1,4 @@
-"""
- Compatibility : N/A
- Inputs*:1.OPERATIONAL DATA :  Operational_data.csv
-         2.INPUT FILE : Input_File_RAPID_v3.0
-         3.SCHEDULE : Schedule_File_RAPID_v3.0
- *All the inputs can be found in the folder called 'inputs'
- ! Make sure the utility folder contains: 
-         - actual_speed_profile.csv (for the version when the actual speed profiles filtering is not available)
-         - RECAT_EU_separation.csv
-         - RECAT_PWS.csv
-         - RECAT20_separation.csv
-         - UK_wake_separation.csv
-         - wake.csv
- Outputs: 1.utility/AROTDROT_distributions.csv
-          2.Input_File_RAPID_v3.0_ + (time) + .xlsx
-          3.OUTPUT_RAPID_v3.0_ + str(output_extension) +  '.xlsx'
-         
-"""            
-
-#*****************************************************************************#
-#=============================================================================#
-#                                                                             #
-#                           IMPORT FUNCTIONS                                  #
-#                                                                             #
-# ============================================================================#
-#*****************************************************************************#
-
-import openpyxl
-# Useful guide for openpyxl here - https://automatetheboringstuff.com/chapter12/
-import random
-import time
-import sys
-import math
-import pandas as pd
-import numpy as np
-import json
-import tkinter as tk      
-import scipy.stats as stats
-
-#from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog
-import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.figure import Figure
-
-from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog, Scale, HORIZONTAL, LabelFrame#, DoubleVar, CENTER
-import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-#import csv
-
-#*****************************************************************************#
-#=============================================================================#
-#                                                                             #
-#                                 GUI                                         #
-#                                                                             #
-# ============================================================================#
-#*****************************************************************************#
-
-
+from requirements import *
 #----------------------------GLOBAL VARIABLES---------------------------------#
 
 #====== FOR CORE: ======#
@@ -75,7 +17,6 @@ ADA_x = 10
 #SIDmax = 4
 SIDgroup_separation = "(2,4)(3,4)"
 SID_queue_assign = "1 3 | 2 4"
-
 
 debugFLAG = False
 debugFLAG2 = False # TAXI - RWY queue checks
@@ -97,9 +38,6 @@ WAKE_thr_FLAG = False
 ADA_thr_FLAG = False
 ADDA_thr_FLAG = False
 
-
-
-
 open_file1 = ""
 open_file = ""
 input_excel_sheet = ""
@@ -110,8 +48,6 @@ new_data2 = ""
 new_data4 = ""
 new_data5 = ""
 new_data6 = ""
-
-
 
 #====FOR VISUAL MODULE======#
 
@@ -126,7 +62,6 @@ average_FLAG = False
 arr_delay_FLAG = False
 convergenceFLAG = False
 ADA_buffer_FLAG = False
-
 
 input_excel_sheet = ""
 operational_data = ""
@@ -143,23 +78,27 @@ def load_file():
     name_excel_sheet.set(input_excel_sheet)
     return()
 
+
 def load_op_data():
     operational_data = filedialog.askopenfilename()
     print(operational_data)
     op_data_sheet.set(operational_data)
     return()
         
+
 def load_new_data2():
     new_data2 = filedialog.askopenfilename()
     print(new_data2)
     new_data_sheet2.set(new_data2)
     return()
         
+
 def load_new_data3():
     new_data3 = filedialog.askopenfilename()
     print(new_data3)
     new_data_sheet3.set(new_data3) 
     return()
+
 
 def load_new_data4():
     new_data4 = filedialog.askopenfilename()
@@ -167,17 +106,20 @@ def load_new_data4():
     new_data_sheet4.set(new_data4) 
     return() 
 
+
 def load_new_data5():
     new_data5 = filedialog.askopenfilename()
     print(new_data5)
     new_data_sheet5.set(new_data5) 
     return()    
     
+
 def load_new_data6():
     new_data6 = filedialog.askopenfilename()
     print(new_data6)
     new_data_sheet6.set(new_data6) 
     return() 
+
 
 def define_input_parameters():
      # CORE
@@ -209,8 +151,8 @@ def define_input_parameters():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-#    TBS = int(var5.get())
-#    TBS_output.set(TBS)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -263,6 +205,7 @@ def define_input_parameters():
     
     win.destroy()
 
+
 def define_input_parameters2():
     
     #CORE:
@@ -294,8 +237,8 @@ def define_input_parameters2():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-#    TBS = int(var5.get())
-#    TBS_output.set(TBS)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -349,7 +292,16 @@ def define_input_parameters2():
     win.destroy()
 
 
-#-----------------------------------------------------------------------------#
+
+
+#*****************************************************************************#
+#=============================================================================#
+#                                                                             #
+#                                 GUI                                         #
+#                                                                             #
+# ============================================================================#
+#*****************************************************************************#
+
 
 win = tk.Tk()                           # Create instance      
 win.title("RAPID V_2.0")                 # Add a title 
@@ -427,9 +379,6 @@ open_file = StringVar()
 def raise_frame(frame):
     frame.tkraise()
 
-
-
-
 f0 = ttk.Frame(tab1)
 f1 = ttk.Frame(tab1)
 f2 = ttk.Frame(tab1)
@@ -438,7 +387,6 @@ f4 = ttk.Frame(tab1)
 f5 = ttk.Frame(tab1)
 f6 = ttk.Frame(tab1)
 f7 = ttk.Frame(tab1)
-
 
 for frame in (f0,f1,f2):
     frame.grid(row=0, column=0, sticky='news')
@@ -460,15 +408,11 @@ f0_content = LabelFrame(f0, text="    WELCOME TO RAPID    ", font="Helvetica 16 
 f0_content.grid(row=0, column=0, sticky=N, \
              padx=10, pady=40, ipadx=5, ipady=10)
 
-
 f0_content_a = ttk.LabelFrame(f0_content, text=" [ A ] - Analyse & Filter Operational Data ")
 f0_content_a.grid(row=2, column=0, sticky=N, \
              padx=5, pady=15, ipadx=5, ipady=5)
 
-
 name_excel_sheet1 = StringVar()
-
-
 
 tdf = pd.DataFrame()
 
@@ -480,14 +424,17 @@ def airport_data_load_file():
     #print("#####", import_excel_schedule, "###", import_schedule)
     return()
     
+
 def define_airport_data_parameters():
     button_check.set(True)    
     airport_data = import_airport_data.get()
+
 
 def create_dataframe_operational_data():
     airport_data = import_airport_data.get()
     df_operational_data = pd.read_csv(airport_data)
     return df_operational_data
+
 
 def generate_new_input():
     def raise_subframe(frame):
@@ -498,10 +445,9 @@ def generate_new_input():
         frame.columnconfigure(0, weight=0)
         frame.rowconfigure(0, weight=0)
         
-        
     airport_data_load_file()
     define_airport_data_parameters()
-#    create_dataframe_operational_data()
+    # create_dataframe_operational_data()
     tdf = create_dataframe_operational_data()
     
     #f0_buttons
@@ -512,10 +458,6 @@ def generate_new_input():
         frame.tkraise()
         create_f1_to_f6()
     
-    
-
-   
-
     def create_f1_to_f6():
 
         # AROT FRAME ###############################################################################################
@@ -660,6 +602,7 @@ def generate_new_input():
             df_final_AROT = pd.concat(frames_AROT, axis=1)
             return df_final_AROT
             #temp_string
+        
         def define_arot_parameters(): 
             df_final_AROT = define_final_AROT()
             print("AROTs defined | Filters AROT = ", Throttle_arot.get(), "Demand=", Throttle.get())
@@ -670,12 +613,10 @@ def generate_new_input():
             return df_final_AROT
             #window.destroy()
             
-        
         # Specify GUI Structure -------->
         DemandInputFrame = LabelFrame(f1_content, text="    Filter data based on the Demand    ", font="Helvetica 12")
         DemandInputFrame.grid(row=0, column=1, columnspan=1, sticky='N', \
                   padx=5, pady=10, ipadx=5, ipady=5)
-        
         
         AROTInputFrame = LabelFrame(f1_content, text="    Filter data based on max. AROT    ", font="Helvetica 12")
         AROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', \
@@ -757,19 +698,19 @@ def generate_new_input():
         ttk.Label(DemandInputFrame, text=" Percentage of original entries = ", font="Helvetica 10").grid(row=3, column=1, sticky=N, padx=5)
         ttk.Label(AROTInputFrame, text="      Select a Max. value for AROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=240)
         
-# =============================================================================
-#         DemandInputFrame.columnconfigure(1, weight=1)
-#         DemandInputFrame.rowconfigure(0, weight=1)
-#         DemandInputFrame.rowconfigure(1, weight=1)
-#         DemandInputFrame.rowconfigure(2, weight=1)
-#         DemandInputFrame.rowconfigure(3, weight=1)
-#         
-#         AROTInputFrame.columnconfigure(1, weight=1)
-#         AROTInputFrame.rowconfigure(0, weight=1)
-#         AROTInputFrame.rowconfigure(1, weight=1)
-#         AROTInputFrame.rowconfigure(2, weight=1)
-#         AROTInputFrame.rowconfigure(3, weight=1)
-# =============================================================================
+        # =============================================================================
+        #         DemandInputFrame.columnconfigure(1, weight=1)
+        #         DemandInputFrame.rowconfigure(0, weight=1)
+        #         DemandInputFrame.rowconfigure(1, weight=1)
+        #         DemandInputFrame.rowconfigure(2, weight=1)
+        #         DemandInputFrame.rowconfigure(3, weight=1)
+        #         
+        #         AROTInputFrame.columnconfigure(1, weight=1)
+        #         AROTInputFrame.rowconfigure(0, weight=1)
+        #         AROTInputFrame.rowconfigure(1, weight=1)
+        #         AROTInputFrame.rowconfigure(2, weight=1)
+        #         AROTInputFrame.rowconfigure(3, weight=1)
+        # =============================================================================
         
         #f1_content.columnconfigure(0, weight=0)
         #f1_content.rowconfigure(0, weight=0)
@@ -798,9 +739,6 @@ def generate_new_input():
         tk.Button(inner, text='Confirm Settings and Save | NEXT ->', command=define_arot_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 30).grid(column=1, row=1, sticky=N, ipadx=5, ipady=5)
         
         f1_content.bind('<Return>', define_arot_parameters)
-        
-        
-        
         
         # DROT FRAME ###############################################################################################
         
@@ -897,8 +835,8 @@ def generate_new_input():
             canvas6.draw() #canvas2
         
         def define_final_DROT():
-#            Final_max_DROT = 3330
-#            Final_demand_d = 45
+            # Final_max_DROT = 3330
+            # Final_demand_d = 45
             Final_demand_d = Throttle_d.get()
             Final_demand_output_d.set(Final_demand_d)
             Final_max_DROT = Throttle_drot.get()
@@ -914,7 +852,6 @@ def generate_new_input():
             df_final_DROT_UM = pd.DataFrame()
             df_final_DROT_J = pd.DataFrame()
             df_final_DROT_S = pd.DataFrame()
-            
             
             #F
             df_final_DROT_H['DROT_H'] = ""
@@ -981,9 +918,9 @@ def generate_new_input():
         button_check_d = StringVar(f2_content, value='0')
         
         # OLD METHOD for Filtering DROT
-        #in_max_drot = df_drot['DROT'].max()
-        #input_entry1_d = ttk.Entry(DROTInputFrame, width=7, textvariable=drot_filter)
-        #input_entry1_d.grid(row=1, column=2, sticky=N, padx=10, pady=35)
+        # in_max_drot = df_drot['DROT'].max()
+        # input_entry1_d = ttk.Entry(DROTInputFrame, width=7, textvariable=drot_filter)
+        # input_entry1_d.grid(row=1, column=2, sticky=N, padx=10, pady=35)
         
         # matplotlib figures
         fig_d = plt.Figure()
@@ -1006,7 +943,6 @@ def generate_new_input():
         
         # PLOT Initialisation
 
-        
         ########## CHANGE ###
         df_drot_demand = df_drot.loc[df_drot['DROT_Demand'] >= d_min_demand]
         df_drot_filtered = df_drot_demand.loc[df_drot_demand['DROT'] <= max_drot]
@@ -1067,188 +1003,187 @@ def generate_new_input():
         tk.Button(inner_d, text='<- BACK', command=lambda:raise_subframe(f1), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         f2_content.bind('<Return>', define_drot_parameters)
         
-        
-#        # TAXI-OUT FRAME #############################################################################################
-#        
-#        #f3_help 
-#           
-#        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
-#        f3_help.grid(row=0, column=1, sticky=E, \
-#                     padx=5, pady=5, ipadx=5, ipady=5)
-#        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky=W)
-#        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-#        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
-#        
-#        #f3_buttons
-#        f3_buttons= ttk.Frame(f3) 
-#        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
-#        
-#        
-#        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        
-#        #f3_content
-#        f3_content = LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
-#        f3_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-#        
-##
-#        columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-#        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
-#        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
-#        
-#        TOUT_output = IntVar()
-#        
-#        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-#        min_tout = df_taxi_out['S1'].min()
-#        
-#        TOUT_filter_output = max_tout
-#        
-#        def getThrottle_to(event):
-#            
-#            ax92.clear() #ax
-#            
-#            ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#            ax92.set_xlabel(' Taxi-out time (secs) ')
-#            ax92.set_ylabel(' Aircraft count ')
-#            
-#            TOUT_filter_output = Throttle_tout.get()
-#            
-#            df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
-#            
-#            df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-#            
-#            plt.show()
-#        
-#            canvas92.draw() #canvas ax92.clear() #ax
-#        
-#        ResultsFrame_tout = LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
-#        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        
-#        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_tout = plt.Figure()
-#        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
-#        canvas9.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax9 = fig_tout.add_subplot(111)
-#        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
-#        ax9.set_xlabel('Wake Category = [ Medium ] ')
-#        ax9.set_ylabel('Time (secs)')
-#        
-#        df_taxi_out.plot(kind='box', ax=ax9)
-#        
-#        ## EXTRA Taxi-out plots!
-#        
-#        fig_tout_2 = plt.Figure()
-#        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
-#        canvas92.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax92 = fig_tout_2.add_subplot(111)
-#        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#        ax92.set_xlabel(' Taxi-out time (secs) ')
-#        ax92.set_ylabel(' Aircraft count ')
-#        
-#        #df_taxi_out.plot(kind='box', ax=ax92)
-#        
-#        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-#        
-#        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
-#        
-#        Throttle_tout = Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
-#        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
-#        Throttle_tout.set(max_tout)
-#        
-#        # TAXI-IN FRAME #############################################################################################
-#        
-#        
-#        #f4_help 
-#           
-#        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
-#        f4_help.grid(row=0, column=1, sticky=E, \
-#                     padx=5, pady=5, ipadx=5, ipady=5)
-#        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky=W)
-#        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-#        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
-#        
-#        #f4_buttons
-#        f4_buttons= ttk.Frame(f4) 
-#        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
-#        
-#        
-#        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        
-#        #f4_content
-#        f4_content = LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
-#        f4_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-#        
-#        
-#        columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-#        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
-#        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
-#        
-#        TIN_output = IntVar()
-#        
-#        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-#        min_tin = df_taxi_out['S1'].min()
-#        
-#        TIN_filter_output = max_tin
-#        
-#        def getThrottle_ti(event):
-#            
-#            ax102.clear() #ax
-#            
-#            ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
-#            ax102.set_xlabel(' Taxi-in time (secs) ')
-#            ax102.set_ylabel(' Aircraft count ')
-#            
-#            TIN_filter_output = Throttle_tin.get()
-#            
-#            df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
-#            
-#            df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-#            
-#            plt.show()
-#        
-#            canvas102.draw() #canvas
-#        
-#        ResultsFrame_tin = LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
-#        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_tin = plt.Figure()
-#        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
-#        canvas10.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax10 = fig_tin.add_subplot(111)
-#        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
-#        ax10.set_xlabel('Wake Category = [ Medium ] ')
-#        ax10.set_ylabel('Time (secs)')
-#        
-#        df_taxi_in.plot(kind='box', ax=ax10) 
-#        
-#        ## EXTRA Taxi-out plots!
-#        
-#        fig_tin_2 = plt.Figure()
-#        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
-#        canvas102.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax102 = fig_tin_2.add_subplot(111)
-#        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#        ax102.set_xlabel(' Taxi-out time (secs) ')
-#        ax102.set_ylabel(' Aircraft count ')
-#        
-#        #df_taxi_out.plot(kind='box', ax=ax92)
-#        
-#        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-#        
-#        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
-#        
-#        Throttle_tin = Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
-#        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
-#        Throttle_tin.set(max_tin)
+        #        # TAXI-OUT FRAME #############################################################################################
+        #        
+        #        #f3_help 
+        #           
+        #        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
+        #        f3_help.grid(row=0, column=1, sticky=E, \
+        #                     padx=5, pady=5, ipadx=5, ipady=5)
+        #        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky=W)
+        #        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
+        #        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        
+        #        #f3_buttons
+        #        f3_buttons= ttk.Frame(f3) 
+        #        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        
+        #        
+        #        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        
+        #        #f3_content
+        #        f3_content = LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
+        #        f3_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+        #        
+        ##
+        #        columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        #        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
+        #        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
+        #        
+        #        TOUT_output = IntVar()
+        #        
+        #        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        #        min_tout = df_taxi_out['S1'].min()
+        #        
+        #        TOUT_filter_output = max_tout
+        #        
+        #        def getThrottle_to(event):
+        #            
+        #            ax92.clear() #ax
+        #            
+        #            ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #            ax92.set_xlabel(' Taxi-out time (secs) ')
+        #            ax92.set_ylabel(' Aircraft count ')
+        #            
+        #            TOUT_filter_output = Throttle_tout.get()
+        #            
+        #            df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
+        #            
+        #            df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+        #            
+        #            plt.show()
+        #        
+        #            canvas92.draw() #canvas ax92.clear() #ax
+        #        
+        #        ResultsFrame_tout = LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        
+        #        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_tout = plt.Figure()
+        #        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
+        #        canvas9.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax9 = fig_tout.add_subplot(111)
+        #        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
+        #        ax9.set_xlabel('Wake Category = [ Medium ] ')
+        #        ax9.set_ylabel('Time (secs)')
+        #        
+        #        df_taxi_out.plot(kind='box', ax=ax9)
+        #        
+        #        ## EXTRA Taxi-out plots!
+        #        
+        #        fig_tout_2 = plt.Figure()
+        #        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
+        #        canvas92.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax92 = fig_tout_2.add_subplot(111)
+        #        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #        ax92.set_xlabel(' Taxi-out time (secs) ')
+        #        ax92.set_ylabel(' Aircraft count ')
+        #        
+        #        #df_taxi_out.plot(kind='box', ax=ax92)
+        #        
+        #        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+        #        
+        #        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        
+        #        Throttle_tout = Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
+        #        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
+        #        Throttle_tout.set(max_tout)
+        #        
+        #        # TAXI-IN FRAME #############################################################################################
+        #        
+        #        
+        #        #f4_help 
+        #           
+        #        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
+        #        f4_help.grid(row=0, column=1, sticky=E, \
+        #                     padx=5, pady=5, ipadx=5, ipady=5)
+        #        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky=W)
+        #        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
+        #        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        
+        #        #f4_buttons
+        #        f4_buttons= ttk.Frame(f4) 
+        #        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        
+        #        
+        #        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        
+        #        #f4_content
+        #        f4_content = LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
+        #        f4_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+        #        
+        #        
+        #        columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        #        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
+        #        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
+        #        
+        #        TIN_output = IntVar()
+        #        
+        #        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        #        min_tin = df_taxi_out['S1'].min()
+        #        
+        #        TIN_filter_output = max_tin
+        #        
+        #        def getThrottle_ti(event):
+        #            
+        #            ax102.clear() #ax
+        #            
+        #            ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
+        #            ax102.set_xlabel(' Taxi-in time (secs) ')
+        #            ax102.set_ylabel(' Aircraft count ')
+        #            
+        #            TIN_filter_output = Throttle_tin.get()
+        #            
+        #            df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
+        #            
+        #            df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+        #            
+        #            plt.show()
+        #        
+        #            canvas102.draw() #canvas
+        #        
+        #        ResultsFrame_tin = LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_tin = plt.Figure()
+        #        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
+        #        canvas10.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax10 = fig_tin.add_subplot(111)
+        #        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
+        #        ax10.set_xlabel('Wake Category = [ Medium ] ')
+        #        ax10.set_ylabel('Time (secs)')
+        #        
+        #        df_taxi_in.plot(kind='box', ax=ax10) 
+        #        
+        #        ## EXTRA Taxi-out plots!
+        #        
+        #        fig_tin_2 = plt.Figure()
+        #        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
+        #        canvas102.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax102 = fig_tin_2.add_subplot(111)
+        #        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #        ax102.set_xlabel(' Taxi-out time (secs) ')
+        #        ax102.set_ylabel(' Aircraft count ')
+        #        
+        #        #df_taxi_out.plot(kind='box', ax=ax92)
+        #        
+        #        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+        #        
+        #        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        
+        #        Throttle_tin = Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
+        #        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
+        #        Throttle_tin.set(max_tin)
         
         # ADA/ADDA #############################################################################################
         
@@ -1270,80 +1205,80 @@ def generate_new_input():
         
         # NOTE ! : this frame used to be for ADA, but now we use it for Speed profile as the ADA comes from a normal distribution
         
-#        #f5_content
-#        f5_content = LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
-#        f5_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-         
-#        #####################################################################        
-#        #                        ADA/ADDA  DATA                             #
-#        #####################################################################
-#        
-#        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
-#        df_ada = tdf.drop(columns=columns_to_drop_ada)
-#
-#        ResultsFrame_ada = LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
-#        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_ada = plt.Figure()
-#        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
-#        canvas7.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax7 = fig_ada.add_subplot(111)
-#        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
-#        ax7.set_xlabel('Time (secs)')
-#        ax7.set_ylabel('Frequency')
-#        
-#        df_ada_main_plot = df_ada
-#        
-#        df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
-#        df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
-#        
-#        df_ada_main_plot.plot(kind='line', ax=ax7)
-#        
-#        fig_buffer = plt.Figure()
-#        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
-#        canvas8.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax8 = fig_buffer.add_subplot(111)
-#        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
-#        ax8.set_xlabel('Buffer Spacing (secs)')
-#        ax8.set_ylabel('Frequency')
-#        
-#        df_ada_sub_plot = df_ada
-#        
-#        df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
-#        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
-#        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
-#        df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
-#        
-#        df_ada_sub_plot.plot(kind='line', ax=ax8)
-#        
-#        df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
-#        df_buffer_limit = df_buffer_limit.reset_index(level=[0])
-#        
-#        ############ ADA data filtering! ############
-#        
-#        
-#        ######### Interesting Buffer stats! #########
-#        
-#        Buffer_Analysis = LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
-#        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=5, pady=10)
-#        ## Update label value ##
-#        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky=N) # Mean Buffer value
-#        
-#        
-#        #Option 2
-#        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky=N, padx=5, pady=10)
-#        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky=N) # Equivalent to numpy.percentile
-        
+        #        #f5_content
+        #        f5_content = LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
+        #        f5_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+                
+        #        #####################################################################        
+        #        #                        ADA/ADDA  DATA                             #
+        #        #####################################################################
+        #        
+        #        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
+        #        df_ada = tdf.drop(columns=columns_to_drop_ada)
+        #
+        #        ResultsFrame_ada = LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
+        #        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_ada = plt.Figure()
+        #        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
+        #        canvas7.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax7 = fig_ada.add_subplot(111)
+        #        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
+        #        ax7.set_xlabel('Time (secs)')
+        #        ax7.set_ylabel('Frequency')
+        #        
+        #        df_ada_main_plot = df_ada
+        #        
+        #        df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
+        #        df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
+        #        
+        #        df_ada_main_plot.plot(kind='line', ax=ax7)
+        #        
+        #        fig_buffer = plt.Figure()
+        #        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
+        #        canvas8.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax8 = fig_buffer.add_subplot(111)
+        #        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
+        #        ax8.set_xlabel('Buffer Spacing (secs)')
+        #        ax8.set_ylabel('Frequency')
+        #        
+        #        df_ada_sub_plot = df_ada
+        #        
+        #        df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
+        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
+        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
+        #        df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
+        #        
+        #        df_ada_sub_plot.plot(kind='line', ax=ax8)
+        #        
+        #        df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
+        #        df_buffer_limit = df_buffer_limit.reset_index(level=[0])
+        #        
+        #        ############ ADA data filtering! ############
+        #        
+        #        
+        #        ######### Interesting Buffer stats! #########
+        #        
+        #        Buffer_Analysis = LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
+        #        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=5, pady=10)
+        #        ## Update label value ##
+        #        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky=N) # Mean Buffer value
+        #        
+        #        
+        #        #Option 2
+        #        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky=N, padx=5, pady=10)
+        #        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky=N) # Equivalent to numpy.percentile
+                
         output_extension_empty_file = time.strftime("%H_%M", time.localtime(time.time()))
         input_files_name = 'Input_File_RAPID_v3.0_' + output_extension_empty_file
         
@@ -1645,6 +1580,7 @@ f0.bind('<Return>', create_dataframe_operational_data)
 f0_content_b = ttk.LabelFrame(f0_content, text=" [ B ] - Load existing INPUT file ")
 f0_content_b.grid(row=2, column=1, sticky=E, \
              padx=5, pady=15, ipadx=5, ipady=5)
+
 def load_input_file():
     input_file_excel = filedialog.askopenfilename()
     name_excel_sheet.set(input_file_excel)  
@@ -1653,6 +1589,7 @@ def load_input_file():
     f0_buttons= tk.Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+
 import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky=N, padx=10, pady=10, ipadx=5, ipady=5)
 
 
@@ -1952,6 +1889,31 @@ win.rowconfigure(1, weight=1)
 win.mainloop()      
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 n_times = n_times_output.get()
 m = m_output.get()
 
@@ -2190,10 +2152,10 @@ while (iter1 < maxIter):
     else:
         averagethrFLAG = False
         
-#    if distance_based_output.get() ==1:
-#        distance_based_FLAG = True
-#    else:
-#        distance_based_FLAG = False
+    #    if distance_based_output.get() ==1:
+    #        distance_based_FLAG = True
+    #    else:
+    #        distance_based_FLAG = False
         
     if time_based_output.get() ==1:
         time_based_FLAG = True
@@ -2381,68 +2343,68 @@ while (iter1 < maxIter):
     df_DROT_S =  pd.DataFrame()
     df_DROT_S = process_each_column_in_distributions(df_DROT_S, 'DROT_S')
     
-#    df_TAXI_OUT_S1 =  pd.DataFrame()
-#    df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
-#    df_TAXI_OUT_S2 =  pd.DataFrame()
-#    df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
-#    df_TAXI_OUT_S3 =  pd.DataFrame()
-#    df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
-#    df_TAXI_OUT_S4 =  pd.DataFrame()
-#    df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
-#    df_TAXI_OUT_S5 =  pd.DataFrame()
-#    df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
-#    df_TAXI_OUT_S6 =  pd.DataFrame()
-#    df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
-#    df_TAXI_OUT_S7 =  pd.DataFrame()
-#    df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
-#    df_TAXI_OUT_S8 =  pd.DataFrame()
-#    df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
-#    df_TAXI_OUT_S9 =  pd.DataFrame()
-#    df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
-#    df_TAXI_OUT_S10 =  pd.DataFrame()
-#    df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
-#    df_TAXI_OUT_S11 =  pd.DataFrame()
-#    df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
-#    df_TAXI_OUT_S12 =  pd.DataFrame()
-#    df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
-#    df_TAXI_OUT_S13 =  pd.DataFrame()
-#    df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
-#    df_TAXI_OUT_S14 =  pd.DataFrame()
-#    df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
-#    df_TAXI_OUT_S15 =  pd.DataFrame()
-#    df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
-#    
-#    df_TAXI_IN_S1 =  pd.DataFrame()
-#    df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
-#    df_TAXI_IN_S2 =  pd.DataFrame()
-#    df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
-#    df_TAXI_IN_S3 =  pd.DataFrame()
-#    df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
-#    df_TAXI_IN_S4 =  pd.DataFrame()
-#    df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
-#    df_TAXI_IN_S5 =  pd.DataFrame()
-#    df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
-#    df_TAXI_IN_S6 =  pd.DataFrame()
-#    df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
-#    df_TAXI_IN_S7 =  pd.DataFrame()
-#    df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
-#    df_TAXI_IN_S8 =  pd.DataFrame()
-#    df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
-#    df_TAXI_IN_S9 =  pd.DataFrame()
-#    df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
-#    df_TAXI_IN_S10 =  pd.DataFrame()
-#    df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
-#    df_TAXI_IN_S11 =  pd.DataFrame()
-#    df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
-#    df_TAXI_IN_S12 =  pd.DataFrame()
-#    df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
-#    df_TAXI_IN_S13 =  pd.DataFrame()
-#    df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
-#    df_TAXI_IN_S14 =  pd.DataFrame()
-#    df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
-#    df_TAXI_IN_S15 =  pd.DataFrame()
-#    df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
-    
+    #    df_TAXI_OUT_S1 =  pd.DataFrame()
+    #    df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
+    #    df_TAXI_OUT_S2 =  pd.DataFrame()
+    #    df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
+    #    df_TAXI_OUT_S3 =  pd.DataFrame()
+    #    df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
+    #    df_TAXI_OUT_S4 =  pd.DataFrame()
+    #    df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
+    #    df_TAXI_OUT_S5 =  pd.DataFrame()
+    #    df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
+    #    df_TAXI_OUT_S6 =  pd.DataFrame()
+    #    df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
+    #    df_TAXI_OUT_S7 =  pd.DataFrame()
+    #    df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
+    #    df_TAXI_OUT_S8 =  pd.DataFrame()
+    #    df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
+    #    df_TAXI_OUT_S9 =  pd.DataFrame()
+    #    df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
+    #    df_TAXI_OUT_S10 =  pd.DataFrame()
+    #    df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
+    #    df_TAXI_OUT_S11 =  pd.DataFrame()
+    #    df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
+    #    df_TAXI_OUT_S12 =  pd.DataFrame()
+    #    df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
+    #    df_TAXI_OUT_S13 =  pd.DataFrame()
+    #    df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
+    #    df_TAXI_OUT_S14 =  pd.DataFrame()
+    #    df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
+    #    df_TAXI_OUT_S15 =  pd.DataFrame()
+    #    df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
+    #    
+    #    df_TAXI_IN_S1 =  pd.DataFrame()
+    #    df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
+    #    df_TAXI_IN_S2 =  pd.DataFrame()
+    #    df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
+    #    df_TAXI_IN_S3 =  pd.DataFrame()
+    #    df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
+    #    df_TAXI_IN_S4 =  pd.DataFrame()
+    #    df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
+    #    df_TAXI_IN_S5 =  pd.DataFrame()
+    #    df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
+    #    df_TAXI_IN_S6 =  pd.DataFrame()
+    #    df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
+    #    df_TAXI_IN_S7 =  pd.DataFrame()
+    #    df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
+    #    df_TAXI_IN_S8 =  pd.DataFrame()
+    #    df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
+    #    df_TAXI_IN_S9 =  pd.DataFrame()
+    #    df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
+    #    df_TAXI_IN_S10 =  pd.DataFrame()
+    #    df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
+    #    df_TAXI_IN_S11 =  pd.DataFrame()
+    #    df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
+    #    df_TAXI_IN_S12 =  pd.DataFrame()
+    #    df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
+    #    df_TAXI_IN_S13 =  pd.DataFrame()
+    #    df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
+    #    df_TAXI_IN_S14 =  pd.DataFrame()
+    #    df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
+    #    df_TAXI_IN_S15 =  pd.DataFrame()
+    #    df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
+        
     
     
     ###########################################
@@ -2455,7 +2417,7 @@ while (iter1 < maxIter):
     df_dep = xls.parse(1)
     df_arr = xls.parse(0)
 
-#---------------------------GLOBAL VARIABLES----------------------------------#
+    #---------------------------GLOBAL VARIABLES----------------------------------#
 
 
     # SET WAKE RULES for departures
@@ -2584,7 +2546,7 @@ while (iter1 < maxIter):
 
 
 
-#------------------------------INPUT PRE-PROCESS -----------------------------#
+    #------------------------------INPUT PRE-PROCESS -----------------------------#
 
     
     #Initialise Arrival input - N.B. must be outside method
@@ -2702,8 +2664,8 @@ while (iter1 < maxIter):
         throughputTab['C' + str(1)].value = 'Arrival Throughput'
         throughputTab['D' + str(1)].value = 'Total Throughput'
         throughputTab['E' + str(1)].value = 'Cum. No. of Go-Arounds'
-#        
-#        # Delay tab headers 
+    #        
+    #        # Delay tab headers 
         delayTab['A' + str(1)].value = 'Departure ID'
         delayTab['B' + str(1)].value = 'HOUR'
         delayTab['C' + str(1)].value = 'RWY HOLD Delay'
@@ -2844,7 +2806,7 @@ while (iter1 < maxIter):
                 T = (f*3600)/(arrivalInput['AM'+str(row)].value)
             
             return T
-#        if distance > 0:
+    # if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -2911,7 +2873,7 @@ while (iter1 < maxIter):
                 S = f*(arrivalInput['AW'+str(row)].value - arrivalInput['AV'+str(row)].value) + arrivalInput['AV'+str(row)].value
                 T = (f*3600)/arrivalInput['AW'+str(row)].value
             return T
-#        if distance > 0:
+    # if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -3069,10 +3031,10 @@ while (iter1 < maxIter):
             Arrival_Taxiin_mean = arrivalInput['I' + str(row)].value
             Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
             #Taxiinlookup = arrivalInput['M' + str(row)].value
-#            if taxi_outliers == False:
+        # if taxi_outliers == False:
             tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
-#            else:
-#                tempTaxiIn = Taxiinlookup   
+        # else:
+        #   tempTaxiIn = Taxiinlookup   
             runwayCalculations['B' + str(row)].value = round(tempTaxiIn, 0)
 
             ####################### AROT - from lookup ########################
@@ -3425,7 +3387,7 @@ while (iter1 < maxIter):
     Departure_Input_pre_process()
     print("Input file successfully read")
     
-#===== SID separation ====#
+    #===== SID separation ====#
     
     index_key_of_nextDeparture_Q1 = 0
     index_key_of_nextDeparture_Q2 = 0
@@ -3442,7 +3404,7 @@ while (iter1 < maxIter):
     SIDgroup_list = SIDgroup_list1 + SIDgroup_list2
     chunks2 = [SIDgroup_list[x:x+2] for x in range(0, len(SIDgroup_list), 2)]
     
-#===== SID queue ====#
+    #===== SID queue ====#
     
     #SID_queue_assign = "1 3 | 2 4"
     Q1_SID = []
@@ -3470,7 +3432,7 @@ while (iter1 < maxIter):
                     Q7_SID =[int(x) for x in chunks[6]]
                     Q8_SID =[int(x) for x in chunks[7]]
                     
-#===TIME limits====#
+    #===TIME limits====#
     
     if arrivalInput['A' + str(2)].value==None: #no arrivals:
         Start_time = departureInput['C' +str(2)].value - 3000
@@ -3487,11 +3449,11 @@ while (iter1 < maxIter):
         End_time = min(arrivalInput['C' + str(max_ARRIVAL-1)].value,departureInput['C' +str(max_DEPARTURE-1)].value) + 10000
         
     Current_time = Start_time
-#--------------------------- Movement Functions---------------------------------#
+    #--------------------------- Movement Functions---------------------------------#
 
 
  
-######################## DEPARTURES #######################################
+    ######################## DEPARTURES #######################################
     
      
     def update_Departure_Delays(Current_time):
@@ -3521,7 +3483,7 @@ while (iter1 < maxIter):
         return(SOBTrow)
         
     def TAXIqueue_update(Current_time):
-#        if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
+        # if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
         #check who has to go first
         first_in_line_DepSTANDqueue = min(list(DepSTANDqueue.keys()))
     
@@ -3809,8 +3771,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3833,8 +3795,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3863,8 +3825,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3886,8 +3848,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3940,11 +3902,11 @@ while (iter1 < maxIter):
                             DROT1 = RWYqueue1[firstDeparture][2]
                         else:
                             DROT1 = RWYqueue2[firstDeparture][2]
-#                            secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
-#                            if nextRWYqueue ==1:
-#                                DROT2 = RWYqueue1[secondDeparture][2]
-#                            else:
-#                                DROT2 = RWYqueue2[secondDeparture][2] 
+                            # secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
+                            # if nextRWYqueue ==1:
+                            #   DROT2 = RWYqueue1[secondDeparture][2]
+                            #  else:
+                            #   DROT2 = RWYqueue2[secondDeparture][2] 
                         ADDA_target_time = AROT + DROT1 + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                         ADDA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme,int(ADDA_target_time))#distance
                         if (ADDA_4dme_FLAG == True) and (ArrOutput>2):
@@ -4006,18 +3968,16 @@ while (iter1 < maxIter):
             
             #print to sequence tab
             
-           
-                          
-            
+
     def Arr_LANDING(Current_time, ArrOutput,first_in_line_APPqueue,seqRow): 
         
         
-#        if len(APPqueue)!=0:
-#            first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
-#            #print('There is something in the APPqueue')
-#           
-#            #print('NEXT ARRIVAL = ', AC)
-#            if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
+        # if len(APPqueue)!=0:
+        #   first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
+        #   #print('There is something in the APPqueue')
+        #   
+        #   #print('NEXT ARRIVAL = ', AC)
+        #   if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
         if RWY_status == "D":
             print('*** GO AROUND ***', APPqueue[first_in_line_APPqueue])
             del APPqueue[first_in_line_APPqueue]
@@ -4095,7 +4055,7 @@ while (iter1 < maxIter):
     
    
    
-#--------------------------------MODEL RUNS-----------------------------------#
+    #--------------------------------MODEL RUNS-----------------------------------#
 
 
     print('distance_based_FLAG = ',distance_based_FLAG)
@@ -4205,9 +4165,9 @@ while (iter1 < maxIter):
         Current_time += 1
 
 
-# ============================================================================#
-#                       Buffer Calculations                                   #      
-# ============================================================================#
+    # ============================================================================#
+    #                       Buffer Calculations                                   #      
+    # ============================================================================#
     bufferRow = 2
     
     for row in range (2, (sequenceTab.max_row-2)):
@@ -4216,9 +4176,9 @@ while (iter1 < maxIter):
            sequenceTab['F' + str(bufferRow)].value = sequenceTab['B' + str(row)].value 
            bufferRow+=1
 
-# ============================================================================#
-#                   THROUGHPUT AND DELAYS CALCULATIONS                        #
-# ============================================================================#
+    # ============================================================================#
+    #                   THROUGHPUT AND DELAYS CALCULATIONS                        #
+    # ============================================================================#
  
     min_thr_HOUR = min(arrivalOutput['B' + str(2)].value,departureOutput['B' + str(2)].value)
     print('arrivalOutput["B" + str(ArrOutput-1)].value = ',arrivalOutput['B' + str(ArrOutput-1)].value)
@@ -4256,9 +4216,9 @@ while (iter1 < maxIter):
             throughputTab['E' + str(row)].value = 0
         min_thr_HOUR +=1
   
-# ============================================================================#
-#                               DELAYS                                        #
-# ============================================================================#
+    # ============================================================================#
+    #                               DELAYS                                        #
+    # ============================================================================#
     
     for row in range(2, DepOutput):
         delayTab['A' + str(row)].value = departureOutput['A' + str(row)].value
@@ -4441,36 +4401,39 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     LARGE_FONT= ("Verdana", 12)
     
     Flag_another_run =  False
+    
     class RAPIDvisual(tk.Tk):
     
         def __init__(self, *args, **kwargs):
             
             tk.Tk.__init__(self, *args, **kwargs)
-    
-            #tk.Tk.iconbitmap(self, text="clienticon.ico")
+
+            # Tk.iconbitmap(self, text="clienticon.ico")
             tk.Tk.wm_title(self, "RAPID VISUAL")
-            
             
             container = tk.Frame(self)
             container.pack(side="top", fill="both", expand = True)
             container.grid_rowconfigure(0, weight=1)
             container.grid_columnconfigure(0, weight=1)
-    
+
             self.frames = {}
+            
             for F in (StartPage, Conv, Thr, DepDelay, DepDelay2, ArrivalDelay, Seq, ADAbuffer):
         
                 frame = F(container, self)
-    
+
                 self.frames[F] = frame
-    
+
                 frame.grid(row=0, column=0, sticky="nsew")
-    
+
             self.show_frame(StartPage)
+
+        
         def show_frame(self, cont):
-    
+
             frame = self.frames[cont]
             frame.tkraise()
-    
+        
     class StartPage(tk.Frame):
     
         def __init__(self, parent, controller):
@@ -4832,10 +4795,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.grid(color='b', linestyle='-', linewidth=0.1) 
                         #A.title('Throughput')   
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 ##            
@@ -4923,8 +4886,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         if m2>= 1:
                             f = Figure(figsize=(5,5), dpi=100)
                             A = f.add_subplot(111)
-            #                throughput(df_thr, 'k')
-            #                throughput(df_thr2, 'g')
+                            # throughput(df_thr, 'k')
+                            # throughput(df_thr2, 'g')
                             
                             df_thr_to_plot2 = create_first_df_thr()
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
@@ -4981,10 +4944,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.grid(color='b', linestyle='-', linewidth=0.1) 
                             #A.title('Throughput')   
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -5136,10 +5099,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
                               
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
@@ -5287,10 +5250,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 B.set_xlabel('Time')
                                 B.set_ylabel('Seconds of delay')    
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
@@ -5408,10 +5371,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.set_ylabel('Seconds of delay')                
                                 A.grid(color='b', linestyle='-', linewidth=0.1)
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -5801,10 +5764,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 elif m2==2: # 3 ARRonly comparison
@@ -5867,10 +5830,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2","Arrivals M3", "Arrivals Spacing M3"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -5931,10 +5894,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -5988,10 +5951,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -6057,10 +6020,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Departures M1","Departures Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             
@@ -6121,10 +6084,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Departures M1","Departures Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6179,10 +6142,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Departures M1","Departures Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -6254,10 +6217,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6327,10 +6290,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3", "Departures M4","Arrivals M4","Departures Spacing M4","Arrivals Spacing M4"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6405,10 +6368,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3", "Departures M4","Arrivals M4","Departures Spacing M4","Arrivals Spacing M4"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6466,10 +6429,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                                     #plt.title("Sequence analysis")
                                     canvas = FigureCanvasTkAgg(f, self)
-                                    canvas.show()
+                                    canvas.draw()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6525,10 +6488,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             
@@ -6588,10 +6551,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                                 #plt.title("Sequence analysis")
                                 canvas = FigureCanvasTkAgg(f, self)
-                                canvas.show()
+                                canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6667,10 +6630,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.grid(color='b', linestyle='-', linewidth=0.1)     
                         #A.title('Throughput')   
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -6695,15 +6658,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
             button6 = tk.Button(self, text="SHOW", command=show_button)
             button6.pack()
-            
-          
-        
-            
-            
-    # ============================================================================#
-    #                           CONVERGENCE                                       #
-    # ============================================================================#
-    #if convergenceFLAG ==True:
+
     class Conv(tk.Frame):
     
         def __init__(self, parent, controller):
@@ -6778,24 +6733,20 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             A.grid(color='b', linestyle='-', linewidth=0.1) 
             #A.title('Throughput')   
             canvas = FigureCanvasTkAgg(f, self)
-            canvas.show()
+            canvas.draw()
             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False)
     
-            toolbar = NavigationToolbar2TkAgg(canvas, self)
+            toolbar = NavigationToolbar2Tk(canvas, self)
             toolbar.update()
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-                
-    # ============================================================================#
-    #                          THROUGHPUT                                         #
-    # ============================================================================#
-    #if Thr_FLAG == True:
+
     class Thr(tk.Frame):
-    
+
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="THROUGHPUT", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
-    
+
             button1 = ttk.Button(self, text="Back to Home",
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack()
@@ -6837,7 +6788,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 return df_thr_to_plot2
             
-           
+            
             
             def create_multiple_df_thr(df_thr_to_plot2, df_thr_input, name):
                 df_thr_to_plot2[name] = df_thr_input['Total Throughput']
@@ -6854,18 +6805,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 return df_thr_to_plot2 
             
-    #        def add_operational_data ():
-    #            #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
-    #            df_thr_to_plot_temp = pd.DataFrame()
-    #            df_thr_to_plot_temp['Hour'] = op_data['Hour']
-    #            a = 'Hour'
-    #            df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
-    #            b = 'Operational Data'
-    #            df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
-    #                
-    #            df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
-    #                    
-    #            df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
+            # def add_operational_data ():
+            #   #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
+            #   df_thr_to_plot_temp = pd.DataFrame()
+            #   df_thr_to_plot_temp['Hour'] = op_data['Hour']
+            #   a = 'Hour'
+            #   df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
+            #   b = 'Operational Data'
+            #   df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
+            #   
+            #   df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
+            #   
+            #   df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
                 
             def plot_bar_thr(df_thr_to_plot2, A):                      
                 df_thr_to_plot2.plot(kind='bar', legend=False, ax=A) 
@@ -6883,8 +6834,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 if m>= 1:
                     f = Figure(figsize=(5,5), dpi=100)
                     A = f.add_subplot(111)
-    #                throughput(df_thr, 'k')
-    #                throughput(df_thr2, 'g')
+                    # throughput(df_thr, 'k')
+                    # throughput(df_thr2, 'g')
                     
                     df_thr_to_plot2 = create_first_df_thr()
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
@@ -6986,10 +6937,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.grid(color='b', linestyle='-', linewidth=0.1) 
                     #A.title('Throughput')   
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
             else:
@@ -7009,26 +6960,21 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 A.grid(color='b', linestyle='-', linewidth=0.1)     
                 #A.title('Throughput')   
                 canvas = FigureCanvasTkAgg(f, self)
-                canvas.show()
+                canvas.draw()
                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
-                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                toolbar = NavigationToolbar2Tk(canvas, self)
                 toolbar.update()
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-            
-    
-    
-    # ============================================================================#
-    #                         DEPARTURE DELAY - RWY hold delay                    #
-    # ============================================================================#
-    #if Delay_FLAG == True:
+
+    # DEPARTURE DELAY - RWY hold delay
     class DepDelay(tk.Frame):
-    
+
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="RWY HOLD DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
-    
+
             button1 = ttk.Button(self, text="Back to Home",
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack() 
@@ -7090,51 +7036,51 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-    #            
-    #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy = df_delay_input
-    #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-    #                df_rwy_avg = df_rwy_avg.reset_index()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-    #                
-    #                
-    #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-    #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-    #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-    #                
-    #                #For Push/Start Delay
-    #                df_ps = df_delay_input
-    #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-    #                df_ps = df_ps.reset_index() 
-    #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-    #                dh_ps_avg = dh_ps_avg.reset_index()
-    #                df_ps = df_ps.reset_index()
-    #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-    #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-    #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-    #                
-    #               
-    #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-    #                df_final_ps = df_final_ps.drop(columns=['index'])
-    #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-    #                
-    #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-    #                #Extract lists to plot
-    #                H_delay_time = df_rwy['Time interval'].tolist()
-    #                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-    #                
-    #                    
-    #        #        return(H_delay_time,H_delay,PS_time,PS_delay)
+                    # 
+                    # df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+                    # #For RWY_Hold Delay
+                    # df_rwy = df_delay_input
+                    # df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+                    # df_rwy_avg = df_rwy_avg.reset_index()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+                    # 
+                    # 
+                    # df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+                    # df_final_rwy = df_final_rwy.drop(columns=['index'])
+                    # df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+                    # 
+                    # #For Push/Start Delay
+                    # df_ps = df_delay_input
+                    # df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+                    # df_ps = df_ps.reset_index() 
+                    # dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+                    # dh_ps_avg = dh_ps_avg.reset_index()
+                    # df_ps = df_ps.reset_index()
+                    # df_ps = df_ps.drop(columns=['Push/Start Delay'])
+                    # #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+                    # #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+                    # 
+                    # 
+                    # df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+                    # df_final_ps = df_final_ps.drop(columns=['index'])
+                    # df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+                    # 
+                    # df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+                    # #Extract lists to plot
+                    # H_delay_time = df_rwy['Time interval'].tolist()
+                    # H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+                    # 
+                    # 
+                    # # return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
                             'b': RWYhold_Delay}
-    #                
-    #        #    def print_Hold_delay(H_delay_time,H_delay,color):
+                # 
+                # # def print_Hold_delay(H_delay_time,H_delay,color):
                 def print_Hold_delay(ab, color):
                     
                     H_delay_time = ab['a']
@@ -7148,7 +7094,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(('Model','Operational Data'), loc = 'upper right')
                         
                 
-             
+                
                 
                 if new_set_FLAG == True:
                     if m >=1:          
@@ -7178,7 +7124,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 hold_delay4 = delay(df_delay4,df_dep_output4)
                                 print_Hold_delay(hold_delay4,'m')
                                 
-                               
+                                
                                 
                                 if OP_FLAG == True:
                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -7205,13 +7151,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.set_xlabel('Seconds of the day')
                         A.set_ylabel('Seconds of delay')                
                         A.grid(color='b', linestyle='-', linewidth=0.1)
-    
-                      
+
+                        
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 else:
@@ -7225,25 +7171,20 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.grid(color='b', linestyle='-', linewidth=0.1)
                     
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        #                
-                   
-    
-    # ============================================================================#
-    #                   DEPARTURE DELAY - PS delay                                #
-    # ============================================================================#
-    
+
+    # DEPARTURE DELAY - PS delay
     class DepDelay2(tk.Frame):
-    
+        
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="PUSH/START DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
-    
+
             button1 = ttk.Button(self, text="Back to Home",
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack() 
@@ -7303,52 +7244,52 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-    #            
-    #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy = df_delay_input
-    #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-    #                df_rwy_avg = df_rwy_avg.reset_index()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-    #                
-    #                
-    #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-    #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-    #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-    #                
-    #                #For Push/Start Delay
-    #                df_ps = df_delay_input
-    #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-    #                df_ps = df_ps.reset_index() 
-    #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-    #                dh_ps_avg = dh_ps_avg.reset_index()
-    #                df_ps = df_ps.reset_index()
-    #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-    #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-    #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-    #                
-    #               
-    #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-    #                df_final_ps = df_final_ps.drop(columns=['index'])
-    #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-    #                
-    #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-    #                #Extract lists to plot
-    ##                H_delay_time = df_rwy['Time interval'].tolist()
-    ##                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-    #                PS_time = df_rwy['Time interval'].tolist()
-    #                PS_delay = df_final_ps['Push/Start Delay'].tolist()
-    #                    
-    
+                    # 
+                    # df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+                    # #For RWY_Hold Delay
+                    # df_rwy = df_delay_input
+                    # df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+                    # df_rwy_avg = df_rwy_avg.reset_index()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+                    # 
+                    # 
+                    # df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+                    # df_final_rwy = df_final_rwy.drop(columns=['index'])
+                    # df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+                    # 
+                    # #For Push/Start Delay
+                    # df_ps = df_delay_input
+                    # df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+                    # df_ps = df_ps.reset_index() 
+                    # dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+                    # dh_ps_avg = dh_ps_avg.reset_index()
+                    # df_ps = df_ps.reset_index()
+                    # df_ps = df_ps.drop(columns=['Push/Start Delay'])
+                    # #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+                    # #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+                    # 
+                    # 
+                    # df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+                    # df_final_ps = df_final_ps.drop(columns=['index'])
+                    # df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+                    # 
+                    # df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+                    # #Extract lists to plot
+                    ## H_delay_time = df_rwy['Time interval'].tolist()
+                    ## H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+                    # PS_time = df_rwy['Time interval'].tolist()
+                    # PS_delay = df_final_ps['Push/Start Delay'].tolist()
+                    # 
+
                     return {'c': time_interval,
                             'd': PS_delay}
                     
-           
+            
                 
                 
                 def print_PS_delay(ab, color):
@@ -7407,7 +7348,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         Push_delay6 = delay(df_delay6, df_dep_output6)
                                         print_PS_delay(Push_delay6, color='purple')
                                         
-                                       
+                                        
                                         if OP_FLAG == True:
                                             B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                         else:
@@ -7417,10 +7358,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         B.set_xlabel('Time')
                         B.set_ylabel('Seconds of delay')    
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 else:
@@ -7433,23 +7374,19 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     B.set_ylabel('Seconds of delay')
                     B.grid(color='b', linestyle='-', linewidth=0.1)
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
-    # ============================================================================#
-    #                          ARRIVAL DELAY                                      # 
-    # ============================================================================#
-    #if arr_delay_FLAG == True:
+
     class ArrivalDelay(tk.Frame):
-    
+
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="ARRIVALS DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
-    
+
             button1 = ttk.Button(self, text="Back to Home",
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack()
@@ -7480,7 +7417,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
-    
+
             
             
             if (df_delay.empty == True):
@@ -7513,33 +7450,33 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_arr_delay['DATE'] = df_arr_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_arr_delay['DATE']
-    #                print(df_arr_delay['Time1'].value())
-    #                df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy_arr = df_delay_input
-    #                df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
-    #                df_rwy_arr = df_rwy_arr.reset_index()
-    #                df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
-    #                df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
-    #                df_rwy_arr = df_rwy_arr.reset_index()
-    #                df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
-    #                
-    #                df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
-    #                df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
-    #                df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
-    #                df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
-    #                
-    #                df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
-    #                
-    #                #Extract lists to plot
-    #                arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
-    #                arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
-    #                
+                    # print(df_arr_delay['Time1'].value())
+                    # df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
+                    # #For RWY_Hold Delay
+                    # df_rwy_arr = df_delay_input
+                    # df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
+                    # df_rwy_arr = df_rwy_arr.reset_index()
+                    # df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
+                    # df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
+                    # df_rwy_arr = df_rwy_arr.reset_index()
+                    # df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
+                    # 
+                    # df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
+                    # df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
+                    # df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
+                    # df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
+                    # 
+                    # df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
+                    # 
+                    # #Extract lists to plot
+                    # arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
+                    # arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
+                    # 
                         
                     #        return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
                             'b': ARR_delay}
-               
+                
                 def plotArrDelay(ab, color):            
                     arr_delay_time = ab['a']
                     arr_delay = ab['b'] 
@@ -7549,7 +7486,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 
                 if new_set_FLAG == True:
-                     
+                        
                     if m >=1:          
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)  
@@ -7563,7 +7500,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(('Model', 'Model 2', 'Model 3'), loc = 'upper right')
                             if m>=3:
                                 plotArrDelay(ArrDelay(df_delay4, df_arr_output4),'m')
-                               
+                                
                                 A.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 if m>=4:
                                     #A.plot(ArrDelay(df_delay5)['a'],ArrDelay(df_delay2)['b'],'y')
@@ -7579,10 +7516,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.set_ylabel('Seconds of delay')                
                         A.grid(color='b', linestyle='-', linewidth=0.1)
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -7595,19 +7532,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.grid(color='b', linestyle='-', linewidth=0.1)
                     
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
-            
-    # ============================================================================#
-    #                           SEQUENCE                                          #
-    # ============================================================================#
-    #if Seq_FLAG == True:
+
     class Seq(tk.Frame):
-    
+
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
@@ -7646,13 +7578,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
             
                 
-           
+            
                 
             
                 
             
             def sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
-    
+
                 df_sequence = pd.DataFrame()
                 #Arrivals 
                 
@@ -7714,16 +7646,16 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
             
                 return{'0a': arrival_zero,
-                       '1' : main_arrival, 
-                       '2' : main_arrival_error,
-                       '3' : arrival_spacing,
-                       '4' : arrival_spacing_error,                   
-                       '9' : main_data_position,
-                       '10' : arrival_spacing_position,                   
-                       '12' : labels,
-                       '13' : labels_y,
-                       '14' : labels_x}
-             
+                        '1' : main_arrival, 
+                        '2' : main_arrival_error,
+                        '3' : arrival_spacing,
+                        '4' : arrival_spacing_error,                   
+                        '9' : main_data_position,
+                        '10' : arrival_spacing_position,                   
+                        '12' : labels,
+                        '13' : labels_y,
+                        '14' : labels_x}
+                
             def sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
                 df_sequence = pd.DataFrame()
                 #Departure
@@ -7765,7 +7697,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['DEPARTURES_spacing_LABEL'] = df_temp['DEPARTURES_spacing_LABEL']
                 
                 # LISTS to plot
-               
+                
                 #----DEPARTURES----#
                 main_departure = df_sequence['DEPARTURES'].tolist()
                 main_departure_error = df_sequence['DEPARTURES_error'].tolist()
@@ -7789,15 +7721,15 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
             
                 return{'0b': departure_zero,
-                       '5' : main_departure, 
-                       '6' : main_departure_error,
-                       '7' : departure_spacing,
-                       '8' : departure_spacing_error,
-                       '9' : main_data_position,
-                       '11' : departure_spacing_position,
-                       '12' : labels,
-                       '13' : labels_y,
-                       '14' : labels_x}
+                        '5' : main_departure, 
+                        '6' : main_departure_error,
+                        '7' : departure_spacing,
+                        '8' : departure_spacing_error,
+                        '9' : main_data_position,
+                        '11' : departure_spacing_position,
+                        '12' : labels,
+                        '13' : labels_y,
+                        '14' : labels_x}
             
             def sequence(df_arr_output_input, df_rwy_calcs_input, df_dep_output_input, number): ######MIX MODE
                 
@@ -7913,26 +7845,26 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
             
                 return{'0a': arrival_zero,
-                       '0b': departure_zero,
-                       '1' : main_arrival, 
-                       '2' : main_arrival_error,
-                       '3' : arrival_spacing,
-                       '4' : arrival_spacing_error,
-                       '5' : main_departure, 
-                       '6' : main_departure_error,
-                       '7' : departure_spacing,
-                       '8' : departure_spacing_error,
-                       '9' : main_data_position,
-                       '10' : arrival_spacing_position,
-                       '11' : departure_spacing_position,
-                       '12' : labels,
-                       '13' : labels_y,
-                       '14' : labels_x}
+                        '0b': departure_zero,
+                        '1' : main_arrival, 
+                        '2' : main_arrival_error,
+                        '3' : arrival_spacing,
+                        '4' : arrival_spacing_error,
+                        '5' : main_departure, 
+                        '6' : main_departure_error,
+                        '7' : departure_spacing,
+                        '8' : departure_spacing_error,
+                        '9' : main_data_position,
+                        '10' : arrival_spacing_position,
+                        '11' : departure_spacing_position,
+                        '12' : labels,
+                        '13' : labels_y,
+                        '14' : labels_x}
             
             #------ ARRIVALS only -------#
             
             if df_dep_output.empty ==True:
-                  
+                    
                 if new_set_FLAG == True: 
                     if df_dep_output2.empty ==True:#arr only
                         if m==1: # two arr only comparison
@@ -7948,7 +7880,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             #A.axhline(y=0.5, color='w')
-                               
+                                
                             
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
@@ -7993,10 +7925,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         elif m==2: # 3 ARRonly comparison
@@ -8012,7 +7944,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             #A.axhline(y=0.5, color='w')
-                               
+                                
                             
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
@@ -8059,10 +7991,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2","Arrivals M3", "Arrivals Spacing M3"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8086,7 +8018,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
-    
+
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
@@ -8123,10 +8055,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8146,12 +8078,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             
                         A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
-    
+
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
-    
+
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
@@ -8180,10 +8112,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Arrivals M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8192,14 +8124,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     f = Figure(figsize=(5,5), dpi=100)  
                     A = f.add_subplot(111)
                     ax = f.add_subplot(111)
-                  
+                    
                     labels =  sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] 
                     tag_text_use = np.array(list(labels))
                     
                     tags_main_data = A.scatter(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'],sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] , c='w', s=100)      
                     #plt.axhline(y = 10, color='w')                    
                     #A.axhline(y=0.5, color='w')
-                       
+                        
                     
                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
@@ -8242,10 +8174,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.legend(("Legend","Arrivals","Arrivals Spacing"), loc = 'upper right')
                     #plt.title("Sequence analysis")
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -8256,7 +8188,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             elif df_arr_output.empty ==True:
                             
                 if new_set_FLAG == True:                
-                                  
+                                    
                     if df_dep_output2.empty ==True: # DEPonly + ARRonly                    
                         f = Figure(figsize=(5,5), dpi=100)  
                         A = f.add_subplot(111)
@@ -8268,13 +8200,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] + sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['13']
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                         #A.axhline(y=0.5, color='w')
-                           
+                            
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                         
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
-                      
+                        
                                         
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
@@ -8312,10 +8244,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Departures M1","Departures Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8334,11 +8266,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
-    
+
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='darkgreen', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], color='indigo', fmt='o', markersize=8, capsize=10)
-    
-    
+
+
                         
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
@@ -8376,10 +8308,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Departures M1","Departures Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8396,7 +8328,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                         #A.axhline(y=0.5, color='w')
-                                                   
+                                                    
                                             
                         A.errorbar(sequenceDepOnly(df_dep_output, 1)['3'], sequenceDepOnly(df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_dep_output, 1)['5'], sequenceDepOnly(df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
                         A.errorbar(sequenceDepOnly(df_dep_output, 1)['10'], sequenceDepOnly(df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_dep_output, 1)['11'], sequenceDepOnly(df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8434,10 +8366,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Departures M1","Departures Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8452,12 +8384,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13']
                     tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                     #A.axhline(y=0.5, color='w')
-                       
+                        
                     A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                     A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                     
                     
-     
+        
                     
                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                     bbox=dict(boxstyle="round", fc="w"),
@@ -8495,10 +8427,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.legend(("Legend","Departures","Departures Spacing"), loc = 'upper right')
                     #plt.title("Sequence analysis")
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8523,7 +8455,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             ##A.axhline(y=0.5, color='w')
-                               
+                                
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8570,10 +8502,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8592,7 +8524,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             #A.axhline(y=0.5, color='w')
-                               
+                                
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8643,10 +8575,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3", "Departures M4","Arrivals M4","Departures Spacing M4","Arrivals Spacing M4"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8664,7 +8596,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             #A.axhline(y=0.5, color='w')
-                               
+                                
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8721,10 +8653,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2", "Departures M3","Arrivals M3","Departures Spacing M3","Arrivals Spacing M3", "Departures M4","Arrivals M4","Departures Spacing M4","Arrivals Spacing M4"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8743,7 +8675,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             ##A.axhline(y=0.5, color='w')
-                               
+                                
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8782,10 +8714,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2","Arrivals M2", "Departures Spacing M2","Arrivals Spacing M2"), loc = 'upper right')
                             #plt.title("Sequence analysis")
                             canvas = FigureCanvasTkAgg(f, self)
-                            canvas.show()
+                            canvas.draw()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8803,7 +8735,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                         #plt.axhline(y = 10, color='w')                    
                         #A.axhline(y=0.5, color='w')
-                           
+                            
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8811,7 +8743,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
-    
+
                     
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
@@ -8841,10 +8773,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8863,7 +8795,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                         #plt.axhline(y = 10, color='w')                    
                         #A.axhline(y=0.5, color='w')
-                           
+                            
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8872,7 +8804,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
-    
+
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
@@ -8904,10 +8836,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(("Legend","Departures M1","Arrivals M1","Departures Spacing M1","Arrivals Spacing M1","Departures M2", "Departures Spacing M2"), loc = 'upper right')
                         #plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
-                        canvas.show()
+                        canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8926,7 +8858,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     tags_main_data = A.scatter(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'],sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] , c='w', s=100)      
                     #plt.axhline(y = 10, color='w')                    
                     #A.axhline(y=10, color='w')
-                       
+                        
                     A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                     A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                     A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8962,21 +8894,15 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.legend(("Legend","Departure","Arrivals ","Departures Spacing ","Arrivals Spacing "), loc = 'upper right')
                     #plt.title("Sequence analysis")
                     canvas = FigureCanvasTkAgg(f, self)
-                    canvas.show()
+                    canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-                    
-                    
-                    
-    # ============================================================================#
-    #                           ADA buffer                                          #
-    # ============================================================================#
-    #if Seq_FLAG == True:
-    class ADAbuffer(tk.Frame):
     
+    class ADAbuffer(tk.Frame):
+
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
@@ -9008,8 +8934,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
                 
-            
-            
             df_Buffer = pd.DataFrame()
             df_Buffer['ADA_Buffer'] = df_sequence_output['ADA Buffer']        
             df_Buffer = df_Buffer.dropna(subset = ['ADA_Buffer'])
@@ -9019,19 +8943,17 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             b = int(max(ADA_buffer))
             number_bins = b-a
             h = [0]+sorted(ADA_buffer)
-    #        ba = [15,15]
-    #        bb = [0,0.013]
-    #        da = [0,15]
-    #        db = [0.013,0.013]
+            # ba = [15,15]
+            # bb = [0,0.013]
+            # da = [0,15]
+            # db = [0.013,0.013]
             
             coord = [[0,0], [15,0], [15,0.013], [0,0.013]]
             coord.append(coord[0]) #repeat the first point to create a 'closed loop'
             
             xs, ys = zip(*coord) #create lists of x and y values
-    
-    
-            fit = stats.norm.pdf(h, np.mean(h), np.std(h))  #this is a fitting indeed
             
+            fit = stats.norm.pdf(h, np.mean(h), np.std(h))  #this is a fitting indeed
             
             f = Figure(figsize=(5,5), dpi=100)
             A = f.add_subplot(111)
@@ -9047,18 +8969,28 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             A.grid(color='b', linestyle='-', linewidth=0.1)     
             #A.title('Throughput')   
             canvas = FigureCanvasTkAgg(f, self)
-            canvas.show()
-            canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    
-            toolbar = NavigationToolbar2TkAgg(canvas, self)
+            canvas.draw()
+            canvas.get_tk_widget().pack(side=BOTTOM, fill=BOTH, expand=True)
+
+            toolbar = NavigationToolbar2Tk(canvas, self)
             toolbar.update()
-            canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
-    
-    
-    
-    
-    
+            canvas._tkcanvas.pack(side=TOP, fill=BOTH, expand=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     app = RAPIDvisual()
     
     app.columnconfigure(0, weight=1)
@@ -9066,6 +8998,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     app.rowconfigure(1, weight=1)
     
     app.mainloop()
+
 
 
 
