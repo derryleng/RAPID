@@ -40,7 +40,7 @@ import scipy.stats as stats
 #from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
 from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog, Scale, HORIZONTAL, LabelFrame#, DoubleVar, CENTER
