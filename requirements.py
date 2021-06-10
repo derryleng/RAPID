@@ -10,10 +10,11 @@ import scipy.stats as stats
 from datetime import datetime, timedelta
 
 import matplotlib
+matplotlib.use("TkAgg")
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
-matplotlib.use("TkAgg")
 
 import tkinter as tk
 from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, \

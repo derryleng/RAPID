@@ -1,312 +1,12 @@
 from requirements import *
-#----------------------------GLOBAL VARIABLES---------------------------------#
+from settings import *
+from functions import *
 
-#====== FOR CORE: ======#
-
-# Default DROT + buffer value ('n') variable for main runway
-n = 50
-# Default DROT + buffer value ('n') variable for northern runway
-northern_n = 20
-# Default minimum Departure Separation (Alt SIDs) in secs
-minDep_altSID = 60 # minDep_altSID = 60
-# Default minimum Departure Separation (Same SIDs) in secs
-minDep_sameSID = 109 #minDep_sameSID = 120
-SIDmax = 4
-n_times = 1
-ADA_x = 10
-#SIDmax = 4
-SIDgroup_separation = "(2,4)(3,4)"
-SID_queue_assign = "1 3 | 2 4"
-
-debugFLAG = False
-debugFLAG2 = False # TAXI - RWY queue checks
-multipleFLAG = False # used for multiple runs
-TBS_Flag = False
-RECatFLAG = False
-averagethrFLAG = False
-taxi_outliers = True
-
-distance_based_FLAG = True
-time_based_FLAG = False
-
-MRS_4dme_FLAG = False
-WAKE_4dme_FLAG = False
-ADA_4dme_FLAG = False
-ADDA_4dme_FLAG = False
-MRS_thr_FLAG = False
-WAKE_thr_FLAG = False
-ADA_thr_FLAG = False
-ADDA_thr_FLAG = False
-
-open_file1 = ""
-open_file = ""
-input_excel_sheet = ""
-name_input_file = ""
-#input_excel_sheet = ""
-operational_data = ""
-new_data2 = ""
-new_data4 = ""
-new_data5 = ""
-new_data6 = ""
-
-#====FOR VISUAL MODULE======#
-
-m = 0
-
-Thr_FLAG = False
-Delay_FLAG = False
-Seq_FLAG = False
-OP_FLAG = False
-new_set_FLAG = False
-average_FLAG = False
-arr_delay_FLAG = False
-convergenceFLAG = False
-ADA_buffer_FLAG = False
-
-input_excel_sheet = ""
-operational_data = ""
-new_data2 = ""
-new_data4 = ""
-new_data5 = ""
-new_data6 = ""
-
-#----------------------------GLOBAL FUNCTIONS---------------------------------#
-
-def load_file():
-    input_excel_sheet = filedialog.askopenfilename()
-    print(input_excel_sheet)
-    name_excel_sheet.set(input_excel_sheet)
-    return()
-
-
-def load_op_data():
-    operational_data = filedialog.askopenfilename()
-    print(operational_data)
-    op_data_sheet.set(operational_data)
-    return()
-        
-
-def load_new_data2():
-    new_data2 = filedialog.askopenfilename()
-    print(new_data2)
-    new_data_sheet2.set(new_data2)
-    return()
-        
-
-def load_new_data3():
-    new_data3 = filedialog.askopenfilename()
-    print(new_data3)
-    new_data_sheet3.set(new_data3) 
-    return()
-
-
-def load_new_data4():
-    new_data4 = filedialog.askopenfilename()
-    print(new_data4)
-    new_data_sheet4.set(new_data4) 
-    return() 
-
-
-def load_new_data5():
-    new_data5 = filedialog.askopenfilename()
-    print(new_data5)
-    new_data_sheet5.set(new_data5) 
-    return()    
-    
-
-def load_new_data6():
-    new_data6 = filedialog.askopenfilename()
-    print(new_data6)
-    new_data_sheet6.set(new_data6) 
-    return() 
-
-
-def define_input_parameters():
-     # CORE
-    n = int(n_input.get())
-    n_output.set(n)
-    minDep_altSID = int(minDep_altSID_input.get())
-    minDep_altSID_output.set(minDep_altSID)
-    minDep_sameSID = int(minDep_sameSID_input.get())
-    minDep_sameSID_output.set(minDep_sameSID)
-    SIDmax = int(SIDmax_input.get())
-    SIDmax_output.set(SIDmax)
-    SIDgroup_separation = str(SIDgroup_separation_input.get())
-    SIDgroup_separation_output.set(SIDgroup_separation)
-    SID_queue_assign = str(SID_queue_assign_input.get())
-    SID_queue_assign_output.set(SID_queue_assign)
-    n_times = int(n_times_input.get())
-    n_times_output.set(n_times)  
-    ADA_x = int(ADA_x_input.get())
-    ADA_x_output.set(ADA_x)
-    
-    debug = int(var2.get())
-    debug_output.set(debug)    
-    q1 = int(queue1.get())
-    queue1_output.set(q1)
-    q2 = int(queue2.get())
-    queue2_output.set(q2)
-    q3 = int(queue3.get())
-    queue3_output.set(q3)
-    q4 = int(queue4.get())
-    queue4_output.set(q4)
-    button_check.set(True)
-    #    TBS = int(var5.get())
-    #    TBS_output.set(TBS)
-    RECat = int(var6.get())
-    RECat_output.set(RECat)
-    RECAT_PWS = int(var17.get())
-    RECAT_PWS_output.set(RECAT_PWS)
-    averagethr = int(var7.get())
-    averagethr_output.set(averagethr)
-    distance_based = int(var15.get())
-    distance_based_output.set(distance_based)
-    time_based = int(var16.get())
-    time_based_output.set(time_based)
-
-    MRS4dme = int(MRS_4dme.get())
-    MRS4dme_output.set(MRS4dme)
-    WAKE4dme = int(WAKE_4dme.get())
-    WAKE4dme_output.set(WAKE4dme)
-    ADA4dme = int(ADA_4dme.get())
-    ADA4dme_output.set(ADA4dme)
-    ADDA4dme = int(ADDA_4dme.get())
-    ADDA4dme_output.set(ADDA4dme)
-    
-    MRSthr = int(MRS_thr.get())
-    MRSthr_output.set(MRSthr)
-    WAKEthr = int(WAKE_thr.get())
-    WAKEthr_output.set(WAKEthr)
-    ADAthr = int(ADA_thr.get())
-    ADAthr_output.set(ADAthr)
-    ADDAthr = int(ADDA_thr.get())
-    ADDAthr_output.set(ADDAthr)   
-
-    #VISUAL
-    m = int(m_input.get())
-    m_output.set(m)
-    convergence = int(var0.get())
-    convergence_output.set(convergence)
-    Throughput_check = int(var8.get())
-    Throughput_check_output.set(Throughput_check)
-    Delay_check = int(var9.get())
-    Delay_check_output.set(Delay_check)
-    arr_delay = int(var13.get())
-    arr_delay_output.set(arr_delay)   
-    Seq_check = int(var10.get())
-    Seq_check_output.set(Seq_check)     
-    op_yes = int(var11.get())
-    op_yes_output.set(op_yes)
-    new_set = int(var12.get())
-    new_set_output.set(new_set)
-    ADA_buffer = int(var18.get())
-    ADA_buffer_output.set(ADA_buffer)
-    button_check.set(True)
-    
-    win.destroy()
-
-
-def define_input_parameters2():
-    
-    #CORE:
-    n = int(n_input.get())
-    n_output.set(n)
-    minDep_altSID = int(minDep_altSID_input.get())
-    minDep_altSID_output.set(minDep_altSID)
-    minDep_sameSID = int(minDep_sameSID_input.get())
-    minDep_sameSID_output.set(minDep_sameSID)
-    SIDmax = int(SIDmax_input.get())
-    SIDmax_output.set(SIDmax)
-    SIDgroup_separation = str(SIDgroup_separation_input.get())
-    SIDgroup_separation_output.set(SIDgroup_separation)
-    SID_queue_assign = str(SID_queue_assign_input.get())
-    SID_queue_assign_output.set(SID_queue_assign)
-    n_times = int(n_times_input.get())
-    n_times_output.set(n_times)  
-    ADA_x = int(ADA_x_input.get())
-    ADA_x_output.set(ADA_x)
-    
-    debug = int(var2.get())
-    debug_output.set(debug)    
-    q1 = int(queue1.get())
-    queue1_output.set(q1)
-    q2 = int(queue2.get())
-    queue2_output.set(q2)
-    q3 = int(queue3.get())
-    queue3_output.set(q3)
-    q4 = int(queue4.get())
-    queue4_output.set(q4)
-    button_check.set(True)
-    #    TBS = int(var5.get())
-    #    TBS_output.set(TBS)
-    RECat = int(var6.get())
-    RECat_output.set(RECat)
-    RECAT_PWS = int(var17.get())
-    RECAT_PWS_output.set(RECAT_PWS)
-    averagethr = int(var7.get())
-    averagethr_output.set(averagethr)
-    distance_based = int(var15.get())
-    distance_based_output.set(distance_based)
-    time_based = int(var16.get())
-    time_based_output.set(time_based)
-    
-    MRS4dme = int(MRS_4dme.get())
-    MRS4dme_output.set(MRS4dme)
-    WAKE4dme = int(WAKE_4dme.get())
-    WAKE4dme_output.set(WAKE4dme)
-    ADA4dme = int(ADA_4dme.get())
-    ADA4dme_output.set(ADA4dme)
-    ADDA4dme = int(ADDA_4dme.get())
-    ADDA4dme_output.set(ADDA4dme)
-    
-    MRSthr = int(MRS_thr.get())
-    MRSthr_output.set(MRSthr)
-    WAKEthr = int(WAKE_thr.get())
-    WAKEthr_output.set(WAKEthr)
-    ADAthr = int(ADA_thr.get())
-    ADAthr_output.set(ADAthr)
-    ADDAthr = int(ADDA_thr.get())
-    ADDAthr_output.set(ADDAthr)
-    
-    #VISUAL
-    m = int(m_input.get())
-    m_output.set(m)
-    convergence = int(var0.get())
-    convergence_output.set(convergence)
-    Throughput_check = int(var8.get())
-    Throughput_check_output.set(Throughput_check)
-    Delay_check = int(var9.get())
-    Delay_check_output.set(Delay_check)
-    arr_delay = int(var13.get())
-    arr_delay_output.set(arr_delay)   
-    Seq_check = int(var10.get())
-    Seq_check_output.set(Seq_check)     
-    op_yes = int(var11.get())
-    op_yes_output.set(op_yes)
-    new_set = int(var12.get())
-    new_set_output.set(new_set)
-    ADA_buffer = int(var18.get())
-    ADA_buffer_output.set(ADA_buffer)
-    button_check.set(True)  
-        
-    win.destroy()
-
-
-
-
-#*****************************************************************************#
-#=============================================================================#
-#                                                                             #
-#                                 GUI                                         #
-#                                                                             #
-# ============================================================================#
-#*****************************************************************************#
-
-
-win = tk.Tk()                           # Create instance      
-win.title("RAPID V_2.0")                 # Add a title 
+win = Tk()
+win.title("RAPID")
 
 # TABS
+
 mainframe = ttk.Frame(win, padding="10 10 30 40")
 
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
@@ -322,6 +22,11 @@ core_module.grid(row=0, sticky=(N, W, E, S))
 visual_module = ttk.Frame(mainframe)            # Create VISUAL tab 
 visual_module.grid(column=0, row=0, sticky=(N, W, E, S))
 
+for main_frames in (input_module, core_module, visual_module ):
+    main_frames.grid(row=0, column=0, sticky='news')
+    main_frames.columnconfigure(0, weight=0)
+    main_frames.rowconfigure(0, weight=0)
+
 # Fake TABS
 
 fakeTab_input = ttk.Frame(input_module)
@@ -330,7 +35,6 @@ fakeTab_input.grid(row=0, sticky=(N, W, E, S))
 tk.Button(fakeTab_input, text='INPUT MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=0)
 tk.Button(fakeTab_input, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
 tk.Button(fakeTab_input, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,column=2)
-
 
 fakeTab_core = ttk.Frame(core_module)
 fakeTab_core.grid(row=0, sticky=(N, W, E, S))
@@ -346,9 +50,7 @@ tk.Button(fakeTab_visual, text='INPUT MODULE', height = 3, padx=100).grid(row=0,
 tk.Button(fakeTab_visual, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
 tk.Button(fakeTab_visual, text='VISUAL MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=2)
 
-
-
-# Main Contentframes
+# Main Content Frames
 
 tab1 = ttk.Frame(input_module)
 tab1.grid(row=1, sticky=(N, W, E, S))
@@ -359,26 +61,6 @@ tab2.grid(row=1, sticky=(N, W, E, S))
 tab3 = ttk.Frame(visual_module)
 tab3.grid(row=1, sticky=(N, W, E, S))
 
-
-
-#-------------------------------INPUT GUI-------------------------------------#
-
-
-def raise_main_frame(frame):
-    frame.tkraise()
-
-for main_frames in (input_module, core_module, visual_module ):
-    main_frames.grid(row=0, column=0, sticky='news')
-    main_frames.columnconfigure(0, weight=0)
-    main_frames.rowconfigure(0, weight=0)
-
-import_airport_data = StringVar()
-input_file = StringVar()
-open_file = StringVar()
-
-def raise_frame(frame):
-    frame.tkraise()
-
 f0 = ttk.Frame(tab1)
 f1 = ttk.Frame(tab1)
 f2 = ttk.Frame(tab1)
@@ -386,16 +68,24 @@ f3 = ttk.Frame(tab1)
 f4 = ttk.Frame(tab1)
 f5 = ttk.Frame(tab1)
 f6 = ttk.Frame(tab1)
-f7 = ttk.Frame(tab1)
 
 for frame in (f0,f1,f2):
     frame.grid(row=0, column=0, sticky='news')
     frame.columnconfigure(0, weight=0)
     frame.rowconfigure(0, weight=0)
 
-# Welcome Frame
+#-------------------------------INPUT GUI-------------------------------------#
 
-#f0_help 
+
+
+
+import_airport_data = StringVar()
+input_file = StringVar()
+open_file = StringVar()
+
+
+
+# Welcome Frame
    
 f0_help = ttk.LabelFrame(f0, text=" Quick Help ")
 f0_help.grid(row=0, column=1, sticky=E, \
@@ -422,7 +112,6 @@ def airport_data_load_file():
     import_airport_data.set(airport_data)
     ttk.Label(f0_content_a, text="File Successfully Imported!").grid(column=1, row=3, sticky=N, pady=10)
     #print("#####", import_excel_schedule, "###", import_schedule)
-    return()
     
 
 def define_airport_data_parameters():
@@ -451,7 +140,7 @@ def generate_new_input():
     tdf = create_dataframe_operational_data()
     
     #f0_buttons
-    f0_buttons= tk.Frame(f0) 
+    f0_buttons= Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
         
     def raise_subframe_f0(frame):
@@ -1323,7 +1012,7 @@ def generate_new_input():
         f6_buttons= ttk.Frame(f6) 
         f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
         
-        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
+        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
         tk.Button(f6_buttons, text='<- BACK', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         
         #f6_content
@@ -1485,9 +1174,7 @@ def generate_new_input():
             output_file_to_edit.save(name_input_file)
             print(' !#!#!#!# XLSX FILE NAME= ', name_input_file)
             name_excel_sheet.set(name_input_file)
-            
-            
-            return()
+
         ##########################################################################################################################################
             
         #input_excel_sheet = 'C:/Users/Think - Joe Irwin/Dropbox/Think Users/JoeIrwin/RAPID/RAPID_DEMO/AROT_example_input.xlsx'
@@ -1497,7 +1184,6 @@ def generate_new_input():
             import_excel_schedule.set(import_schedule)
             ttk.Label(SchImportFrame, text="File Successfully Imported!").grid(column=1, row=3, sticky=N, pady=10)
             #print("#####", import_excel_schedule, "###", import_schedule)
-            return()
             
         def define_gen_parameters():
             button_check.set(True)
@@ -1586,13 +1272,182 @@ def load_input_file():
     name_excel_sheet.set(input_file_excel)  
     
     ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky=N, pady=10)
-    f0_buttons= tk.Frame(f0) 
+    f0_buttons= Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
-    tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+    tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
 import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky=N, padx=10, pady=10, ipadx=5, ipady=5)
 
 
+def define_input_parameters():
+     # CORE
+    n = int(n_input.get())
+    n_output.set(n)
+    minDep_altSID = int(minDep_altSID_input.get())
+    minDep_altSID_output.set(minDep_altSID)
+    minDep_sameSID = int(minDep_sameSID_input.get())
+    minDep_sameSID_output.set(minDep_sameSID)
+    SIDmax = int(SIDmax_input.get())
+    SIDmax_output.set(SIDmax)
+    SIDgroup_separation = str(SIDgroup_separation_input.get())
+    SIDgroup_separation_output.set(SIDgroup_separation)
+    SID_queue_assign = str(SID_queue_assign_input.get())
+    SID_queue_assign_output.set(SID_queue_assign)
+    n_times = int(n_times_input.get())
+    n_times_output.set(n_times)  
+    ADA_x = int(ADA_x_input.get())
+    ADA_x_output.set(ADA_x)
+    
+    debug = int(var2.get())
+    debug_output.set(debug)    
+    q1 = int(queue1.get())
+    queue1_output.set(q1)
+    q2 = int(queue2.get())
+    queue2_output.set(q2)
+    q3 = int(queue3.get())
+    queue3_output.set(q3)
+    q4 = int(queue4.get())
+    queue4_output.set(q4)
+    button_check.set(True)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
+    RECat = int(var6.get())
+    RECat_output.set(RECat)
+    RECAT_PWS = int(var17.get())
+    RECAT_PWS_output.set(RECAT_PWS)
+    averagethr = int(var7.get())
+    averagethr_output.set(averagethr)
+    distance_based = int(var15.get())
+    distance_based_output.set(distance_based)
+    time_based = int(var16.get())
+    time_based_output.set(time_based)
+
+    MRS4dme = int(MRS_4dme.get())
+    MRS4dme_output.set(MRS4dme)
+    WAKE4dme = int(WAKE_4dme.get())
+    WAKE4dme_output.set(WAKE4dme)
+    ADA4dme = int(ADA_4dme.get())
+    ADA4dme_output.set(ADA4dme)
+    ADDA4dme = int(ADDA_4dme.get())
+    ADDA4dme_output.set(ADDA4dme)
+    
+    MRSthr = int(MRS_thr.get())
+    MRSthr_output.set(MRSthr)
+    WAKEthr = int(WAKE_thr.get())
+    WAKEthr_output.set(WAKEthr)
+    ADAthr = int(ADA_thr.get())
+    ADAthr_output.set(ADAthr)
+    ADDAthr = int(ADDA_thr.get())
+    ADDAthr_output.set(ADDAthr)   
+
+    #VISUAL
+    m = int(m_input.get())
+    m_output.set(m)
+    convergence = int(var0.get())
+    convergence_output.set(convergence)
+    Throughput_check = int(var8.get())
+    Throughput_check_output.set(Throughput_check)
+    Delay_check = int(var9.get())
+    Delay_check_output.set(Delay_check)
+    arr_delay = int(var13.get())
+    arr_delay_output.set(arr_delay)   
+    Seq_check = int(var10.get())
+    Seq_check_output.set(Seq_check)     
+    op_yes = int(var11.get())
+    op_yes_output.set(op_yes)
+    new_set = int(var12.get())
+    new_set_output.set(new_set)
+    ADA_buffer = int(var18.get())
+    ADA_buffer_output.set(ADA_buffer)
+    button_check.set(True)
+    
+    win.destroy()
+
+
+def define_input_parameters2():
+    
+    #CORE:
+    n = int(n_input.get())
+    n_output.set(n)
+    minDep_altSID = int(minDep_altSID_input.get())
+    minDep_altSID_output.set(minDep_altSID)
+    minDep_sameSID = int(minDep_sameSID_input.get())
+    minDep_sameSID_output.set(minDep_sameSID)
+    SIDmax = int(SIDmax_input.get())
+    SIDmax_output.set(SIDmax)
+    SIDgroup_separation = str(SIDgroup_separation_input.get())
+    SIDgroup_separation_output.set(SIDgroup_separation)
+    SID_queue_assign = str(SID_queue_assign_input.get())
+    SID_queue_assign_output.set(SID_queue_assign)
+    n_times = int(n_times_input.get())
+    n_times_output.set(n_times)  
+    ADA_x = int(ADA_x_input.get())
+    ADA_x_output.set(ADA_x)
+    
+    debug = int(var2.get())
+    debug_output.set(debug)    
+    q1 = int(queue1.get())
+    queue1_output.set(q1)
+    q2 = int(queue2.get())
+    queue2_output.set(q2)
+    q3 = int(queue3.get())
+    queue3_output.set(q3)
+    q4 = int(queue4.get())
+    queue4_output.set(q4)
+    button_check.set(True)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
+    RECat = int(var6.get())
+    RECat_output.set(RECat)
+    RECAT_PWS = int(var17.get())
+    RECAT_PWS_output.set(RECAT_PWS)
+    averagethr = int(var7.get())
+    averagethr_output.set(averagethr)
+    distance_based = int(var15.get())
+    distance_based_output.set(distance_based)
+    time_based = int(var16.get())
+    time_based_output.set(time_based)
+    
+    MRS4dme = int(MRS_4dme.get())
+    MRS4dme_output.set(MRS4dme)
+    WAKE4dme = int(WAKE_4dme.get())
+    WAKE4dme_output.set(WAKE4dme)
+    ADA4dme = int(ADA_4dme.get())
+    ADA4dme_output.set(ADA4dme)
+    ADDA4dme = int(ADDA_4dme.get())
+    ADDA4dme_output.set(ADDA4dme)
+    
+    MRSthr = int(MRS_thr.get())
+    MRSthr_output.set(MRSthr)
+    WAKEthr = int(WAKE_thr.get())
+    WAKEthr_output.set(WAKEthr)
+    ADAthr = int(ADA_thr.get())
+    ADAthr_output.set(ADAthr)
+    ADDAthr = int(ADDA_thr.get())
+    ADDAthr_output.set(ADDAthr)
+    
+    #VISUAL
+    m = int(m_input.get())
+    m_output.set(m)
+    convergence = int(var0.get())
+    convergence_output.set(convergence)
+    Throughput_check = int(var8.get())
+    Throughput_check_output.set(Throughput_check)
+    Delay_check = int(var9.get())
+    Delay_check_output.set(Delay_check)
+    arr_delay = int(var13.get())
+    arr_delay_output.set(arr_delay)   
+    Seq_check = int(var10.get())
+    Seq_check_output.set(Seq_check)     
+    op_yes = int(var11.get())
+    op_yes_output.set(op_yes)
+    new_set = int(var12.get())
+    new_set_output.set(new_set)
+    ADA_buffer = int(var18.get())
+    ADA_buffer_output.set(ADA_buffer)
+    button_check.set(True)  
+        
+    win.destroy()
 
 #-------------------------------CORE GUI--------------------------------------#
 
@@ -1808,7 +1663,7 @@ tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, fo
 
 buttons_frame_core = ttk.Frame(buttons_core)
 buttons_frame_core.pack(side="right")
-tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_main_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
+tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
 tk.Button(buttons_frame_core, text="Just run the model", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="bottom")
 
 
@@ -1876,11 +1731,11 @@ buttons_visual = ttk.Frame(visual_module)
 buttons_visual.grid(row=2, sticky=(N, W, E, S))
 
 tk.Button(buttons_visual, text="RUN", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
 
 raise_frame(f0)
-raise_main_frame(input_module)
+raise_frame(input_module)
 
 win.columnconfigure(0, weight=1)
 win.rowconfigure(0, weight=1)
@@ -1971,7 +1826,7 @@ if OP_FLAG == True:
     button_check = StringVar(win, value='0')
     op_data_sheet = StringVar()
     ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky=W)
-    open_op_data = ttk.Button(mainframe, text="Import operational data", command=load_op_data).grid(column=2, row=1, sticky=W)
+    open_op_data = ttk.Button(mainframe, text="Import operational data", command=lambda: load_file("op_data_sheet")).grid(column=2, row=1, sticky=W)
     inner = Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
     inner.grid(column=0, row=1)
     inner.columnconfigure(0, weight=1)
@@ -2003,25 +1858,25 @@ if new_set_FLAG == True:
         average_check_output = IntVar() 
         new_data_sheet2 = StringVar()        
         ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky=W)        
-        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky=W)
+        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=lambda: load_file("new_data_sheet2")).grid(column=2, row=1, sticky=W)
         
         if m >=2:
             new_data_sheet3 = StringVar()
             ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky=W)            
-            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky=W)
+            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=lambda: load_file("new_data_sheet3")).grid(column=2, row=2, sticky=W)
             
             if m >=3:
                 new_data_sheet4 = StringVar()
                 ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky=W)            
-                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky=W)
+                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=lambda: load_file("new_data_sheet4")).grid(column=2, row=3, sticky=W)
                 if m >=4:
                     new_data_sheet5 = StringVar()
                     ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky=W)            
-                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky=W)
+                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=lambda: load_file("new_data_sheet5")).grid(column=2, row=4, sticky=W)
                     if m >=5:
                         new_data_sheet6 = StringVar()
                         ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky=W)            
-                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky=W)
+                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=lambda: load_file("new_data_sheet6")).grid(column=2, row=5, sticky=W)
         
         
         inner = Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
@@ -4402,16 +4257,16 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     
     Flag_another_run =  False
     
-    class RAPIDvisual(tk.Tk):
+    class RAPIDvisual(Tk):
     
         def __init__(self, *args, **kwargs):
             
-            tk.Tk.__init__(self, *args, **kwargs)
+            Tk.__init__(self, *args, **kwargs)
 
             # Tk.iconbitmap(self, text="clienticon.ico")
-            tk.Tk.wm_title(self, "RAPID VISUAL")
+            Tk.wm_title(self, "RAPID VISUAL")
             
-            container = tk.Frame(self)
+            container = Frame(self)
             container.pack(side="top", fill="both", expand = True)
             container.grid_rowconfigure(0, weight=1)
             container.grid_columnconfigure(0, weight=1)
@@ -4434,10 +4289,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             frame = self.frames[cont]
             frame.tkraise()
         
-    class StartPage(tk.Frame):
+    class StartPage(Frame):
     
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self,parent)
+            Frame.__init__(self,parent)
             label = tk.Label(self, text="Start Page", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
             
@@ -4492,39 +4347,9 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                           
                 
                 app.destroy()
-                m2 = m2_output.get()
-                def load_new_data2():
-                    new_data2 = filedialog.askopenfilename()
-                    print(new_data2)
-                    new_data_sheet2.set(new_data2)
-                    return()
-                        
-                def load_new_data3():
-                    new_data3 = filedialog.askopenfilename()
-                    print(new_data3)
-                    new_data_sheet3.set(new_data3) 
-                    return()
+                m2 = m2_output.get()                   
                 
-                def load_new_data4():
-                    new_data4 = filedialog.askopenfilename()
-                    print(new_data4)
-                    new_data_sheet4.set(new_data4) 
-                    return() 
-                
-                def load_new_data5():
-                    new_data5 = filedialog.askopenfilename()
-                    print(new_data5)
-                    new_data_sheet5.set(new_data5) 
-                    return()    
-                    
-                def load_new_data6():
-                    new_data6 = filedialog.askopenfilename()
-                    print(new_data6)
-                    new_data_sheet6.set(new_data6) 
-                    return() 
-                    
-                    
-                def define_input_parameters3():   
+                def define_input_parameters3():
                     convergence = int(var0.get())
                     convergence_output.set(convergence)
                     Throughput_check = int(var8.get())
@@ -4545,6 +4370,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     average_check = int(var6.get())
                     average_check_output.set(average_check)        
                     window.destroy()
+                
                 if m2 >= 1 :
                     
                     window = Tk()
@@ -4563,27 +4389,27 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     average_check_output = IntVar() 
                     new_data_sheet2 = StringVar()        
                     ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky=W)        
-                    ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky=W)
+                    ttk.Button(mainframe, text="Import data 2", command=lambda: load_file("new_data_sheet2")).grid(column=2, row=1, sticky=W)
                     
                     
                     
                     if m2 >=2:
                         new_data_sheet3 = StringVar()
                         ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky=W)            
-                        ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky=W)
+                        ttk.Button(mainframe, text="Import data 3", command=lambda: load_file("new_data_sheet3")).grid(column=2, row=2, sticky=W)
                         
                         if m2 >=3:
                             new_data_sheet4 = StringVar()
                             ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky=W)            
-                            ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky=W)
+                            ttk.Button(mainframe, text="Import data 4", command=lambda: load_file("new_data_sheet4")).grid(column=2, row=3, sticky=W)
                             if m2 >=4:
                                 new_data_sheet5 = StringVar()
                                 ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky=W)            
-                                ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky=W)
+                                ttk.Button(mainframe, text="Import data 5", command=lambda: load_file("new_data_sheet5")).grid(column=2, row=4, sticky=W)
                                 if m2 >=5:
                                     new_data_sheet6 = StringVar()
                                     ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky=W)            
-                                    ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky=W)
+                                    ttk.Button(mainframe, text="Import data 6", command=lambda: load_file("new_data_sheet6")).grid(column=2, row=5, sticky=W)
                     
                     
                     inner = Frame(window, bg='pink', width=0, height=0, padx=20, pady=20)
@@ -4654,13 +4480,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                     def __init__(self, *args, **kwargs):
                         
-                        tk.Tk.__init__(self, *args, **kwargs)
+                        Tk.__init__(self, *args, **kwargs)
                 
-                        #tk.Tk.iconbitmap(self, text="clienticon.ico")
-                        tk.Tk.wm_title(self, "RAPID VISUAL")
+                        #Tk.iconbitmap(self, text="clienticon.ico")
+                        Tk.wm_title(self, "RAPID VISUAL")
                         
                         
-                        container = tk.Frame(self)
+                        container = Frame(self)
                         container.pack(side="top", fill="both", expand = True)
                         container.grid_rowconfigure(0, weight=1)
                         container.grid_columnconfigure(0, weight=1)
@@ -4681,10 +4507,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         frame = self.frames[cont]
                         frame.tkraise()
                 
-                class StartPage2(tk.Frame):
+                class StartPage2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self,parent)
+                        Frame.__init__(self,parent)
                         label = tk.Label(self, text="Start Page", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                         
@@ -4721,10 +4547,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                           CONVERGENCE                                       #
                 # ============================================================================#
                 #if convergenceFLAG ==True:
-                class Conv2(tk.Frame):
+                class Conv2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="THROUGHPUT CONVERGENCE", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                 
@@ -4806,10 +4632,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                          THROUGHPUT                                         #
                 # ============================================================================#
                 #if Thr_FLAG == True:
-                class Thr2(tk.Frame):
+                class Thr2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="THROUGHPUT", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                 
@@ -4957,10 +4783,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                         DEPARTURE DELAY - RWY hold delay                    #
                 # ============================================================================#
                 #if Delay_FLAG == True:
-                class DepDelay22(tk.Frame):
+                class DepDelay22(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="RWY HOLD DELAY", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                 
@@ -5112,10 +4938,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                   DEPARTURE DELAY - PS delay                                #
                 # ============================================================================#
                 
-                class DepDelay222(tk.Frame):
+                class DepDelay222(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="PUSH/START DELAY", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                 
@@ -5262,10 +5088,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                          ARRIVAL DELAY                                      # 
                 # ============================================================================#
                 #if arr_delay_FLAG == True:
-                class ArrivalDelay2(tk.Frame):
+                class ArrivalDelay2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="ARRIVALS DELAY", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                 
@@ -5384,10 +5210,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 #                           SEQUENCE                                          #
                 # ============================================================================#
                 #if Seq_FLAG == True:
-                class Seq2(tk.Frame):
+                class Seq2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                         
@@ -5852,8 +5678,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                                 #A.axhline(y=0.5, color='w')
                                 
-                                A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['4'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['5'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['6']], color='r', fmt='o', markersize=8, capsize=10, )
-                                A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['8'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['11'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['9']], color='purple', fmt='o', markersize=8, capsize=10)
+                                A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='r', fmt='o', markersize=8, capsize=10, )
+                                A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9']], color='purple', fmt='o', markersize=8, capsize=10)
                                 
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
@@ -6106,8 +5932,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 #A.axhline(y=0.5, color='w')
                                                            
                                                     
-                                A.errorbar(sequenceDepOnly(df_dep_output, 1)['3'], sequenceDepOnly(df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_dep_output, 1)['5'], sequenceDepOnly(df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
-                                A.errorbar(sequenceDepOnly(df_dep_output, 1)['10'], sequenceDepOnly(df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_dep_output, 1)['11'], sequenceDepOnly(df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
+                                A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
+                                A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                                 
                                 A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11']], color='darkgreen', fmt='o', markersize=8, capsize=10)    
                                 A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='maroon', fmt='o', markersize=8, capsize=10, )
@@ -6564,10 +6390,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 # ============================================================================#
                 #                           ADA buffer                                          #
                 # ============================================================================#
-                class ADAbuffer2(tk.Frame):
+                class ADAbuffer2(Frame):
                 
                     def __init__(self, parent, controller):
-                        tk.Frame.__init__(self, parent)
+                        Frame.__init__(self, parent)
                         label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                         
@@ -6659,10 +6485,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             button6 = tk.Button(self, text="SHOW", command=show_button)
             button6.pack()
 
-    class Conv(tk.Frame):
+    class Conv(Frame):
     
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="THROUGHPUT CONVERGENCE", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
     
@@ -6740,10 +6566,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             toolbar.update()
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-    class Thr(tk.Frame):
+    class Thr(Frame):
 
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="THROUGHPUT", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
 
@@ -6968,10 +6794,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     # DEPARTURE DELAY - RWY hold delay
-    class DepDelay(tk.Frame):
+    class DepDelay(Frame):
 
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="RWY HOLD DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
 
@@ -7178,10 +7004,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
     # DEPARTURE DELAY - PS delay
-    class DepDelay2(tk.Frame):
+    class DepDelay2(Frame):
         
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="PUSH/START DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
 
@@ -7380,10 +7206,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-    class ArrivalDelay(tk.Frame):
+    class ArrivalDelay(Frame):
 
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="ARRIVALS DELAY", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
 
@@ -7538,10 +7364,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-    class Seq(tk.Frame):
+    class Seq(Frame):
 
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
             
@@ -8013,8 +7839,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                         #A.axhline(y=0.5, color='w')
                         
-                        A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['4'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['5'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['6']], color='r', fmt='o', markersize=8, capsize=10, )
-                        A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['8'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['11'], sequenceArrOnly(df_arr_output, df_rwy_calcs, 1)['9']], color='purple', fmt='o', markersize=8, capsize=10)
+                        A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='r', fmt='o', markersize=8, capsize=10, )
+                        A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9']], color='purple', fmt='o', markersize=8, capsize=10)
                         
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
@@ -8330,8 +8156,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         #A.axhline(y=0.5, color='w')
                                                     
                                             
-                        A.errorbar(sequenceDepOnly(df_dep_output, 1)['3'], sequenceDepOnly(df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_dep_output, 1)['5'], sequenceDepOnly(df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
-                        A.errorbar(sequenceDepOnly(df_dep_output, 1)['10'], sequenceDepOnly(df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_dep_output, 1)['11'], sequenceDepOnly(df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
+                        A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
+                        A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                         
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11']], color='darkgreen', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4'], xerr=[sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='maroon', fmt='o', markersize=8, capsize=10, )
@@ -8401,7 +8227,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     
                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                         annot.xy = pos
-                        text = "{}".format(" ".join([sequenceDepOnly(df_dep_output, 1)['7'][n] for n in ind["ind"]]))
+                        text = "{}".format(" ".join([sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'][n] for n in ind["ind"]]))
                         annot.set_text(text)
                     
                 
@@ -8901,10 +8727,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
-    class ADAbuffer(tk.Frame):
+    class ADAbuffer(Frame):
 
         def __init__(self, parent, controller):
-            tk.Frame.__init__(self, parent)
+            Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
             
