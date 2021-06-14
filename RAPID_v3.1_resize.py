@@ -40,7 +40,7 @@ import scipy.stats as stats
 #from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog
 import matplotlib
 matplotlib.use("TkAgg")
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
 from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog, Scale, HORIZONTAL, LabelFrame#, DoubleVar, CENTER
@@ -4835,7 +4835,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 ##            
@@ -4984,7 +4984,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -5139,7 +5139,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
@@ -5290,7 +5290,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
@@ -5411,7 +5411,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -5804,7 +5804,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 elif m2==2: # 3 ARRonly comparison
@@ -5870,7 +5870,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -5934,7 +5934,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -5991,7 +5991,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -6060,7 +6060,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             
@@ -6124,7 +6124,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6182,7 +6182,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
@@ -6257,7 +6257,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6330,7 +6330,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6408,7 +6408,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
@@ -6469,7 +6469,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.show()
                                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                     canvas.mpl_connect("motion_notify_event", hover)
-                                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                    toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6528,7 +6528,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             
@@ -6591,7 +6591,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas.show()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                                 canvas.mpl_connect("motion_notify_event", hover)
-                                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                                toolbar = NavigationToolbar2Tk(canvas, self)
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
@@ -6670,7 +6670,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -6781,7 +6781,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             canvas.show()
             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=False)
     
-            toolbar = NavigationToolbar2TkAgg(canvas, self)
+            toolbar = NavigationToolbar2Tk(canvas, self)
             toolbar.update()
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 
@@ -6989,7 +6989,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
             
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
             else:
@@ -7012,7 +7012,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 canvas.show()
                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
         
-                toolbar = NavigationToolbar2TkAgg(canvas, self)
+                toolbar = NavigationToolbar2Tk(canvas, self)
                 toolbar.update()
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
             
@@ -7211,7 +7211,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 else:
@@ -7227,7 +7227,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas = FigureCanvasTkAgg(f, self)
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         #                
@@ -7420,7 +7420,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                 else:
@@ -7435,7 +7435,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas = FigureCanvasTkAgg(f, self)
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -7582,7 +7582,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                 
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -7597,7 +7597,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas = FigureCanvasTkAgg(f, self)
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)        
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
@@ -7996,7 +7996,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         elif m==2: # 3 ARRonly comparison
@@ -8062,7 +8062,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8126,7 +8126,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8183,7 +8183,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8245,7 +8245,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
@@ -8315,7 +8315,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8379,7 +8379,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8437,7 +8437,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8498,7 +8498,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8573,7 +8573,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8646,7 +8646,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8724,7 +8724,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
@@ -8785,7 +8785,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas.show()
                             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                             canvas.mpl_connect("motion_notify_event", hover)
-                            toolbar = NavigationToolbar2TkAgg(canvas, self)
+                            toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8844,7 +8844,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -8907,7 +8907,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         canvas.show()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                         canvas.mpl_connect("motion_notify_event", hover)
-                        toolbar = NavigationToolbar2TkAgg(canvas, self)
+                        toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
@@ -8965,7 +8965,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     canvas.show()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
                     canvas.mpl_connect("motion_notify_event", hover)
-                    toolbar = NavigationToolbar2TkAgg(canvas, self)
+                    toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
@@ -9050,7 +9050,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             canvas.show()
             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
     
-            toolbar = NavigationToolbar2TkAgg(canvas, self)
+            toolbar = NavigationToolbar2Tk(canvas, self)
             toolbar.update()
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
