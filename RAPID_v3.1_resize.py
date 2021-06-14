@@ -209,8 +209,8 @@ def define_input_parameters():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-#    TBS = int(var5.get())
-#    TBS_output.set(TBS)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -294,8 +294,8 @@ def define_input_parameters2():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-#    TBS = int(var5.get())
-#    TBS_output.set(TBS)
+    #    TBS = int(var5.get())
+    #    TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -501,7 +501,7 @@ def generate_new_input():
         
     airport_data_load_file()
     define_airport_data_parameters()
-#    create_dataframe_operational_data()
+    #    create_dataframe_operational_data()
     tdf = create_dataframe_operational_data()
     
     #f0_buttons
@@ -757,19 +757,19 @@ def generate_new_input():
         ttk.Label(DemandInputFrame, text=" Percentage of original entries = ", font="Helvetica 10").grid(row=3, column=1, sticky=N, padx=5)
         ttk.Label(AROTInputFrame, text="      Select a Max. value for AROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=240)
         
-# =============================================================================
-#         DemandInputFrame.columnconfigure(1, weight=1)
-#         DemandInputFrame.rowconfigure(0, weight=1)
-#         DemandInputFrame.rowconfigure(1, weight=1)
-#         DemandInputFrame.rowconfigure(2, weight=1)
-#         DemandInputFrame.rowconfigure(3, weight=1)
-#         
-#         AROTInputFrame.columnconfigure(1, weight=1)
-#         AROTInputFrame.rowconfigure(0, weight=1)
-#         AROTInputFrame.rowconfigure(1, weight=1)
-#         AROTInputFrame.rowconfigure(2, weight=1)
-#         AROTInputFrame.rowconfigure(3, weight=1)
-# =============================================================================
+        # =============================================================================
+        #         DemandInputFrame.columnconfigure(1, weight=1)
+        #         DemandInputFrame.rowconfigure(0, weight=1)
+        #         DemandInputFrame.rowconfigure(1, weight=1)
+        #         DemandInputFrame.rowconfigure(2, weight=1)
+        #         DemandInputFrame.rowconfigure(3, weight=1)
+        #         
+        #         AROTInputFrame.columnconfigure(1, weight=1)
+        #         AROTInputFrame.rowconfigure(0, weight=1)
+        #         AROTInputFrame.rowconfigure(1, weight=1)
+        #         AROTInputFrame.rowconfigure(2, weight=1)
+        #         AROTInputFrame.rowconfigure(3, weight=1)
+        # =============================================================================
         
         #f1_content.columnconfigure(0, weight=0)
         #f1_content.rowconfigure(0, weight=0)
@@ -897,8 +897,8 @@ def generate_new_input():
             canvas6.draw() #canvas2
         
         def define_final_DROT():
-#            Final_max_DROT = 3330
-#            Final_demand_d = 45
+        #            Final_max_DROT = 3330
+        #            Final_demand_d = 45
             Final_demand_d = Throttle_d.get()
             Final_demand_output_d.set(Final_demand_d)
             Final_max_DROT = Throttle_drot.get()
@@ -1068,187 +1068,187 @@ def generate_new_input():
         f2_content.bind('<Return>', define_drot_parameters)
         
         
-#        # TAXI-OUT FRAME #############################################################################################
-#        
-#        #f3_help 
-#           
-#        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
-#        f3_help.grid(row=0, column=1, sticky=E, \
-#                     padx=5, pady=5, ipadx=5, ipady=5)
-#        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky=W)
-#        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-#        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
-#        
-#        #f3_buttons
-#        f3_buttons= ttk.Frame(f3) 
-#        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
-#        
-#        
-#        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        
-#        #f3_content
-#        f3_content = LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
-#        f3_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-#        
-##
-#        columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-#        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
-#        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
-#        
-#        TOUT_output = IntVar()
-#        
-#        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-#        min_tout = df_taxi_out['S1'].min()
-#        
-#        TOUT_filter_output = max_tout
-#        
-#        def getThrottle_to(event):
-#            
-#            ax92.clear() #ax
-#            
-#            ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#            ax92.set_xlabel(' Taxi-out time (secs) ')
-#            ax92.set_ylabel(' Aircraft count ')
-#            
-#            TOUT_filter_output = Throttle_tout.get()
-#            
-#            df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
-#            
-#            df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-#            
-#            plt.show()
-#        
-#            canvas92.draw() #canvas ax92.clear() #ax
-#        
-#        ResultsFrame_tout = LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
-#        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        
-#        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_tout = plt.Figure()
-#        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
-#        canvas9.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax9 = fig_tout.add_subplot(111)
-#        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
-#        ax9.set_xlabel('Wake Category = [ Medium ] ')
-#        ax9.set_ylabel('Time (secs)')
-#        
-#        df_taxi_out.plot(kind='box', ax=ax9)
-#        
-#        ## EXTRA Taxi-out plots!
-#        
-#        fig_tout_2 = plt.Figure()
-#        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
-#        canvas92.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax92 = fig_tout_2.add_subplot(111)
-#        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#        ax92.set_xlabel(' Taxi-out time (secs) ')
-#        ax92.set_ylabel(' Aircraft count ')
-#        
-#        #df_taxi_out.plot(kind='box', ax=ax92)
-#        
-#        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-#        
-#        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
-#        
-#        Throttle_tout = Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
-#        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
-#        Throttle_tout.set(max_tout)
-#        
-#        # TAXI-IN FRAME #############################################################################################
-#        
-#        
-#        #f4_help 
-#           
-#        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
-#        f4_help.grid(row=0, column=1, sticky=E, \
-#                     padx=5, pady=5, ipadx=5, ipady=5)
-#        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky=W)
-#        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-#        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
-#        
-#        #f4_buttons
-#        f4_buttons= ttk.Frame(f4) 
-#        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
-#        
-#        
-#        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-#        
-#        #f4_content
-#        f4_content = LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
-#        f4_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-#        
-#        
-#        columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-#        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
-#        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
-#        
-#        TIN_output = IntVar()
-#        
-#        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-#        min_tin = df_taxi_out['S1'].min()
-#        
-#        TIN_filter_output = max_tin
-#        
-#        def getThrottle_ti(event):
-#            
-#            ax102.clear() #ax
-#            
-#            ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
-#            ax102.set_xlabel(' Taxi-in time (secs) ')
-#            ax102.set_ylabel(' Aircraft count ')
-#            
-#            TIN_filter_output = Throttle_tin.get()
-#            
-#            df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
-#            
-#            df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-#            
-#            plt.show()
-#        
-#            canvas102.draw() #canvas
-#        
-#        ResultsFrame_tin = LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
-#        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_tin = plt.Figure()
-#        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
-#        canvas10.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax10 = fig_tin.add_subplot(111)
-#        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
-#        ax10.set_xlabel('Wake Category = [ Medium ] ')
-#        ax10.set_ylabel('Time (secs)')
-#        
-#        df_taxi_in.plot(kind='box', ax=ax10) 
-#        
-#        ## EXTRA Taxi-out plots!
-#        
-#        fig_tin_2 = plt.Figure()
-#        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
-#        canvas102.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax102 = fig_tin_2.add_subplot(111)
-#        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-#        ax102.set_xlabel(' Taxi-out time (secs) ')
-#        ax102.set_ylabel(' Aircraft count ')
-#        
-#        #df_taxi_out.plot(kind='box', ax=ax92)
-#        
-#        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-#        
-#        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
-#        
-#        Throttle_tin = Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
-#        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
-#        Throttle_tin.set(max_tin)
+        #        # TAXI-OUT FRAME #############################################################################################
+        #        
+        #        #f3_help 
+        #           
+        #        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
+        #        f3_help.grid(row=0, column=1, sticky=E, \
+        #                     padx=5, pady=5, ipadx=5, ipady=5)
+        #        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky=W)
+        #        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
+        #        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        
+        #        #f3_buttons
+        #        f3_buttons= ttk.Frame(f3) 
+        #        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        
+        #        
+        #        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        
+        #        #f3_content
+        #        f3_content = LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
+        #        f3_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+        #        
+        ##
+        #        columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        #        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
+        #        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
+        #        
+        #        TOUT_output = IntVar()
+        #        
+        #        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        #        min_tout = df_taxi_out['S1'].min()
+        #        
+        #        TOUT_filter_output = max_tout
+        #        
+        #        def getThrottle_to(event):
+        #            
+        #            ax92.clear() #ax
+        #            
+        #            ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #            ax92.set_xlabel(' Taxi-out time (secs) ')
+        #            ax92.set_ylabel(' Aircraft count ')
+        #            
+        #            TOUT_filter_output = Throttle_tout.get()
+        #            
+        #            df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
+        #            
+        #            df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+        #            
+        #            plt.show()
+        #        
+        #            canvas92.draw() #canvas ax92.clear() #ax
+        #        
+        #        ResultsFrame_tout = LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        
+        #        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_tout = plt.Figure()
+        #        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
+        #        canvas9.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax9 = fig_tout.add_subplot(111)
+        #        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
+        #        ax9.set_xlabel('Wake Category = [ Medium ] ')
+        #        ax9.set_ylabel('Time (secs)')
+        #        
+        #        df_taxi_out.plot(kind='box', ax=ax9)
+        #        
+        #        ## EXTRA Taxi-out plots!
+        #        
+        #        fig_tout_2 = plt.Figure()
+        #        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
+        #        canvas92.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax92 = fig_tout_2.add_subplot(111)
+        #        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #        ax92.set_xlabel(' Taxi-out time (secs) ')
+        #        ax92.set_ylabel(' Aircraft count ')
+        #        
+        #        #df_taxi_out.plot(kind='box', ax=ax92)
+        #        
+        #        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+        #        
+        #        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        
+        #        Throttle_tout = Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
+        #        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
+        #        Throttle_tout.set(max_tout)
+        #        
+        #        # TAXI-IN FRAME #############################################################################################
+        #        
+        #        
+        #        #f4_help 
+        #           
+        #        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
+        #        f4_help.grid(row=0, column=1, sticky=E, \
+        #                     padx=5, pady=5, ipadx=5, ipady=5)
+        #        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky=W)
+        #        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
+        #        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        
+        #        #f4_buttons
+        #        f4_buttons= ttk.Frame(f4) 
+        #        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        
+        #        
+        #        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        #        
+        #        #f4_content
+        #        f4_content = LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
+        #        f4_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+        #        
+        #        
+        #        columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        #        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
+        #        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
+        #        
+        #        TIN_output = IntVar()
+        #        
+        #        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        #        min_tin = df_taxi_out['S1'].min()
+        #        
+        #        TIN_filter_output = max_tin
+        #        
+        #        def getThrottle_ti(event):
+        #            
+        #            ax102.clear() #ax
+        #            
+        #            ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
+        #            ax102.set_xlabel(' Taxi-in time (secs) ')
+        #            ax102.set_ylabel(' Aircraft count ')
+        #            
+        #            TIN_filter_output = Throttle_tin.get()
+        #            
+        #            df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
+        #            
+        #            df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+        #            
+        #            plt.show()
+        #        
+        #            canvas102.draw() #canvas
+        #        
+        #        ResultsFrame_tin = LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_tin = plt.Figure()
+        #        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
+        #        canvas10.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax10 = fig_tin.add_subplot(111)
+        #        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
+        #        ax10.set_xlabel('Wake Category = [ Medium ] ')
+        #        ax10.set_ylabel('Time (secs)')
+        #        
+        #        df_taxi_in.plot(kind='box', ax=ax10) 
+        #        
+        #        ## EXTRA Taxi-out plots!
+        #        
+        #        fig_tin_2 = plt.Figure()
+        #        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
+        #        canvas102.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax102 = fig_tin_2.add_subplot(111)
+        #        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #        ax102.set_xlabel(' Taxi-out time (secs) ')
+        #        ax102.set_ylabel(' Aircraft count ')
+        #        
+        #        #df_taxi_out.plot(kind='box', ax=ax92)
+        #        
+        #        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+        #        
+        #        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        
+        #        Throttle_tin = Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
+        #        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
+        #        Throttle_tin.set(max_tin)
         
         # ADA/ADDA #############################################################################################
         
@@ -1270,79 +1270,79 @@ def generate_new_input():
         
         # NOTE ! : this frame used to be for ADA, but now we use it for Speed profile as the ADA comes from a normal distribution
         
-#        #f5_content
-#        f5_content = LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
-#        f5_content.grid(row=0, column=0, sticky=E, \
-#                     padx=10, pady=40, ipadx=5, ipady=10)
-         
-#        #####################################################################        
-#        #                        ADA/ADDA  DATA                             #
-#        #####################################################################
-#        
-#        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
-#        df_ada = tdf.drop(columns=columns_to_drop_ada)
-#
-#        ResultsFrame_ada = LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
-#        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
-#        
-#        fig_ada = plt.Figure()
-#        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
-#        canvas7.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
-#        ax7 = fig_ada.add_subplot(111)
-#        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
-#        ax7.set_xlabel('Time (secs)')
-#        ax7.set_ylabel('Frequency')
-#        
-#        df_ada_main_plot = df_ada
-#        
-#        df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
-#        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
-#        df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
-#        
-#        df_ada_main_plot.plot(kind='line', ax=ax7)
-#        
-#        fig_buffer = plt.Figure()
-#        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
-#        canvas8.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
-#        ax8 = fig_buffer.add_subplot(111)
-#        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
-#        ax8.set_xlabel('Buffer Spacing (secs)')
-#        ax8.set_ylabel('Frequency')
-#        
-#        df_ada_sub_plot = df_ada
-#        
-#        df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
-#        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
-#        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
-#        df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
-#        
-#        df_ada_sub_plot.plot(kind='line', ax=ax8)
-#        
-#        df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
-#        df_buffer_limit = df_buffer_limit.reset_index(level=[0])
-#        
-#        ############ ADA data filtering! ############
-#        
-#        
-#        ######### Interesting Buffer stats! #########
-#        
-#        Buffer_Analysis = LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
-#        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
-#                  padx=5, pady=15, ipadx=5, ipady=5)
-#        
-#        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=5, pady=10)
-#        ## Update label value ##
-#        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky=N) # Mean Buffer value
-#        
-#        
-#        #Option 2
-#        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky=N, padx=5, pady=10)
-#        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky=N) # Equivalent to numpy.percentile
+        #        #f5_content
+        #        f5_content = LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
+        #        f5_content.grid(row=0, column=0, sticky=E, \
+        #                     padx=10, pady=40, ipadx=5, ipady=10)
+                
+        #        #####################################################################        
+        #        #                        ADA/ADDA  DATA                             #
+        #        #####################################################################
+        #        
+        #        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
+        #        df_ada = tdf.drop(columns=columns_to_drop_ada)
+        #
+        #        ResultsFrame_ada = LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
+        #        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        
+        #        fig_ada = plt.Figure()
+        #        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
+        #        canvas7.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        ax7 = fig_ada.add_subplot(111)
+        #        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
+        #        ax7.set_xlabel('Time (secs)')
+        #        ax7.set_ylabel('Frequency')
+        #        
+        #        df_ada_main_plot = df_ada
+        #        
+        #        df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
+        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
+        #        df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
+        #        
+        #        df_ada_main_plot.plot(kind='line', ax=ax7)
+        #        
+        #        fig_buffer = plt.Figure()
+        #        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
+        #        canvas8.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        ax8 = fig_buffer.add_subplot(111)
+        #        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
+        #        ax8.set_xlabel('Buffer Spacing (secs)')
+        #        ax8.set_ylabel('Frequency')
+        #        
+        #        df_ada_sub_plot = df_ada
+        #        
+        #        df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
+        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
+        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
+        #        df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
+        #        
+        #        df_ada_sub_plot.plot(kind='line', ax=ax8)
+        #        
+        #        df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
+        #        df_buffer_limit = df_buffer_limit.reset_index(level=[0])
+        #        
+        #        ############ ADA data filtering! ############
+        #        
+        #        
+        #        ######### Interesting Buffer stats! #########
+        #        
+        #        Buffer_Analysis = LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
+        #        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
+        #                  padx=5, pady=15, ipadx=5, ipady=5)
+        #        
+        #        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=5, pady=10)
+        #        ## Update label value ##
+        #        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky=N) # Mean Buffer value
+        #        
+        #        
+        #        #Option 2
+        #        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky=N, padx=5, pady=10)
+        #        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky=N) # Equivalent to numpy.percentile
         
         output_extension_empty_file = time.strftime("%H_%M", time.localtime(time.time()))
         input_files_name = 'Input_File_RAPID_v3.0_' + output_extension_empty_file
@@ -2190,10 +2190,10 @@ while (iter1 < maxIter):
     else:
         averagethrFLAG = False
         
-#    if distance_based_output.get() ==1:
-#        distance_based_FLAG = True
-#    else:
-#        distance_based_FLAG = False
+    #    if distance_based_output.get() ==1:
+    #        distance_based_FLAG = True
+    #    else:
+    #        distance_based_FLAG = False
         
     if time_based_output.get() ==1:
         time_based_FLAG = True
@@ -2381,67 +2381,67 @@ while (iter1 < maxIter):
     df_DROT_S =  pd.DataFrame()
     df_DROT_S = process_each_column_in_distributions(df_DROT_S, 'DROT_S')
     
-#    df_TAXI_OUT_S1 =  pd.DataFrame()
-#    df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
-#    df_TAXI_OUT_S2 =  pd.DataFrame()
-#    df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
-#    df_TAXI_OUT_S3 =  pd.DataFrame()
-#    df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
-#    df_TAXI_OUT_S4 =  pd.DataFrame()
-#    df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
-#    df_TAXI_OUT_S5 =  pd.DataFrame()
-#    df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
-#    df_TAXI_OUT_S6 =  pd.DataFrame()
-#    df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
-#    df_TAXI_OUT_S7 =  pd.DataFrame()
-#    df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
-#    df_TAXI_OUT_S8 =  pd.DataFrame()
-#    df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
-#    df_TAXI_OUT_S9 =  pd.DataFrame()
-#    df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
-#    df_TAXI_OUT_S10 =  pd.DataFrame()
-#    df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
-#    df_TAXI_OUT_S11 =  pd.DataFrame()
-#    df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
-#    df_TAXI_OUT_S12 =  pd.DataFrame()
-#    df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
-#    df_TAXI_OUT_S13 =  pd.DataFrame()
-#    df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
-#    df_TAXI_OUT_S14 =  pd.DataFrame()
-#    df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
-#    df_TAXI_OUT_S15 =  pd.DataFrame()
-#    df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
-#    
-#    df_TAXI_IN_S1 =  pd.DataFrame()
-#    df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
-#    df_TAXI_IN_S2 =  pd.DataFrame()
-#    df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
-#    df_TAXI_IN_S3 =  pd.DataFrame()
-#    df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
-#    df_TAXI_IN_S4 =  pd.DataFrame()
-#    df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
-#    df_TAXI_IN_S5 =  pd.DataFrame()
-#    df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
-#    df_TAXI_IN_S6 =  pd.DataFrame()
-#    df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
-#    df_TAXI_IN_S7 =  pd.DataFrame()
-#    df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
-#    df_TAXI_IN_S8 =  pd.DataFrame()
-#    df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
-#    df_TAXI_IN_S9 =  pd.DataFrame()
-#    df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
-#    df_TAXI_IN_S10 =  pd.DataFrame()
-#    df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
-#    df_TAXI_IN_S11 =  pd.DataFrame()
-#    df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
-#    df_TAXI_IN_S12 =  pd.DataFrame()
-#    df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
-#    df_TAXI_IN_S13 =  pd.DataFrame()
-#    df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
-#    df_TAXI_IN_S14 =  pd.DataFrame()
-#    df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
-#    df_TAXI_IN_S15 =  pd.DataFrame()
-#    df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
+    #    df_TAXI_OUT_S1 =  pd.DataFrame()
+    #    df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
+    #    df_TAXI_OUT_S2 =  pd.DataFrame()
+    #    df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
+    #    df_TAXI_OUT_S3 =  pd.DataFrame()
+    #    df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
+    #    df_TAXI_OUT_S4 =  pd.DataFrame()
+    #    df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
+    #    df_TAXI_OUT_S5 =  pd.DataFrame()
+    #    df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
+    #    df_TAXI_OUT_S6 =  pd.DataFrame()
+    #    df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
+    #    df_TAXI_OUT_S7 =  pd.DataFrame()
+    #    df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
+    #    df_TAXI_OUT_S8 =  pd.DataFrame()
+    #    df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
+    #    df_TAXI_OUT_S9 =  pd.DataFrame()
+    #    df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
+    #    df_TAXI_OUT_S10 =  pd.DataFrame()
+    #    df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
+    #    df_TAXI_OUT_S11 =  pd.DataFrame()
+    #    df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
+    #    df_TAXI_OUT_S12 =  pd.DataFrame()
+    #    df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
+    #    df_TAXI_OUT_S13 =  pd.DataFrame()
+    #    df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
+    #    df_TAXI_OUT_S14 =  pd.DataFrame()
+    #    df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
+    #    df_TAXI_OUT_S15 =  pd.DataFrame()
+    #    df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
+    #    
+    #    df_TAXI_IN_S1 =  pd.DataFrame()
+    #    df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
+    #    df_TAXI_IN_S2 =  pd.DataFrame()
+    #    df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
+    #    df_TAXI_IN_S3 =  pd.DataFrame()
+    #    df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
+    #    df_TAXI_IN_S4 =  pd.DataFrame()
+    #    df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
+    #    df_TAXI_IN_S5 =  pd.DataFrame()
+    #    df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
+    #    df_TAXI_IN_S6 =  pd.DataFrame()
+    #    df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
+    #    df_TAXI_IN_S7 =  pd.DataFrame()
+    #    df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
+    #    df_TAXI_IN_S8 =  pd.DataFrame()
+    #    df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
+    #    df_TAXI_IN_S9 =  pd.DataFrame()
+    #    df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
+    #    df_TAXI_IN_S10 =  pd.DataFrame()
+    #    df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
+    #    df_TAXI_IN_S11 =  pd.DataFrame()
+    #    df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
+    #    df_TAXI_IN_S12 =  pd.DataFrame()
+    #    df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
+    #    df_TAXI_IN_S13 =  pd.DataFrame()
+    #    df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
+    #    df_TAXI_IN_S14 =  pd.DataFrame()
+    #    df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
+    #    df_TAXI_IN_S15 =  pd.DataFrame()
+    #    df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
     
     
     
@@ -2455,7 +2455,7 @@ while (iter1 < maxIter):
     df_dep = xls.parse(1)
     df_arr = xls.parse(0)
 
-#---------------------------GLOBAL VARIABLES----------------------------------#
+    #---------------------------GLOBAL VARIABLES----------------------------------#
 
 
     # SET WAKE RULES for departures
@@ -2584,7 +2584,7 @@ while (iter1 < maxIter):
 
 
 
-#------------------------------INPUT PRE-PROCESS -----------------------------#
+    #------------------------------INPUT PRE-PROCESS -----------------------------#
 
     
     #Initialise Arrival input - N.B. must be outside method
@@ -2702,8 +2702,8 @@ while (iter1 < maxIter):
         throughputTab['C' + str(1)].value = 'Arrival Throughput'
         throughputTab['D' + str(1)].value = 'Total Throughput'
         throughputTab['E' + str(1)].value = 'Cum. No. of Go-Arounds'
-#        
-#        # Delay tab headers 
+    #        
+    #        # Delay tab headers 
         delayTab['A' + str(1)].value = 'Departure ID'
         delayTab['B' + str(1)].value = 'HOUR'
         delayTab['C' + str(1)].value = 'RWY HOLD Delay'
@@ -2844,7 +2844,7 @@ while (iter1 < maxIter):
                 T = (f*3600)/(arrivalInput['AM'+str(row)].value)
             
             return T
-#        if distance > 0:
+    #        if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -2911,7 +2911,7 @@ while (iter1 < maxIter):
                 S = f*(arrivalInput['AW'+str(row)].value - arrivalInput['AV'+str(row)].value) + arrivalInput['AV'+str(row)].value
                 T = (f*3600)/arrivalInput['AW'+str(row)].value
             return T
-#        if distance > 0:
+    #        if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -3069,10 +3069,10 @@ while (iter1 < maxIter):
             Arrival_Taxiin_mean = arrivalInput['I' + str(row)].value
             Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
             #Taxiinlookup = arrivalInput['M' + str(row)].value
-#            if taxi_outliers == False:
+    #            if taxi_outliers == False:
             tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
-#            else:
-#                tempTaxiIn = Taxiinlookup   
+    #            else:
+    #                tempTaxiIn = Taxiinlookup   
             runwayCalculations['B' + str(row)].value = round(tempTaxiIn, 0)
 
             ####################### AROT - from lookup ########################
@@ -3425,7 +3425,7 @@ while (iter1 < maxIter):
     Departure_Input_pre_process()
     print("Input file successfully read")
     
-#===== SID separation ====#
+    #===== SID separation ====#
     
     index_key_of_nextDeparture_Q1 = 0
     index_key_of_nextDeparture_Q2 = 0
@@ -3442,7 +3442,7 @@ while (iter1 < maxIter):
     SIDgroup_list = SIDgroup_list1 + SIDgroup_list2
     chunks2 = [SIDgroup_list[x:x+2] for x in range(0, len(SIDgroup_list), 2)]
     
-#===== SID queue ====#
+    #===== SID queue ====#
     
     #SID_queue_assign = "1 3 | 2 4"
     Q1_SID = []
@@ -3470,7 +3470,7 @@ while (iter1 < maxIter):
                     Q7_SID =[int(x) for x in chunks[6]]
                     Q8_SID =[int(x) for x in chunks[7]]
                     
-#===TIME limits====#
+    #===TIME limits====#
     
     if arrivalInput['A' + str(2)].value==None: #no arrivals:
         Start_time = departureInput['C' +str(2)].value - 3000
@@ -3487,11 +3487,11 @@ while (iter1 < maxIter):
         End_time = min(arrivalInput['C' + str(max_ARRIVAL-1)].value,departureInput['C' +str(max_DEPARTURE-1)].value) + 10000
         
     Current_time = Start_time
-#--------------------------- Movement Functions---------------------------------#
+    #--------------------------- Movement Functions---------------------------------#
 
 
  
-######################## DEPARTURES #######################################
+    ######################## DEPARTURES #######################################
     
      
     def update_Departure_Delays(Current_time):
@@ -3521,7 +3521,7 @@ while (iter1 < maxIter):
         return(SOBTrow)
         
     def TAXIqueue_update(Current_time):
-#        if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
+    #        if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
         #check who has to go first
         first_in_line_DepSTANDqueue = min(list(DepSTANDqueue.keys()))
     
@@ -3809,8 +3809,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3833,8 +3833,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3863,8 +3863,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3886,8 +3886,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-#                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-#                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3940,11 +3940,11 @@ while (iter1 < maxIter):
                             DROT1 = RWYqueue1[firstDeparture][2]
                         else:
                             DROT1 = RWYqueue2[firstDeparture][2]
-#                            secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
-#                            if nextRWYqueue ==1:
-#                                DROT2 = RWYqueue1[secondDeparture][2]
-#                            else:
-#                                DROT2 = RWYqueue2[secondDeparture][2] 
+    #                            secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
+    #                            if nextRWYqueue ==1:
+    #                                DROT2 = RWYqueue1[secondDeparture][2]
+    #                            else:
+    #                                DROT2 = RWYqueue2[secondDeparture][2] 
                         ADDA_target_time = AROT + DROT1 + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                         ADDA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme,int(ADDA_target_time))#distance
                         if (ADDA_4dme_FLAG == True) and (ArrOutput>2):
@@ -4012,12 +4012,12 @@ while (iter1 < maxIter):
     def Arr_LANDING(Current_time, ArrOutput,first_in_line_APPqueue,seqRow): 
         
         
-#        if len(APPqueue)!=0:
-#            first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
-#            #print('There is something in the APPqueue')
-#           
-#            #print('NEXT ARRIVAL = ', AC)
-#            if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
+    #        if len(APPqueue)!=0:
+    #            first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
+    #            #print('There is something in the APPqueue')
+    #           
+    #            #print('NEXT ARRIVAL = ', AC)
+    #            if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
         if RWY_status == "D":
             print('*** GO AROUND ***', APPqueue[first_in_line_APPqueue])
             del APPqueue[first_in_line_APPqueue]
@@ -4095,7 +4095,7 @@ while (iter1 < maxIter):
     
    
    
-#--------------------------------MODEL RUNS-----------------------------------#
+    #--------------------------------MODEL RUNS-----------------------------------#
 
 
     print('distance_based_FLAG = ',distance_based_FLAG)
@@ -4205,9 +4205,9 @@ while (iter1 < maxIter):
         Current_time += 1
 
 
-# ============================================================================#
-#                       Buffer Calculations                                   #      
-# ============================================================================#
+    # ============================================================================#
+    #                       Buffer Calculations                                   #      
+    # ============================================================================#
     bufferRow = 2
     
     for row in range (2, (sequenceTab.max_row-2)):
@@ -4216,9 +4216,9 @@ while (iter1 < maxIter):
            sequenceTab['F' + str(bufferRow)].value = sequenceTab['B' + str(row)].value 
            bufferRow+=1
 
-# ============================================================================#
-#                   THROUGHPUT AND DELAYS CALCULATIONS                        #
-# ============================================================================#
+    # ============================================================================#
+    #                   THROUGHPUT AND DELAYS CALCULATIONS                        #
+    # ============================================================================#
  
     min_thr_HOUR = min(arrivalOutput['B' + str(2)].value,departureOutput['B' + str(2)].value)
     print('arrivalOutput["B" + str(ArrOutput-1)].value = ',arrivalOutput['B' + str(ArrOutput-1)].value)
@@ -4256,9 +4256,9 @@ while (iter1 < maxIter):
             throughputTab['E' + str(row)].value = 0
         min_thr_HOUR +=1
   
-# ============================================================================#
-#                               DELAYS                                        #
-# ============================================================================#
+    # ============================================================================#
+    #                               DELAYS                                        #
+    # ============================================================================#
     
     for row in range(2, DepOutput):
         delayTab['A' + str(row)].value = departureOutput['A' + str(row)].value
@@ -6854,18 +6854,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 return df_thr_to_plot2 
             
-    #        def add_operational_data ():
-    #            #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
-    #            df_thr_to_plot_temp = pd.DataFrame()
-    #            df_thr_to_plot_temp['Hour'] = op_data['Hour']
-    #            a = 'Hour'
-    #            df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
-    #            b = 'Operational Data'
-    #            df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
-    #                
-    #            df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
-    #                    
-    #            df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
+        #        def add_operational_data ():
+        #            #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
+        #            df_thr_to_plot_temp = pd.DataFrame()
+        #            df_thr_to_plot_temp['Hour'] = op_data['Hour']
+        #            a = 'Hour'
+        #            df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
+        #            b = 'Operational Data'
+        #            df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
+        #                
+        #            df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
+        #                    
+        #            df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
                 
             def plot_bar_thr(df_thr_to_plot2, A):                      
                 df_thr_to_plot2.plot(kind='bar', legend=False, ax=A) 
@@ -6883,8 +6883,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 if m>= 1:
                     f = Figure(figsize=(5,5), dpi=100)
                     A = f.add_subplot(111)
-    #                throughput(df_thr, 'k')
-    #                throughput(df_thr2, 'g')
+        #                throughput(df_thr, 'k')
+        #                throughput(df_thr2, 'g')
                     
                     df_thr_to_plot2 = create_first_df_thr()
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
@@ -7090,51 +7090,51 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-    #            
-    #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy = df_delay_input
-    #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-    #                df_rwy_avg = df_rwy_avg.reset_index()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-    #                
-    #                
-    #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-    #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-    #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-    #                
-    #                #For Push/Start Delay
-    #                df_ps = df_delay_input
-    #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-    #                df_ps = df_ps.reset_index() 
-    #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-    #                dh_ps_avg = dh_ps_avg.reset_index()
-    #                df_ps = df_ps.reset_index()
-    #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-    #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-    #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-    #                
-    #               
-    #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-    #                df_final_ps = df_final_ps.drop(columns=['index'])
-    #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-    #                
-    #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-    #                #Extract lists to plot
-    #                H_delay_time = df_rwy['Time interval'].tolist()
-    #                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-    #                
-    #                    
-    #        #        return(H_delay_time,H_delay,PS_time,PS_delay)
+        #            
+        #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+        #                #For RWY_Hold Delay
+        #                df_rwy = df_delay_input
+        #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+        #                df_rwy = df_rwy.reset_index()
+        #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+        #                df_rwy_avg = df_rwy_avg.reset_index()
+        #                df_rwy = df_rwy.reset_index()
+        #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+        #                
+        #                
+        #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+        #                df_final_rwy = df_final_rwy.drop(columns=['index'])
+        #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+        #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+        #                
+        #                #For Push/Start Delay
+        #                df_ps = df_delay_input
+        #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+        #                df_ps = df_ps.reset_index() 
+        #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+        #                dh_ps_avg = dh_ps_avg.reset_index()
+        #                df_ps = df_ps.reset_index()
+        #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
+        #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+        #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+        #                
+        #               
+        #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+        #                df_final_ps = df_final_ps.drop(columns=['index'])
+        #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+        #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+        #                
+        #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+        #                #Extract lists to plot
+        #                H_delay_time = df_rwy['Time interval'].tolist()
+        #                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+        #                
+        #                    
+        #        #        return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
                             'b': RWYhold_Delay}
-    #                
-    #        #    def print_Hold_delay(H_delay_time,H_delay,color):
+        #                
+        #        #    def print_Hold_delay(H_delay_time,H_delay,color):
                 def print_Hold_delay(ab, color):
                     
                     H_delay_time = ab['a']
@@ -7303,47 +7303,47 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-    #            
-    #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy = df_delay_input
-    #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-    #                df_rwy_avg = df_rwy_avg.reset_index()
-    #                df_rwy = df_rwy.reset_index()
-    #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-    #                
-    #                
-    #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-    #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-    #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-    #                
-    #                #For Push/Start Delay
-    #                df_ps = df_delay_input
-    #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-    #                df_ps = df_ps.reset_index() 
-    #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-    #                dh_ps_avg = dh_ps_avg.reset_index()
-    #                df_ps = df_ps.reset_index()
-    #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-    #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-    #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-    #                
-    #               
-    #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-    #                df_final_ps = df_final_ps.drop(columns=['index'])
-    #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-    #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-    #                
-    #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-    #                #Extract lists to plot
-    ##                H_delay_time = df_rwy['Time interval'].tolist()
-    ##                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-    #                PS_time = df_rwy['Time interval'].tolist()
-    #                PS_delay = df_final_ps['Push/Start Delay'].tolist()
-    #                    
+        #            
+        #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+        #                #For RWY_Hold Delay
+        #                df_rwy = df_delay_input
+        #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+        #                df_rwy = df_rwy.reset_index()
+        #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+        #                df_rwy_avg = df_rwy_avg.reset_index()
+        #                df_rwy = df_rwy.reset_index()
+        #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+        #                
+        #                
+        #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+        #                df_final_rwy = df_final_rwy.drop(columns=['index'])
+        #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+        #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+        #                
+        #                #For Push/Start Delay
+        #                df_ps = df_delay_input
+        #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+        #                df_ps = df_ps.reset_index() 
+        #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+        #                dh_ps_avg = dh_ps_avg.reset_index()
+        #                df_ps = df_ps.reset_index()
+        #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
+        #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+        #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+        #                
+        #               
+        #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+        #                df_final_ps = df_final_ps.drop(columns=['index'])
+        #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+        #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+        #                
+        #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+        #                #Extract lists to plot
+        ##                H_delay_time = df_rwy['Time interval'].tolist()
+        ##                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+        #                PS_time = df_rwy['Time interval'].tolist()
+        #                PS_delay = df_final_ps['Push/Start Delay'].tolist()
+        #                    
     
                     return {'c': time_interval,
                             'd': PS_delay}
@@ -7513,28 +7513,28 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_arr_delay['DATE'] = df_arr_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_arr_delay['DATE']
-    #                print(df_arr_delay['Time1'].value())
-    #                df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
-    #                #For RWY_Hold Delay
-    #                df_rwy_arr = df_delay_input
-    #                df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
-    #                df_rwy_arr = df_rwy_arr.reset_index()
-    #                df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
-    #                df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
-    #                df_rwy_arr = df_rwy_arr.reset_index()
-    #                df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
-    #                
-    #                df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
-    #                df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
-    #                df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
-    #                df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
-    #                
-    #                df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
-    #                
-    #                #Extract lists to plot
-    #                arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
-    #                arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
-    #                
+        #                print(df_arr_delay['Time1'].value())
+        #                df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
+        #                #For RWY_Hold Delay
+        #                df_rwy_arr = df_delay_input
+        #                df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
+        #                df_rwy_arr = df_rwy_arr.reset_index()
+        #                df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
+        #                df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
+        #                df_rwy_arr = df_rwy_arr.reset_index()
+        #                df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
+        #                
+        #                df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
+        #                df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
+        #                df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
+        #                df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
+        #                
+        #                df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
+        #                
+        #                #Extract lists to plot
+        #                arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
+        #                arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
+        #                
                         
                     #        return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
@@ -9019,10 +9019,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             b = int(max(ADA_buffer))
             number_bins = b-a
             h = [0]+sorted(ADA_buffer)
-    #        ba = [15,15]
-    #        bb = [0,0.013]
-    #        da = [0,15]
-    #        db = [0.013,0.013]
+        #        ba = [15,15]
+        #        bb = [0,0.013]
+        #        da = [0,15]
+        #        db = [0.013,0.013]
             
             coord = [[0,0], [15,0], [15,0.013], [0,0.013]]
             coord.append(coord[0]) #repeat the first point to create a 'closed loop'
