@@ -82,56 +82,10 @@ arr_delay_FLAG = False
 convergenceFLAG = False
 ADA_buffer_FLAG = False
 
-
-input_excel_sheet = ""
-operational_data = ""
-new_data2 = ""
-new_data4 = ""
-new_data5 = ""
-new_data6 = ""
-
 #----------------------------GLOBAL FUNCTIONS---------------------------------#
 
-def load_file():
-    input_excel_sheet = tk.filedialog.askopenfilename()
-    print(input_excel_sheet)
-    name_excel_sheet.set(input_excel_sheet)
-
-
-def load_op_data():
-    operational_data = tk.filedialog.askopenfilename()
-    print(operational_data)
-    op_data_sheet.set(operational_data)
-
-
-def load_new_data2():
-    new_data2 = tk.filedialog.askopenfilename()
-    print(new_data2)
-    new_data_sheet2.set(new_data2)
-
-
-def load_new_data3():
-    new_data3 = tk.filedialog.askopenfilename()
-    print(new_data3)
-    new_data_sheet3.set(new_data3)
-
-
-def load_new_data4():
-    new_data4 = tk.filedialog.askopenfilename()
-    print(new_data4)
-    new_data_sheet4.set(new_data4)
-
-
-def load_new_data5():
-    new_data5 = tk.filedialog.askopenfilename()
-    print(new_data5)
-    new_data_sheet5.set(new_data5)
-
-
-def load_new_data6():
-    new_data6 = tk.filedialog.askopenfilename()
-    print(new_data6)
-    new_data_sheet6.set(new_data6)
+def load_file(filename):
+    filename.set(tk.filedialog.askopenfilename())
 
 
 def define_input_parameters():
@@ -1339,8 +1293,6 @@ def generate_new_input():
             name_excel_sheet.set(name_input_file)
             
         ##########################################################################################################################################
-            
-        # input_excel_sheet = 'C:/Users/Think - Joe Irwin/Dropbox/Think Users/JoeIrwin/RAPID/RAPID_DEMO/AROT_example_input.xlsx'
         
         def sch_load_file():
             import_schedule = tk.filedialog.askopenfilename()
@@ -1762,7 +1714,7 @@ if OP_FLAG == True:
     button_check = tk.StringVar(win, value='0')
     op_data_sheet = tk.StringVar()
     ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky='W')
-    open_op_data = ttk.Button(mainframe, text="Import operational data", command=load_op_data).grid(column=2, row=1, sticky='W')
+    open_op_data = ttk.Button(mainframe, text="Import operational data", command=lambda: load_file(op_data_sheet)).grid(column=2, row=1, sticky='W')
     inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
     inner.grid(column=0, row=1)
     inner.columnconfigure(0, weight=1)
@@ -1795,25 +1747,25 @@ if new_set_FLAG == True:
         average_check_output = tk.IntVar() 
         new_data_sheet2 = tk.StringVar()        
         ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')        
-        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky='W')
+        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
         
         if m >=2:
             new_data_sheet3 = tk.StringVar()
             ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')            
-            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky='W')
+            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
             
             if m >=3:
                 new_data_sheet4 = tk.StringVar()
                 ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')            
-                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky='W')
+                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
                 if m >=4:
                     new_data_sheet5 = tk.StringVar()
                     ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')            
-                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky='W')
+                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
                     if m >=5:
                         new_data_sheet6 = tk.StringVar()
                         ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')            
-                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky='W')
+                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
         
         
         inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
@@ -4198,36 +4150,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                           
                 app.destroy()
                 m2 = m2_output.get()
-                def load_new_data2():
-                    new_data2 = tk.filedialog.askopenfilename()
-                    print(new_data2)
-                    new_data_sheet2.set(new_data2)
-                        
-
-                def load_new_data3():
-                    new_data3 = tk.filedialog.askopenfilename()
-                    print(new_data3)
-                    new_data_sheet3.set(new_data3)
                 
-
-                def load_new_data4():
-                    new_data4 = tk.filedialog.askopenfilename()
-                    print(new_data4)
-                    new_data_sheet4.set(new_data4)
-                
-
-                def load_new_data5():
-                    new_data5 = tk.filedialog.askopenfilename()
-                    print(new_data5)
-                    new_data_sheet5.set(new_data5)
-                    
-
-                def load_new_data6():
-                    new_data6 = tk.filedialog.askopenfilename()
-                    print(new_data6)
-                    new_data_sheet6.set(new_data6)
-                    
-                    
                 def define_input_parameters3():   
                     convergence = int(var0.get())
                     convergence_output.set(convergence)
@@ -4235,21 +4158,23 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     Throughput_check_output.set(Throughput_check)
                     Delay_check = int(var9.get())
                     Delay_check_output.set(Delay_check)
-                    Seq_check = int(var10.get())
-                    Seq_check_output.set(Seq_check)
                     arr_delay = int(var13.get())
                     arr_delay_output.set(arr_delay) 
-                    ADA_buffer = int(var18.get())
-                    ADA_buffer_output.set(ADA_buffer)
+                    Seq_check = int(var10.get())
+                    Seq_check_output.set(Seq_check)
+
                     op_yes = int(var11.get())
                     op_yes_output.set(op_yes)
                     new_set = int(var12.get())
                     new_set_output.set(new_set)
+                    ADA_buffer = int(var18.get())
+                    ADA_buffer_output.set(ADA_buffer)
                     button_check.set(True)
-                    average_check = int(var6.get())
-                    average_check_output.set(average_check)        
-                    window.destroy()
 
+                    average_check = int(var6.get())
+                    average_check_output.set(average_check)    
+
+                    window.destroy()
 
                 if m2 >= 1 :
                     
@@ -4269,25 +4194,25 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     average_check_output = tk.IntVar() 
                     new_data_sheet2 = tk.StringVar()        
                     ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')        
-                    ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky='W')
+                    ttk.Button(mainframe, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
                     
                     if m2 >=2:
                         new_data_sheet3 = tk.StringVar()
                         ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')            
-                        ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky='W')
+                        ttk.Button(mainframe, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
                         
                         if m2 >=3:
                             new_data_sheet4 = tk.StringVar()
                             ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')            
-                            ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky='W')
+                            ttk.Button(mainframe, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
                             if m2 >=4:
                                 new_data_sheet5 = tk.StringVar()
                                 ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')            
-                                ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky='W')
+                                ttk.Button(mainframe, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
                                 if m2 >=5:
                                     new_data_sheet6 = tk.StringVar()
                                     ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')            
-                                    ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky='W')
+                                    ttk.Button(mainframe, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
                     
                     inner = tk.Frame(window, bg='pink', width=0, height=0, padx=20, pady=20)
                     inner.grid(column=0, row=1)
