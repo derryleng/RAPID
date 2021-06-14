@@ -1,32 +1,4 @@
-"""
- Compatibility : N/A
- Inputs*:1.OPERATIONAL DATA :  Operational_data.csv
-         2.INPUT FILE : Input_File_RAPID_v3.0
-         3.SCHEDULE : Schedule_File_RAPID_v3.0
- *All the inputs can be found in the folder called 'inputs'
- ! Make sure the utility folder contains: 
-         - actual_speed_profile.csv (for the version when the actual speed profiles filtering is not available)
-         - RECAT_EU_separation.csv
-         - RECAT_PWS.csv
-         - RECAT20_separation.csv
-         - UK_wake_separation.csv
-         - wake.csv
- Outputs: 1.utility/AROTDROT_distributions.csv
-          2.Input_File_RAPID_v3.0_ + (time) + .xlsx
-          3.OUTPUT_RAPID_v3.0_ + str(output_extension) +  '.xlsx'
-         
-"""            
-
-#*****************************************************************************#
-#=============================================================================#
-#                                                                             #
-#                           IMPORT FUNCTIONS                                  #
-#                                                                             #
-# ============================================================================#
-#*****************************************************************************#
-
 import openpyxl
-# Useful guide for openpyxl here - https://automatetheboringstuff.com/chapter12/
 import random
 import time
 import sys
@@ -34,19 +6,18 @@ import math
 import pandas as pd
 import numpy as np
 import json
-import tkinter as tk      
 import scipy.stats as stats
 
-#from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog
+import tkinter as tk
+from tkinter import ttk
+
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
-from tkinter import Tk, IntVar, StringVar, W, E, S, N, ttk, Frame, filedialog, Scale, HORIZONTAL, LabelFrame#, DoubleVar, CENTER
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-#import csv
 
 #*****************************************************************************#
 #=============================================================================#
@@ -138,43 +109,43 @@ new_data6 = ""
 #----------------------------GLOBAL FUNCTIONS---------------------------------#
 
 def load_file():
-    input_excel_sheet = filedialog.askopenfilename()
+    input_excel_sheet = tk.filedialog.askopenfilename()
     print(input_excel_sheet)
     name_excel_sheet.set(input_excel_sheet)
     return()
 
 def load_op_data():
-    operational_data = filedialog.askopenfilename()
+    operational_data = tk.filedialog.askopenfilename()
     print(operational_data)
     op_data_sheet.set(operational_data)
     return()
         
 def load_new_data2():
-    new_data2 = filedialog.askopenfilename()
+    new_data2 = tk.filedialog.askopenfilename()
     print(new_data2)
     new_data_sheet2.set(new_data2)
     return()
         
 def load_new_data3():
-    new_data3 = filedialog.askopenfilename()
+    new_data3 = tk.filedialog.askopenfilename()
     print(new_data3)
     new_data_sheet3.set(new_data3) 
     return()
 
 def load_new_data4():
-    new_data4 = filedialog.askopenfilename()
+    new_data4 = tk.filedialog.askopenfilename()
     print(new_data4)
     new_data_sheet4.set(new_data4) 
     return() 
 
 def load_new_data5():
-    new_data5 = filedialog.askopenfilename()
+    new_data5 = tk.filedialog.askopenfilename()
     print(new_data5)
     new_data_sheet5.set(new_data5) 
     return()    
     
 def load_new_data6():
-    new_data6 = filedialog.askopenfilename()
+    new_data6 = tk.filedialog.askopenfilename()
     print(new_data6)
     new_data_sheet6.set(new_data6) 
     return() 
@@ -357,23 +328,23 @@ win.title("RAPID V_2.0")                 # Add a title
 # TABS
 mainframe = ttk.Frame(win, padding="10 10 30 40")
 
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+mainframe.grid(column=0, row=0, sticky='NWES')
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
     
 input_module = ttk.Frame(mainframe)            # Create INPUT tab 
-input_module.grid(column=0, row=0, sticky=(N, W, E, S))
+input_module.grid(column=0, row=0, sticky='NWES')
 
 core_module = ttk.Frame(mainframe)            # Create CORE tab
-core_module.grid(row=0, sticky=(N, W, E, S))
+core_module.grid(row=0, sticky='NWES')
 
 visual_module = ttk.Frame(mainframe)            # Create VISUAL tab 
-visual_module.grid(column=0, row=0, sticky=(N, W, E, S))
+visual_module.grid(column=0, row=0, sticky='NWES')
 
 # Fake TABS
 
 fakeTab_input = ttk.Frame(input_module)
-fakeTab_input.grid(row=0, sticky=(N, W, E, S))
+fakeTab_input.grid(row=0, sticky='NWES')
 
 tk.Button(fakeTab_input, text='INPUT MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=0)
 tk.Button(fakeTab_input, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
@@ -381,14 +352,14 @@ tk.Button(fakeTab_input, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,
 
 
 fakeTab_core = ttk.Frame(core_module)
-fakeTab_core.grid(row=0, sticky=(N, W, E, S))
+fakeTab_core.grid(row=0, sticky='NWES')
 
 tk.Button(fakeTab_core, text='INPUT MODULE', height = 3, padx=100).grid(row=0,column=0)
 tk.Button(fakeTab_core, text='CORE MODULE', bg='pink', height = 3, padx=100 ).grid(row=0,column=1)
 tk.Button(fakeTab_core, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,column=2)
 
 fakeTab_visual = ttk.Frame(visual_module)
-fakeTab_visual.grid(row=0, sticky=(N, W, E, S))
+fakeTab_visual.grid(row=0, sticky='NWES')
 
 tk.Button(fakeTab_visual, text='INPUT MODULE', height = 3, padx=100).grid(row=0,column=0)
 tk.Button(fakeTab_visual, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
@@ -399,13 +370,13 @@ tk.Button(fakeTab_visual, text='VISUAL MODULE', bg='pink', height = 3, padx=100)
 # Main Contentframes
 
 tab1 = ttk.Frame(input_module)
-tab1.grid(row=1, sticky=(N, W, E, S))
+tab1.grid(row=1, sticky='NWES')
 
 tab2 = ttk.Frame(core_module)
-tab2.grid(row=1, sticky=(N, W, E, S))
+tab2.grid(row=1, sticky='NWES')
 
 tab3 = ttk.Frame(visual_module)
-tab3.grid(row=1, sticky=(N, W, E, S))
+tab3.grid(row=1, sticky='NWES')
 
 
 
@@ -416,13 +387,13 @@ def raise_main_frame(frame):
     frame.tkraise()
 
 for main_frames in (input_module, core_module, visual_module ):
-    main_frames.grid(row=0, column=0, sticky='news')
+    main_frames.grid(row=0, column=0, sticky='NWES')
     main_frames.columnconfigure(0, weight=0)
     main_frames.rowconfigure(0, weight=0)
 
-import_airport_data = StringVar()
-input_file = StringVar()
-open_file = StringVar()
+import_airport_data = tk.StringVar()
+input_file = tk.StringVar()
+open_file = tk.StringVar()
 
 def raise_frame(frame):
     frame.tkraise()
@@ -441,7 +412,7 @@ f7 = ttk.Frame(tab1)
 
 
 for frame in (f0,f1,f2):
-    frame.grid(row=0, column=0, sticky='news')
+    frame.grid(row=0, column=0, sticky='NWES')
     frame.columnconfigure(0, weight=0)
     frame.rowconfigure(0, weight=0)
 
@@ -450,23 +421,23 @@ for frame in (f0,f1,f2):
 #f0_help 
    
 f0_help = ttk.LabelFrame(f0, text=" Quick Help ")
-f0_help.grid(row=0, column=1, sticky=E, \
+f0_help.grid(row=0, column=1, sticky='E', \
              padx=5, pady=5, ipadx=5, ipady=5)
-ttk.Label(f0_help, text="- Only select ONE file before hitting the 'NEXT' button!", font="Helvetica 12 bold").grid(column=1, row=1, sticky=W) 
-ttk.Label(f0_help, text="[ A ] should be selected for first time setup - starts 'Operational Analysis'", font=12).grid(column=1, row=2, sticky=W)  
-ttk.Label(f0_help, text="[ B ] should be selected if an INPUT file already exists - skips to the CORE MODULE", font=12).grid(column=1, row=3, sticky=W) 
+ttk.Label(f0_help, text="- Only select ONE file before hitting the 'NEXT' button!", font="Helvetica 12 bold").grid(column=1, row=1, sticky='W') 
+ttk.Label(f0_help, text="[ A ] should be selected for first time setup - starts 'Operational Analysis'", font=12).grid(column=1, row=2, sticky='W')  
+ttk.Label(f0_help, text="[ B ] should be selected if an INPUT file already exists - skips to the CORE MODULE", font=12).grid(column=1, row=3, sticky='W') 
 
-f0_content = LabelFrame(f0, text="    WELCOME TO RAPID    ", font="Helvetica 16 bold")
-f0_content.grid(row=0, column=0, sticky=N, \
+f0_content = tk.LabelFrame(f0, text="    WELCOME TO RAPID    ", font="Helvetica 16 bold")
+f0_content.grid(row=0, column=0, sticky='N', \
              padx=10, pady=40, ipadx=5, ipady=10)
 
 
 f0_content_a = ttk.LabelFrame(f0_content, text=" [ A ] - Analyse & Filter Operational Data ")
-f0_content_a.grid(row=2, column=0, sticky=N, \
+f0_content_a.grid(row=2, column=0, sticky='N', \
              padx=5, pady=15, ipadx=5, ipady=5)
 
 
-name_excel_sheet1 = StringVar()
+name_excel_sheet1 = tk.StringVar()
 
 
 
@@ -474,9 +445,9 @@ tdf = pd.DataFrame()
 
 
 def airport_data_load_file():
-    airport_data = filedialog.askopenfilename()
+    airport_data = tk.filedialog.askopenfilename()
     import_airport_data.set(airport_data)
-    ttk.Label(f0_content_a, text="File Successfully Imported!").grid(column=1, row=3, sticky=N, pady=10)
+    ttk.Label(f0_content_a, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
     #print("#####", import_excel_schedule, "###", import_schedule)
     return()
     
@@ -494,7 +465,7 @@ def generate_new_input():
         frame.tkraise()
            
     for frame in (f1, f2, f3, f4, f5,f6):
-        frame.grid(row=0, column=0, sticky='news')
+        frame.grid(row=0, column=0, sticky='NWES')
         frame.columnconfigure(0, weight=0)
         frame.rowconfigure(0, weight=0)
         
@@ -506,7 +477,7 @@ def generate_new_input():
     
     #f0_buttons
     f0_buttons= tk.Frame(f0) 
-    f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+    f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
     def raise_subframe_f0(frame):
         frame.tkraise()
@@ -523,22 +494,22 @@ def generate_new_input():
         #f1_help 
            
         f1_help = ttk.LabelFrame(f1, text=" Quick Help ")
-        f1_help.grid(row=0, column=1, sticky=E, \
+        f1_help.grid(row=0, column=1, sticky='E', \
                      padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Label(f1_help, text="Section used to filter AROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky=W) 
-        ttk.Label(f1_help, text="Select values for the demand and maximum AROT", font=12).grid(column=1, row=2, sticky=W)
+        ttk.Label(f1_help, text="Section used to filter AROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky='W') 
+        ttk.Label(f1_help, text="Select values for the demand and maximum AROT", font=12).grid(column=1, row=2, sticky='W')
         
         #f1_content
-        f1_content = LabelFrame(f1, text="    AROT    ", font="Helvetica 14 bold")
-        f1_content.grid(row=0, column=0, sticky=E, \
+        f1_content = tk.LabelFrame(f1, text="    AROT    ", font="Helvetica 14 bold")
+        f1_content.grid(row=0, column=0, sticky='E', \
                      padx=10, pady=20, ipadx=5, ipady=5)
         
         #####################################################################
         #                             AROT DATA                             #
         #####################################################################
         
-        Final_demand_output = IntVar()
-        AROT_output = IntVar()
+        Final_demand_output = tk.IntVar()
+        AROT_output = tk.IntVar()
         
         
         columns_to_drop_AROT =['B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
@@ -574,7 +545,7 @@ def generate_new_input():
             df_filtered = df_demand.loc[df_demand['AROT'] <= arot_filter_output]
         
             ## Update label value ##
-            ttk.Label(DemandInputFrame, text=str(round((len(df_filtered.index) / total_df_entries)*100,2))).grid(column=2, row=3, sticky=N)
+            ttk.Label(DemandInputFrame, text=str(round((len(df_filtered.index) / total_df_entries)*100,2))).grid(column=2, row=3, sticky='N')
             
             ########## CHANGE ###
             df_plots = df_filtered.groupby(['AROT_Runway', 'AROT'])['AROT_Callsign'].count()
@@ -664,7 +635,7 @@ def generate_new_input():
             df_final_AROT = define_final_AROT()
             print("AROTs defined | Filters AROT = ", Throttle_arot.get(), "Demand=", Throttle.get())
             #print('inside the NEXT function = ', df_final_AROT)
-            ttk.Label(inner, text=" AROT Data Exported!  ").grid(column=1, row=2, sticky=N, pady=10)
+            ttk.Label(inner, text=" AROT Data Exported!  ").grid(column=1, row=2, sticky='N', pady=10)
             raise_subframe(f2)
             
             return df_final_AROT
@@ -672,44 +643,44 @@ def generate_new_input():
             
         
         # Specify GUI Structure -------->
-        DemandInputFrame = LabelFrame(f1_content, text="    Filter data based on the Demand    ", font="Helvetica 12")
+        DemandInputFrame = tk.LabelFrame(f1_content, text="    Filter data based on the Demand    ", font="Helvetica 12")
         DemandInputFrame.grid(row=0, column=1, columnspan=1, sticky='N', \
                   padx=5, pady=10, ipadx=5, ipady=5)
         
         
-        AROTInputFrame = LabelFrame(f1_content, text="    Filter data based on max. AROT    ", font="Helvetica 12")
+        AROTInputFrame = tk.LabelFrame(f1_content, text="    Filter data based on max. AROT    ", font="Helvetica 12")
         AROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', \
                   padx=5, pady=10, ipadx=5, ipady=5)
         
-        ResultsFrame = LabelFrame(f1_content, text="   [  Results :  ]   ", font="Helvetica 12")
+        ResultsFrame = tk.LabelFrame(f1_content, text="   [  Results :  ]   ", font="Helvetica 12")
         ResultsFrame.grid(row=1, columnspan=14, sticky='N', \
                   padx=5, pady=5, ipadx=5, ipady=5)
         
         # Defines expected inputs (i.e. GUI expects integers) and assigns default values
-        demand_input = IntVar(f1_content, value=min_demand)
-        arot_filter = IntVar(f1_content, value=max_arot)
-        button_check = StringVar(f1_content, value='0')
+        demand_input = tk.IntVar(f1_content, value=min_demand)
+        arot_filter = tk.IntVar(f1_content, value=max_arot)
+        button_check = tk.StringVar(f1_content, value='0')
         
         # OLD Filter for AROT
         #input_entry1 = ttk.Entry(AROTInputFrame, width=7, textvariable=arot_filter)
-        #input_entry1.grid(row=1, column=2, sticky=N, padx=5, pady=35)
+        #input_entry1.grid(row=1, column=2, sticky='N', padx=5, pady=35)
         
         ################## matplotlib figure ##################
         fig0 = plt.Figure()
         canvas = FigureCanvasTkAgg(fig0, ResultsFrame)
-        canvas.get_tk_widget().grid(column=1, row=1, sticky=N, rowspan=2, padx=5, pady=5)
+        canvas.get_tk_widget().grid(column=1, row=1, sticky='N', rowspan=2, padx=5, pady=5)
         ax0 = fig0.add_subplot(111)
         ax0.set_title('  Filter data by Runway Demand & max AROT ') 
         ax0.set_ylabel('Aircraft Count')
         
         fig1 = plt.Figure(figsize=(6,2.8))
         canvas1 = FigureCanvasTkAgg(fig1, ResultsFrame)
-        canvas1.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)    
+        canvas1.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)    
         ax1 = fig1.add_subplot(111, aspect=1) #aspect=1 #aspect='equal'
         #ax1.axis('equal') # Equal aspect ratio ensures that pie is drawn as a circle.
         fig2 = plt.Figure(figsize=(6,2.8))
         canvas2 = FigureCanvasTkAgg(fig2, ResultsFrame)
-        canvas2.get_tk_widget().grid(column=2, row=2, sticky=N, padx=5, pady=5)  
+        canvas2.get_tk_widget().grid(column=2, row=2, sticky='N', padx=5, pady=5)  
         ax2 = fig2.add_subplot(111) #aspect=1 #aspect='equal'
         fig2.subplots_adjust(hspace=0.4)
         
@@ -744,18 +715,18 @@ def generate_new_input():
         df_plots3 = df_plots3.reset_index(level=[0,1])
         df_plots3 = df_plots3.pivot(index='AROT_RwyExit', columns='AROT_Runway', values='AROT_Callsign').fillna(0).plot(kind='bar', subplots=True, ax=ax2)
         
-        ttk.Label(DemandInputFrame, text=" Select a 'Demand value' from the Input file ->  ", font="Helvetica 10").grid(row=1, column=1, sticky=W, padx=140)
+        ttk.Label(DemandInputFrame, text=" Select a 'Demand value' from the Input file ->  ", font="Helvetica 10").grid(row=1, column=1, sticky='W', padx=140)
         
-        Throttle = Scale(DemandInputFrame, from_=min_demand, to=max_demand, width=10, orient=HORIZONTAL, tickinterval=5, command=getThrottle)#variable = var)
+        Throttle = tk.Scale(DemandInputFrame, from_=min_demand, to=max_demand, width=10, orient=tk.HORIZONTAL, tickinterval=5, command=getThrottle)#variable = var)
         Throttle.grid(row=2, column=1, sticky='EW', padx=5)
         Throttle.set(0)
         
-        Throttle_arot = Scale(AROTInputFrame, from_=min_arot, to=max_arot, width=10, orient=HORIZONTAL, tickinterval=20, command=getThrottle)#variable = var)
+        Throttle_arot = tk.Scale(AROTInputFrame, from_=min_arot, to=max_arot, width=10, orient=tk.HORIZONTAL, tickinterval=20, command=getThrottle)#variable = var)
         Throttle_arot.grid(row=2, column=1, sticky='EW', padx=5)
         Throttle_arot.set(max_arot)
         
-        ttk.Label(DemandInputFrame, text=" Percentage of original entries = ", font="Helvetica 10").grid(row=3, column=1, sticky=N, padx=5)
-        ttk.Label(AROTInputFrame, text="      Select a Max. value for AROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=240)
+        ttk.Label(DemandInputFrame, text=" Percentage of original entries = ", font="Helvetica 10").grid(row=3, column=1, sticky='N', padx=5)
+        ttk.Label(AROTInputFrame, text="      Select a Max. value for AROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=240)
         
         # =============================================================================
         #         DemandInputFrame.columnconfigure(1, weight=1)
@@ -784,8 +755,8 @@ def generate_new_input():
         #f1_content.rowconfigure(0, weight=1)
         #f1_content.rowconfigure(1, weight=1)
         
-        #inner = LabelFrame(f1_content, bg='pink')
-        inner = Frame(f1_content)
+        #inner = tk.LabelFrame(f1_content, bg='pink')
+        inner = tk.Frame(f1_content)
         inner.grid(row=2, column=1, sticky='E', \
                       padx=5, pady=10, ipadx=15, ipady=15)
         
@@ -794,8 +765,8 @@ def generate_new_input():
         inner.grid_columnconfigure(0, weight=1)
         inner.grid_columnconfigure(2, weight=1)
         
-        #ttk.Button(inner, text="Confirm Settings and Save", command=define_arot_parameters).grid(column=1, row=1, sticky=N, ipadx=5, ipady=5)
-        tk.Button(inner, text='Confirm Settings and Save | NEXT ->', command=define_arot_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 30).grid(column=1, row=1, sticky=N, ipadx=5, ipady=5)
+        #ttk.Button(inner, text="Confirm Settings and Save", command=define_arot_parameters).grid(column=1, row=1, sticky='N', ipadx=5, ipady=5)
+        tk.Button(inner, text='Confirm Settings and Save | NEXT ->', command=define_arot_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 30).grid(column=1, row=1, sticky='N', ipadx=5, ipady=5)
         
         f1_content.bind('<Return>', define_arot_parameters)
         
@@ -807,16 +778,16 @@ def generate_new_input():
         #f2_help 
            
         f2_help = ttk.LabelFrame(f2, text=" Quick Help ")
-        f2_help.grid(row=0, column=1, sticky=E, \
+        f2_help.grid(row=0, column=1, sticky='E', \
                      padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Label(f2_help, text="Section used to filter DROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky=W) 
-        ttk.Label(f2_help, text="Select values for the demand and maximum DROT", font=12).grid(column=1, row=2, sticky=W) 
+        ttk.Label(f2_help, text="Section used to filter DROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky='W') 
+        ttk.Label(f2_help, text="Select values for the demand and maximum DROT", font=12).grid(column=1, row=2, sticky='W') 
         
         #f2_content
-        f2_content = LabelFrame(f2, text="    DROT    ", font="Helvetica 14 bold")
-        f2_content.grid(row=0, column=0, sticky=E, \
+        f2_content = tk.LabelFrame(f2, text="    DROT    ", font="Helvetica 14 bold")
+        f2_content.grid(row=0, column=0, sticky='E', \
                      padx=10, pady=20, ipadx=5, ipady=5)
-        #ttk.Label(f2_content, text="DROT Content...", font=16).grid(column=1, row=1, sticky=W) 
+        #ttk.Label(f2_content, text="DROT Content...", font=16).grid(column=1, row=1, sticky='W') 
         
         #####################################################################        
         #                             DROT DATA                             #
@@ -826,8 +797,8 @@ def generate_new_input():
         df_drot = tdf.drop(columns = columns_to_drop_drot)
         
         
-        Final_demand_output_d = IntVar()
-        DROT_output = IntVar()
+        Final_demand_output_d = tk.IntVar()
+        DROT_output = tk.IntVar()
         
         #Find min max values
         d_max_demand = df_drot['DROT_Demand'].max()
@@ -860,7 +831,7 @@ def generate_new_input():
             df_drot_filtered = df_drot_demand.loc[df_drot_demand['DROT'] <= drot_filter_output]
         
             ## Update label value ##
-            ttk.Label(DemandInputFrame_d, text=str(round((len(df_drot_filtered.index) / total_drot_entries)*100,2))).grid(column=2, row=3, sticky=N)
+            ttk.Label(DemandInputFrame_d, text=str(round((len(df_drot_filtered.index) / total_drot_entries)*100,2))).grid(column=2, row=3, sticky='N')
             
             ########## CHANGE ###
             df_plots_d = df_drot_filtered.groupby(['DROT_Runway', 'DROT'])['DROT_Callsign'].count()
@@ -954,7 +925,7 @@ def generate_new_input():
             
         def define_drot_parameters():
             df_final_DROT = define_final_DROT()
-            #ttk.Label(inner_d, text=" DROT Data Exported!  ").grid(column=1, row=2, sticky=N, pady=10) # Grids are banned FNAR!
+            #ttk.Label(inner_d, text=" DROT Data Exported!  ").grid(column=1, row=2, sticky='N', pady=10) # Grids are banned FNAR!
             print("DROTs defined | Filters DROT = ", Throttle_drot.get(), "Demand=", Throttle_d.get())
             ttk.Label(inner_d, text=" DROT Data Exported!  ").pack(side="right")
             raise_subframe(f5)
@@ -963,44 +934,44 @@ def generate_new_input():
             #window.destroy()
         
         # Specify GUI Structure -------->
-        DemandInputFrame_d = LabelFrame(f2_content, text="   Filter data based on the Demand   ", font="Helvetica 12")
+        DemandInputFrame_d = tk.LabelFrame(f2_content, text="   Filter data based on the Demand   ", font="Helvetica 12")
         DemandInputFrame_d.grid(row=0, column=1, columnspan=1, sticky='N', \
                   padx=5, pady=10, ipadx=5, ipady=5)
         
-        DROTInputFrame = LabelFrame(f2_content, text="Filter data by max. DROT     ", font="Helvetica 12")
+        DROTInputFrame = tk.LabelFrame(f2_content, text="Filter data by max. DROT     ", font="Helvetica 12")
         DROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', \
                   padx=10, pady=10, ipadx=5, ipady=5)
         
-        ResultsFrame_d = LabelFrame(f2_content, text="  [  Results :  ]   ", font="Helvetica 12")
+        ResultsFrame_d = tk.LabelFrame(f2_content, text="  [  Results :  ]   ", font="Helvetica 12")
         ResultsFrame_d.grid(row=1, columnspan=14, sticky='N', \
                   padx=5, pady=5, ipadx=5, ipady=5)
         
         # Defines expected inputs (i.e. GUI expects integers) and assigns default values
-        demand_input_d = IntVar(f2_content, value=d_min_demand)
-        drot_filter = IntVar(f2_content, value=max_drot)
-        button_check_d = StringVar(f2_content, value='0')
+        demand_input_d = tk.IntVar(f2_content, value=d_min_demand)
+        drot_filter = tk.IntVar(f2_content, value=max_drot)
+        button_check_d = tk.StringVar(f2_content, value='0')
         
         # OLD METHOD for Filtering DROT
         #in_max_drot = df_drot['DROT'].max()
         #input_entry1_d = ttk.Entry(DROTInputFrame, width=7, textvariable=drot_filter)
-        #input_entry1_d.grid(row=1, column=2, sticky=N, padx=10, pady=35)
+        #input_entry1_d.grid(row=1, column=2, sticky='N', padx=10, pady=35)
         
         # matplotlib figures
         fig_d = plt.Figure()
         canvas4 = FigureCanvasTkAgg(fig_d, ResultsFrame_d)
-        canvas4.get_tk_widget().grid(column=1, row=1, sticky=N, rowspan=2, padx=5, pady=5)
+        canvas4.get_tk_widget().grid(column=1, row=1, sticky='N', rowspan=2, padx=5, pady=5)
         ax4 = fig_d.add_subplot(111)
         ax4.set_title('  Filter data by Runway Demand & max DROT ')
         ax4.set_ylabel('Aircraft Count')
         
         fig1_d = plt.Figure(figsize=(6,2.8))
         canvas5 = FigureCanvasTkAgg(fig1_d, ResultsFrame_d)
-        canvas5.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)    
+        canvas5.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)    
         ax5 = fig1_d.add_subplot(111, aspect=1)
         
         fig2_d = plt.Figure(figsize=(6,2.8))
         canvas6 = FigureCanvasTkAgg(fig2_d, ResultsFrame_d)
-        canvas6.get_tk_widget().grid(column=2, row=2, sticky=N, padx=5, pady=5)  
+        canvas6.get_tk_widget().grid(column=2, row=2, sticky='N', padx=5, pady=5)  
         ax6 = fig2_d.add_subplot(111)
         fig2_d.subplots_adjust(hspace=0.4)
         
@@ -1040,20 +1011,20 @@ def generate_new_input():
         
         ######################################################
         
-        ttk.Label(DemandInputFrame_d, text="Select a 'Demand value' from the Input file ->", font="Helvetica 10").grid(row=1, column=1, sticky=W, padx=140)
+        ttk.Label(DemandInputFrame_d, text="Select a 'Demand value' from the Input file ->", font="Helvetica 10").grid(row=1, column=1, sticky='W', padx=140)
         
-        Throttle_d = Scale(DemandInputFrame_d, from_=d_min_demand, to=d_max_demand, width=10, orient=HORIZONTAL, tickinterval=5, command=getThrottle_d)#variable = var)
+        Throttle_d = tk.Scale(DemandInputFrame_d, from_=d_min_demand, to=d_max_demand, width=10, orient=tk.HORIZONTAL, tickinterval=5, command=getThrottle_d)#variable = var)
         Throttle_d.grid(row=2, column=1, sticky='EW', padx=5)
         Throttle_d.set(0)
         
-        Throttle_drot = Scale(DROTInputFrame, from_=min_drot, to=max_drot, width=10, orient=HORIZONTAL, tickinterval=20, command=getThrottle_d)#variable = var)
+        Throttle_drot = tk.Scale(DROTInputFrame, from_=min_drot, to=max_drot, width=10, orient=tk.HORIZONTAL, tickinterval=20, command=getThrottle_d)#variable = var)
         Throttle_drot.grid(row=2, column=1, sticky='EW', padx=5)
         Throttle_drot.set(max_drot)
         
-        ttk.Label(DemandInputFrame_d, text="  Percentage of original entries =  ", font="Helvetica 10").grid(row=3, column=1, sticky=N, padx=5)
-        ttk.Label(DROTInputFrame, text="      Select a Max. value for DROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=240)
+        ttk.Label(DemandInputFrame_d, text="  Percentage of original entries =  ", font="Helvetica 10").grid(row=3, column=1, sticky='N', padx=5)
+        ttk.Label(DROTInputFrame, text="      Select a Max. value for DROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=240)
         
-        inner_d = Frame(f2_content)
+        inner_d = tk.Frame(f2_content)
         inner_d.grid(row=2, column=1, sticky='E', \
                       padx=5, pady=10, ipadx=15, ipady=15)
         
@@ -1073,23 +1044,23 @@ def generate_new_input():
         #        #f3_help 
         #           
         #        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
-        #        f3_help.grid(row=0, column=1, sticky=E, \
+        #        f3_help.grid(row=0, column=1, sticky='E', \
         #                     padx=5, pady=5, ipadx=5, ipady=5)
-        #        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky=W)
-        #        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-        #        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky='W')
+        #        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
+        #        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
         #        
         #        #f3_buttons
         #        f3_buttons= ttk.Frame(f3) 
-        #        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         #        
         #        
         #        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         #        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         #        
         #        #f3_content
-        #        f3_content = LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
-        #        f3_content.grid(row=0, column=0, sticky=E, \
+        #        f3_content = tk.LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
+        #        f3_content.grid(row=0, column=0, sticky='E', \
         #                     padx=10, pady=40, ipadx=5, ipady=10)
         #        
         ##
@@ -1097,7 +1068,7 @@ def generate_new_input():
         #        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
         #        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
         #        
-        #        TOUT_output = IntVar()
+        #        TOUT_output = tk.IntVar()
         #        
         #        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
         #        min_tout = df_taxi_out['S1'].min()
@@ -1122,16 +1093,16 @@ def generate_new_input():
         #        
         #            canvas92.draw() #canvas ax92.clear() #ax
         #        
-        #        ResultsFrame_tout = LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tout = tk.LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
         #        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
         #                  padx=5, pady=15, ipadx=5, ipady=5)
         #        
         #        
-        #        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
         #        
         #        fig_tout = plt.Figure()
         #        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
-        #        canvas9.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        canvas9.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
         #        ax9 = fig_tout.add_subplot(111)
         #        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
         #        ax9.set_xlabel('Wake Category = [ Medium ] ')
@@ -1143,7 +1114,7 @@ def generate_new_input():
         #        
         #        fig_tout_2 = plt.Figure()
         #        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
-        #        canvas92.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        canvas92.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
         #        ax92 = fig_tout_2.add_subplot(111)
         #        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
         #        ax92.set_xlabel(' Taxi-out time (secs) ')
@@ -1153,9 +1124,9 @@ def generate_new_input():
         #        
         #        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
         #        
-        #        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
         #        
-        #        Throttle_tout = Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
+        #        Throttle_tout = tk.Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
         #        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
         #        Throttle_tout.set(max_tout)
         #        
@@ -1165,23 +1136,23 @@ def generate_new_input():
         #        #f4_help 
         #           
         #        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
-        #        f4_help.grid(row=0, column=1, sticky=E, \
+        #        f4_help.grid(row=0, column=1, sticky='E', \
         #                     padx=5, pady=5, ipadx=5, ipady=5)
-        #        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky=W)
-        #        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky=W) 
-        #        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky=W) 
+        #        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky='W')
+        #        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
+        #        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
         #        
         #        #f4_buttons
         #        f4_buttons= ttk.Frame(f4) 
-        #        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        #        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         #        
         #        
         #        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         #        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         #        
         #        #f4_content
-        #        f4_content = LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
-        #        f4_content.grid(row=0, column=0, sticky=E, \
+        #        f4_content = tk.LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
+        #        f4_content.grid(row=0, column=0, sticky='E', \
         #                     padx=10, pady=40, ipadx=5, ipady=10)
         #        
         #        
@@ -1189,7 +1160,7 @@ def generate_new_input():
         #        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
         #        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
         #        
-        #        TIN_output = IntVar()
+        #        TIN_output = tk.IntVar()
         #        
         #        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
         #        min_tin = df_taxi_out['S1'].min()
@@ -1214,15 +1185,15 @@ def generate_new_input():
         #        
         #            canvas102.draw() #canvas
         #        
-        #        ResultsFrame_tin = LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
+        #        ResultsFrame_tin = tk.LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
         #        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
         #                  padx=5, pady=15, ipadx=5, ipady=5)
         #        
-        #        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
         #        
         #        fig_tin = plt.Figure()
         #        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
-        #        canvas10.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        canvas10.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
         #        ax10 = fig_tin.add_subplot(111)
         #        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
         #        ax10.set_xlabel('Wake Category = [ Medium ] ')
@@ -1234,7 +1205,7 @@ def generate_new_input():
         #        
         #        fig_tin_2 = plt.Figure()
         #        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
-        #        canvas102.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        canvas102.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
         #        ax102 = fig_tin_2.add_subplot(111)
         #        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
         #        ax102.set_xlabel(' Taxi-out time (secs) ')
@@ -1244,9 +1215,9 @@ def generate_new_input():
         #        
         #        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
         #        
-        #        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky=N, padx=5, pady=10)
+        #        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
         #        
-        #        Throttle_tin = Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
+        #        Throttle_tin = tk.Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
         #        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
         #        Throttle_tin.set(max_tin)
         
@@ -1255,24 +1226,24 @@ def generate_new_input():
         #f5_help 
            
         f5_help = ttk.LabelFrame(f5, text=" Quick Help ")
-        f5_help.grid(row=0, column=1, sticky=E, \
+        f5_help.grid(row=0, column=1, sticky='E', \
                      padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Label(f5_help, text="Provides example analysis for an 'A-D-A' distribution", font=12).grid(column=1, row=1, sticky=W)
-        ttk.Label(f5_help, text="Note the analysis only considers: a single Runway direction (26L)", font=12).grid(column=1, row=2, sticky=W) 
-        ttk.Label(f5_help, text="  - A single Runway direction (26L)", font=12).grid(column=1, row=3, sticky=W)
-        ttk.Label(f5_help, text="  - A single (on the day) wind condition", font=12).grid(column=1, row=4, sticky=W) 
+        ttk.Label(f5_help, text="Provides example analysis for an 'A-D-A' distribution", font=12).grid(column=1, row=1, sticky='W')
+        ttk.Label(f5_help, text="Note the analysis only considers: a single Runway direction (26L)", font=12).grid(column=1, row=2, sticky='W') 
+        ttk.Label(f5_help, text="  - A single Runway direction (26L)", font=12).grid(column=1, row=3, sticky='W')
+        ttk.Label(f5_help, text="  - A single (on the day) wind condition", font=12).grid(column=1, row=4, sticky='W') 
         
-        f5_content = LabelFrame(f5, text="   Actual Speed Profiles   ", font="Helvetica 14 bold")
-        f5_content.grid(row=0, column=0, sticky=E, \
+        f5_content = tk.LabelFrame(f5, text="   Actual Speed Profiles   ", font="Helvetica 14 bold")
+        f5_content.grid(row=0, column=0, sticky='E', \
                      padx=10, pady=40, ipadx=5, ipady=10)
-        ttk.Label(f5_content, text = "Not available yet.", font=12).grid(column=1, row=1, sticky=W)
+        ttk.Label(f5_content, text = "Not available yet.", font=12).grid(column=1, row=1, sticky='W')
         
         
         # NOTE ! : this frame used to be for ADA, but now we use it for Speed profile as the ADA comes from a normal distribution
         
         #        #f5_content
-        #        f5_content = LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
-        #        f5_content.grid(row=0, column=0, sticky=E, \
+        #        f5_content = tk.LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
+        #        f5_content.grid(row=0, column=0, sticky='E', \
         #                     padx=10, pady=40, ipadx=5, ipady=10)
                 
         #        #####################################################################        
@@ -1282,15 +1253,15 @@ def generate_new_input():
         #        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
         #        df_ada = tdf.drop(columns=columns_to_drop_ada)
         #
-        #        ResultsFrame_ada = LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
+        #        ResultsFrame_ada = tk.LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
         #        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
         #                  padx=5, pady=15, ipadx=5, ipady=5)
         #        
-        #        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky=N, pady=10, padx=20)
+        #        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
         #        
         #        fig_ada = plt.Figure()
         #        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
-        #        canvas7.get_tk_widget().grid(column=1, row=1, sticky=N, padx=5, pady=5)
+        #        canvas7.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
         #        ax7 = fig_ada.add_subplot(111)
         #        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
         #        ax7.set_xlabel('Time (secs)')
@@ -1308,7 +1279,7 @@ def generate_new_input():
         #        
         #        fig_buffer = plt.Figure()
         #        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
-        #        canvas8.get_tk_widget().grid(column=2, row=1, sticky=N, padx=5, pady=5)
+        #        canvas8.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
         #        ax8 = fig_buffer.add_subplot(111)
         #        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
         #        ax8.set_xlabel('Buffer Spacing (secs)')
@@ -1331,18 +1302,18 @@ def generate_new_input():
         #        
         #        ######### Interesting Buffer stats! #########
         #        
-        #        Buffer_Analysis = LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
+        #        Buffer_Analysis = tk.LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
         #        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
         #                  padx=5, pady=15, ipadx=5, ipady=5)
         #        
-        #        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky=N, padx=5, pady=10)
+        #        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=5, pady=10)
         #        ## Update label value ##
-        #        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky=N) # Mean Buffer value
+        #        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky='N') # Mean Buffer value
         #        
         #        
         #        #Option 2
-        #        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky=N, padx=5, pady=10)
-        #        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky=N) # Equivalent to numpy.percentile
+        #        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky='N', padx=5, pady=10)
+        #        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky='N') # Equivalent to numpy.percentile
         
         output_extension_empty_file = time.strftime("%H_%M", time.localtime(time.time()))
         input_files_name = 'Input_File_RAPID_v3.0_' + output_extension_empty_file
@@ -1369,7 +1340,7 @@ def generate_new_input():
             raise_subframe(f6)
         #f5_buttons
         f5_buttons= ttk.Frame(f5) 
-        f5_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        f5_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
         tk.Button(f5_buttons, text='NEXT ->', command=define_final_distribution_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         tk.Button(f5_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
@@ -1379,21 +1350,21 @@ def generate_new_input():
         #f6_help 
            
         f6_help = ttk.LabelFrame(f6, text=" Quick Help ")
-        f6_help.grid(row=0, column=1, sticky=E, \
+        f6_help.grid(row=0, column=1, sticky='E', \
                      padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Label(f6_help, text="Strategy tool assigns 'ADA, ADDA, or none' based on % of Scheduled Arrivals", font=12).grid(column=1, row=1, sticky=W)
-        ttk.Label(f6_help, text="Note - the Operational Analysis saves the key distributions to the INPUT file", font=12).grid(column=1, row=2, sticky=W)  
+        ttk.Label(f6_help, text="Strategy tool assigns 'ADA, ADDA, or none' based on % of Scheduled Arrivals", font=12).grid(column=1, row=1, sticky='W')
+        ttk.Label(f6_help, text="Note - the Operational Analysis saves the key distributions to the INPUT file", font=12).grid(column=1, row=2, sticky='W')  
         
         #f6_buttons
         f6_buttons= ttk.Frame(f6) 
-        f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+        f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
         tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
         tk.Button(f6_buttons, text='<- BACK', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         
         #f6_content
-        f6_content = LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")
-        f6_content.grid(row=0, column=0, sticky=E, \
+        f6_content = tk.LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")
+        f6_content.grid(row=0, column=0, sticky='E', \
                      padx=10, pady=40, ipadx=5, ipady=10)
         
         
@@ -1402,7 +1373,7 @@ def generate_new_input():
         #####################################################################
         
         #import_excel_schedule = ""
-        import_excel_schedule = StringVar()
+        import_excel_schedule = tk.StringVar()
         
         ##########################################################################################################################################
         def actual_strat_tool():
@@ -1558,102 +1529,102 @@ def generate_new_input():
         #input_excel_sheet = 'C:/Users/Think - Joe Irwin/Dropbox/Think Users/JoeIrwin/RAPID/RAPID_DEMO/AROT_example_input.xlsx'
         
         def sch_load_file():
-            import_schedule = filedialog.askopenfilename()
+            import_schedule = tk.filedialog.askopenfilename()
             import_excel_schedule.set(import_schedule)
-            ttk.Label(SchImportFrame, text="File Successfully Imported!").grid(column=1, row=3, sticky=N, pady=10)
+            ttk.Label(SchImportFrame, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
             #print("#####", import_excel_schedule, "###", import_schedule)
             return()
             
         def define_gen_parameters():
             button_check.set(True)
-            ttk.Label(SchGenFrame, text="Generation Successful!").grid(column=1, row=4, sticky=N, pady=10)
+            ttk.Label(SchGenFrame, text="Generation Successful!").grid(column=1, row=4, sticky='N', pady=10)
             import_schedule = import_excel_schedule.get()
         #name_input_file = ""    
         def assign_strat_tool():
             button_check.set(True)
             actual_strat_tool()
             
-            ttk.Label(StratInputFrame, text="Strategies Successfully Applied!").grid(column=1, row=3, sticky=N, pady=10)
+            ttk.Label(StratInputFrame, text="Strategies Successfully Applied!").grid(column=1, row=3, sticky='N', pady=10)
         
         
         # Specify GUI Structure -------->
             
         # Left Side -------->
-        IntroFrameLeft = LabelFrame(f6_content, text="   [ STEP 1  -  SCHEDULE INPUT ]   ", font="Helvetica 12")
+        IntroFrameLeft = tk.LabelFrame(f6_content, text="   [ STEP 1  -  SCHEDULE INPUT ]   ", font="Helvetica 12")
         IntroFrameLeft.grid(row=0, column=1, sticky='N', \
                       padx=5, pady=40, ipadx=5, ipady=5)
         
         # Right Side -------->
-        IntroFrameRight = LabelFrame(f6_content, text="   [ STEP 2  -  ASSIGN STRATEGY ]   ", font="Helvetica 12")
+        IntroFrameRight = tk.LabelFrame(f6_content, text="   [ STEP 2  -  ASSIGN STRATEGY ]   ", font="Helvetica 12")
         IntroFrameRight.grid(row=0, column=2, sticky='N', \
                       padx=5, pady=40, ipadx=5, ipady=5)
         
-        SchImportFrame = LabelFrame(IntroFrameLeft, text="   [ A ] - Import a Flight Schedule   ", font="Helvetica 12 bold")
+        SchImportFrame = tk.LabelFrame(IntroFrameLeft, text="   [ A ] - Import a Flight Schedule   ", font="Helvetica 12 bold")
         SchImportFrame.grid(row=1, column=1, columnspan=7, sticky='N', \
                   padx=40, pady=0, ipadx=5, ipady=5)
         
-        ttk.Label(IntroFrameLeft, text="Select one of the following Options : ", font="Helvetica 12 italic").grid(column=3, row=0, sticky=N, pady=20, padx=40)
+        ttk.Label(IntroFrameLeft, text="Select one of the following Options : ", font="Helvetica 12 italic").grid(column=3, row=0, sticky='N', pady=20, padx=40)
         
-        ttk.Label(IntroFrameRight, text="    Mixed-mode Runway Only :", font="Helvetica 12 italic").grid(column=3, row=0, sticky=N, pady=20, padx=40)
+        ttk.Label(IntroFrameRight, text="    Mixed-mode Runway Only :", font="Helvetica 12 italic").grid(column=3, row=0, sticky='N', pady=20, padx=40)
         
-        ttk.Label(SchImportFrame, text="                    Note - Ensure that the dataset includes SIBT/SOBT times             ", font="Helvetica 9 italic").grid(column=1, row=1, sticky=N, pady=10, padx=20, ipadx=45)
-        ttk.Button(SchImportFrame, text="Import a Flight Schedule ->", command=sch_load_file).grid(column=1, row=2, sticky=N, padx=10, pady=10, ipadx=5, ipady=5)
+        ttk.Label(SchImportFrame, text="                    Note - Ensure that the dataset includes SIBT/SOBT times             ", font="Helvetica 9 italic").grid(column=1, row=1, sticky='N', pady=10, padx=20, ipadx=45)
+        ttk.Button(SchImportFrame, text="Import a Flight Schedule ->", command=sch_load_file).grid(column=1, row=2, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
         
-        SchGenFrame = LabelFrame(IntroFrameLeft, text="   OR   [ B ] - Generate a Flight Schedule   ", font="Helvetica 12 bold")
+        SchGenFrame = tk.LabelFrame(IntroFrameLeft, text="   OR   [ B ] - Generate a Flight Schedule   ", font="Helvetica 12 bold")
         SchGenFrame.grid(row=2, column=1, columnspan=7, sticky='N', \
                   padx=40, pady=15, ipadx=5, ipady=5)
         
-        ttk.Label(SchGenFrame, text="   ( Generated Schedule will use Wake/SID/Stand Group proportions based on operational data )   ", font="Helvetica 9 italic").grid(column=1, row=1, sticky=N, pady=10)
+        ttk.Label(SchGenFrame, text="   ( Generated Schedule will use Wake/SID/Stand Group proportions based on operational data )   ", font="Helvetica 9 italic").grid(column=1, row=1, sticky='N', pady=10)
         
-        General = LabelFrame(SchGenFrame, text=" General Settings ")
+        General = tk.LabelFrame(SchGenFrame, text=" General Settings ")
         General.grid(column=1, row=2, rowspan=1, sticky='N', \
                   padx=10, pady=10, ipadx=40, ipady=10)
         
-        perc_arrivals = IntVar(General, value='20')
-        total_aircraft = IntVar(General, value='60')
+        perc_arrivals = tk.IntVar(General, value='20')
+        total_aircraft = tk.IntVar(General, value='60')
         
-        ttk.Label(General, text=" Set the peak number of hourly Aircraft ").grid(column=1, row=1, sticky=W, padx=20, pady=5)
+        ttk.Label(General, text=" Set the peak number of hourly Aircraft ").grid(column=1, row=1, sticky='W', padx=20, pady=5)
         Gen_entry1 = ttk.Entry(General, width=7, textvariable=total_aircraft)
-        Gen_entry1.grid(column=2, row=1, sticky=(W, E))
+        Gen_entry1.grid(column=2, row=1, sticky='WE')
         
-        ttk.Label(General, text=" Set Arrival Percentage in Schedule (%) ").grid(column=1, row=2, sticky=W, padx=20, pady=5)
+        ttk.Label(General, text=" Set Arrival Percentage in Schedule (%) ").grid(column=1, row=2, sticky='W', padx=20, pady=5)
         Gen_entry2 = ttk.Entry(General, width=7, textvariable=perc_arrivals)
-        Gen_entry2.grid(column=2, row=2, sticky=(W, E))
+        Gen_entry2.grid(column=2, row=2, sticky='WE')
         
         
-        ttk.Button(SchGenFrame, text=" Generate and Save  ", command=define_gen_parameters).grid(column=1, row=4, sticky=N, ipadx=5, ipady=5)
+        ttk.Button(SchGenFrame, text=" Generate and Save  ", command=define_gen_parameters).grid(column=1, row=4, sticky='N', ipadx=5, ipady=5)
         
         SchGenFrame.bind('<Return>', define_gen_parameters)
         
         #Strategy Assessment:
         
-        StratInputFrame = LabelFrame(IntroFrameRight, text="   Generate a Spacing Strategy ->  ", font="Helvetica 12 bold")
+        StratInputFrame = tk.LabelFrame(IntroFrameRight, text="   Generate a Spacing Strategy ->  ", font="Helvetica 12 bold")
         StratInputFrame.grid(row=1, column=1, columnspan=7, sticky='N', \
                   padx=10, pady=5, ipadx=5, ipady=5)
         
-        ttk.Label(StratInputFrame, text="      Each Scheduled Aircraft is assigned a Strategy (15min intervals) :", font="Helvetica 9 italic").grid(column=1, row=0, sticky=N, pady=10, padx=40)
+        ttk.Label(StratInputFrame, text="      Each Scheduled Aircraft is assigned a Strategy (15min intervals) :", font="Helvetica 9 italic").grid(column=1, row=0, sticky='N', pady=10, padx=40)
         
-        ttk.Button(StratInputFrame, text=" Assign Strategy  ", command=assign_strat_tool).grid(column=1, row=2, sticky=N, ipadx=5, ipady=5)
+        ttk.Button(StratInputFrame, text=" Assign Strategy  ", command=assign_strat_tool).grid(column=1, row=2, sticky='N', ipadx=5, ipady=5)
         
         raise_frame(f1)
        
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_subframe_f0(f1), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
-import1 = ttk.Button(f0_content_a, text="Select Operational Data", command=generate_new_input).grid(column=1, row=0, sticky=N, padx=10, pady=10, ipadx=5, ipady=5)
+import1 = ttk.Button(f0_content_a, text="Select Operational Data", command=generate_new_input).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
 f0.bind('<Return>', create_dataframe_operational_data)
 
 f0_content_b = ttk.LabelFrame(f0_content, text=" [ B ] - Load existing INPUT file ")
-f0_content_b.grid(row=2, column=1, sticky=E, \
+f0_content_b.grid(row=2, column=1, sticky='E', \
              padx=5, pady=15, ipadx=5, ipady=5)
 def load_input_file():
-    input_file_excel = filedialog.askopenfilename()
+    input_file_excel = tk.filedialog.askopenfilename()
     name_excel_sheet.set(input_file_excel)  
     
-    ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky=N, pady=10)
+    ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky='N', pady=10)
     f0_buttons= tk.Frame(f0) 
-    f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky=(N, W, E, S))
+    f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky=N, padx=10, pady=10, ipadx=5, ipady=5)
+import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
 
 
 
@@ -1663,27 +1634,27 @@ import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_
 
 # buttons frame
 buttons_core = ttk.Frame(core_module)
-buttons_core.grid(row=2, sticky=(N, W, E, S))
+buttons_core.grid(row=2, sticky='NWES')
 
 #tabControl.add(tab2, text='CORE MODULE')      # Add the tab
 #tabControl.pack(expand=1, fill="both")  # Pack to make visible
 
 helpCoreFrame = ttk.LabelFrame(tab2, text=" Quick Help ")
-helpCoreFrame.grid(row=2, column=10, sticky=E, \
+helpCoreFrame.grid(row=2, column=10, sticky='E', \
              padx=5, pady=5, ipadx=5, ipady=5)
-ttk.Label(helpCoreFrame, text="(1) Please use the following format: ", font=10).grid(column=10, row=2, sticky=W)
-ttk.Label(helpCoreFrame, text="     (SID1,SID2)(SID3,SID4)...", font=10).grid(column=10, row=3, sticky=W)
-ttk.Label(helpCoreFrame, text="(2) Please use the following format: ", font=10).grid(column=10, row=4, sticky=W)
-ttk.Label(helpCoreFrame, text="      SID queue 1, SID queue 1... | SID queue 2 , ... | ...", font=10).grid(column=10, row=5, sticky=W)
-ttk.Label(helpCoreFrame, text="(3) Chose how many times do you want to run  ", font=10).grid(column=10, row=6, sticky=W)
-ttk.Label(helpCoreFrame, text="      the program, thus how many outputs ", font=10).grid(column=10, row=7, sticky=W)
-ttk.Label(helpCoreFrame, text="      do you want to get.", font=10).grid(column=10, row=8, sticky=W)
-ttk.Label(helpCoreFrame, text="(4) To increase the degree of confidence in  ", font=10).grid(column=10, row=9, sticky=W)
-ttk.Label(helpCoreFrame, text="      the results, the model will average the values", font=10).grid(column=10, row=10, sticky=W)
-ttk.Label(helpCoreFrame, text="      of the total throughputs and will stop when", font=10).grid(column=10, row=11, sticky=W)
-ttk.Label(helpCoreFrame, text="      the variation will be less de 2 aircrafts per hour ", font=10).grid(column=10, row=12, sticky=W)
-ttk.Label(helpCoreFrame, text="(5) Useful only for TIME-based separation", font=10).grid(column=10, row=13, sticky=W)
-ttk.Label(helpCoreFrame, text="(6) By defaylt everything is delivered to Threshold", font=10).grid(column=10, row=14, sticky=W)
+ttk.Label(helpCoreFrame, text="(1) Please use the following format: ", font=10).grid(column=10, row=2, sticky='W')
+ttk.Label(helpCoreFrame, text="     (SID1,SID2)(SID3,SID4)...", font=10).grid(column=10, row=3, sticky='W')
+ttk.Label(helpCoreFrame, text="(2) Please use the following format: ", font=10).grid(column=10, row=4, sticky='W')
+ttk.Label(helpCoreFrame, text="      SID queue 1, SID queue 1... | SID queue 2 , ... | ...", font=10).grid(column=10, row=5, sticky='W')
+ttk.Label(helpCoreFrame, text="(3) Chose how many times do you want to run  ", font=10).grid(column=10, row=6, sticky='W')
+ttk.Label(helpCoreFrame, text="      the program, thus how many outputs ", font=10).grid(column=10, row=7, sticky='W')
+ttk.Label(helpCoreFrame, text="      do you want to get.", font=10).grid(column=10, row=8, sticky='W')
+ttk.Label(helpCoreFrame, text="(4) To increase the degree of confidence in  ", font=10).grid(column=10, row=9, sticky='W')
+ttk.Label(helpCoreFrame, text="      the results, the model will average the values", font=10).grid(column=10, row=10, sticky='W')
+ttk.Label(helpCoreFrame, text="      of the total throughputs and will stop when", font=10).grid(column=10, row=11, sticky='W')
+ttk.Label(helpCoreFrame, text="      the variation will be less de 2 aircrafts per hour ", font=10).grid(column=10, row=12, sticky='W')
+ttk.Label(helpCoreFrame, text="(5) Useful only for TIME-based separation", font=10).grid(column=10, row=13, sticky='W')
+ttk.Label(helpCoreFrame, text="(6) By defaylt everything is delivered to Threshold", font=10).grid(column=10, row=14, sticky='W')
 
 
 stepTwoFirstFrame = ttk.LabelFrame(tab2, text=" Mandatory Fields ")
@@ -1700,170 +1671,170 @@ stepTwoFourthFrame = ttk.LabelFrame(stepTwoSecondFrame, text=" Arrivals Separati
 stepTwoFourthFrame.grid(row=8, column=1, columnspan=7, sticky='W', \
              padx=5, pady=5, ipadx=5, ipady=5)
 
-n_input = IntVar(win, value='50')
-ADA_x_input = IntVar(win, value = '10')
-minDep_altSID_input = IntVar(win, value='60')
-minDep_sameSID_input = IntVar(win, value='109')
-SIDmax_input = IntVar(win, value = '4')
-SIDgroup_separation_input = StringVar(win, value='(2,4)(3,4)')
-SID_queue_assign_input = StringVar(win, value = '1 3 | 2 4' )
-n_times_input= IntVar(win, value='1')
+n_input = tk.IntVar(win, value='50')
+ADA_x_input = tk.IntVar(win, value = '10')
+minDep_altSID_input = tk.IntVar(win, value='60')
+minDep_sameSID_input = tk.IntVar(win, value='109')
+SIDmax_input = tk.IntVar(win, value = '4')
+SIDgroup_separation_input = tk.StringVar(win, value='(2,4)(3,4)')
+SID_queue_assign_input = tk.StringVar(win, value = '1 3 | 2 4' )
+n_times_input= tk.IntVar(win, value='1')
 
 
 
-button_check = StringVar(mainframe, value='0')
-n_output = IntVar()
-minDep_altSID_output = IntVar()
-minDep_sameSID_output = IntVar()
-SIDmax_output = IntVar()
-SIDgroup_separation_output = StringVar()
-SID_queue_assign_output = StringVar()
-VTT_output = IntVar()
-debug_output = IntVar()
-Tower_sep_output = IntVar()
-TBS_output = IntVar()
-debug3_output = IntVar()
-RECat_output = IntVar()
-RECAT_PWS_output = IntVar()
-queue1_output = IntVar()
-queue2_output = IntVar()
-queue3_output = IntVar()
-queue4_output = IntVar()
-n_times_output = IntVar()
-averagethr_output = IntVar()
-distance_based_output = IntVar()
-time_based_output = IntVar()
-ADA_x_output = IntVar()
+button_check = tk.StringVar(mainframe, value='0')
+n_output = tk.IntVar()
+minDep_altSID_output = tk.IntVar()
+minDep_sameSID_output = tk.IntVar()
+SIDmax_output = tk.IntVar()
+SIDgroup_separation_output = tk.StringVar()
+SID_queue_assign_output = tk.StringVar()
+VTT_output = tk.IntVar()
+debug_output = tk.IntVar()
+Tower_sep_output = tk.IntVar()
+TBS_output = tk.IntVar()
+debug3_output = tk.IntVar()
+RECat_output = tk.IntVar()
+RECAT_PWS_output = tk.IntVar()
+queue1_output = tk.IntVar()
+queue2_output = tk.IntVar()
+queue3_output = tk.IntVar()
+queue4_output = tk.IntVar()
+n_times_output = tk.IntVar()
+averagethr_output = tk.IntVar()
+distance_based_output = tk.IntVar()
+time_based_output = tk.IntVar()
+ADA_x_output = tk.IntVar()
 
-MRS4dme_output= IntVar()
-WAKE4dme_output= IntVar()
-ADA4dme_output= IntVar()
-ADDA4dme_output= IntVar()
-MRSthr_output= IntVar()
-WAKEthr_output= IntVar()
-ADAthr_output= IntVar()
-ADDAthr_output= IntVar()
+MRS4dme_output= tk.IntVar()
+WAKE4dme_output= tk.IntVar()
+ADA4dme_output= tk.IntVar()
+ADDA4dme_output= tk.IntVar()
+MRSthr_output= tk.IntVar()
+WAKEthr_output= tk.IntVar()
+ADAthr_output= tk.IntVar()
+ADDAthr_output= tk.IntVar()
 
-name_excel_sheet = StringVar()
+name_excel_sheet = tk.StringVar()
 
-m_input = IntVar(win, value='0')
-Throughput_check_output = IntVar()
-Delay_check_output = IntVar()
-Seq_check_output = IntVar()
-op_yes_output = IntVar()
-new_set_output = IntVar()
-m_output = IntVar()
-arr_delay_output = IntVar()
-convergence_output = IntVar()
+m_input = tk.IntVar(win, value='0')
+Throughput_check_output = tk.IntVar()
+Delay_check_output = tk.IntVar()
+Seq_check_output = tk.IntVar()
+op_yes_output = tk.IntVar()
+new_set_output = tk.IntVar()
+m_output = tk.IntVar()
+arr_delay_output = tk.IntVar()
+convergence_output = tk.IntVar()
 
 
 ### Frame 1
 
 input_entry1 = tk.Entry(stepTwoFirstFrame, width=7, textvariable=n_input,font=16)
-input_entry1.grid(column=2, row=1, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="[Arrival lead time] 'n' value (in secs) =", font=16).grid(column=1, row=1, sticky=W)
+input_entry1.grid(column=2, row=1, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="[Arrival lead time] 'n' value (in secs) =", font=16).grid(column=1, row=1, sticky='W')
 
 input_entry2 = tk.Entry(stepTwoFirstFrame, width=7, textvariable=minDep_altSID_input,font=16)
-input_entry2.grid(column=2, row=2, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="Minimum Separation (secs) alternating SIDs =", font=16).grid(column=1, row=2, sticky=W)
+input_entry2.grid(column=2, row=2, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="Minimum Separation (secs) alternating SIDs =", font=16).grid(column=1, row=2, sticky='W')
 
 input_entry3 = tk.Entry(stepTwoFirstFrame, width=7, textvariable=minDep_sameSID_input,font=16)
-input_entry3.grid(column=2, row=3, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="Minimum Separation (secs) same SIDs =", font=16).grid(column=1, row=3, sticky=W)
+input_entry3.grid(column=2, row=3, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="Minimum Separation (secs) same SIDs =", font=16).grid(column=1, row=3, sticky='W')
 
 input_entry4 = tk.Entry(stepTwoFirstFrame, width=7, textvariable=SIDmax_input,font=16)
-input_entry4.grid(column=2, row=4, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="Maximum number of SID groups", font=16).grid(column=1, row=4, sticky=W)
+input_entry4.grid(column=2, row=4, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="Maximum number of SID groups", font=16).grid(column=1, row=4, sticky='W')
 
 input_entry5 = tk.Entry(stepTwoFirstFrame, width=14,  textvariable=SIDgroup_separation_input,font=16)
-input_entry5.grid(column=2, row=5, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="Enter the pairs of SID groups that require minimum separation. (1)", font=16).grid(column=1, row=5, sticky=W)
+input_entry5.grid(column=2, row=5, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="Enter the pairs of SID groups that require minimum separation. (1)", font=16).grid(column=1, row=5, sticky='W')
 
-ttk.Label(stepTwoFirstFrame, text="Select the type of queue", font=16).grid(column=1, row=6, sticky=W)
-queue1 = IntVar()
-tk.Checkbutton(stepTwoFirstFrame, text="1x8", variable=queue1, font=16).grid(column=2, row=6, sticky=W)
-queue2 = IntVar()
-tk.Checkbutton(stepTwoFirstFrame, text="2x4", variable=queue2, font=16).grid(column=3, row=6, sticky=W)
-queue3 = IntVar()
-tk.Checkbutton(stepTwoFirstFrame, text="4x2", variable=queue3, font=16).grid(column=4, row=6, sticky=W)
-queue4 = IntVar()
-tk.Checkbutton(stepTwoFirstFrame, text="8x1", variable=queue4, font=16).grid(column=5, row=6, sticky=W)
+ttk.Label(stepTwoFirstFrame, text="Select the type of queue", font=16).grid(column=1, row=6, sticky='W')
+queue1 = tk.IntVar()
+tk.Checkbutton(stepTwoFirstFrame, text="1x8", variable=queue1, font=16).grid(column=2, row=6, sticky='W')
+queue2 = tk.IntVar()
+tk.Checkbutton(stepTwoFirstFrame, text="2x4", variable=queue2, font=16).grid(column=3, row=6, sticky='W')
+queue3 = tk.IntVar()
+tk.Checkbutton(stepTwoFirstFrame, text="4x2", variable=queue3, font=16).grid(column=4, row=6, sticky='W')
+queue4 = tk.IntVar()
+tk.Checkbutton(stepTwoFirstFrame, text="8x1", variable=queue4, font=16).grid(column=5, row=6, sticky='W')
 
 input_entry6 = tk.Entry(stepTwoFirstFrame, width=14,  textvariable=SID_queue_assign_input,font=16)
-input_entry6.grid(column=2, row=7, sticky=(W, E))
-ttk.Label(stepTwoFirstFrame, text="Assign SID groups to each RWY queue. (2)", font=16).grid(column=1, row=7, sticky=W) 
+input_entry6.grid(column=2, row=7, sticky='WE')
+ttk.Label(stepTwoFirstFrame, text="Assign SID groups to each RWY queue. (2)", font=16).grid(column=1, row=7, sticky='W') 
 
 
 ### Frame 2
 
 
 
-var6 = IntVar()
-tk.Checkbutton(stepTwoSecondFrame, text="RECAT", variable=var6, font=16).grid(column=1, row=1, sticky=W)
+var6 = tk.IntVar()
+tk.Checkbutton(stepTwoSecondFrame, text="RECAT", variable=var6, font=16).grid(column=1, row=1, sticky='W')
 
-var17 = IntVar()
-tk.Checkbutton(stepTwoSecondFrame, text="RECAT-PWS", variable=var17, font=16).grid(column=1, row=2, sticky=W)
-
-
-var2 = IntVar()
-tk.Checkbutton(stepTwoSecondFrame, text="Debug", variable=var2,font=16).grid(column=1, row=3, sticky=W)
+var17 = tk.IntVar()
+tk.Checkbutton(stepTwoSecondFrame, text="RECAT-PWS", variable=var17, font=16).grid(column=1, row=2, sticky='W')
 
 
-var15 = IntVar()
-tk.Checkbutton(stepTwoFourthFrame, text="DISTANCE-based Arrivals separation (5) ", variable=var15,font=16).grid(column=1, row=1, sticky=W)
+var2 = tk.IntVar()
+tk.Checkbutton(stepTwoSecondFrame, text="Debug", variable=var2,font=16).grid(column=1, row=3, sticky='W')
 
-var16 = IntVar()
-tk.Checkbutton(stepTwoFourthFrame, text="TIME-based Arrivals separation (6) ", variable=var16,font=16).grid(column=1, row=2, sticky=W)
+
+var15 = tk.IntVar()
+tk.Checkbutton(stepTwoFourthFrame, text="DISTANCE-based Arrivals separation (5) ", variable=var15,font=16).grid(column=1, row=1, sticky='W')
+
+var16 = tk.IntVar()
+tk.Checkbutton(stepTwoFourthFrame, text="TIME-based Arrivals separation (6) ", variable=var16,font=16).grid(column=1, row=2, sticky='W')
 
 input_entry15 = tk.Entry(stepTwoFourthFrame, width=7, textvariable=ADA_x_input,font=16)
-input_entry15.grid(column=2, row=3, sticky=(W, E))
-tk.Label(stepTwoFourthFrame, text="ADA target time X-value (5) = ",font=16).grid(column=1, row=3, sticky=W)
+input_entry15.grid(column=2, row=3, sticky='WE')
+tk.Label(stepTwoFourthFrame, text="ADA target time X-value (5) = ",font=16).grid(column=1, row=3, sticky='W')
 
 
 delievery = ttk.LabelFrame(stepTwoFourthFrame, text="Separation Delievery (6)")
 delievery.grid(row=4, column=1, columnspan=2, sticky='W', \
              padx=5, pady=5, ipadx=5, ipady=5)
 
-tk.Label(delievery, text="4dme : ",font=16).grid(column=1, row=1, sticky=W)
+tk.Label(delievery, text="4dme : ",font=16).grid(column=1, row=1, sticky='W')
 
-MRS_4dme = IntVar()
-tk.Checkbutton(delievery, text="MRS", variable=MRS_4dme,font=16).grid(column=2, row=1, sticky=W)
+MRS_4dme = tk.IntVar()
+tk.Checkbutton(delievery, text="MRS", variable=MRS_4dme,font=16).grid(column=2, row=1, sticky='W')
 
-WAKE_4dme = IntVar()
-tk.Checkbutton(delievery, text="WAKE", variable=WAKE_4dme,font=16).grid(column=3, row=1, sticky=W)
+WAKE_4dme = tk.IntVar()
+tk.Checkbutton(delievery, text="WAKE", variable=WAKE_4dme,font=16).grid(column=3, row=1, sticky='W')
 
-ADA_4dme = IntVar()
-tk.Checkbutton(delievery, text="ADA", variable=ADA_4dme,font=16).grid(column=4, row=1, sticky=W)
+ADA_4dme = tk.IntVar()
+tk.Checkbutton(delievery, text="ADA", variable=ADA_4dme,font=16).grid(column=4, row=1, sticky='W')
 
-ADDA_4dme = IntVar()
-tk.Checkbutton(delievery, text="ADDA", variable=ADDA_4dme,font=16).grid(column=5, row=1, sticky=W)
+ADDA_4dme = tk.IntVar()
+tk.Checkbutton(delievery, text="ADDA", variable=ADDA_4dme,font=16).grid(column=5, row=1, sticky='W')
 
 
-tk.Label(delievery, text="Threshold : ",font=16).grid(column=1, row=2, sticky=W)
+tk.Label(delievery, text="Threshold : ",font=16).grid(column=1, row=2, sticky='W')
 
-MRS_thr = IntVar()
-tk.Checkbutton(delievery, text="MRS", variable=MRS_thr,font=16).grid(column=2, row=2, sticky=W)
+MRS_thr = tk.IntVar()
+tk.Checkbutton(delievery, text="MRS", variable=MRS_thr,font=16).grid(column=2, row=2, sticky='W')
 
-WAKE_thr = IntVar()
-tk.Checkbutton(delievery, text="WAKE", variable=WAKE_thr,font=16).grid(column=3, row=2, sticky=W)
+WAKE_thr = tk.IntVar()
+tk.Checkbutton(delievery, text="WAKE", variable=WAKE_thr,font=16).grid(column=3, row=2, sticky='W')
 
-ADA_thr = IntVar()
-tk.Checkbutton(delievery, text="ADA", variable=ADA_thr,font=16).grid(column=4, row=2, sticky=W)
+ADA_thr = tk.IntVar()
+tk.Checkbutton(delievery, text="ADA", variable=ADA_thr,font=16).grid(column=4, row=2, sticky='W')
 
-ADDA_thr = IntVar()
-tk.Checkbutton(delievery, text="ADDA", variable=ADDA_thr,font=16).grid(column=5, row=2, sticky=W)
+ADDA_thr = tk.IntVar()
+tk.Checkbutton(delievery, text="ADDA", variable=ADDA_thr,font=16).grid(column=5, row=2, sticky='W')
 
 
 ### Frame 3
 
 input_entry7 = tk.Entry(stepTwoThirdFrame, width=7, textvariable=n_times_input,font=16)
-input_entry7.grid(column=2, row=1, sticky=(W, E))
-ttk.Label(stepTwoThirdFrame, text="Number of runs (3) = ", font=16).grid(column=1, row=1, sticky=W)
+input_entry7.grid(column=2, row=1, sticky='WE')
+ttk.Label(stepTwoThirdFrame, text="Number of runs (3) = ", font=16).grid(column=1, row=1, sticky='W')
 
-var7 = IntVar()
-tk.Checkbutton(stepTwoThirdFrame, text="I want to feel confident! (4) ", variable=var7, font=16).grid(column=1, row=2, sticky=W) #average
-var14 = IntVar()
-tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, font=16).grid(column=1, row=3, sticky=W)
+var7 = tk.IntVar()
+tk.Checkbutton(stepTwoThirdFrame, text="I want to feel confident! (4) ", variable=var7, font=16).grid(column=1, row=2, sticky='W') #average
+var14 = tk.IntVar()
+tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, font=16).grid(column=1, row=3, sticky='W')
 
 
 # Buttons
@@ -1878,28 +1849,28 @@ tk.Button(buttons_frame_core, text="Just run the model", command=define_input_pa
 #------------------------------VISUAL GUI-------------------------------------#
 
 
-button_check = StringVar(win, value='0')
-m_input = IntVar(win, value='0')
-convergence_output = IntVar()
-Throughput_check_output = IntVar()
-Delay_check_output = IntVar()
-Seq_check_output = IntVar()
-ADA_buffer_output = IntVar()
-op_yes_output = IntVar()
-new_set_output = IntVar()
-m_output = IntVar()
-arr_delay_output = IntVar()
-name_excel_sheet = StringVar()
+button_check = tk.StringVar(win, value='0')
+m_input = tk.IntVar(win, value='0')
+convergence_output = tk.IntVar()
+Throughput_check_output = tk.IntVar()
+Delay_check_output = tk.IntVar()
+Seq_check_output = tk.IntVar()
+ADA_buffer_output = tk.IntVar()
+op_yes_output = tk.IntVar()
+new_set_output = tk.IntVar()
+m_output = tk.IntVar()
+arr_delay_output = tk.IntVar()
+name_excel_sheet = tk.StringVar()
 
 
 helpVisFrame = ttk.LabelFrame(tab3, text=" Quick Help ")
-helpVisFrame.grid(row=1, column=8, sticky=E, \
+helpVisFrame.grid(row=1, column=8, sticky='E', \
              padx=5, pady=5, ipadx=5, ipady=5)
-ttk.Label(helpVisFrame, text="(1) If this box is checked, another window will pop-up after pressing 'Visualize results'.", font=12).grid(column=8, row=1, sticky=W)
-ttk.Label(helpVisFrame, text="      Please make sure that the operational data are in the right format.", font=12).grid(column=8, row=2, sticky=W)
+ttk.Label(helpVisFrame, text="(1) If this box is checked, another window will pop-up after pressing 'Visualize results'.", font=12).grid(column=8, row=1, sticky='W')
+ttk.Label(helpVisFrame, text="      Please make sure that the operational data are in the right format.", font=12).grid(column=8, row=2, sticky='W')
 
-ttk.Label(helpVisFrame, text="(2) If this box is checked, another window will pop-up after pressing 'Visualize results'. ", font=12).grid(column=8, row=3, sticky=W)
-ttk.Label(helpVisFrame, text="      Please make sure that the new data are in the same format as the outputs of the model.", font=12).grid(column=8, row=4, sticky=W)
+ttk.Label(helpVisFrame, text="(2) If this box is checked, another window will pop-up after pressing 'Visualize results'. ", font=12).grid(column=8, row=3, sticky='W')
+ttk.Label(helpVisFrame, text="      Please make sure that the new data are in the same format as the outputs of the model.", font=12).grid(column=8, row=4, sticky='W')
 
 
 
@@ -1907,36 +1878,36 @@ stepThree = ttk.LabelFrame(tab3)
 stepThree.grid(row=1, columnspan=7, sticky='N', \
                padx=5, pady=5, ipadx=5, ipady=5)
 
-var0 = IntVar()
-tk.Checkbutton(stepThree, text="Convergence", variable=var0, font=16).grid(column=1, row=1, sticky=W)
-var8 = IntVar()
-tk.Checkbutton(stepThree, text="Throughput", variable=var8, font=16).grid(column=1, row=2, sticky=W)
-var9 = IntVar()
-tk.Checkbutton(stepThree, text="Departures Delay", variable=var9, font=16).grid(column=1, row=3, sticky=W)
-var13 = IntVar()
-tk.Checkbutton(stepThree, text="Arrivals Delay", variable=var13, font=16).grid(column=1, row=4, sticky=W)
+var0 = tk.IntVar()
+tk.Checkbutton(stepThree, text="Convergence", variable=var0, font=16).grid(column=1, row=1, sticky='W')
+var8 = tk.IntVar()
+tk.Checkbutton(stepThree, text="Throughput", variable=var8, font=16).grid(column=1, row=2, sticky='W')
+var9 = tk.IntVar()
+tk.Checkbutton(stepThree, text="Departures Delay", variable=var9, font=16).grid(column=1, row=3, sticky='W')
+var13 = tk.IntVar()
+tk.Checkbutton(stepThree, text="Arrivals Delay", variable=var13, font=16).grid(column=1, row=4, sticky='W')
 
-var10 = IntVar()
-tk.Checkbutton(stepThree, text="Sequence", variable=var10, font=16).grid(column=1, row=5, sticky=W)
+var10 = tk.IntVar()
+tk.Checkbutton(stepThree, text="Sequence", variable=var10, font=16).grid(column=1, row=5, sticky='W')
 
-var18 = IntVar()
-tk.Checkbutton(stepThree, text="ADA Buffer", variable=var18, font=16).grid(column=1, row=6, sticky=W)
+var18 = tk.IntVar()
+tk.Checkbutton(stepThree, text="ADA Buffer", variable=var18, font=16).grid(column=1, row=6, sticky='W')
 
-ttk.Label(stepThree, text="Compare results to operational data (1)", font=16).grid(column=2, row=1, sticky=W)
-var11 = IntVar()
-tk.Checkbutton(stepThree, variable=var11, font=16).grid(column=3, row=1, sticky=W)
+ttk.Label(stepThree, text="Compare results to operational data (1)", font=16).grid(column=2, row=1, sticky='W')
+var11 = tk.IntVar()
+tk.Checkbutton(stepThree, variable=var11, font=16).grid(column=3, row=1, sticky='W')
 
-ttk.Label(stepThree, text="I want to compare the results to other set of results. (2)", font=16).grid(column=2, row=2, sticky=W)
-var12 = IntVar()
-tk.Checkbutton(stepThree, variable=var12, font=16).grid(column=3, row=2, sticky=W)
+ttk.Label(stepThree, text="I want to compare the results to other set of results. (2)", font=16).grid(column=2, row=2, sticky='W')
+var12 = tk.IntVar()
+tk.Checkbutton(stepThree, variable=var12, font=16).grid(column=3, row=2, sticky='W')
 
-ttk.Label(stepThree, text="How many? (Up to 5)", font=16).grid(column=2, row=3, sticky=W)
+ttk.Label(stepThree, text="How many? (Up to 5)", font=16).grid(column=2, row=3, sticky='W')
 
 input_entry1 = ttk.Entry(stepThree, width=7, textvariable=m_input)
-input_entry1.grid(column=3, row=3, sticky=(W, E))
+input_entry1.grid(column=3, row=3, sticky='WE')
 
 buttons_visual = ttk.Frame(visual_module)
-buttons_visual.grid(row=2, sticky=(N, W, E, S))
+buttons_visual.grid(row=2, sticky='NWES')
 
 tk.Button(buttons_visual, text="RUN", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
@@ -1998,23 +1969,23 @@ else:
     
 #----Operational Data -----#
 if OP_FLAG == True:
-    win = Tk()
+    win = tk.Tk()
     win.title("Operational Data import")
     mainframe = ttk.Frame(win, padding="10 10 30 40")
-    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    mainframe.grid(column=0, row=0, sticky='NWES')
     mainframe.columnconfigure(0, weight=1)
     mainframe.rowconfigure(0, weight=1)
     innerframe = ttk.Frame(win, padding="5 5 0 0")
     # Defines expected inputs (i.e. GUI expects integers) and assigns default values
-    button_check = StringVar(win, value='0')
-    op_data_sheet = StringVar()
-    ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky=W)
-    open_op_data = ttk.Button(mainframe, text="Import operational data", command=load_op_data).grid(column=2, row=1, sticky=W)
-    inner = Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
+    button_check = tk.StringVar(win, value='0')
+    op_data_sheet = tk.StringVar()
+    ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky='W')
+    open_op_data = ttk.Button(mainframe, text="Import operational data", command=load_op_data).grid(column=2, row=1, sticky='W')
+    inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
     inner.grid(column=0, row=1)
     inner.columnconfigure(0, weight=1)
     inner.rowconfigure(0, weight=1)
-    ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky=W)
+    ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
     
     win.columnconfigure(0, weight=1)
     win.rowconfigure(0, weight=1)
@@ -2025,48 +1996,48 @@ if OP_FLAG == True:
 #----New set of data---#
 if new_set_FLAG == True:
     if m >= 1 :
-        win = Tk()
+        win = tk.Tk()
         win.title("New set of data import")
         
         mainframe = ttk.Frame(win, padding="10 10 30 40")
-        mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+        mainframe.grid(column=0, row=0, sticky='NWES')
         mainframe.columnconfigure(0, weight=1)
         mainframe.rowconfigure(0, weight=1)
         
         innerframe = ttk.Frame(win, padding="5 5 0 0")
         
         # Defines expected inputs (i.e. GUI expects integers) and assigns default values
-        button_check = StringVar(win, value='0')
+        button_check = tk.StringVar(win, value='0')
         
-        average_check_output = IntVar() 
-        new_data_sheet2 = StringVar()        
-        ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky=W)        
-        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky=W)
+        average_check_output = tk.IntVar() 
+        new_data_sheet2 = tk.StringVar()        
+        ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')        
+        open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky='W')
         
         if m >=2:
-            new_data_sheet3 = StringVar()
-            ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky=W)            
-            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky=W)
+            new_data_sheet3 = tk.StringVar()
+            ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')            
+            open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky='W')
             
             if m >=3:
-                new_data_sheet4 = StringVar()
-                ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky=W)            
-                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky=W)
+                new_data_sheet4 = tk.StringVar()
+                ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')            
+                open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky='W')
                 if m >=4:
-                    new_data_sheet5 = StringVar()
-                    ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky=W)            
-                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky=W)
+                    new_data_sheet5 = tk.StringVar()
+                    ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')            
+                    open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky='W')
                     if m >=5:
-                        new_data_sheet6 = StringVar()
-                        ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky=W)            
-                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky=W)
+                        new_data_sheet6 = tk.StringVar()
+                        ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')            
+                        open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky='W')
         
         
-        inner = Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
+        inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
         inner.grid(column=0, row=1)
         inner.columnconfigure(0, weight=1)
         inner.rowconfigure(0, weight=1)
-        ttk.Button(inner, text="Visualize results", command=define_input_parameters2).grid(column=0, row=0, sticky=W)
+        ttk.Button(inner, text="Visualize results", command=define_input_parameters2).grid(column=0, row=0, sticky='W')
         
         win.columnconfigure(0, weight=1)
         win.rowconfigure(0, weight=1)
@@ -4463,7 +4434,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     
                 self.frames[F] = frame
     
-                frame.grid(row=0, column=0, sticky="nsew")
+                frame.grid(row=0, column=0, sticky='NWES')
     
             self.show_frame(StartPage)
         def show_frame(self, cont):
@@ -4531,31 +4502,31 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 app.destroy()
                 m2 = m2_output.get()
                 def load_new_data2():
-                    new_data2 = filedialog.askopenfilename()
+                    new_data2 = tk.filedialog.askopenfilename()
                     print(new_data2)
                     new_data_sheet2.set(new_data2)
                     return()
                         
                 def load_new_data3():
-                    new_data3 = filedialog.askopenfilename()
+                    new_data3 = tk.filedialog.askopenfilename()
                     print(new_data3)
                     new_data_sheet3.set(new_data3) 
                     return()
                 
                 def load_new_data4():
-                    new_data4 = filedialog.askopenfilename()
+                    new_data4 = tk.filedialog.askopenfilename()
                     print(new_data4)
                     new_data_sheet4.set(new_data4) 
                     return() 
                 
                 def load_new_data5():
-                    new_data5 = filedialog.askopenfilename()
+                    new_data5 = tk.filedialog.askopenfilename()
                     print(new_data5)
                     new_data_sheet5.set(new_data5) 
                     return()    
                     
                 def load_new_data6():
-                    new_data6 = filedialog.askopenfilename()
+                    new_data6 = tk.filedialog.askopenfilename()
                     print(new_data6)
                     new_data_sheet6.set(new_data6) 
                     return() 
@@ -4584,50 +4555,50 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     window.destroy()
                 if m2 >= 1 :
                     
-                    window = Tk()
+                    window = tk.Tk()
                     window.title("New set of data import")
                     
                     mainframe = ttk.Frame(window, padding="10 10 30 40")
-                    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+                    mainframe.grid(column=0, row=0, sticky='NWES')
                     mainframe.columnconfigure(0, weight=1)
                     mainframe.rowconfigure(0, weight=1)
                     
                     #innerframe = ttk.Frame(window, padding="5 5 0 0")
                     
                     # Defines expected inputs (i.e. GUI expects integers) and assigns default values
-                    button_check = StringVar(window, value='0')
+                    button_check = tk.StringVar(window, value='0')
                     
-                    average_check_output = IntVar() 
-                    new_data_sheet2 = StringVar()        
-                    ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky=W)        
-                    ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky=W)
+                    average_check_output = tk.IntVar() 
+                    new_data_sheet2 = tk.StringVar()        
+                    ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')        
+                    ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky='W')
                     
                     
                     
                     if m2 >=2:
-                        new_data_sheet3 = StringVar()
-                        ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky=W)            
-                        ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky=W)
+                        new_data_sheet3 = tk.StringVar()
+                        ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')            
+                        ttk.Button(mainframe, text="Import data 3", command=load_new_data3).grid(column=2, row=2, sticky='W')
                         
                         if m2 >=3:
-                            new_data_sheet4 = StringVar()
-                            ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky=W)            
-                            ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky=W)
+                            new_data_sheet4 = tk.StringVar()
+                            ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')            
+                            ttk.Button(mainframe, text="Import data 4", command=load_new_data4).grid(column=2, row=3, sticky='W')
                             if m2 >=4:
-                                new_data_sheet5 = StringVar()
-                                ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky=W)            
-                                ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky=W)
+                                new_data_sheet5 = tk.StringVar()
+                                ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')            
+                                ttk.Button(mainframe, text="Import data 5", command=load_new_data5).grid(column=2, row=4, sticky='W')
                                 if m2 >=5:
-                                    new_data_sheet6 = StringVar()
-                                    ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky=W)            
-                                    ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky=W)
+                                    new_data_sheet6 = tk.StringVar()
+                                    ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')            
+                                    ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky='W')
                     
                     
-                    inner = Frame(window, bg='pink', width=0, height=0, padx=20, pady=20)
+                    inner = tk.Frame(window, bg='pink', width=0, height=0, padx=20, pady=20)
                     inner.grid(column=0, row=1)
                     inner.columnconfigure(0, weight=1)
                     inner.rowconfigure(0, weight=1)
-                    ttk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky=W)
+                    ttk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky='W')
                     
                     
                     for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)        
@@ -4709,7 +4680,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                             self.frames[F] = frame
                 
-                            frame.grid(row=0, column=0, sticky="nsew")
+                            frame.grid(row=0, column=0, sticky='NWES')
                 
                         self.show_frame(StartPage2)
                 
@@ -6687,8 +6658,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 app2.mainloop()            
             
                            
-            m2_input = IntVar(self, value='0')
-            m2_output = IntVar()
+            m2_input = tk.IntVar(self, value='0')
+            m2_output = tk.IntVar()
             entry4 = ttk.Entry(self, width=7, textvariable=m2_input)
             entry4.pack()
             
