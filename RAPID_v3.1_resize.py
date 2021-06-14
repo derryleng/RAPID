@@ -19,15 +19,6 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-#*****************************************************************************#
-#=============================================================================#
-#                                                                             #
-#                                 GUI                                         #
-#                                                                             #
-# ============================================================================#
-#*****************************************************************************#
-
-
 #----------------------------GLOBAL VARIABLES---------------------------------#
 
 #====== FOR CORE: ======#
@@ -46,7 +37,6 @@ ADA_x = 10
 #SIDmax = 4
 SIDgroup_separation = "(2,4)(3,4)"
 SID_queue_assign = "1 3 | 2 4"
-
 
 debugFLAG = False
 debugFLAG2 = False # TAXI - RWY queue checks
@@ -68,21 +58,15 @@ WAKE_thr_FLAG = False
 ADA_thr_FLAG = False
 ADDA_thr_FLAG = False
 
-
-
-
 open_file1 = ""
 open_file = ""
 input_excel_sheet = ""
 name_input_file = ""
-#input_excel_sheet = ""
 operational_data = ""
 new_data2 = ""
 new_data4 = ""
 new_data5 = ""
 new_data6 = ""
-
-
 
 #====FOR VISUAL MODULE======#
 
@@ -112,46 +96,46 @@ def load_file():
     input_excel_sheet = tk.filedialog.askopenfilename()
     print(input_excel_sheet)
     name_excel_sheet.set(input_excel_sheet)
-    return()
+
 
 def load_op_data():
     operational_data = tk.filedialog.askopenfilename()
     print(operational_data)
     op_data_sheet.set(operational_data)
-    return()
-        
+
+
 def load_new_data2():
     new_data2 = tk.filedialog.askopenfilename()
     print(new_data2)
     new_data_sheet2.set(new_data2)
-    return()
-        
+
+
 def load_new_data3():
     new_data3 = tk.filedialog.askopenfilename()
     print(new_data3)
-    new_data_sheet3.set(new_data3) 
-    return()
+    new_data_sheet3.set(new_data3)
+
 
 def load_new_data4():
     new_data4 = tk.filedialog.askopenfilename()
     print(new_data4)
-    new_data_sheet4.set(new_data4) 
-    return() 
+    new_data_sheet4.set(new_data4)
+
 
 def load_new_data5():
     new_data5 = tk.filedialog.askopenfilename()
     print(new_data5)
-    new_data_sheet5.set(new_data5) 
-    return()    
-    
+    new_data_sheet5.set(new_data5)
+
+
 def load_new_data6():
     new_data6 = tk.filedialog.askopenfilename()
     print(new_data6)
-    new_data_sheet6.set(new_data6) 
-    return() 
+    new_data_sheet6.set(new_data6)
+
 
 def define_input_parameters():
-     # CORE
+    # CORE
     n = int(n_input.get())
     n_output.set(n)
     minDep_altSID = int(minDep_altSID_input.get())
@@ -180,8 +164,8 @@ def define_input_parameters():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-    #    TBS = int(var5.get())
-    #    TBS_output.set(TBS)
+    # TBS = int(var5.get())
+    # TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -211,7 +195,7 @@ def define_input_parameters():
     ADDAthr = int(ADDA_thr.get())
     ADDAthr_output.set(ADDAthr)   
 
-    #VISUAL
+    # VISUAL
     m = int(m_input.get())
     m_output.set(m)
     convergence = int(var0.get())
@@ -234,9 +218,10 @@ def define_input_parameters():
     
     win.destroy()
 
+
 def define_input_parameters2():
     
-    #CORE:
+    # CORE:
     n = int(n_input.get())
     n_output.set(n)
     minDep_altSID = int(minDep_altSID_input.get())
@@ -265,8 +250,8 @@ def define_input_parameters2():
     q4 = int(queue4.get())
     queue4_output.set(q4)
     button_check.set(True)
-    #    TBS = int(var5.get())
-    #    TBS_output.set(TBS)
+    # TBS = int(var5.get())
+    # TBS_output.set(TBS)
     RECat = int(var6.get())
     RECat_output.set(RECat)
     RECAT_PWS = int(var17.get())
@@ -296,7 +281,7 @@ def define_input_parameters2():
     ADDAthr = int(ADDA_thr.get())
     ADDAthr_output.set(ADDAthr)
     
-    #VISUAL
+    # VISUAL
     m = int(m_input.get())
     m_output.set(m)
     convergence = int(var0.get())
@@ -318,7 +303,6 @@ def define_input_parameters2():
     button_check.set(True)  
         
     win.destroy()
-
 
 #-----------------------------------------------------------------------------#
 
@@ -350,7 +334,6 @@ tk.Button(fakeTab_input, text='INPUT MODULE', bg='pink', height = 3, padx=100).g
 tk.Button(fakeTab_input, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
 tk.Button(fakeTab_input, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,column=2)
 
-
 fakeTab_core = ttk.Frame(core_module)
 fakeTab_core.grid(row=0, sticky='NWES')
 
@@ -365,8 +348,6 @@ tk.Button(fakeTab_visual, text='INPUT MODULE', height = 3, padx=100).grid(row=0,
 tk.Button(fakeTab_visual, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
 tk.Button(fakeTab_visual, text='VISUAL MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=2)
 
-
-
 # Main Contentframes
 
 tab1 = ttk.Frame(input_module)
@@ -378,13 +359,11 @@ tab2.grid(row=1, sticky='NWES')
 tab3 = ttk.Frame(visual_module)
 tab3.grid(row=1, sticky='NWES')
 
-
-
 #-------------------------------INPUT GUI-------------------------------------#
-
 
 def raise_main_frame(frame):
     frame.tkraise()
+
 
 for main_frames in (input_module, core_module, visual_module ):
     main_frames.grid(row=0, column=0, sticky='NWES')
@@ -399,8 +378,6 @@ def raise_frame(frame):
     frame.tkraise()
 
 
-
-
 f0 = ttk.Frame(tab1)
 f1 = ttk.Frame(tab1)
 f2 = ttk.Frame(tab1)
@@ -410,55 +387,46 @@ f5 = ttk.Frame(tab1)
 f6 = ttk.Frame(tab1)
 f7 = ttk.Frame(tab1)
 
-
 for frame in (f0,f1,f2):
     frame.grid(row=0, column=0, sticky='NWES')
     frame.columnconfigure(0, weight=0)
     frame.rowconfigure(0, weight=0)
 
 # Welcome Frame
-
-#f0_help 
    
 f0_help = ttk.LabelFrame(f0, text=" Quick Help ")
-f0_help.grid(row=0, column=1, sticky='E', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+f0_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
 ttk.Label(f0_help, text="- Only select ONE file before hitting the 'NEXT' button!", font="Helvetica 12 bold").grid(column=1, row=1, sticky='W') 
 ttk.Label(f0_help, text="[ A ] should be selected for first time setup - starts 'Operational Analysis'", font=12).grid(column=1, row=2, sticky='W')  
 ttk.Label(f0_help, text="[ B ] should be selected if an INPUT file already exists - skips to the CORE MODULE", font=12).grid(column=1, row=3, sticky='W') 
 
 f0_content = tk.LabelFrame(f0, text="    WELCOME TO RAPID    ", font="Helvetica 16 bold")
-f0_content.grid(row=0, column=0, sticky='N', \
-             padx=10, pady=40, ipadx=5, ipady=10)
-
+f0_content.grid(row=0, column=0, sticky='N', padx=10, pady=40, ipadx=5, ipady=10)
 
 f0_content_a = ttk.LabelFrame(f0_content, text=" [ A ] - Analyse & Filter Operational Data ")
-f0_content_a.grid(row=2, column=0, sticky='N', \
-             padx=5, pady=15, ipadx=5, ipady=5)
-
+f0_content_a.grid(row=2, column=0, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
 
 name_excel_sheet1 = tk.StringVar()
 
-
-
 tdf = pd.DataFrame()
-
 
 def airport_data_load_file():
     airport_data = tk.filedialog.askopenfilename()
     import_airport_data.set(airport_data)
     ttk.Label(f0_content_a, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
-    #print("#####", import_excel_schedule, "###", import_schedule)
-    return()
-    
+    # print("#####", import_excel_schedule, "###", import_schedule)
+
+
 def define_airport_data_parameters():
     button_check.set(True)    
     airport_data = import_airport_data.get()
+
 
 def create_dataframe_operational_data():
     airport_data = import_airport_data.get()
     df_operational_data = pd.read_csv(airport_data)
     return df_operational_data
+
 
 def generate_new_input():
     def raise_subframe(frame):
@@ -468,14 +436,11 @@ def generate_new_input():
         frame.grid(row=0, column=0, sticky='NWES')
         frame.columnconfigure(0, weight=0)
         frame.rowconfigure(0, weight=0)
-        
-        
+    
     airport_data_load_file()
     define_airport_data_parameters()
-    #    create_dataframe_operational_data()
     tdf = create_dataframe_operational_data()
     
-    #f0_buttons
     f0_buttons= tk.Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
@@ -483,26 +448,17 @@ def generate_new_input():
         frame.tkraise()
         create_f1_to_f6()
     
-    
-
-   
-
     def create_f1_to_f6():
 
-        # AROT FRAME ###############################################################################################
-        
-        #f1_help 
+        # AROT FRAME
            
         f1_help = ttk.LabelFrame(f1, text=" Quick Help ")
-        f1_help.grid(row=0, column=1, sticky='E', \
-                     padx=5, pady=5, ipadx=5, ipady=5)
+        f1_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Label(f1_help, text="Section used to filter AROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky='W') 
         ttk.Label(f1_help, text="Select values for the demand and maximum AROT", font=12).grid(column=1, row=2, sticky='W')
-        
-        #f1_content
+
         f1_content = tk.LabelFrame(f1, text="    AROT    ", font="Helvetica 14 bold")
-        f1_content.grid(row=0, column=0, sticky='E', \
-                     padx=10, pady=20, ipadx=5, ipady=5)
+        f1_content.grid(row=0, column=0, sticky='E', padx=10, pady=20, ipadx=5, ipady=5)
         
         #####################################################################
         #                             AROT DATA                             #
@@ -511,17 +467,16 @@ def generate_new_input():
         Final_demand_output = tk.IntVar()
         AROT_output = tk.IntVar()
         
-        
         columns_to_drop_AROT =['B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
         df = tdf.drop(columns = columns_to_drop_AROT)
-            
-        #xl = pd.ExcelFile(airport_data)
-        #xl = pd.ExcelFile("AROT_example_input.xlsx")
+        
+        # xl = pd.ExcelFile(airport_data)
+        # xl = pd.ExcelFile("AROT_example_input.xlsx")
 
-        #Find min max values
+        # Find min max values
         max_demand = df['AROT_Demand'].max()
         min_demand = df['AROT_Demand'].min()
-        #max_arot = df['AROT'].max()
+        # max_arot = df['AROT'].max()
         max_arot = 160 # Initialise to remove unrealistic outliers from data
         min_arot = df['AROT'].min()
 
@@ -571,18 +526,18 @@ def generate_new_input():
             canvas1.draw()
             canvas2.draw()
         
+
         def define_final_AROT():
-            #Final_max_arot = 330
-            #Final_demand = 45
+            # Final_max_arot = 330
+            # Final_demand = 45
             Final_demand = Throttle.get()
             Final_demand_output.set(Final_demand)
             Final_max_arot = Throttle_arot.get() 
-            #Final_max_arot = arot_filter.get() # Old method (takes last value entered)
+            # Final_max_arot = arot_filter.get() # Old method (takes last value entered)
             print("AROT=", Final_max_arot, "Demand=", Final_demand)
-            #print(Final_max_arot)
+            # print(Final_max_arot)
             AROT_output.set(Final_max_arot)
             button_check.set(True)
-            
             
             ##AROT filtering + save it it a data frame rady to be exported to file
             
@@ -593,8 +548,6 @@ def generate_new_input():
             df_final_AROT_UM = pd.DataFrame()
             df_final_AROT_J = pd.DataFrame()
             df_final_AROT_S = pd.DataFrame()
-            
-            
             
             df_final_AROT_H['AROT_H'] = ""
             df_final_AROT_H['AROT_H'] = df.loc[(df['AROT']<=Final_max_arot) & (df['AROT_Demand']>=Final_demand)& (df['AROT_Final Wake']=="H"),'AROT']
@@ -630,31 +583,29 @@ def generate_new_input():
             
             df_final_AROT = pd.concat(frames_AROT, axis=1)
             return df_final_AROT
-            #temp_string
+        
+
         def define_arot_parameters(): 
             df_final_AROT = define_final_AROT()
             print("AROTs defined | Filters AROT = ", Throttle_arot.get(), "Demand=", Throttle.get())
-            #print('inside the NEXT function = ', df_final_AROT)
+            # print('inside the NEXT function = ', df_final_AROT)
             ttk.Label(inner, text=" AROT Data Exported!  ").grid(column=1, row=2, sticky='N', pady=10)
             raise_subframe(f2)
             
             return df_final_AROT
-            #window.destroy()
+            # window.destroy()
             
         
         # Specify GUI Structure -------->
         DemandInputFrame = tk.LabelFrame(f1_content, text="    Filter data based on the Demand    ", font="Helvetica 12")
-        DemandInputFrame.grid(row=0, column=1, columnspan=1, sticky='N', \
-                  padx=5, pady=10, ipadx=5, ipady=5)
+        DemandInputFrame.grid(row=0, column=1, columnspan=1, sticky='N', padx=5, pady=10, ipadx=5, ipady=5)
         
         
         AROTInputFrame = tk.LabelFrame(f1_content, text="    Filter data based on max. AROT    ", font="Helvetica 12")
-        AROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', \
-                  padx=5, pady=10, ipadx=5, ipady=5)
+        AROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', padx=5, pady=10, ipadx=5, ipady=5)
         
         ResultsFrame = tk.LabelFrame(f1_content, text="   [  Results :  ]   ", font="Helvetica 12")
-        ResultsFrame.grid(row=1, columnspan=14, sticky='N', \
-                  padx=5, pady=5, ipadx=5, ipady=5)
+        ResultsFrame.grid(row=1, columnspan=14, sticky='N', padx=5, pady=5, ipadx=5, ipady=5)
         
         # Defines expected inputs (i.e. GUI expects integers) and assigns default values
         demand_input = tk.IntVar(f1_content, value=min_demand)
@@ -662,8 +613,8 @@ def generate_new_input():
         button_check = tk.StringVar(f1_content, value='0')
         
         # OLD Filter for AROT
-        #input_entry1 = ttk.Entry(AROTInputFrame, width=7, textvariable=arot_filter)
-        #input_entry1.grid(row=1, column=2, sticky='N', padx=5, pady=35)
+        # input_entry1 = ttk.Entry(AROTInputFrame, width=7, textvariable=arot_filter)
+        # input_entry1.grid(row=1, column=2, sticky='N', padx=5, pady=35)
         
         ################## matplotlib figure ##################
         fig0 = plt.Figure()
@@ -677,7 +628,7 @@ def generate_new_input():
         canvas1 = FigureCanvasTkAgg(fig1, ResultsFrame)
         canvas1.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)    
         ax1 = fig1.add_subplot(111, aspect=1) #aspect=1 #aspect='equal'
-        #ax1.axis('equal') # Equal aspect ratio ensures that pie is drawn as a circle.
+        # ax1.axis('equal') # Equal aspect ratio ensures that pie is drawn as a circle.
         fig2 = plt.Figure(figsize=(6,2.8))
         canvas2 = FigureCanvasTkAgg(fig2, ResultsFrame)
         canvas2.get_tk_widget().grid(column=2, row=2, sticky='N', padx=5, pady=5)  
@@ -742,52 +693,43 @@ def generate_new_input():
         #         AROTInputFrame.rowconfigure(3, weight=1)
         # =============================================================================
         
-        #f1_content.columnconfigure(0, weight=0)
-        #f1_content.rowconfigure(0, weight=0)
+        # f1_content.columnconfigure(0, weight=0)
+        # f1_content.rowconfigure(0, weight=0)
         
-        #f1_help.columnconfigure(1, weight=0)
-        #f1_help.rowconfigure(0, weight=0)
-        #f1_help.rowconfigure(1, weight=0)
+        # f1_help.columnconfigure(1, weight=0)
+        # f1_help.rowconfigure(0, weight=0)
+        # f1_help.rowconfigure(1, weight=0)
         
-        #f1_content.columnconfigure(0, weight=1)
-        #f1_content.columnconfigure(1, weight=1)
-        #f1_content.columnconfigure(4, weight=1)
-        #f1_content.rowconfigure(0, weight=1)
-        #f1_content.rowconfigure(1, weight=1)
+        # f1_content.columnconfigure(0, weight=1)
+        # f1_content.columnconfigure(1, weight=1)
+        # f1_content.columnconfigure(4, weight=1)
+        # f1_content.rowconfigure(0, weight=1)
+        # f1_content.rowconfigure(1, weight=1)
         
-        #inner = tk.LabelFrame(f1_content, bg='pink')
+        # inner = tk.LabelFrame(f1_content, bg='pink')
         inner = tk.Frame(f1_content)
-        inner.grid(row=2, column=1, sticky='E', \
-                      padx=5, pady=10, ipadx=15, ipady=15)
+        inner.grid(row=2, column=1, sticky='E', padx=5, pady=10, ipadx=15, ipady=15)
         
         inner.grid_rowconfigure(0, weight=1)
         inner.grid_rowconfigure(2, weight=1)
         inner.grid_columnconfigure(0, weight=1)
         inner.grid_columnconfigure(2, weight=1)
         
-        #ttk.Button(inner, text="Confirm Settings and Save", command=define_arot_parameters).grid(column=1, row=1, sticky='N', ipadx=5, ipady=5)
+        # ttk.Button(inner, text="Confirm Settings and Save", command=define_arot_parameters).grid(column=1, row=1, sticky='N', ipadx=5, ipady=5)
         tk.Button(inner, text='Confirm Settings and Save | NEXT ->', command=define_arot_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 30).grid(column=1, row=1, sticky='N', ipadx=5, ipady=5)
         
         f1_content.bind('<Return>', define_arot_parameters)
         
-        
-        
-        
         # DROT FRAME ###############################################################################################
         
-        #f2_help 
-           
         f2_help = ttk.LabelFrame(f2, text=" Quick Help ")
-        f2_help.grid(row=0, column=1, sticky='E', \
-                     padx=5, pady=5, ipadx=5, ipady=5)
+        f2_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Label(f2_help, text="Section used to filter DROT data for when runway is 'Constrained'", font=12).grid(column=1, row=1, sticky='W') 
         ttk.Label(f2_help, text="Select values for the demand and maximum DROT", font=12).grid(column=1, row=2, sticky='W') 
         
-        #f2_content
         f2_content = tk.LabelFrame(f2, text="    DROT    ", font="Helvetica 14 bold")
-        f2_content.grid(row=0, column=0, sticky='E', \
-                     padx=10, pady=20, ipadx=5, ipady=5)
-        #ttk.Label(f2_content, text="DROT Content...", font=16).grid(column=1, row=1, sticky='W') 
+        f2_content.grid(row=0, column=0, sticky='E', padx=10, pady=20, ipadx=5, ipady=5)
+        # ttk.Label(f2_content, text="DROT Content...", font=16).grid(column=1, row=1, sticky='W') 
         
         #####################################################################        
         #                             DROT DATA                             #
@@ -796,24 +738,25 @@ def generate_new_input():
         columns_to_drop_drot = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
         df_drot = tdf.drop(columns = columns_to_drop_drot)
         
-        
         Final_demand_output_d = tk.IntVar()
         DROT_output = tk.IntVar()
         
-        #Find min max values
+        # Find min max values
         d_max_demand = df_drot['DROT_Demand'].max()
         d_min_demand = df_drot['DROT_Demand'].min()
         
         max_drot = 160 # Initialise to remove unrealistic outliers from data
         min_drot = df_drot['DROT'].min()
         
-        #total_drot_entries = len(df_drot.index)
+        # total_drot_entries = len(df_drot.index)
         
         drot_demand_output = d_min_demand
         drot_filter_output = max_drot
-        
+
+        #####################################################################
         #                             DROT GUI                              #
         #####################################################################
+
         def getThrottle_d(event):
             
             ax4.clear() #ax
@@ -852,7 +795,7 @@ def generate_new_input():
             df_plots3_d = df_drot_filtered.groupby(['DROT_Runway', 'DROT_SID (shortened)'])['DROT_Callsign'].count()
             df_plots3_d = df_plots3_d.reset_index(level=[0,1])
             ######### OPTION ONE - DOUBLE BAR CHART ##############
-            #df_plots3_d = df_plots3_d.pivot(index='SID (shortened)', columns='Runway', values='Callsign').fillna(0).plot(kind='bar', subplots=True, ax=ax6)
+            # df_plots3_d = df_plots3_d.pivot(index='SID (shortened)', columns='Runway', values='Callsign').fillna(0).plot(kind='bar', subplots=True, ax=ax6)
             
             ######### OPTION TWO - DOUBLE PIE CHART ##############
             dep_SIDs = df_plots3_d['DROT_SID (shortened)'].unique()
@@ -867,9 +810,10 @@ def generate_new_input():
             canvas5.draw() #canvas1
             canvas6.draw() #canvas2
         
+        
         def define_final_DROT():
-        #            Final_max_DROT = 3330
-        #            Final_demand_d = 45
+            # Final_max_DROT = 3330
+            # Final_demand_d = 45
             Final_demand_d = Throttle_d.get()
             Final_demand_output_d.set(Final_demand_d)
             Final_max_DROT = Throttle_drot.get()
@@ -877,7 +821,7 @@ def generate_new_input():
             DROT_output.set(Final_max_DROT)
             button_check_d.set(True)
             
-            #DROT filtering + save it it a data frame ready to be exported to file
+            # DROT filtering + save it it a data frame ready to be exported to file
             df_final_DROT = pd.DataFrame()
             df_final_DROT_H = pd.DataFrame()
             df_final_DROT_M = pd.DataFrame()
@@ -886,8 +830,7 @@ def generate_new_input():
             df_final_DROT_J = pd.DataFrame()
             df_final_DROT_S = pd.DataFrame()
             
-            
-            #F
+            # F
             df_final_DROT_H['DROT_H'] = ""
             df_final_DROT_H['DROT_H'] = df_drot.loc[(df_drot['DROT']<=Final_max_DROT) & (df_drot['DROT_Demand']>=Final_demand_d)& (df_drot['DROT_Final Wake']=="H"),'DROT']
             df_final_DROT_H=df_final_DROT_H.reset_index()
@@ -922,7 +865,8 @@ def generate_new_input():
             
             df_final_DROT = pd.concat(frames_DROT, axis=1)
             return df_final_DROT
-            
+        
+
         def define_drot_parameters():
             df_final_DROT = define_final_DROT()
             #ttk.Label(inner_d, text=" DROT Data Exported!  ").grid(column=1, row=2, sticky='N', pady=10) # Grids are banned FNAR!
@@ -930,21 +874,18 @@ def generate_new_input():
             ttk.Label(inner_d, text=" DROT Data Exported!  ").pack(side="right")
             raise_subframe(f5)
             return df_final_DROT
-            
-            #window.destroy()
+            # window.destroy()
         
+
         # Specify GUI Structure -------->
         DemandInputFrame_d = tk.LabelFrame(f2_content, text="   Filter data based on the Demand   ", font="Helvetica 12")
-        DemandInputFrame_d.grid(row=0, column=1, columnspan=1, sticky='N', \
-                  padx=5, pady=10, ipadx=5, ipady=5)
+        DemandInputFrame_d.grid(row=0, column=1, columnspan=1, sticky='N', padx=5, pady=10, ipadx=5, ipady=5)
         
         DROTInputFrame = tk.LabelFrame(f2_content, text="Filter data by max. DROT     ", font="Helvetica 12")
-        DROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', \
-                  padx=10, pady=10, ipadx=5, ipady=5)
+        DROTInputFrame.grid(row=0, column=4, columnspan=7, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
         
         ResultsFrame_d = tk.LabelFrame(f2_content, text="  [  Results :  ]   ", font="Helvetica 12")
-        ResultsFrame_d.grid(row=1, columnspan=14, sticky='N', \
-                  padx=5, pady=5, ipadx=5, ipady=5)
+        ResultsFrame_d.grid(row=1, columnspan=14, sticky='N', padx=5, pady=5, ipadx=5, ipady=5)
         
         # Defines expected inputs (i.e. GUI expects integers) and assigns default values
         demand_input_d = tk.IntVar(f2_content, value=d_min_demand)
@@ -952,9 +893,9 @@ def generate_new_input():
         button_check_d = tk.StringVar(f2_content, value='0')
         
         # OLD METHOD for Filtering DROT
-        #in_max_drot = df_drot['DROT'].max()
-        #input_entry1_d = ttk.Entry(DROTInputFrame, width=7, textvariable=drot_filter)
-        #input_entry1_d.grid(row=1, column=2, sticky='N', padx=10, pady=35)
+        # in_max_drot = df_drot['DROT'].max()
+        # input_entry1_d = ttk.Entry(DROTInputFrame, width=7, textvariable=drot_filter)
+        # input_entry1_d.grid(row=1, column=2, sticky='N', padx=10, pady=35)
         
         # matplotlib figures
         fig_d = plt.Figure()
@@ -977,7 +918,6 @@ def generate_new_input():
         
         # PLOT Initialisation
 
-        
         ########## CHANGE ###
         df_drot_demand = df_drot.loc[df_drot['DROT_Demand'] >= d_min_demand]
         df_drot_filtered = df_drot_demand.loc[df_drot_demand['DROT'] <= max_drot]
@@ -1025,8 +965,7 @@ def generate_new_input():
         ttk.Label(DROTInputFrame, text="      Select a Max. value for DROT ->             ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=240)
         
         inner_d = tk.Frame(f2_content)
-        inner_d.grid(row=2, column=1, sticky='E', \
-                      padx=5, pady=10, ipadx=15, ipady=15)
+        inner_d.grid(row=2, column=1, sticky='E', padx=5, pady=10, ipadx=15, ipady=15)
         
         inner_d.grid_rowconfigure(0, weight=1)
         inner_d.grid_rowconfigure(2, weight=1)
@@ -1038,282 +977,252 @@ def generate_new_input():
         tk.Button(inner_d, text='<- BACK', command=lambda:raise_subframe(f1), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         f2_content.bind('<Return>', define_drot_parameters)
         
+        # TAXI-OUT FRAME #############################################################################################
+            
+        # f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
+        # f3_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
+        # ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky='W')
+        # ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
+        # ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
         
-        #        # TAXI-OUT FRAME #############################################################################################
-        #        
-        #        #f3_help 
-        #           
-        #        f3_help = ttk.LabelFrame(f3, text=" Quick Help ")
-        #        f3_help.grid(row=0, column=1, sticky='E', \
-        #                     padx=5, pady=5, ipadx=5, ipady=5)
-        #        ttk.Label(f3_help, text="Provides example analysis for Taxi-out distribution", font=12).grid(column=1, row=1, sticky='W')
-        #        ttk.Label(f3_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
-        #        ttk.Label(f3_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
-        #        
-        #        #f3_buttons
-        #        f3_buttons= ttk.Frame(f3) 
-        #        f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
-        #        
-        #        
-        #        tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-        #        tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-        #        
-        #        #f3_content
-        #        f3_content = tk.LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
-        #        f3_content.grid(row=0, column=0, sticky='E', \
-        #                     padx=10, pady=40, ipadx=5, ipady=10)
-        #        
-        ##
-        #        columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-        #        df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
-        #        df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
-        #        
-        #        TOUT_output = tk.IntVar()
-        #        
-        #        max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-        #        min_tout = df_taxi_out['S1'].min()
-        #        
-        #        TOUT_filter_output = max_tout
-        #        
-        #        def getThrottle_to(event):
-        #            
-        #            ax92.clear() #ax
-        #            
-        #            ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-        #            ax92.set_xlabel(' Taxi-out time (secs) ')
-        #            ax92.set_ylabel(' Aircraft count ')
-        #            
-        #            TOUT_filter_output = Throttle_tout.get()
-        #            
-        #            df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
-        #            
-        #            df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-        #            
-        #            plt.show()
-        #        
-        #            canvas92.draw() #canvas ax92.clear() #ax
-        #        
-        #        ResultsFrame_tout = tk.LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
-        #        ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', \
-        #                  padx=5, pady=15, ipadx=5, ipady=5)
-        #        
-        #        
-        #        ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
-        #        
-        #        fig_tout = plt.Figure()
-        #        canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
-        #        canvas9.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
-        #        ax9 = fig_tout.add_subplot(111)
-        #        ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
-        #        ax9.set_xlabel('Wake Category = [ Medium ] ')
-        #        ax9.set_ylabel('Time (secs)')
-        #        
-        #        df_taxi_out.plot(kind='box', ax=ax9)
-        #        
-        #        ## EXTRA Taxi-out plots!
-        #        
-        #        fig_tout_2 = plt.Figure()
-        #        canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
-        #        canvas92.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
-        #        ax92 = fig_tout_2.add_subplot(111)
-        #        ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-        #        ax92.set_xlabel(' Taxi-out time (secs) ')
-        #        ax92.set_ylabel(' Aircraft count ')
-        #        
-        #        #df_taxi_out.plot(kind='box', ax=ax92)
-        #        
-        #        df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
-        #        
-        #        ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
-        #        
-        #        Throttle_tout = tk.Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
-        #        Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
-        #        Throttle_tout.set(max_tout)
-        #        
-        #        # TAXI-IN FRAME #############################################################################################
-        #        
-        #        
-        #        #f4_help 
-        #           
-        #        f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
-        #        f4_help.grid(row=0, column=1, sticky='E', \
-        #                     padx=5, pady=5, ipadx=5, ipady=5)
-        #        ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky='W')
-        #        ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
-        #        ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
-        #        
-        #        #f4_buttons
-        #        f4_buttons= ttk.Frame(f4) 
-        #        f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
-        #        
-        #        
-        #        tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-        #        tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-        #        
-        #        #f4_content
-        #        f4_content = tk.LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
-        #        f4_content.grid(row=0, column=0, sticky='E', \
-        #                     padx=10, pady=40, ipadx=5, ipady=10)
-        #        
-        #        
-        #        columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
-        #        df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
-        #        df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
-        #        
-        #        TIN_output = tk.IntVar()
-        #        
-        #        max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
-        #        min_tin = df_taxi_out['S1'].min()
-        #        
-        #        TIN_filter_output = max_tin
-        #        
-        #        def getThrottle_ti(event):
-        #            
-        #            ax102.clear() #ax
-        #            
-        #            ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
-        #            ax102.set_xlabel(' Taxi-in time (secs) ')
-        #            ax102.set_ylabel(' Aircraft count ')
-        #            
-        #            TIN_filter_output = Throttle_tin.get()
-        #            
-        #            df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
-        #            
-        #            df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-        #            
-        #            plt.show()
-        #        
-        #            canvas102.draw() #canvas
-        #        
-        #        ResultsFrame_tin = tk.LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
-        #        ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', \
-        #                  padx=5, pady=15, ipadx=5, ipady=5)
-        #        
-        #        ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
-        #        
-        #        fig_tin = plt.Figure()
-        #        canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
-        #        canvas10.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
-        #        ax10 = fig_tin.add_subplot(111)
-        #        ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
-        #        ax10.set_xlabel('Wake Category = [ Medium ] ')
-        #        ax10.set_ylabel('Time (secs)')
-        #        
-        #        df_taxi_in.plot(kind='box', ax=ax10) 
-        #        
-        #        ## EXTRA Taxi-out plots!
-        #        
-        #        fig_tin_2 = plt.Figure()
-        #        canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
-        #        canvas102.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
-        #        ax102 = fig_tin_2.add_subplot(111)
-        #        ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
-        #        ax102.set_xlabel(' Taxi-out time (secs) ')
-        #        ax102.set_ylabel(' Aircraft count ')
-        #        
-        #        #df_taxi_out.plot(kind='box', ax=ax92)
-        #        
-        #        df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
-        #        
-        #        ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
-        #        
-        #        Throttle_tin = tk.Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
-        #        Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
-        #        Throttle_tin.set(max_tin)
+        # f3_buttons= ttk.Frame(f3) 
+        # f3_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
+        
+        # tk.Button(f3_buttons, text='NEXT ->', command=lambda:raise_subframe(f4), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        # tk.Button(f3_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        
+        # f3_content = tk.LabelFrame(f3, text=" TAXI-OUT ", font="Helvetica 14 bold")
+        # f3_content.grid(row=0, column=0, sticky='E', padx=10, pady=40, ipadx=5, ipady=10)
+
+        # columns_to_drop_taxi_out = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        # df_final_TAXIOUT = tdf.drop(columns=columns_to_drop_taxi_out)
+        # df_taxi_out = df_final_TAXIOUT.rename(columns = {'TAXI_OUT_S1':'S1','TAXI_OUT_S2':'S2','TAXI_OUT_S3':'S3','TAXI_OUT_S4':'S4','TAXI_OUT_S5':'S5','TAXI_OUT_S6':'S6','TAXI_OUT_S7':'S7','TAXI_OUT_S8':'S8','TAXI_OUT_S9':'S9','TAXI_OUT_S10':'S10','TAXI_OUT_S11':'S11','TAXI_OUT_S12':'S12','TAXI_OUT_S13':'S13','TAXI_OUT_S14':'S14','TAXI_OUT_S15':'S15'})
+        
+        # TOUT_output = tk.IntVar()
+        
+        # max_tout = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        # min_tout = df_taxi_out['S1'].min()
+        
+        # TOUT_filter_output = max_tout
+        
+        # def getThrottle_to(event):
+            
+        #     ax92.clear() #ax
+            
+        #     ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        #     ax92.set_xlabel(' Taxi-out time (secs) ')
+        #     ax92.set_ylabel(' Aircraft count ')
+            
+        #     TOUT_filter_output = Throttle_tout.get()
+            
+        #     df_tout_filtered = df_taxi_out.loc[df_taxi_out['S1'] <= TOUT_filter_output]
+            
+        #     df_tout_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+            
+        #     plt.show()
+        
+        #     canvas92.draw() #canvas ax92.clear() #ax
+        
+
+        # ResultsFrame_tout = tk.LabelFrame(f3_content, text="  [  Taxi-out Results :  ]  ", font="Helvetica 12")
+        # ResultsFrame_tout.grid(row=1, columnspan=14, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
+        
+        # ttk.Label(ResultsFrame_tout, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
+        
+        # fig_tout = plt.Figure()
+        # canvas9 = FigureCanvasTkAgg(fig_tout, ResultsFrame_tout)
+        # canvas9.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
+        # ax9 = fig_tout.add_subplot(111)
+        # ax9.set_title('  Taxi-out movements shown for Runway Direction = 26L ')
+        # ax9.set_xlabel('Wake Category = [ Medium ] ')
+        # ax9.set_ylabel('Time (secs)')
+        
+        # df_taxi_out.plot(kind='box', ax=ax9)
+        
+        # ## EXTRA Taxi-out plots!
+        
+        # fig_tout_2 = plt.Figure()
+        # canvas92 = FigureCanvasTkAgg(fig_tout_2, ResultsFrame_tout)
+        # canvas92.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
+        # ax92 = fig_tout_2.add_subplot(111)
+        # ax92.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        # ax92.set_xlabel(' Taxi-out time (secs) ')
+        # ax92.set_ylabel(' Aircraft count ')
+        
+        # #df_taxi_out.plot(kind='box', ax=ax92)
+        
+        # df_taxi_out['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax92)
+        
+        # ttk.Label(ResultsFrame_tout, text="   Filter by Max. Taxi-out value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
+        
+        # Throttle_tout = tk.Scale(ResultsFrame_tout, from_=min_tout, to=max_tout, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_to)#variable = var)
+        # Throttle_tout.grid(row=3, column=2, sticky='EW', padx=5)
+        # Throttle_tout.set(max_tout)
+        
+        # # TAXI-IN FRAME #############################################################################################
+        
+        # f4_help = ttk.LabelFrame(f4, text=" Quick Help ")
+        # f4_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
+        # ttk.Label(f4_help, text="Provides example analysis for Taxi-in distribution", font=12).grid(column=1, row=1, sticky='W')
+        # ttk.Label(f4_help, text="Note the analysis only considers:", font=12).grid(column=1, row=2, sticky='W') 
+        # ttk.Label(f4_help, text="  - 'Medium' wake aircraft", font=12).grid(column=1, row=3, sticky='W') 
+        
+        # f4_buttons= ttk.Frame(f4) 
+        # f4_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
+        
+        # tk.Button(f4_buttons, text='NEXT ->', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        # tk.Button(f4_buttons, text='<- BACK', command=lambda:raise_subframe(f3), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+        
+        # f4_content = tk.LabelFrame(f4, text=" TAXI-IN ", font="Helvetica 14 bold")
+        # f4_content.grid(row=0, column=0, sticky='E', padx=10, pady=40, ipadx=5, ipady=10)
+        
+        # columns_to_drop_taxi_in = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','B4','ADA_id','ADA_ADA','ADA_Combined ROT','ADA_Buffer','ADA_Uniques','ADA_ADA counts','ADA_C_ROT counts','ADA_Buffer_Unique','ADA_Buffer_counts']
+        # df_final_TAXIIN= tdf.drop(columns=columns_to_drop_taxi_in)
+        # df_taxi_in = df_final_TAXIIN.rename(columns = { 'TAXI_IN_S1':'S1','TAXI_IN_S2':'S2','TAXI_IN_S3':'S3','TAXI_IN_S4':'S4','TAXI_IN_S5':'S5','TAXI_IN_S6':'S6','TAXI_IN_S7':'S7','TAXI_IN_S8':'S8','TAXI_IN_S9':'S9','TAXI_IN_S10':'S10','TAXI_IN_S11':'S11','TAXI_IN_S12':'S12','TAXI_IN_S13':'S13','TAXI_IN_S14':'S14','TAXI_IN_S15':'S15'})
+        
+        # TIN_output = tk.IntVar()
+        
+        # max_tin = df_taxi_out['S1'].max() #160 # Initialise to remove unrealistic outliers from data
+        # min_tin = df_taxi_out['S1'].min()
+        
+        # TIN_filter_output = max_tin
+        
+        # def getThrottle_ti(event):
+            
+        #     ax102.clear() #ax
+            
+        #     ax102.set_title('  Taxi-in distribution example - Runway Direction = 26L, All Mediums ')
+        #     ax102.set_xlabel(' Taxi-in time (secs) ')
+        #     ax102.set_ylabel(' Aircraft count ')
+            
+        #     TIN_filter_output = Throttle_tin.get()
+            
+        #     df_tin_filtered = df_taxi_in.loc[df_taxi_in['S1'] <= TIN_filter_output]
+            
+        #     df_tin_filtered['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+            
+        #     plt.show()
+        
+        #     canvas102.draw() #canvas
+        
+
+        # ResultsFrame_tin = tk.LabelFrame(f4_content, text="  [  Taxi-in Results :  ]  ", font="Helvetica 12")
+        # ResultsFrame_tin.grid(row=1, columnspan=14, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
+        
+        # ttk.Label(ResultsFrame_tin, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
+        
+        # fig_tin = plt.Figure()
+        # canvas10 = FigureCanvasTkAgg(fig_tin, ResultsFrame_tin)
+        # canvas10.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
+        # ax10 = fig_tin.add_subplot(111)
+        # ax10.set_title('  Taxi-in movements shown for Runway Direction = 26L ')
+        # ax10.set_xlabel('Wake Category = [ Medium ] ')
+        # ax10.set_ylabel('Time (secs)')
+        
+        # df_taxi_in.plot(kind='box', ax=ax10) 
+        
+        # ## EXTRA Taxi-out plots!
+        
+        # fig_tin_2 = plt.Figure()
+        # canvas102 = FigureCanvasTkAgg(fig_tin_2, ResultsFrame_tin)
+        # canvas102.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
+        # ax102 = fig_tin_2.add_subplot(111)
+        # ax102.set_title('  Taxi-out distribution example - Runway Direction = 26L, All Mediums ')
+        # ax102.set_xlabel(' Taxi-out time (secs) ')
+        # ax102.set_ylabel(' Aircraft count ')
+        
+        # #df_taxi_out.plot(kind='box', ax=ax92)
+        
+        # df_taxi_in['S1'].plot(kind='hist', bins=100, rwidth=0.7, ax=ax102)
+        
+        # ttk.Label(ResultsFrame_tin, text="   Filter by Max. Taxi-in value ->     ", font="Helvetica 10").grid(row=2, column=2, sticky='N', padx=5, pady=10)
+        
+        # Throttle_tin = tk.Scale(ResultsFrame_tin, from_=min_tin, to=max_tin, width=10, orient=tk.HORIZONTAL, tickinterval=100, command=getThrottle_ti)#variable = var)
+        # Throttle_tin.grid(row=3, column=2, sticky='EW', padx=5)
+        # Throttle_tin.set(max_tin)
         
         # ADA/ADDA #############################################################################################
-        
-        #f5_help 
-           
+                   
         f5_help = ttk.LabelFrame(f5, text=" Quick Help ")
-        f5_help.grid(row=0, column=1, sticky='E', \
-                     padx=5, pady=5, ipadx=5, ipady=5)
+        f5_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Label(f5_help, text="Provides example analysis for an 'A-D-A' distribution", font=12).grid(column=1, row=1, sticky='W')
         ttk.Label(f5_help, text="Note the analysis only considers: a single Runway direction (26L)", font=12).grid(column=1, row=2, sticky='W') 
         ttk.Label(f5_help, text="  - A single Runway direction (26L)", font=12).grid(column=1, row=3, sticky='W')
         ttk.Label(f5_help, text="  - A single (on the day) wind condition", font=12).grid(column=1, row=4, sticky='W') 
         
         f5_content = tk.LabelFrame(f5, text="   Actual Speed Profiles   ", font="Helvetica 14 bold")
-        f5_content.grid(row=0, column=0, sticky='E', \
-                     padx=10, pady=40, ipadx=5, ipady=10)
+        f5_content.grid(row=0, column=0, sticky='E', padx=10, pady=40, ipadx=5, ipady=10)
         ttk.Label(f5_content, text = "Not available yet.", font=12).grid(column=1, row=1, sticky='W')
-        
         
         # NOTE ! : this frame used to be for ADA, but now we use it for Speed profile as the ADA comes from a normal distribution
         
-        #        #f5_content
-        #        f5_content = tk.LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
-        #        f5_content.grid(row=0, column=0, sticky='E', \
-        #                     padx=10, pady=40, ipadx=5, ipady=10)
-                
-        #        #####################################################################        
-        #        #                        ADA/ADDA  DATA                             #
-        #        #####################################################################
-        #        
-        #        columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
-        #        df_ada = tdf.drop(columns=columns_to_drop_ada)
-        #
-        #        ResultsFrame_ada = tk.LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
-        #        ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', \
-        #                  padx=5, pady=15, ipadx=5, ipady=5)
-        #        
-        #        ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
-        #        
-        #        fig_ada = plt.Figure()
-        #        canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
-        #        canvas7.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
-        #        ax7 = fig_ada.add_subplot(111)
-        #        ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
-        #        ax7.set_xlabel('Time (secs)')
-        #        ax7.set_ylabel('Frequency')
-        #        
-        #        df_ada_main_plot = df_ada
-        #        
-        #        df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
-        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
-        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
-        #        df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
-        #        df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
-        #        
-        #        df_ada_main_plot.plot(kind='line', ax=ax7)
-        #        
-        #        fig_buffer = plt.Figure()
-        #        canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
-        #        canvas8.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
-        #        ax8 = fig_buffer.add_subplot(111)
-        #        ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
-        #        ax8.set_xlabel('Buffer Spacing (secs)')
-        #        ax8.set_ylabel('Frequency')
-        #        
-        #        df_ada_sub_plot = df_ada
-        #        
-        #        df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
-        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
-        #        df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
-        #        df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
-        #        
-        #        df_ada_sub_plot.plot(kind='line', ax=ax8)
-        #        
-        #        df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
-        #        df_buffer_limit = df_buffer_limit.reset_index(level=[0])
-        #        
-        #        ############ ADA data filtering! ############
-        #        
-        #        
-        #        ######### Interesting Buffer stats! #########
-        #        
-        #        Buffer_Analysis = tk.LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
-        #        Buffer_Analysis.grid(row=2, column=2, sticky='N', \
-        #                  padx=5, pady=15, ipadx=5, ipady=5)
-        #        
-        #        ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=5, pady=10)
-        #        ## Update label value ##
-        #        ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky='N') # Mean Buffer value
-        #        
-        #        
-        #        #Option 2
-        #        ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky='N', padx=5, pady=10)
-        #        ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky='N') # Equivalent to numpy.percentile
+        # f5_content = tk.LabelFrame(f5, text="   ADA / ADDA   ", font="Helvetica 14 bold")
+        # f5_content.grid(row=0, column=0, sticky='E', padx=10, pady=40, ipadx=5, ipady=10)
+        
+        # #####################################################################        
+        # #                        ADA/ADDA  DATA                             #
+        # #####################################################################
+        
+        # columns_to_drop_ada = ['AROT_Callsign','AROT_Threshold','AROT_RWY exit time','AROT','AROT_Runway','AROT_Demand','AROT_Final Wake','AROT_RwyExit','AROT_Aircraft Type ICAO','AROT_Threshold Speed [kts]','AROT_Speed @ TDZ [kts]','AROT_RWY Exit Speed 1','AROT_RWY Exit Speed 2','AROT_RWY Exit Speed 3','B1','DROT_Callsign','DROT_Line up time','DROT_Start to roll','DROT_Take off time','DROT_Runway Entry','DROT_Take off speed [kts]','DROT','DROT_Runway','DROT_Demand','DROT_Final Wake','DROT_Aircraft Type ICAO','DROT_SID (shortened)','B2','TAXI_OUT_S1','TAXI_OUT_S2','TAXI_OUT_S3','TAXI_OUT_S4','TAXI_OUT_S5','TAXI_OUT_S6','TAXI_OUT_S7','TAXI_OUT_S8','TAXI_OUT_S9','TAXI_OUT_S10','TAXI_OUT_S11','TAXI_OUT_S12','TAXI_OUT_S13','TAXI_OUT_S14','TAXI_OUT_S15','B3','TAXI_IN_S1','TAXI_IN_S2','TAXI_IN_S3','TAXI_IN_S4','TAXI_IN_S5','TAXI_IN_S6','TAXI_IN_S7','TAXI_IN_S8','TAXI_IN_S9','TAXI_IN_S10','TAXI_IN_S11','TAXI_IN_S12','TAXI_IN_S13','TAXI_IN_S14','TAXI_IN_S15','B4']
+        # df_ada = tdf.drop(columns=columns_to_drop_ada)
+
+        # ResultsFrame_ada = tk.LabelFrame(f5_content, text="  [  ADA Results :  ]   ", font="Helvetica 12")
+        # ResultsFrame_ada.grid(row=1, columnspan=14, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
+        
+        # ttk.Label(ResultsFrame_ada, text="      Analysis of 2017 Summer Data from Airport X :  ", font="Helvetica 12").grid(column=1, row=0, sticky='N', pady=10, padx=20)
+        
+        # fig_ada = plt.Figure()
+        # canvas7 = FigureCanvasTkAgg(fig_ada, ResultsFrame_ada)
+        # canvas7.get_tk_widget().grid(column=1, row=1, sticky='N', padx=5, pady=5)
+        # ax7 = fig_ada.add_subplot(111)
+        # ax7.set_title('  ADA data shown for Runway Direction [ 26L ] ')
+        # ax7.set_xlabel('Time (secs)')
+        # ax7.set_ylabel('Frequency')
+        
+        # df_ada_main_plot = df_ada
+        
+        # df_ada_main_plot = df_ada_main_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Buffer_Unique', 'ADA_Buffer_counts'])
+        # df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_ADA counts':'ADA_ADA'})
+        # df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_C_ROT counts':'ADA_Combined ROT'})
+        # df_ada_main_plot = df_ada_main_plot.rename(columns = {'ADA_Uniques':'ADA_Time (secs)'})
+        # df_ada_main_plot = df_ada_main_plot.set_index('ADA_Time (secs)')
+        
+        # df_ada_main_plot.plot(kind='line', ax=ax7)
+        
+        # fig_buffer = plt.Figure()
+        # canvas8 = FigureCanvasTkAgg(fig_buffer, ResultsFrame_ada)
+        # canvas8.get_tk_widget().grid(column=2, row=1, sticky='N', padx=5, pady=5)
+        # ax8 = fig_buffer.add_subplot(111)
+        # ax8.set_title('  Resulting Buffer before next Arrival aircraft  ')
+        # ax8.set_xlabel('Buffer Spacing (secs)')
+        # ax8.set_ylabel('Frequency')
+        
+        # df_ada_sub_plot = df_ada
+        
+        # df_ada_sub_plot = df_ada_sub_plot.drop(columns=['ADA_id','ADA_ADA','ADA_Combined ROT', 'ADA_Buffer', 'ADA_Uniques', 'ADA_ADA counts', 'ADA_C_ROT counts'])
+        # df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_counts':'ADA_Buffer'})
+        # df_ada_sub_plot = df_ada_sub_plot.rename(columns = {'ADA_Buffer_Unique':'ADA_Time (secs)'})
+        # df_ada_sub_plot = df_ada_sub_plot.set_index('ADA_Time (secs)')
+        
+        # df_ada_sub_plot.plot(kind='line', ax=ax8)
+        
+        # df_buffer_limit =  df_ada_sub_plot.loc[df_ada_sub_plot.index <= 15, 'ADA_Buffer']
+        # df_buffer_limit = df_buffer_limit.reset_index(level=[0])
+        
+        # ############ ADA data filtering! ############
+        
+        # ######### Interesting Buffer stats! #########
+        
+        # Buffer_Analysis = tk.LabelFrame(ResultsFrame_ada, text="  [  Buffer Analysis :  ]   ", font="Helvetica 12")
+        # Buffer_Analysis.grid(row=2, column=2, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
+        
+        # ttk.Label(Buffer_Analysis, text="   Average buffer value from selection :     ", font="Helvetica 10").grid(row=1, column=1, sticky='N', padx=5, pady=10)
+        # ## Update label value ##
+        # ttk.Label(Buffer_Analysis, text=str(round(df_ada['ADA_Buffer'].mean(),2))).grid(column=1, row=2, sticky='N') # Mean Buffer value
+        
+        # #Option 2
+        # ttk.Label(Buffer_Analysis, text="   Count of instances with buffer < 15 seconds :     ", font="Helvetica 10").grid(row=1, column=2, sticky='N', padx=5, pady=10)
+        # ttk.Label(Buffer_Analysis, text=str(df_buffer_limit['ADA_Buffer'].count())).grid(column=2, row=2, sticky='N') # Equivalent to numpy.percentile
         
         output_extension_empty_file = time.strftime("%H_%M", time.localtime(time.time()))
         input_files_name = 'Input_File_RAPID_v3.0_' + output_extension_empty_file
@@ -1326,10 +1235,8 @@ def generate_new_input():
             
             df_final_DROT = define_final_DROT()
             print("DROTs defined FINAL | Filters DROT = ", Throttle_drot.get(), "Demand=", Throttle_d.get())
-            
-            
             ################################################################################################
-            
+
             #final_distribution_labels=[df_final_AROT,df_final_DROT,df_final_TAXIOUT, df_final_TAXIIN]
             final_distribution_labels=[df_final_AROT,df_final_DROT]
             df_final_distribution = pd.concat(final_distribution_labels, axis=1)
@@ -1338,7 +1245,8 @@ def generate_new_input():
             print(' !#!#!#!# CSV FILE NAME= ',distribution_file_name)
             df_final_distribution.to_csv(distribution_file_name)
             raise_subframe(f6)
-        #f5_buttons
+
+            
         f5_buttons= ttk.Frame(f5) 
         f5_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
@@ -1346,26 +1254,20 @@ def generate_new_input():
         tk.Button(f5_buttons, text='<- BACK', command=lambda:raise_subframe(f2), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         
         # STRATEGY #############################################################################################
-        
-        #f6_help 
-           
+                   
         f6_help = ttk.LabelFrame(f6, text=" Quick Help ")
-        f6_help.grid(row=0, column=1, sticky='E', \
-                     padx=5, pady=5, ipadx=5, ipady=5)
+        f6_help.grid(row=0, column=1, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Label(f6_help, text="Strategy tool assigns 'ADA, ADDA, or none' based on % of Scheduled Arrivals", font=12).grid(column=1, row=1, sticky='W')
         ttk.Label(f6_help, text="Note - the Operational Analysis saves the key distributions to the INPUT file", font=12).grid(column=1, row=2, sticky='W')  
         
-        #f6_buttons
         f6_buttons= ttk.Frame(f6) 
         f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
         tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
         tk.Button(f6_buttons, text='<- BACK', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         
-        #f6_content
         f6_content = tk.LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")
-        f6_content.grid(row=0, column=0, sticky='E', \
-                     padx=10, pady=40, ipadx=5, ipady=10)
+        f6_content.grid(row=0, column=0, sticky='E', padx=10, pady=40, ipadx=5, ipady=10)
         
         
         #####################################################################        
@@ -1379,7 +1281,7 @@ def generate_new_input():
         def actual_strat_tool():
             input_excel_sheet = import_excel_schedule.get()
             xl = pd.ExcelFile(input_excel_sheet)
-            #xl = pd.ExcelFile('inputs/Input_File_RAPID_2.05_CORE_Gatwick_SINGLE.xlsx')
+            # xl = pd.ExcelFile('inputs/Input_File_RAPID_2.05_CORE_Gatwick_SINGLE.xlsx')
             df_arr = xl.parse("Arrivals")
             df_dep = xl.parse("Departures")
             
@@ -1409,13 +1311,13 @@ def generate_new_input():
             h1, m1, s1 = min_arr_SIBT.split(':')
             min_interval = (math.floor((int(m1)/60)*(60/15)))*15
             min_arr_SIBT = datetime(2000, 1, 1, int(h1), int(min_interval), int(0))
-            #min_arr_SIBT = min_arr_SIBT.datetime.time
+            # min_arr_SIBT = min_arr_SIBT.datetime.time
             
             max_arr_SIBT = str(max_arr_SIBT) 
             h2, m2, s2 = max_arr_SIBT.split(':')
             max_interval = (math.floor((int(m2)/60)*(60/15)))*15
             max_arr_SIBT = datetime(2000, 1, 1, int(h2), int(max_interval), int(0))
-            #max_arr_SIBT = max_arr_SIBT.datetime.time
+            # max_arr_SIBT = max_arr_SIBT.datetime.time
             
             temp = min_arr_SIBT
             while temp <= max_arr_SIBT:
@@ -1508,7 +1410,7 @@ def generate_new_input():
             #####################################################################
             #                        WRITE OUTPUT                               #
             #####################################################################
-            #output_ex = time.strftime("%H_%M", time.localtime(time.time()))       
+            # output_ex = time.strftime("%H_%M", time.localtime(time.time()))       
             master_column = df_temp['Final_Strategy']
             
             output_file_to_edit = openpyxl.load_workbook(input_excel_sheet)
@@ -1522,24 +1424,21 @@ def generate_new_input():
             print(' !#!#!#!# XLSX FILE NAME= ', name_input_file)
             name_excel_sheet.set(name_input_file)
             
-            
-            return()
         ##########################################################################################################################################
             
-        #input_excel_sheet = 'C:/Users/Think - Joe Irwin/Dropbox/Think Users/JoeIrwin/RAPID/RAPID_DEMO/AROT_example_input.xlsx'
+        # input_excel_sheet = 'C:/Users/Think - Joe Irwin/Dropbox/Think Users/JoeIrwin/RAPID/RAPID_DEMO/AROT_example_input.xlsx'
         
         def sch_load_file():
             import_schedule = tk.filedialog.askopenfilename()
             import_excel_schedule.set(import_schedule)
             ttk.Label(SchImportFrame, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
-            #print("#####", import_excel_schedule, "###", import_schedule)
-            return()
+            # print("#####", import_excel_schedule, "###", import_schedule)
             
         def define_gen_parameters():
             button_check.set(True)
             ttk.Label(SchGenFrame, text="Generation Successful!").grid(column=1, row=4, sticky='N', pady=10)
             import_schedule = import_excel_schedule.get()
-        #name_input_file = ""    
+        # name_input_file = ""    
         def assign_strat_tool():
             button_check.set(True)
             actual_strat_tool()
@@ -1551,17 +1450,14 @@ def generate_new_input():
             
         # Left Side -------->
         IntroFrameLeft = tk.LabelFrame(f6_content, text="   [ STEP 1  -  SCHEDULE INPUT ]   ", font="Helvetica 12")
-        IntroFrameLeft.grid(row=0, column=1, sticky='N', \
-                      padx=5, pady=40, ipadx=5, ipady=5)
+        IntroFrameLeft.grid(row=0, column=1, sticky='N', padx=5, pady=40, ipadx=5, ipady=5)
         
         # Right Side -------->
         IntroFrameRight = tk.LabelFrame(f6_content, text="   [ STEP 2  -  ASSIGN STRATEGY ]   ", font="Helvetica 12")
-        IntroFrameRight.grid(row=0, column=2, sticky='N', \
-                      padx=5, pady=40, ipadx=5, ipady=5)
+        IntroFrameRight.grid(row=0, column=2, sticky='N', padx=5, pady=40, ipadx=5, ipady=5)
         
         SchImportFrame = tk.LabelFrame(IntroFrameLeft, text="   [ A ] - Import a Flight Schedule   ", font="Helvetica 12 bold")
-        SchImportFrame.grid(row=1, column=1, columnspan=7, sticky='N', \
-                  padx=40, pady=0, ipadx=5, ipady=5)
+        SchImportFrame.grid(row=1, column=1, columnspan=7, sticky='N', padx=40, pady=0, ipadx=5, ipady=5)
         
         ttk.Label(IntroFrameLeft, text="Select one of the following Options : ", font="Helvetica 12 italic").grid(column=3, row=0, sticky='N', pady=20, padx=40)
         
@@ -1571,14 +1467,12 @@ def generate_new_input():
         ttk.Button(SchImportFrame, text="Import a Flight Schedule ->", command=sch_load_file).grid(column=1, row=2, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
         
         SchGenFrame = tk.LabelFrame(IntroFrameLeft, text="   OR   [ B ] - Generate a Flight Schedule   ", font="Helvetica 12 bold")
-        SchGenFrame.grid(row=2, column=1, columnspan=7, sticky='N', \
-                  padx=40, pady=15, ipadx=5, ipady=5)
+        SchGenFrame.grid(row=2, column=1, columnspan=7, sticky='N', padx=40, pady=15, ipadx=5, ipady=5)
         
         ttk.Label(SchGenFrame, text="   ( Generated Schedule will use Wake/SID/Stand Group proportions based on operational data )   ", font="Helvetica 9 italic").grid(column=1, row=1, sticky='N', pady=10)
         
         General = tk.LabelFrame(SchGenFrame, text=" General Settings ")
-        General.grid(column=1, row=2, rowspan=1, sticky='N', \
-                  padx=10, pady=10, ipadx=40, ipady=10)
+        General.grid(column=1, row=2, rowspan=1, sticky='N', padx=10, pady=10, ipadx=40, ipady=10)
         
         perc_arrivals = tk.IntVar(General, value='20')
         total_aircraft = tk.IntVar(General, value='60')
@@ -1596,11 +1490,10 @@ def generate_new_input():
         
         SchGenFrame.bind('<Return>', define_gen_parameters)
         
-        #Strategy Assessment:
+        # Strategy Assessment:
         
         StratInputFrame = tk.LabelFrame(IntroFrameRight, text="   Generate a Spacing Strategy ->  ", font="Helvetica 12 bold")
-        StratInputFrame.grid(row=1, column=1, columnspan=7, sticky='N', \
-                  padx=10, pady=5, ipadx=5, ipady=5)
+        StratInputFrame.grid(row=1, column=1, columnspan=7, sticky='N', padx=10, pady=5, ipadx=5, ipady=5)
         
         ttk.Label(StratInputFrame, text="      Each Scheduled Aircraft is assigned a Strategy (15min intervals) :", font="Helvetica 9 italic").grid(column=1, row=0, sticky='N', pady=10, padx=40)
         
@@ -1610,12 +1503,13 @@ def generate_new_input():
        
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_subframe_f0(f1), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
+
 import1 = ttk.Button(f0_content_a, text="Select Operational Data", command=generate_new_input).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
 f0.bind('<Return>', create_dataframe_operational_data)
 
 f0_content_b = ttk.LabelFrame(f0_content, text=" [ B ] - Load existing INPUT file ")
-f0_content_b.grid(row=2, column=1, sticky='E', \
-             padx=5, pady=15, ipadx=5, ipady=5)
+f0_content_b.grid(row=2, column=1, sticky='E', padx=5, pady=15, ipadx=5, ipady=5)
+
 def load_input_file():
     input_file_excel = tk.filedialog.askopenfilename()
     name_excel_sheet.set(input_file_excel)  
@@ -1624,24 +1518,21 @@ def load_input_file():
     f0_buttons= tk.Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+
+
 import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
 
-
-
 #-------------------------------CORE GUI--------------------------------------#
-
-
 
 # buttons frame
 buttons_core = ttk.Frame(core_module)
 buttons_core.grid(row=2, sticky='NWES')
 
-#tabControl.add(tab2, text='CORE MODULE')      # Add the tab
-#tabControl.pack(expand=1, fill="both")  # Pack to make visible
+# tabControl.add(tab2, text='CORE MODULE')      # Add the tab
+# tabControl.pack(expand=1, fill="both")  # Pack to make visible
 
 helpCoreFrame = ttk.LabelFrame(tab2, text=" Quick Help ")
-helpCoreFrame.grid(row=2, column=10, sticky='E', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+helpCoreFrame.grid(row=2, column=10, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
 ttk.Label(helpCoreFrame, text="(1) Please use the following format: ", font=10).grid(column=10, row=2, sticky='W')
 ttk.Label(helpCoreFrame, text="     (SID1,SID2)(SID3,SID4)...", font=10).grid(column=10, row=3, sticky='W')
 ttk.Label(helpCoreFrame, text="(2) Please use the following format: ", font=10).grid(column=10, row=4, sticky='W')
@@ -1656,20 +1547,14 @@ ttk.Label(helpCoreFrame, text="      the variation will be less de 2 aircrafts p
 ttk.Label(helpCoreFrame, text="(5) Useful only for TIME-based separation", font=10).grid(column=10, row=13, sticky='W')
 ttk.Label(helpCoreFrame, text="(6) By defaylt everything is delivered to Threshold", font=10).grid(column=10, row=14, sticky='W')
 
-
 stepTwoFirstFrame = ttk.LabelFrame(tab2, text=" Mandatory Fields ")
-stepTwoFirstFrame.grid(row=2, column=2, columnspan=5, sticky='W', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+stepTwoFirstFrame.grid(row=2, column=2, columnspan=5, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 stepTwoSecondFrame = ttk.LabelFrame(tab2, text=" Enablers (Optional) ")
-stepTwoSecondFrame.grid(row=2, column=8, columnspan=2, sticky='W', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+stepTwoSecondFrame.grid(row=2, column=8, columnspan=2, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 stepTwoThirdFrame = ttk.LabelFrame(tab2)
-stepTwoThirdFrame.grid(row=11, column=4, columnspan=7, sticky='W', \
-             padx=5, pady=5, ipadx=5, ipady=5)
-
+stepTwoThirdFrame.grid(row=11, column=4, columnspan=7, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 stepTwoFourthFrame = ttk.LabelFrame(stepTwoSecondFrame, text=" Arrivals Separation ")
-stepTwoFourthFrame.grid(row=8, column=1, columnspan=7, sticky='W', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+stepTwoFourthFrame.grid(row=8, column=1, columnspan=7, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 
 n_input = tk.IntVar(win, value='50')
 ADA_x_input = tk.IntVar(win, value = '10')
@@ -1679,8 +1564,6 @@ SIDmax_input = tk.IntVar(win, value = '4')
 SIDgroup_separation_input = tk.StringVar(win, value='(2,4)(3,4)')
 SID_queue_assign_input = tk.StringVar(win, value = '1 3 | 2 4' )
 n_times_input= tk.IntVar(win, value='1')
-
-
 
 button_check = tk.StringVar(mainframe, value='0')
 n_output = tk.IntVar()
@@ -1727,7 +1610,6 @@ m_output = tk.IntVar()
 arr_delay_output = tk.IntVar()
 convergence_output = tk.IntVar()
 
-
 ### Frame 1
 
 input_entry1 = tk.Entry(stepTwoFirstFrame, width=7, textvariable=n_input,font=16)
@@ -1764,10 +1646,7 @@ input_entry6 = tk.Entry(stepTwoFirstFrame, width=14,  textvariable=SID_queue_ass
 input_entry6.grid(column=2, row=7, sticky='WE')
 ttk.Label(stepTwoFirstFrame, text="Assign SID groups to each RWY queue. (2)", font=16).grid(column=1, row=7, sticky='W') 
 
-
 ### Frame 2
-
-
 
 var6 = tk.IntVar()
 tk.Checkbutton(stepTwoSecondFrame, text="RECAT", variable=var6, font=16).grid(column=1, row=1, sticky='W')
@@ -1775,10 +1654,8 @@ tk.Checkbutton(stepTwoSecondFrame, text="RECAT", variable=var6, font=16).grid(co
 var17 = tk.IntVar()
 tk.Checkbutton(stepTwoSecondFrame, text="RECAT-PWS", variable=var17, font=16).grid(column=1, row=2, sticky='W')
 
-
 var2 = tk.IntVar()
 tk.Checkbutton(stepTwoSecondFrame, text="Debug", variable=var2,font=16).grid(column=1, row=3, sticky='W')
-
 
 var15 = tk.IntVar()
 tk.Checkbutton(stepTwoFourthFrame, text="DISTANCE-based Arrivals separation (5) ", variable=var15,font=16).grid(column=1, row=1, sticky='W')
@@ -1790,10 +1667,8 @@ input_entry15 = tk.Entry(stepTwoFourthFrame, width=7, textvariable=ADA_x_input,f
 input_entry15.grid(column=2, row=3, sticky='WE')
 tk.Label(stepTwoFourthFrame, text="ADA target time X-value (5) = ",font=16).grid(column=1, row=3, sticky='W')
 
-
 delievery = ttk.LabelFrame(stepTwoFourthFrame, text="Separation Delievery (6)")
-delievery.grid(row=4, column=1, columnspan=2, sticky='W', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+delievery.grid(row=4, column=1, columnspan=2, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 
 tk.Label(delievery, text="4dme : ",font=16).grid(column=1, row=1, sticky='W')
 
@@ -1809,7 +1684,6 @@ tk.Checkbutton(delievery, text="ADA", variable=ADA_4dme,font=16).grid(column=4, 
 ADDA_4dme = tk.IntVar()
 tk.Checkbutton(delievery, text="ADDA", variable=ADDA_4dme,font=16).grid(column=5, row=1, sticky='W')
 
-
 tk.Label(delievery, text="Threshold : ",font=16).grid(column=1, row=2, sticky='W')
 
 MRS_thr = tk.IntVar()
@@ -1824,7 +1698,6 @@ tk.Checkbutton(delievery, text="ADA", variable=ADA_thr,font=16).grid(column=4, r
 ADDA_thr = tk.IntVar()
 tk.Checkbutton(delievery, text="ADDA", variable=ADDA_thr,font=16).grid(column=5, row=2, sticky='W')
 
-
 ### Frame 3
 
 input_entry7 = tk.Entry(stepTwoThirdFrame, width=7, textvariable=n_times_input,font=16)
@@ -1836,18 +1709,14 @@ tk.Checkbutton(stepTwoThirdFrame, text="I want to feel confident! (4) ", variabl
 var14 = tk.IntVar()
 tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, font=16).grid(column=1, row=3, sticky='W')
 
-
 # Buttons
-
 
 buttons_frame_core = ttk.Frame(buttons_core)
 buttons_frame_core.pack(side="right")
 tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_main_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
 tk.Button(buttons_frame_core, text="Just run the model", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="bottom")
 
-
 #------------------------------VISUAL GUI-------------------------------------#
-
 
 button_check = tk.StringVar(win, value='0')
 m_input = tk.IntVar(win, value='0')
@@ -1862,21 +1731,15 @@ m_output = tk.IntVar()
 arr_delay_output = tk.IntVar()
 name_excel_sheet = tk.StringVar()
 
-
 helpVisFrame = ttk.LabelFrame(tab3, text=" Quick Help ")
-helpVisFrame.grid(row=1, column=8, sticky='E', \
-             padx=5, pady=5, ipadx=5, ipady=5)
+helpVisFrame.grid(row=1, column=8, sticky='E', padx=5, pady=5, ipadx=5, ipady=5)
 ttk.Label(helpVisFrame, text="(1) If this box is checked, another window will pop-up after pressing 'Visualize results'.", font=12).grid(column=8, row=1, sticky='W')
 ttk.Label(helpVisFrame, text="      Please make sure that the operational data are in the right format.", font=12).grid(column=8, row=2, sticky='W')
-
 ttk.Label(helpVisFrame, text="(2) If this box is checked, another window will pop-up after pressing 'Visualize results'. ", font=12).grid(column=8, row=3, sticky='W')
 ttk.Label(helpVisFrame, text="      Please make sure that the new data are in the same format as the outputs of the model.", font=12).grid(column=8, row=4, sticky='W')
 
-
-
 stepThree = ttk.LabelFrame(tab3)
-stepThree.grid(row=1, columnspan=7, sticky='N', \
-               padx=5, pady=5, ipadx=5, ipady=5)
+stepThree.grid(row=1, columnspan=7, sticky='N', padx=5, pady=5, ipadx=5, ipady=5)
 
 var0 = tk.IntVar()
 tk.Checkbutton(stepThree, text="Convergence", variable=var0, font=16).grid(column=1, row=1, sticky='W')
@@ -1912,7 +1775,6 @@ buttons_visual.grid(row=2, sticky='NWES')
 tk.Button(buttons_visual, text="RUN", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
-
 raise_frame(f0)
 raise_main_frame(input_module)
 
@@ -1922,7 +1784,6 @@ win.rowconfigure(1, weight=1)
 
 win.mainloop()      
 
-
 n_times = n_times_output.get()
 m = m_output.get()
 
@@ -1931,36 +1792,43 @@ if convergence_output.get() == 1:
     convergenceFLAG = True
 else:
     convergenceFLAG = False
+
 # Switch for Throughput
 if Throughput_check_output.get() == 1:
     Thr_FLAG = True
 else:
     Thr_FLAG = False
+
 # Switch for Departures Delay
 if Delay_check_output.get() == 1:
     Delay_FLAG = True
 else:
     Delay_FLAG = False
+
 #Switch for Sequence
 if Seq_check_output.get() == 1:
     Seq_FLAG = True
 else:
     Seq_FLAG = False
+
 #Switch for ADA Buffer 
 if ADA_buffer_output.get() == 1:
     ADA_buffer_FLAG = True
 else:
     ADA_buffer_FLAG = False   
+
 #Switch for op data    
 if op_yes_output.get() == 1:
     OP_FLAG = True
 else:
     OP_FLAG = False
+
 #Switch for comparison   
 if new_set_output.get() == 1:
     new_set_FLAG = True
 else:
     new_set_FLAG = False
+
 # Switch for Arrivals Delay
 if arr_delay_output.get() == 1:
     arr_delay_FLAG = True
@@ -1993,6 +1861,7 @@ if OP_FLAG == True:
     
     win.mainloop()
     operational_data = op_data_sheet.get() 
+
 #----New set of data---#
 if new_set_FLAG == True:
     if m >= 1 :
@@ -2091,15 +1960,11 @@ if new_set_FLAG == True:
                         df_arr_output6 = xls6.parse(3)
                         df_rwy_calcs6 = xls6.parse(2)
 
-
-
-#*****************************************************************************#
 #=============================================================================#
 #                                                                             #
 #                              CORE MODULE                                    #
 #                                                                             #
 # ============================================================================#
-#*****************************************************************************#
 
 n_times = n_times_output.get()
 limit_to_change = 15
@@ -2110,11 +1975,13 @@ averages =[]
 difference=[]
 iter2 = 0
 iter1 = 0 
+
 if averagethrFLAG == True:
     maxIter = 10
 else:
     maxIter = n_times
- #How many times you want to do it....
+
+#How many times you want to do it....
 while (iter1 < maxIter):
 
     n = n_output.get()
@@ -2125,7 +1992,6 @@ while (iter1 < maxIter):
     SIDgroup_separation = SIDgroup_separation_output.get()
     SID_queue_assign = SID_queue_assign_output.get()    
     input_excel_sheet = name_excel_sheet.get()
-    
     
     # Switch for including 'Debug' output
     if debug_output.get() == 1:
@@ -2153,26 +2019,23 @@ while (iter1 < maxIter):
         RECAT_PWS_FLAG = True
     else:
         RECAT_PWS_FLAG = False
-        
-        
-        
+    
     if averagethr_output.get() ==1:
         averagethrFLAG = True
     else:
         averagethrFLAG = False
         
-    #    if distance_based_output.get() ==1:
-    #        distance_based_FLAG = True
-    #    else:
-    #        distance_based_FLAG = False
+    # if distance_based_output.get() ==1:
+    #     distance_based_FLAG = True
+    # else:
+    #     distance_based_FLAG = False
         
     if time_based_output.get() ==1:
         time_based_FLAG = True
         distance_based_FLAG = False
     else:
         time_based_FLAG = False
-        
-        
+    
     #Delievery:
     if MRS4dme_output.get() ==1:
         MRS_4dme_FLAG = True
@@ -2210,8 +2073,7 @@ while (iter1 < maxIter):
         ADDA_thr_FLAG = True
     else:
         ADDA_thr_FLAG = False
-        
-
+    
     # Queue selection    
     if queue1_output.get() == 1:
         Use_queue = 1
@@ -2251,7 +2113,6 @@ while (iter1 < maxIter):
         print("Please select an input file ...")
         sys.exit(0)
     
-
     #####################################################################
     #                           START OF MODEL                          #
     #####################################################################
@@ -2279,7 +2140,6 @@ while (iter1 < maxIter):
         df_wake_RECAT['RECAT-EU'] = df_wake['RECAT-EU']
         df_wake_RECAT = df_wake_RECAT.set_index('ICAO')
     
-        
     #-----RECAT-EU separation-------#
     if RECatFLAG==True:
         df_RECAT_EU_separation = pd.read_csv('utility/RECAT_EU_separation.csv')
@@ -2305,19 +2165,13 @@ while (iter1 < maxIter):
         df_RECAT20_separation = df_RECAT20_separation.set_index('LEAD')
         #df_RECAT20_separation = df_RECAT_PWS.set_index('LEAD')
     
-    
-    
-    
     df_speed_profiles = df_speed_profiles.drop(columns=['Unnamed: 0'])
     dict_actual_speed_profiles= {k: v for k, v in df_speed_profiles.groupby('Aircraft_Type')}
     for key in list(dict_actual_speed_profiles.keys()):
         dict_actual_speed_profiles[key] = dict_actual_speed_profiles[key].reset_index()
         dict_actual_speed_profiles[key] = dict_actual_speed_profiles[key].drop(columns = 'index')
     
-    #print(A_temp_df['NO PROFILE'].size)
-         
-    
-    
+    # print(A_temp_df['NO PROFILE'].size)
     
     # process distributions AROT/DROT/TAXI-in/TAXI-out
     def process_each_column_in_distributions(dataframe,name):      
@@ -2352,82 +2206,76 @@ while (iter1 < maxIter):
     df_DROT_S =  pd.DataFrame()
     df_DROT_S = process_each_column_in_distributions(df_DROT_S, 'DROT_S')
     
-    #    df_TAXI_OUT_S1 =  pd.DataFrame()
-    #    df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
-    #    df_TAXI_OUT_S2 =  pd.DataFrame()
-    #    df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
-    #    df_TAXI_OUT_S3 =  pd.DataFrame()
-    #    df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
-    #    df_TAXI_OUT_S4 =  pd.DataFrame()
-    #    df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
-    #    df_TAXI_OUT_S5 =  pd.DataFrame()
-    #    df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
-    #    df_TAXI_OUT_S6 =  pd.DataFrame()
-    #    df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
-    #    df_TAXI_OUT_S7 =  pd.DataFrame()
-    #    df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
-    #    df_TAXI_OUT_S8 =  pd.DataFrame()
-    #    df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
-    #    df_TAXI_OUT_S9 =  pd.DataFrame()
-    #    df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
-    #    df_TAXI_OUT_S10 =  pd.DataFrame()
-    #    df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
-    #    df_TAXI_OUT_S11 =  pd.DataFrame()
-    #    df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
-    #    df_TAXI_OUT_S12 =  pd.DataFrame()
-    #    df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
-    #    df_TAXI_OUT_S13 =  pd.DataFrame()
-    #    df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
-    #    df_TAXI_OUT_S14 =  pd.DataFrame()
-    #    df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
-    #    df_TAXI_OUT_S15 =  pd.DataFrame()
-    #    df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
-    #    
-    #    df_TAXI_IN_S1 =  pd.DataFrame()
-    #    df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
-    #    df_TAXI_IN_S2 =  pd.DataFrame()
-    #    df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
-    #    df_TAXI_IN_S3 =  pd.DataFrame()
-    #    df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
-    #    df_TAXI_IN_S4 =  pd.DataFrame()
-    #    df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
-    #    df_TAXI_IN_S5 =  pd.DataFrame()
-    #    df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
-    #    df_TAXI_IN_S6 =  pd.DataFrame()
-    #    df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
-    #    df_TAXI_IN_S7 =  pd.DataFrame()
-    #    df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
-    #    df_TAXI_IN_S8 =  pd.DataFrame()
-    #    df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
-    #    df_TAXI_IN_S9 =  pd.DataFrame()
-    #    df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
-    #    df_TAXI_IN_S10 =  pd.DataFrame()
-    #    df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
-    #    df_TAXI_IN_S11 =  pd.DataFrame()
-    #    df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
-    #    df_TAXI_IN_S12 =  pd.DataFrame()
-    #    df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
-    #    df_TAXI_IN_S13 =  pd.DataFrame()
-    #    df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
-    #    df_TAXI_IN_S14 =  pd.DataFrame()
-    #    df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
-    #    df_TAXI_IN_S15 =  pd.DataFrame()
-    #    df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
+    # df_TAXI_OUT_S1 =  pd.DataFrame()
+    # df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
+    # df_TAXI_OUT_S2 =  pd.DataFrame()
+    # df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
+    # df_TAXI_OUT_S3 =  pd.DataFrame()
+    # df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
+    # df_TAXI_OUT_S4 =  pd.DataFrame()
+    # df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
+    # df_TAXI_OUT_S5 =  pd.DataFrame()
+    # df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
+    # df_TAXI_OUT_S6 =  pd.DataFrame()
+    # df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
+    # df_TAXI_OUT_S7 =  pd.DataFrame()
+    # df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
+    # df_TAXI_OUT_S8 =  pd.DataFrame()
+    # df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
+    # df_TAXI_OUT_S9 =  pd.DataFrame()
+    # df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
+    # df_TAXI_OUT_S10 =  pd.DataFrame()
+    # df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
+    # df_TAXI_OUT_S11 =  pd.DataFrame()
+    # df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
+    # df_TAXI_OUT_S12 =  pd.DataFrame()
+    # df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
+    # df_TAXI_OUT_S13 =  pd.DataFrame()
+    # df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
+    # df_TAXI_OUT_S14 =  pd.DataFrame()
+    # df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
+    # df_TAXI_OUT_S15 =  pd.DataFrame()
+    # df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
     
-    
+    # df_TAXI_IN_S1 =  pd.DataFrame()
+    # df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
+    # df_TAXI_IN_S2 =  pd.DataFrame()
+    # df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
+    # df_TAXI_IN_S3 =  pd.DataFrame()
+    # df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
+    # df_TAXI_IN_S4 =  pd.DataFrame()
+    # df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
+    # df_TAXI_IN_S5 =  pd.DataFrame()
+    # df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
+    # df_TAXI_IN_S6 =  pd.DataFrame()
+    # df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
+    # df_TAXI_IN_S7 =  pd.DataFrame()
+    # df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
+    # df_TAXI_IN_S8 =  pd.DataFrame()
+    # df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
+    # df_TAXI_IN_S9 =  pd.DataFrame()
+    # df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
+    # df_TAXI_IN_S10 =  pd.DataFrame()
+    # df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
+    # df_TAXI_IN_S11 =  pd.DataFrame()
+    # df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
+    # df_TAXI_IN_S12 =  pd.DataFrame()
+    # df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
+    # df_TAXI_IN_S13 =  pd.DataFrame()
+    # df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
+    # df_TAXI_IN_S14 =  pd.DataFrame()
+    # df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
+    # df_TAXI_IN_S15 =  pd.DataFrame()
+    # df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
     
     ###########################################
 
-
-    
-    
     # Data frame
     xls = pd.ExcelFile(input_excel_sheet) 
     df_dep = xls.parse(1)
     df_arr = xls.parse(0)
 
     #---------------------------GLOBAL VARIABLES----------------------------------#
-
 
     # SET WAKE RULES for departures
     H_H_d = 90
@@ -2530,9 +2378,6 @@ while (iter1 < maxIter):
         list_for_15min.append(entry_in_15min)
     start_value_15min = 0
     
-    
-    
-    
     #########################################################################
     #                             RECAT                                     # 
     #########################################################################
@@ -2552,13 +2397,9 @@ while (iter1 < maxIter):
         wake_cat_list.append(wake_list_temp)
     wake_cat_list = wake_cat_list[0] + wake_cat_list[1] + wake_cat_list[2] + wake_cat_list[3] + wake_cat_list[4] + wake_cat_list[5]
     
-
-
-
     #------------------------------INPUT PRE-PROCESS -----------------------------#
 
-    
-    #Initialise Arrival input - N.B. must be outside method
+    # Initialise Arrival input - N.B. must be outside method
     arrivalInput = wb.get_sheet_by_name('Arrivals')
     departureInput = wb.get_sheet_by_name('Departures')
     max_ARRIVAL = arrivalInput.max_row + 1
@@ -2580,6 +2421,7 @@ while (iter1 < maxIter):
     if debugFLAG3 == True:
         wb.create_sheet(index=8,title='Debug')
         debugTab = wb.get_sheet_by_name('Debug')
+
     # Function to write headers for the output excel sheets
     def set_Output_Excel_headers():
         # runway Calculations (intermediate step) headers
@@ -2603,8 +2445,6 @@ while (iter1 < maxIter):
         runwayCalculations['T' + str(1)].value = 'DROT'
         runwayCalculations['U' + str(1)].value = 'ARRIVAL actual WAKE'
 
-        
-        
         # Arrival Output tab headers
         arrivalOutput['A' + str(1)].value = 'Arrival ID'
         arrivalOutput['B' + str(1)].value = 'Arrival HOUR'
@@ -2642,7 +2482,6 @@ while (iter1 < maxIter):
         arrivalInput['AV' + str(1)].value = 'IAS_8_9dme'
         arrivalInput['AW' + str(1)].value = 'IAS_9_10dme'
         
-        
         # Departure Output tab headers
         departureOutput['A' + str(1)].value = 'Departure ID'
         departureOutput['B' + str(1)].value = 'Departure HOUR'
@@ -2666,15 +2505,14 @@ while (iter1 < maxIter):
         departureOutput['T' + str(1)].value = 'DELAY RWYqueue'
         departureOutput['U' + str(1)].value = 'RWY queue USED'
 
-        
         # Throughput tab headers
         throughputTab['A' + str(1)].value = 'Hour'
         throughputTab['B' + str(1)].value = 'Departure Throughput'
         throughputTab['C' + str(1)].value = 'Arrival Throughput'
         throughputTab['D' + str(1)].value = 'Total Throughput'
         throughputTab['E' + str(1)].value = 'Cum. No. of Go-Arounds'
-    #        
-    #        # Delay tab headers 
+
+        # Delay tab headers 
         delayTab['A' + str(1)].value = 'Departure ID'
         delayTab['B' + str(1)].value = 'HOUR'
         delayTab['C' + str(1)].value = 'RWY HOLD Delay'
@@ -2683,7 +2521,6 @@ while (iter1 < maxIter):
         delayTab['I' + str(1)].value = 'Arrival ID'
         delayTab['J' + str(1)].value = 'HOUR'
         delayTab['K' + str(1)].value = 'Arrival Delay'
-        
         
         # Sequence tab headers
         sequenceTab['A' + str(1)].value = 'Type'
@@ -2694,7 +2531,7 @@ while (iter1 < maxIter):
         sequenceTab['F' + str(1)].value = 'Arr ID start ADA pair'
         sequenceTab['G' + str(1)].value = 'ADA Buffer'
         
-        #Debug tab headers
+        # Debug tab headers
         if debugFLAG3 == True:
             debugTab['A' + str(1)].value = 'Time'
             debugTab['B' + str(1)].value = 'Runway status'
@@ -2702,10 +2539,10 @@ while (iter1 < maxIter):
             debugTab['D' + str(1)].value = 'Current Gap - A'
             debugTab['E' + str(1)].value = 'Current Gap - E'
             debugTab['L' + str(1)].value = 'Arrival Hold Delay'
-        return
     
+
    ####################### ARRIVALS SEPARATION FUNCTIONS########################
-                
+    
     def distance_to_time_assumed_speed_profile_IAS(i, d_dme, distance): #DELIVERED at THR
         #fixed d_dme at 3dme, variable c_dme because max deceleration speed is 20kts/NM
         c_dme = 4
@@ -2732,7 +2569,7 @@ while (iter1 < maxIter):
             TBS_assumed_speed_profile_value = int(distance*3600/runwayCalculations['K' + str(i)].value)
         #print('TBS - on' )   
         
-        return(TBS_assumed_speed_profile_value)
+        return TBS_assumed_speed_profile_value
         
         
     def DBS_assumed_speed_profile(i, d_dme, distance): #DELIVERED at THR
@@ -2757,10 +2594,13 @@ while (iter1 < maxIter):
         elif distance <= d_dme:
             DBS_assumed_speed_profile_value = int(distance*3600/(runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value))
                     
-        return(DBS_assumed_speed_profile_value)
+        return DBS_assumed_speed_profile_value
     
+
     def DBS_actual_speed_profile(distance,row): #DELIVERED at THR # use GS
+
         T=0
+
         def full_segments(n,row):
             T= 0
             if n >= 1:
@@ -2782,11 +2622,10 @@ while (iter1 < maxIter):
                                             if n==9:
                                                 T += 2*3600/(arrivalInput['AL'+str(row)].value + arrivalInput['AM'+str(row)].value)
                                             elif n>9:
-                                                T += (n-9)*3600/arrivalInput['AM'+str(row)].value
-                                    
-                                                
-                                                    
+                                                T += (n-9)*3600/arrivalInput['AM'+str(row)].value          
             return T
+        
+        
         def fraction_of_segments(n,f,row):
             T = 0
             if n==1:
@@ -2813,9 +2652,10 @@ while (iter1 < maxIter):
             elif n==8:
                 S = f*(arrivalInput['AM'+str(row)].value - arrivalInput['AL'+str(row)].value) + arrivalInput['AL'+str(row)].value
                 T = (f*3600)/(arrivalInput['AM'+str(row)].value)
-            
             return T
-    #        if distance > 0:
+
+
+        # if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -2831,6 +2671,7 @@ while (iter1 < maxIter):
                 T = T1 + (0.5*3600)/arrivalInput['AD'+str(row)].value
         return T
     
+
     def TBS_actual_speed_profile(distance,row): #DELIVERED at THR # use IAS
         def full_segments(n,row):
             if n >= 1:
@@ -2853,9 +2694,9 @@ while (iter1 < maxIter):
                                                 T += 2*3600/(arrivalInput['AV'+str(row)].value + arrivalInput['AW'+str(row)].value)
                                             elif n>9:
                                                 T += (n-9)*3600/arrivalInput['AW'+str(row)].value
-                                                
-                                                
             return T
+
+
         def fraction_of_segments(n,f,row):
             if n==1:
                 S = f*(arrivalInput['AP'+str(row)].value - arrivalInput['AO'+str(row)].value) + arrivalInput['AO'+str(row)].value
@@ -2882,7 +2723,9 @@ while (iter1 < maxIter):
                 S = f*(arrivalInput['AW'+str(row)].value - arrivalInput['AV'+str(row)].value) + arrivalInput['AV'+str(row)].value
                 T = (f*3600)/arrivalInput['AW'+str(row)].value
             return T
-    #        if distance > 0:
+
+
+        # if distance > 0:
         X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
         D = X - 0.5
         if D <0:
@@ -2895,10 +2738,10 @@ while (iter1 < maxIter):
                 T2 = fraction_of_segments(n,f,row)
                 T = T1 + T2 + (0.5*3600)/arrivalInput['AN'+str(row)].value
             else:
-                T = T1  
-               
+                T = T1
         return T
             
+    
     def time_to_distance_assumed_speed_profile_IAS(row, d_dme, T):
         c_dme = 4
         deceleration_difference= (runwayCalculations['H' + str(row)].value - runwayCalculations['K' + str(row)].value)
@@ -2906,7 +2749,6 @@ while (iter1 < maxIter):
             c_dme = deceleration_difference / 20    
         t1 = d_dme*3600/runwayCalculations['K' + str(row)].value
         t2 = (c_dme - d_dme)*3600*2/(runwayCalculations['K' + str(row)].value + runwayCalculations['H' + str(row)].value) + t1
-        
         
         if T <= t1 :
             D = (runwayCalculations['K' + str(row)].value*T)/3600
@@ -2918,6 +2760,7 @@ while (iter1 < maxIter):
             D = c_dme + (T-t2)*runwayCalculations['H' + str(row)].value/3600
         return D
     
+
     def time_to_distance_assumed_speed_profile_GS(row, d_dme,T):
         c_dme = 4
         deceleration_difference= (runwayCalculations['H' + str(row)].value - runwayCalculations['G' + str(row)].value) - (runwayCalculations['K' + str(row)].value - runwayCalculations['I' + str(row)].value)
@@ -2925,7 +2768,6 @@ while (iter1 < maxIter):
             c_dme = deceleration_difference / 20    
         t1 = d_dme*3600/(runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)
         t2 = (c_dme - d_dme)*3600*2/((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value) + (runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value)) + t1
-        
         
         if T <= t1 :
             D = ((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)*T)/3600
@@ -2939,14 +2781,11 @@ while (iter1 < maxIter):
             D = c_dme + (T-t2)*(runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value)/3600
         return D
 
-            
+    
     # Function to pre-process the Arrival input file and make initial calculations
     def Arrival_Input_pre_process():       
         
-        
-       
         def write_actual_speed_profile_to_output(row, AC_type):
-           
             df_row = random.randint(0,(dict_actual_speed_profiles[AC_type]['Aircraft_Type'].size-1)) 
             arrivalInput['AD' + str(row)].value = dict_actual_speed_profiles[AC_type]['GSPD_0_1DME'][df_row]
             arrivalInput['AE' + str(row)].value = dict_actual_speed_profiles[AC_type]['GSPD_1_2DME'][df_row]
@@ -2970,6 +2809,7 @@ while (iter1 < maxIter):
             arrivalInput['AV' + str(row)].value = dict_actual_speed_profiles[AC_type]['IAS_8_9DME'][df_row]
             arrivalInput['AW' + str(row)].value = dict_actual_speed_profiles[AC_type]['IAS_9_10DME'][df_row]
         
+
         # Read in Arrival data from an excel workbook
         for row in range(2, arrivalInput.max_row + 1):
             
@@ -2998,9 +2838,6 @@ while (iter1 < maxIter):
             else:
                 runwayCalculations['U' +str(row)].value = arrivalInput['E' +str(row)].value #WTC cat
             
-                
-            
-            
             ################# ACTUAL _ SPEED _ PROFILE ####################
             
             AC_type = arrivalInput['D' + str(row)].value
@@ -3028,9 +2865,7 @@ while (iter1 < maxIter):
                     else: #if it doesn't have a speed profile, delete it from the list and check againg
                         #print(AC_replacement, ' does not have a speed profile')
                         list_AC_in_wake_cat.remove(index_picked)
-                        
- 
-                
+            
             ######################## INTERMEDIATE CALCULATIONS ###########################
         
             # Arrival ID
@@ -3039,11 +2874,11 @@ while (iter1 < maxIter):
            
             Arrival_Taxiin_mean = arrivalInput['I' + str(row)].value
             Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
-            #Taxiinlookup = arrivalInput['M' + str(row)].value
-    #            if taxi_outliers == False:
+            # Taxiinlookup = arrivalInput['M' + str(row)].value
+            # if taxi_outliers == False:
             tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
-    #            else:
-    #                tempTaxiIn = Taxiinlookup   
+            # else:
+                # tempTaxiIn = Taxiinlookup   
             runwayCalculations['B' + str(row)].value = round(tempTaxiIn, 0)
 
             ####################### AROT - from lookup ########################
@@ -3120,11 +2955,8 @@ while (iter1 < maxIter):
             #---- Predicted Landing Time --------#
             runwayCalculations['M' + str(row)].value = runwayCalculations['L' + str(row)].value + 60 # PLT = SAE + MRS*
             
- 
-            
             ############################ MAX CONSTRAINT CALCS ##################################
 
-            
             def min_wake_separation_arrs(key_of_nextArrival): # delievered at THR ACTUAL SPEED PROFILE
                 minWakeSepArr = 0 # Initialise local variable (reset on each iteration)
                 
@@ -3170,8 +3002,6 @@ while (iter1 < maxIter):
                                 else:
                                     minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                     
-                                    
-                                    
                 else: #analyze by wake
                     previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value
                     currentArrivalWake = runwayCalculations['U' +str(key_of_nextArrival)].value
@@ -3210,18 +3040,14 @@ while (iter1 < maxIter):
                                 else:
                                     minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                 
-                       
                 return(minWakeSepArr)   
             
-            
-            
-            
+
             runwayCalculations['P' + str(1)].value = "WAKE SEPARATION"
             runwayCalculations['P' + str(row)].value = int(min_wake_separation_arrs(row)) #always Distance-based
-            
-            
             runwayCalculations['Q' + str(1)].value = "MRS" 
             MRSArr = 0
+
             if (MRS_4dme_FLAG == True) and (row>2):
                 Total_time_follow = int(DBS_actual_speed_profile((min_radar_separation_distance+4),row))
                 Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
@@ -3230,17 +3056,18 @@ while (iter1 < maxIter):
                 MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
             else: # the same as the previous one but it's the default condition                                    
                 MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
+
             runwayCalculations['Q' + str(row)].value = MRSArr
-                
+            
             def max_constraint_generator(row):
                 wake_constraint = runwayCalculations['P' + str(row)].value
                 MRS_constraint = runwayCalculations['Q' + str(row)].value                
                 spFLAG = "None"
                 max_constraint = 0
+
                 if row == 2 :                   
                     max_constraint = max(wake_constraint,MRS_constraint)
                     spFLAG = "First Arrival"
-                    
                 else: #not he first arrival
                     AROT_constraint = runwayCalculations['C' + str(row-1)].value + 5
                     
@@ -3252,7 +3079,6 @@ while (iter1 < maxIter):
                             spFLAG = "MRS"
                         else:
                             spFLAG = "AROT"
-                            
                     elif (df_dep.empty == False) and (df_arr.empty == False): #there are both arrivals and departures scheduled
                         if time_based_FLAG == True:
                             
@@ -3263,7 +3089,6 @@ while (iter1 < maxIter):
                                 spFLAG = "MRS"
                             else:
                                 spFLAG = "AROT"
-                                
                         elif distance_based_FLAG == True:
                             if (arrivalInput['U' + str(row)].value) == "ADDA" :
                                 ADDA_distance = runwayCalculations['E' + str(row)].value
@@ -3275,9 +3100,7 @@ while (iter1 < maxIter):
                                     ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
                                 else: # the same as the previous one but it's the default condition                                    
                                     ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
-                                
-                                
-                                #ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))
+                                # ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))
                                 
                                 max_constraint = int(max(wake_constraint, ADDA_separation, MRS_constraint,AROT_constraint))
                                 if max_constraint ==wake_constraint:
@@ -3300,8 +3123,7 @@ while (iter1 < maxIter):
                                     ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
                                 else: # the same as the previous one but it's the default condition                                    
                                     ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
-                                
-                                                                
+                                                    
                                 max_constraint = int(max(wake_constraint, ADA_separation, MRS_constraint,AROT_constraint))
                                 if max_constraint == wake_constraint:
                                     spFLAG = "WAKE"
@@ -3323,20 +3145,17 @@ while (iter1 < maxIter):
                 return{'a' : max_constraint,
                        'b' : spFLAG}
             
+
             ################################### MAX CONSTRAINT PRINT ###################################
             
             runwayCalculations['N' + str(row)].value = max_constraint_generator(row)['a']
             runwayCalculations['O' + str(row)].value = max_constraint_generator(row)['b']
             
-            
-        return
     
     # Function to pre-process the Departure input file and make initial calculations
     def Departure_Input_pre_process():
         
-        #Initialise Departure input
-        
-        
+        # Initialise Departure input
         # Read in Departure data from an excel workbook
         for row in range(2, departureInput.max_row + 1):
             if departureInput['A' + str(row)].value == None:  # NO (more) DEPARTURES
@@ -3383,9 +3202,7 @@ while (iter1 < maxIter):
                 random_drot = np.random.choice(df_DROT_S['DROT_S'], 1)[0] 
                 runwayCalculations['T' + str(row)].value = random_drot
             
-        return
     
-   
     #####################################################################
     #                EXECUTE PRE-PROCESSING FUNCTIONS                   #
     #####################################################################
@@ -3401,11 +3218,11 @@ while (iter1 < maxIter):
     index_key_of_nextDeparture_Q1 = 0
     index_key_of_nextDeparture_Q2 = 0
     pair_SID = 0
-    #SIDgroup_separation = "(2,4)(3,4)"
+    # SIDgroup_separation = "(2,4)(3,4)"
     SIDgroup_separation = SIDgroup_separation.replace("("," ")
     SIDgroup_separation = SIDgroup_separation.replace(")","")
     SIDgroup_separation = SIDgroup_separation.replace(","," ")      
-    #print("SIDgroup_separation :  ",SIDgroup_separation)
+    # print("SIDgroup_separation :  ",SIDgroup_separation)
     list_SIDgroup = SIDgroup_separation.split(" ")
     del list_SIDgroup[0]   
     SIDgroup_list1 = [int(x) for x in list_SIDgroup]
@@ -3415,7 +3232,7 @@ while (iter1 < maxIter):
     
     #===== SID queue ====#
     
-    #SID_queue_assign = "1 3 | 2 4"
+    # SID_queue_assign = "1 3 | 2 4"
     Q1_SID = []
     Q2_SID = []
     Q3_SID = []
@@ -3460,11 +3277,8 @@ while (iter1 < maxIter):
     Current_time = Start_time
     #--------------------------- Movement Functions---------------------------------#
 
-
- 
     ######################## DEPARTURES #######################################
     
-     
     def update_Departure_Delays(Current_time):
         if len(DepSTANDqueue)>0:
             for AC in list(DepSTANDqueue.keys()):
@@ -3491,9 +3305,10 @@ while (iter1 < maxIter):
                 SOBTrow += 1
         return(SOBTrow)
         
+
     def TAXIqueue_update(Current_time):
-    #        if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
-        #check who has to go first
+        #   if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
+        # check who has to go first
         first_in_line_DepSTANDqueue = min(list(DepSTANDqueue.keys()))
     
         DepSTANDqueue[first_in_line_DepSTANDqueue].append(Current_time) #TAXIqueue entry time
@@ -3504,6 +3319,7 @@ while (iter1 < maxIter):
         TAXIqueue[first_in_line_DepSTANDqueue]=DepSTANDqueue[first_in_line_DepSTANDqueue]
         del DepSTANDqueue[first_in_line_DepSTANDqueue] 
     
+
     def first_in_line_TAXIqueue_func(End_time):
         first_in_line_TAXIqueue = 0
         min_TAXIqueue_out = End_time
@@ -3514,6 +3330,7 @@ while (iter1 < maxIter):
                 first_in_line_TAXIqueue = AC
         return(first_in_line_TAXIqueue)
     
+
     def TAXIhold_update(Current_time,End_time):
         if len(TAXIqueue)>0:
             first_in_line_TAXIqueue = first_in_line_TAXIqueue_func(End_time)
@@ -3545,6 +3362,7 @@ while (iter1 < maxIter):
                 RWYqueue2[first_in_line_TAXIhold] = TAXIhold[first_in_line_TAXIhold]  
                 del TAXIhold[first_in_line_TAXIhold]
 
+
     def RWYqueues_update(Current_time):
         previous_in_line = 0
         first_in_line_TAXIhold = 0
@@ -3557,6 +3375,7 @@ while (iter1 < maxIter):
             else:
                 break
  
+
     def first_in_line_RWYqueue_funct(DepOutput,End_time):
         first_in_line_RWYqueue = 0
         currentRWYqueue = 0
@@ -3709,6 +3528,7 @@ while (iter1 < maxIter):
         
         return(minWakeSep)
         
+
     def dep_SID_separation(first_in_line_RWYqueue, DepOutput):
         minSIDsep = 0 # Initialise local variable (reset on each iteration)
         if DepOutput == 2: #first departure:
@@ -3727,10 +3547,7 @@ while (iter1 < maxIter):
                     if nextDepartureSID == item[0] and previousDepartureSID == item[1]:
                        #if previousDepartureSID == item[1]: # IF the previous departure SID matches the partner, apply maximum separation
                         minSIDsep = minDep_sameSID
-        
-        
         return (minSIDsep)
-    
     
 
     def departure_separation(first_in_line_RWYqueue,DepOutput):
@@ -3749,9 +3566,7 @@ while (iter1 < maxIter):
             minDepLabel = "WAKE"
         return(minDeptime,minDepLabel)
         
-                
 
-            
     def Dep_TAKE_OFF(Current_time, DepOutput, currentGap,End_time,seqRow): 
         #if (len(RWYqueue1) != 0) or (len(RWYqueue2)!=0): #there is something in the queues:
         #print('Something in the RWYqueues') 
@@ -3780,15 +3595,14 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
                         departureOutput['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
                         
                         del RWYqueue1[first_in_line_RWYqueue]
-                        
                         
                     elif currentRWYqueue == 2:
                         departureOutput['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID                        
@@ -3804,8 +3618,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3834,14 +3648,13 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
                         departureOutput['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
                         del RWYqueue1[first_in_line_RWYqueue]
-                        
                         
                     elif currentRWYqueue == 2:
                         departureOutput['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID                        
@@ -3857,8 +3670,8 @@ while (iter1 < maxIter):
                         departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
                         departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
                         departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-    #                        departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-    #                        departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
+                        # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
+                        # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
                         departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
                         departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
                         departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
@@ -3873,8 +3686,7 @@ while (iter1 < maxIter):
                     seqRow+=1
                     DepOutput += 1
                     
-
-        return(DepOutput,seqRow) 
+        return(DepOutput,seqRow)
 
 
     ########################### ARRIVALS #####################################
@@ -3884,15 +3696,16 @@ while (iter1 < maxIter):
             ArrHOLDqueue_Delay = Current_time - ArrHOLDqueue[AC][1] # Delay = Current_time - SAE 
             ArrHOLDqueue[AC][4] = ArrHOLDqueue_Delay
             
+
     def SAE_lookup(Current_time, ARRkey):
         if ARRkey != (max_ARRIVAL):
             if Current_time >= runwayCalculations['L' + str(ARRkey)].value : # Current_time = SAE
                 ArrHOLDqueue[ARRkey] = [arrivalInput['A' + str(ARRkey)].value, runwayCalculations['L' + str(ARRkey)].value, runwayCalculations['C' + str(ARRkey)].value, runwayCalculations['M' + str(ARRkey)].value, 0]
                 ARRkey += 1 
         update_ArrHOLDqueue_Delay(Current_time)
-         
         return (ARRkey)
     
+
     def update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput): # add to APPqueue
         #print(Current_time, ' app queue called')
         if (len(ArrHOLDqueue)>0) and (len(APPqueue)==0): # There is something in the hold but nothing on approach
@@ -3911,11 +3724,11 @@ while (iter1 < maxIter):
                             DROT1 = RWYqueue1[firstDeparture][2]
                         else:
                             DROT1 = RWYqueue2[firstDeparture][2]
-    #                            secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
-    #                            if nextRWYqueue ==1:
-    #                                DROT2 = RWYqueue1[secondDeparture][2]
-    #                            else:
-    #                                DROT2 = RWYqueue2[secondDeparture][2] 
+                        # secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
+                        # if nextRWYqueue ==1:
+                        #     DROT2 = RWYqueue1[secondDeparture][2]
+                        # else:
+                        #     DROT2 = RWYqueue2[secondDeparture][2] 
                         ADDA_target_time = AROT + DROT1 + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                         ADDA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme,int(ADDA_target_time))#distance
                         if (ADDA_4dme_FLAG == True) and (ArrOutput>2):
@@ -3928,7 +3741,6 @@ while (iter1 < maxIter):
                         else:
                             ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time - default
                        
-                        
                         if ADDA_separation > arrivalOutput['I' + str(ArrOutput)].value:
                             arrivalOutput['J' + str(ArrOutput)].value= "ADDA"
                             arrivalOutput['I' + str(ArrOutput)].value = ADDA_separation
@@ -3952,18 +3764,17 @@ while (iter1 < maxIter):
                         else:
                             ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
 
-                        
                         if ADA_separation > arrivalOutput['I' + str(ArrOutput)].value:
                             arrivalOutput['J' + str(ArrOutput)].value = "ADA"
                             arrivalOutput['I' + str(ArrOutput)].value = ADA_separation
-                #else: # no departure ready to go
-                    #max_constraint = arrivalOutput['I' + str(ArrOutput)].value
-           # elif distance_based_FLAG == True:
+                # else: # no departure ready to go
+                    # max_constraint = arrivalOutput['I' + str(ArrOutput)].value
+            # elif distance_based_FLAG == True:
             max_constraint = arrivalOutput['I' + str(ArrOutput)].value
                 
-            #print(Current_time, ArrOutput, ' | max_constraint = ', max_constraint)
+            # print(Current_time, ArrOutput, ' | max_constraint = ', max_constraint)
             
-            #if max_constraint != 0:
+            # if max_constraint != 0:
                 
             ArrHOLDqueue[first_in_line_ArrHOLDqueue].append(Current_time)#APPqueue entry time
             ALT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][5]+ int(max_constraint) #(ALT = APPqueue_entry_time + max_constraint)
@@ -3974,21 +3785,16 @@ while (iter1 < maxIter):
             APPqueue[first_in_line_ArrHOLDqueue]=ArrHOLDqueue[first_in_line_ArrHOLDqueue]
   
             del ArrHOLDqueue[first_in_line_ArrHOLDqueue]
-            
             #print to sequence tab
             
-           
-                          
-            
+
     def Arr_LANDING(Current_time, ArrOutput,first_in_line_APPqueue,seqRow): 
-        
-        
-    #        if len(APPqueue)!=0:
-    #            first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
-    #            #print('There is something in the APPqueue')
-    #           
-    #            #print('NEXT ARRIVAL = ', AC)
-    #            if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
+        # if len(APPqueue)!=0:
+        #     first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue  
+        #     #print('There is something in the APPqueue')
+            
+        #     #print('NEXT ARRIVAL = ', AC)
+        #     if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
         if RWY_status == "D":
             print('*** GO AROUND ***', APPqueue[first_in_line_APPqueue])
             del APPqueue[first_in_line_APPqueue]
@@ -4025,11 +3831,10 @@ while (iter1 < maxIter):
             sequenceTab['E' + str(seqRow)].value = arrivalOutput['G' + str(ArrOutput)].value
             ArrOutput+=1
             seqRow += 1
-            
-                
-                    
+
         return (ArrOutput,seqRow)
                    
+
     def first_in_line_ARRIVALqueue_func(End_time):
         min_IBT = End_time
         first_in_line_ARRIVALqueue = 0
@@ -4039,6 +3844,7 @@ while (iter1 < maxIter):
                 first_in_line_ARRIVALqueue = AC
         return(first_in_line_ARRIVALqueue)
     
+
     def update_ARRIVALqueue(Current_time,End_time):
         if len(ARRIVALqueue)>0:
             
@@ -4049,6 +3855,7 @@ while (iter1 < maxIter):
                 #print(Current_time, 'ARR { ',AC,' } deleted from ARRIVALqueue ')
                 del ARRIVALqueue[first_in_line_ARRIVALqueue]
     
+
     def update_currentGap(Current_time, End_time):
         if RWY_status == "E" or RWY_status == "D":
             if len(APPqueue)==0: #Nothing in the queue
@@ -4058,22 +3865,16 @@ while (iter1 < maxIter):
                 currentGap = APPqueue[next_Arrival][6] - Current_time # ALT - Current_time
         elif RWY_status == "A":
             currentGap = 0 
-            
         return (currentGap)
-    
-        
 
-    
-   
-   
+
     #--------------------------------MODEL RUNS-----------------------------------#
-
 
     print('distance_based_FLAG = ',distance_based_FLAG)
     print('time_based_FLAG =',time_based_FLAG)
     while Current_time < End_time:
-        #print(Current_time)
-        #print(RWY_status)
+        # print(Current_time)
+        # print(RWY_status)
 
         if RWY_status == "E":
             if df_dep.empty == False: #there are departures
@@ -4091,7 +3892,6 @@ while (iter1 < maxIter):
                     update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput)             
                 update_ARRIVALqueue(Current_time,End_time)                 
                 currentGap = update_currentGap(Current_time, End_time)
-                
                 
             else:#if there aren't any arrivals
                 currentGap = End_time #huuuuuge gap
@@ -4120,9 +3920,6 @@ while (iter1 < maxIter):
                             #print(Current_time,' Arrival {',ArrOutput-1,'} is about to land ')
                             RWY_status = "A"
                             
-                           
-            
-            
         elif RWY_status == "D":
             #print(Current_time,' | ', RWY_status)
             SOBTrow = SOBTlookup(Current_time, SOBTrow)
@@ -4154,7 +3951,6 @@ while (iter1 < maxIter):
                         
                         #print(ArrOutput,'******GO AROUND************')
             
-            
         elif RWY_status == "A":
             #print(Current_time,' | ', RWY_status)
             if df_dep.empty == False: #there are departures
@@ -4174,7 +3970,6 @@ while (iter1 < maxIter):
             if Current_time == arrivalOutput['D' + str(ArrOutput-1)].value : #while Arrival is still on the runway
                 RWY_status = "E"
         Current_time += 1
-
 
     # ============================================================================#
     #                       Buffer Calculations                                   #      
@@ -4242,16 +4037,14 @@ while (iter1 < maxIter):
         delayTab['J' + str(row)].value = arrivalOutput['B' + str(row)].value
         delayTab['K' + str(row)].value = arrivalOutput['L' + str(row)].value 
         
-       
-    
     number_of_goArounds_queued = 0
     for i in list(GoAroundCount.keys()):
         number_of_goArounds_queued+=sum(GoAroundCount[i])
     print('End_time = ',End_time)
     print("There are [", str(len(TAXIhold)),"] Departure A/C remaining in the TAXI ,", str(len(RWYqueue1)+len(RWYqueue2)),"Departure A/C remaining in the RWY queues,")
     print("There are [", str(len(ArrHOLDqueue)),"] Arrivals remaining in the Arrival Hold Queue ,", str(len(APPqueue)),"Arrivals remaining in the APPqueue,")
-    #print("Out of interest - [",countArr,"] times 'departureLookup' method (for Arrivals) was non-zero + [",countDep,"] times 'departureLookup2' method (for queued A/C) was non-zero")
-    #print("DEBUG - countARRdebug =", countARRdebug, "and countDEPdebug =", countDEPdebug)
+    # print("Out of interest - [",countArr,"] times 'departureLookup' method (for Arrivals) was non-zero + [",countDep,"] times 'departureLookup2' method (for queued A/C) was non-zero")
+    # print("DEBUG - countARRdebug =", countARRdebug, "and countDEPdebug =", countDEPdebug)
     print("Final number of go-around Arrival cases (Queued):", number_of_goArounds_queued)
     print("Model took %s seconds to run" % round((time.time() - program_runtime_start),2))
     if (len(DepSTANDqueue)>0 or len(TAXIhold)>0):
@@ -4366,16 +4159,12 @@ while (iter1 < maxIter):
                 print('n_times 2 =', maxIter)
         iter1 += 1
 
-
-#*****************************************************************************#
 #=============================================================================#
 #                                                                             #
 #                             VISUAL MODULE                                   #
 #                                                                             #
 # ============================================================================#
-#*****************************************************************************#
 
-print('Output file name = ', name_output_file)  
 if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Seq_FLAG == True) or (convergenceFLAG == True) or (ADA_buffer_FLAG == True):
     xls = pd.ExcelFile(name_output_file) 
     df_thr = xls.parse(5)
@@ -4400,7 +4189,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
         op_data['Time Bin - PS'] = pd.to_timedelta(op_data['Time Bin - PS']) # convert to timedelta to calculate seconds
         op_data['Time Bin - PS'] = op_data['Time Bin - PS'].dt.seconds 
         
-        
         #Extract lists to plot them
         OD_Thr_Hour = op_data['Hour'].tolist()
         OD_Thr = op_data['Total Throughput'].tolist()
@@ -4418,9 +4206,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             
             tk.Tk.__init__(self, *args, **kwargs)
     
-            #tk.Tk.iconbitmap(self, text="clienticon.ico")
+            # tk.Tk.iconbitmap(self, text="clienticon.ico")
             tk.Tk.wm_title(self, "RAPID VISUAL")
-            
             
             container = tk.Frame(self)
             container.pack(side="top", fill="both", expand = True)
@@ -4449,8 +4236,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             label = tk.Label(self, text="Start Page", font=LARGE_FONT)
             label.pack(pady=10,padx=10)
             
-            
-           
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
@@ -4493,43 +4278,40 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             label3 = ttk.Label(self, text="How many new sets?")
             label3.pack()
     
-            
             def show_button():
                 m2 = int(m2_input.get())
                 m2_output.set(m2)
                           
-                
                 app.destroy()
                 m2 = m2_output.get()
                 def load_new_data2():
                     new_data2 = tk.filedialog.askopenfilename()
                     print(new_data2)
                     new_data_sheet2.set(new_data2)
-                    return()
                         
+
                 def load_new_data3():
                     new_data3 = tk.filedialog.askopenfilename()
                     print(new_data3)
-                    new_data_sheet3.set(new_data3) 
-                    return()
+                    new_data_sheet3.set(new_data3)
                 
+
                 def load_new_data4():
                     new_data4 = tk.filedialog.askopenfilename()
                     print(new_data4)
-                    new_data_sheet4.set(new_data4) 
-                    return() 
+                    new_data_sheet4.set(new_data4)
                 
+
                 def load_new_data5():
                     new_data5 = tk.filedialog.askopenfilename()
                     print(new_data5)
-                    new_data_sheet5.set(new_data5) 
-                    return()    
+                    new_data_sheet5.set(new_data5)
                     
+
                 def load_new_data6():
                     new_data6 = tk.filedialog.askopenfilename()
                     print(new_data6)
-                    new_data_sheet6.set(new_data6) 
-                    return() 
+                    new_data_sheet6.set(new_data6)
                     
                     
                 def define_input_parameters3():   
@@ -4553,6 +4335,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     average_check = int(var6.get())
                     average_check_output.set(average_check)        
                     window.destroy()
+
+
                 if m2 >= 1 :
                     
                     window = tk.Tk()
@@ -4573,8 +4357,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')        
                     ttk.Button(mainframe, text="Import data 2", command=load_new_data2).grid(column=2, row=1, sticky='W')
                     
-                    
-                    
                     if m2 >=2:
                         new_data_sheet3 = tk.StringVar()
                         ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')            
@@ -4593,13 +4375,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')            
                                     ttk.Button(mainframe, text="Import data 6", command=load_new_data6).grid(column=2, row=5, sticky='W')
                     
-                    
                     inner = tk.Frame(window, bg='pink', width=0, height=0, padx=20, pady=20)
                     inner.grid(column=0, row=1)
                     inner.columnconfigure(0, weight=1)
                     inner.rowconfigure(0, weight=1)
                     ttk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky='W')
-                    
                     
                     for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)        
                     window.bind('<Return>', define_input_parameters)
@@ -4610,7 +4390,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     
                     window.mainloop()
     
-                    
                 if m2>=1:    
                     new_data2 = new_data_sheet2.get() 
                     xls2 = pd.ExcelFile(new_data2) 
@@ -4652,12 +4431,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     df_dep_output6 = xls6.parse(4)
                                     df_arr_output6 = xls6.parse(3)
                                     df_rwy_calcs6 = xls6.parse(2)
+
                 # ============================================================================#
                 #                       VISUAL GUI                                            #
                 # ============================================================================#
+
                 LARGE_FONT= ("Verdana", 12)
-                
-                
+
                 class RAPIDvisual2(tk.Tk):
                 
                     def __init__(self, *args, **kwargs):
@@ -4689,6 +4469,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         frame = self.frames[cont]
                         frame.tkraise()
                 
+
                 class StartPage2(tk.Frame):
                 
                     def __init__(self, parent, controller):
@@ -4696,8 +4477,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         label = tk.Label(self, text="Start Page", font=LARGE_FONT)
                         label.pack(pady=10,padx=10)
                         
-                        
-                       
                         if convergenceFLAG ==True:
                             button1 = ttk.Button(self, text="Convergence Throughput",
                                                 command=lambda: controller.show_frame(Conv2))
@@ -4723,8 +4502,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 command=lambda: controller.show_frame(Seq2))
                             button4.pack()
                         
-                       
-                        
+
                 # ============================================================================#
                 #                           CONVERGENCE                                       #
                 # ============================================================================#
@@ -4768,14 +4546,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 command=lambda: controller.show_frame(ADAbuffer))
                             button5.pack()
                 
-                       
                         thr_av_diff = pd.DataFrame(df_thr['Difference in thr averages'])
                         thr_av_diff=thr_av_diff.dropna(subset=['Difference in thr averages'])
                        
                         thr_av_diff['Tags'] = thr_av_diff['Difference in thr averages'].apply(lambda x: json.loads(x))
                         thr_av_difference = thr_av_diff['Tags'].tolist()
-                        
-                        
                         
                         print(len(thr_av_difference[0][0]))
                         print(len(thr_av_difference[0]))
@@ -4809,10 +4584,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         toolbar = NavigationToolbar2Tk(canvas, self)
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-                ##            
+                
+                           
                 # ============================================================================#
                 #                          THROUGHPUT                                         #
                 # ============================================================================#
+
                 #if Thr_FLAG == True:
                 class Thr2(tk.Frame):
                 
@@ -4824,7 +4601,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         button1 = ttk.Button(self, text="Back to Home",
                                             command=lambda: controller.show_frame(StartPage2))
                         button1.pack()
-                        
                         
                         if convergenceFLAG ==True:
                             button1 = ttk.Button(self, text="Convergence Throughput",
@@ -4862,8 +4638,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             
                             return df_thr_to_plot2
                         
-                       
-                        
+
                         def create_multiple_df_thr(df_thr_to_plot2, df_thr_input, name):
                             df_thr_to_plot2[name] = df_thr_input['Total Throughput']
                             df_thr_to_plot_temp = pd.DataFrame()
@@ -4876,16 +4651,19 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     
                             df_thr_to_plot2[name] = df_thr_to_plot_temp2[name]
                             
-                            
                             return df_thr_to_plot2 
                             
+
                         def plot_bar_thr(df_thr_to_plot2, A):                      
                             df_thr_to_plot2.plot(kind='bar', legend=False, ax=A) 
                         
+
                         def total_thr(df_thr_input):
                             total_thr = df_thr_input['Total Throughput']
                             total_thr = total_thr.reset_index()
                             return(total_thr)
+
+
                         def hour_thr(df_thr_input):
                             hour_Thr = df_thr_input['Hour'].tolist()
                             return(hour_Thr)
@@ -4894,12 +4672,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         if m2>= 1:
                             f = Figure(figsize=(5,5), dpi=100)
                             A = f.add_subplot(111)
-            #                throughput(df_thr, 'k')
-            #                throughput(df_thr2, 'g')
-                            
+                            # throughput(df_thr, 'k')
+                            # throughput(df_thr2, 'g')
                             df_thr_to_plot2 = create_first_df_thr()
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
-                            
                             
                             if OP_FLAG == True:
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
@@ -4937,7 +4713,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr6, 'RUN 6')
                                             #throughput(df_thr6, color = 'purple')
                                             
-                                            
                                             if OP_FLAG ==True:
                                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -4960,10 +4735,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
                 
-                
                 # ============================================================================#
                 #                         DEPARTURE DELAY - RWY hold delay                    #
                 # ============================================================================#
+
                 #if Delay_FLAG == True:
                 class DepDelay22(tk.Frame):
                 
@@ -4975,8 +4750,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         button1 = ttk.Button(self, text="Back to Home",
                                             command=lambda: controller.show_frame(StartPage2))
                         button1.pack() 
-                        
-                        
+
                         if convergenceFLAG ==True:
                             button1 = ttk.Button(self, text="Convergence Throughput",
                                                 command=lambda: controller.show_frame(Conv2))
@@ -5035,6 +4809,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 time_interval = df_ps_delay['DATE']
                                 return {'a': time_interval,
                                         'b': RWYhold_Delay}
+
+
                             def print_Hold_delay(ab, color):
                                 
                                 H_delay_time = ab['a']
@@ -5048,8 +4824,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.legend(('Model','Operational Data'), loc = 'upper right')
                                     
                             
-                         
-                            
                             if m2 >=1:          
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
@@ -5057,8 +4831,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 print_Hold_delay(hold_delay,'k')
                                 hold_delay2 = delay(df_delay2,df_dep_output2)
                                 print_Hold_delay(hold_delay2,'g')
-                                
-                                
                                 
                                 if OP_FLAG == True:
                                     A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
@@ -5068,7 +4840,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     hold_delay3 = delay(df_delay3,df_dep_output3)
                                     print_Hold_delay(hold_delay3,'c')
                                     
-                                    
                                     if OP_FLAG == True:
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                                     else:
@@ -5076,8 +4847,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     if m2>=3:
                                         hold_delay4 = delay(df_delay4,df_dep_output4)
                                         print_Hold_delay(hold_delay4,'m')
-                                        
-                                       
                                         
                                         if OP_FLAG == True:
                                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -5087,7 +4856,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             hold_delay5 = delay(df_delay5,df_dep_output5)
                                             print_Hold_delay(hold_delay5,'y')
                                             
-                                            
                                             if OP_FLAG == True:
                                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                             else:
@@ -5095,7 +4863,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             if m2>=5:
                                                 hold_delay6 = delay(df_delay6,df_dep_output6)
                                                 print_Hold_delay(hold_delay6,color='purple')
-                                                
                                                 
                                                 if OP_FLAG == True:
                                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -5105,7 +4872,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.set_ylabel('Seconds of delay')                
                                 A.grid(color='b', linestyle='-', linewidth=0.1)
             
-                              
                                 canvas = FigureCanvasTkAgg(f, self)
                                 canvas.draw()
                                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -5115,7 +4881,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
                                
-                
                 # ============================================================================#
                 #                   DEPARTURE DELAY - PS delay                                #
                 # ============================================================================#
@@ -5130,7 +4895,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         button1 = ttk.Button(self, text="Back to Home",
                                             command=lambda: controller.show_frame(StartPage2))
                         button1.pack() 
-                        
                         
                         if convergenceFLAG ==True:
                             button1 = ttk.Button(self, text="Convergence Throughput",
@@ -5190,9 +4954,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 return {'c': time_interval,
                                         'd': PS_delay}
                                 
-                       
-                            
-                            
+
                             def print_PS_delay(ab, color):
                                 PS_time = ab['c']
                                 PS_delay = ab['d']
@@ -5212,7 +4974,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 print_PS_delay(Push_delay,'k')
                                 Push_delay2 = delay(df_delay2, df_dep_output2)
                                 print_PS_delay(Push_delay2,'g')
-                                
                                 
                                 if OP_FLAG == True:
                                     B.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
@@ -5265,10 +5026,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                            
-                
+
                 # ============================================================================#
                 #                          ARRIVAL DELAY                                      # 
                 # ============================================================================#
+
                 #if arr_delay_FLAG == True:
                 class ArrivalDelay2(tk.Frame):
                 
@@ -5280,7 +5042,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         button1 = ttk.Button(self, text="Back to Home",
                                             command=lambda: controller.show_frame(StartPage2))
                         button1.pack()
-                        
                         
                         if convergenceFLAG ==True:
                             button1 = ttk.Button(self, text="Convergence Throughput",
@@ -5308,8 +5069,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 command=lambda: controller.show_frame(ADAbuffer2))
                             button5.pack()
                 
-                        
-                        
                         if (df_delay.empty == True):
                                 print("No departures. Nothing to show")
                         else:     
@@ -5344,14 +5103,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 return {'a': time_interval,
                                         'b': ARR_delay}
                            
+
                             def plotArrDelay(ab, color):            
                                 arr_delay_time = ab['a']
                                 arr_delay = ab['b'] 
                                 A = f.add_subplot(111)                      
                                 A.plot(arr_delay_time, arr_delay, color)     
                             
-                            
-                                 
+
                             if m2 >=1:          
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)  
@@ -5386,11 +5145,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
-                           
-                        
+
                 # ============================================================================#
                 #                           SEQUENCE                                          #
                 # ============================================================================#
+
                 #if Seq_FLAG == True:
                 class Seq2(tk.Frame):
                 
@@ -5430,7 +5189,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 command=lambda: controller.show_frame(ADAbuffer2))
                             button5.pack()
                             
-                        
                         def sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
                 
                             df_sequence = pd.DataFrame()
@@ -5492,7 +5250,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             labels_y = main_data_position +  arrival_spacing_position 
                             labels_x = main_arrival +  arrival_spacing 
                         
-                        
                             return{'0a': arrival_zero,
                                    '1' : main_arrival, 
                                    '2' : main_arrival_error,
@@ -5504,6 +5261,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                    '13' : labels_y,
                                    '14' : labels_x}
                          
+
                         def sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
                             df_sequence = pd.DataFrame()
                             #Departure
@@ -5560,13 +5318,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             main_data_position = df_sequence['main_position'].tolist()
                             departure_spacing_position = df_sequence['dep_spacing_position'].tolist()
                             
-                            
-                            
                             #Data prep for tags
                             labels = departure_label +  departure_spacing_label
                             labels_y = main_data_position + departure_spacing_position
                             labels_x = main_departure +  departure_spacing
-                        
                         
                             return{'0b': departure_zero,
                                    '5' : main_departure, 
@@ -5579,6 +5334,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                    '13' : labels_y,
                                    '14' : labels_x}
                         
+
                         def sequence(df_arr_output, df_rwy_calcs, df_dep_output, number): ######MIX MODE
                             
                             df_sequence = pd.DataFrame()
@@ -5595,7 +5351,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             df_temp['Arrival_ZERO'] = 0
                             df_sequence['ARRIVAL_spacing_error'] = df_temp['MAX Constraint']           
                             df_sequence['Arrival_ZERO'] = df_temp['Arrival_ZERO']
-                            
                             
                             #Departure
                             
@@ -5615,7 +5370,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             df_sequence['main_position'] = number
                             df_sequence['arr_spacing_position'] = number+0.005
                             df_sequence['dep_spacing_position'] = number-0.005
-                            
                             
                             #Annotation
                             
@@ -5684,13 +5438,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             arrival_spacing_position = df_sequence['arr_spacing_position'].tolist()
                             departure_spacing_position = df_sequence['dep_spacing_position'].tolist()
                             
-                            
-                            
                             #Data prep for tags
                             labels = arrival_label + departure_label + arrival_spacing_label  + departure_spacing_label
                             labels_y = main_data_position + main_data_position + arrival_spacing_position + departure_spacing_position
                             labels_x = main_arrival + main_departure + arrival_spacing + departure_spacing
-                        
                         
                             return{'0a': arrival_zero,
                                    '0b': departure_zero,
@@ -5709,6 +5460,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                    '13' : labels_y,
                                    '14' : labels_x}
                         
+
                         #------ ARRIVALS only -------#
                         
                         if df_dep_output.empty ==True:
@@ -5728,29 +5480,25 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     #plt.axhline(y = 10, color='w')                    
                                     #A.axhline(y=0.5, color='w')
                                        
-                                    
                                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                                     
                                     A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='maroon', fmt='o', markersize=8, capsize=10, )
                                     A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='indigo', fmt='o', markersize=8, capsize=10, )
-                                    
-                                                    
+                                        
                                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                     bbox=dict(boxstyle="round", fc="w"),
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
                                     
-                                
                                     def update_annot(ind):
                                     
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                         annot.xy = pos
                                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                         annot.set_text(text)
-                                    
-                                
-                                                    
+
+
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -5765,7 +5513,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                     canvas.draw_idle()
                                     
                                 
-                                    
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False) 
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -5792,7 +5539,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     #plt.axhline(y = 10, color='w')                    
                                     #A.axhline(y=0.5, color='w')
                                        
-                                    
                                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                                     
@@ -5807,7 +5553,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
                                     
-                                
                                     def update_annot(ind):
                                     
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
@@ -5816,7 +5561,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         annot.set_text(text)
                                     
                                 
-                                                    
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -5831,7 +5575,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                     canvas.draw_idle()
                                     
                                 
-                                    
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False) 
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -5845,7 +5588,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
-                            
                             
                             elif df_arr_output2.empty ==True: # ARR only + DEP only                    
                                 f = Figure(figsize=(5,5), dpi=100)  
@@ -5871,7 +5613,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
                                 
-                            
                                 def update_annot(ind):
                                 
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
@@ -5880,7 +5621,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     annot.set_text(text)
                                 
                             
-                                                
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -5895,7 +5635,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 canvas.draw_idle()
                                 
                             
-                                
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False) 
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -5913,7 +5652,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 f = Figure(figsize=(5,5), dpi=100)  
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
-                                
                                 
                                 labels =  sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12']  + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] 
                                 tag_text_use = np.array(list(labels))
@@ -5935,12 +5673,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
+
                                 def update_annot2(ind):
-                                
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                     annot.xy = pos
                                     text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                     annot.set_text(text)
+
+
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -5953,6 +5693,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             if vis:
                                                 annot.set_visible(False)
                                                 canvas.draw_idle()
+
+
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False)                     
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -5967,12 +5709,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
                            
-                        
                         #-------DEPARTURES only --------#
                         
                         elif df_arr_output.empty ==True:
                                         
-                                              
                             if df_dep_output2.empty ==True: # DEPonly + ARRonly                    
                                 f = Figure(figsize=(5,5), dpi=100)  
                                 A = f.add_subplot(111)
@@ -5991,13 +5731,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                                 A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                               
-                                                
                                 annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
                                 
-                            
                                 def update_annot(ind):
                                 
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
@@ -6006,7 +5744,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     annot.set_text(text)
                                 
                             
-                                                
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -6021,7 +5758,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 canvas.draw_idle()
                                 
                             
-                                
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False) 
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6054,14 +5790,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='darkgreen', fmt='o', markersize=8, capsize=10)    
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], color='indigo',fmt = 'o', markersize=8, capsize=10)
             
-            
-                                
                                 annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
                                 
-                            
                                 def update_annot(ind):
                                 
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
@@ -6069,8 +5802,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                     annot.set_text(text)
                                 
-                            
-                                                
+                              
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -6085,7 +5817,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 canvas.draw_idle()
                                 
                             
-                                
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False) 
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6104,7 +5835,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
                                 
-                                
                                 labels =  sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12']  + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] 
                                 tag_text_use = np.array(list(labels))
                                 labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['13'] 
@@ -6112,7 +5842,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                         
                                 tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                                 #A.axhline(y=0.5, color='w')
-                                                           
                                                     
                                 A.errorbar(sequenceDepOnly(df_dep_output, 1)['3'], sequenceDepOnly(df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_dep_output, 1)['5'], sequenceDepOnly(df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
                                 A.errorbar(sequenceDepOnly(df_dep_output, 1)['10'], sequenceDepOnly(df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_dep_output, 1)['11'], sequenceDepOnly(df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -6126,12 +5855,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
+
                                 def update_annot2(ind):
-                                
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                     annot.xy = pos
                                     text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                     annot.set_text(text)
+
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -6144,6 +5874,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             if vis:
                                                 annot.set_visible(False)
                                                 canvas.draw_idle()
+
+
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False)                     
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6157,8 +5889,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     
-                           
-                        
                         #------------------ MIXED MODE ------------------------#
                         
                         else: 
@@ -6169,7 +5899,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     f = Figure(figsize=(5,5), dpi=100)  
                                     A = f.add_subplot(111)
                                     ax = f.add_subplot(111)
-                                    
                                     
                                     labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] +sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['12']
                                     tag_text_use = np.array(list(labels))
@@ -6194,19 +5923,16 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.errorbar(sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['7'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['11'], xerr=[sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['0b'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['8']], color='royalblue',fmt = 'o', markersize=8, capsize=10)
                                     A.errorbar(sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['3'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['10'], xerr=[sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['0a'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['4']], color='magenta', fmt='o', markersize=8, capsize=10, )
                                     
-                                    
-                                    
-                                    
                                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                     bbox=dict(boxstyle="round", fc="w"),
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
                                     def update_annot2(ind):
-                                    
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                         annot.xy = pos
                                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                         annot.set_text(text)
+
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -6219,6 +5945,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 if vis:
                                                     annot.set_visible(False)
                                                     canvas.draw_idle()
+
+                                    
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False)                     
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6232,7 +5960,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
-                                
                                 
                                 elif m2==3:#MIXED +MIXED + MIXED + MIXED
                                             
@@ -6268,18 +5995,16 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.errorbar(sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['7'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['11'], xerr=[sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['0b'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['8']], color='cyan',fmt = 'o', markersize=8, capsize=10)
                                     A.errorbar(sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['3'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['10'], xerr=[sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['0a'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['4']], color='orchid', fmt='o', markersize=8, capsize=10, )
                                     
-                                    
-                                    
                                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                     bbox=dict(boxstyle="round", fc="w"),
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
                                     def update_annot2(ind):
-                                    
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                         annot.xy = pos
                                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                         annot.set_text(text)
+
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -6292,6 +6017,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 if vis:
                                                     annot.set_visible(False)
                                                     canvas.draw_idle()
+                                                    
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False)                     
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6310,7 +6036,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     f = Figure(figsize=(5,5), dpi=100)  
                                     A = f.add_subplot(111)
                                     ax = f.add_subplot(111)
-                                    
                                     
                                     labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] +sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['12'] + sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['12'] + sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['12']
                                     tag_text_use = np.array(list(labels))
@@ -6345,19 +6070,17 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     A.errorbar(sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['7'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['11'], xerr=[sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['0b'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['8']], color='mediumblue',fmt = 'o', markersize=8, capsize=10)
                                     A.errorbar(sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['3'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['10'], xerr=[sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['0a'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['4']], color='deeppink', fmt='o', markersize=8, capsize=10, )
                                     
-                                
-                                    
-                                    
                                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                     bbox=dict(boxstyle="round", fc="w"),
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
+
                                     def update_annot2(ind):
-                                    
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                         annot.xy = pos
                                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                         annot.set_text(text)
+
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -6370,6 +6093,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 if vis:
                                                     annot.set_visible(False)
                                                     canvas.draw_idle()
+
+
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False)                    
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6389,7 +6114,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     f = Figure(figsize=(5,5), dpi=100)  
                                     A = f.add_subplot(111)
                                     ax = f.add_subplot(111)
-                                    
                                     
                                     labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] 
                                     tag_text_use = np.array(list(labels))
@@ -6413,12 +6137,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                     bbox=dict(boxstyle="round", fc="w"),
                                                     arrowprops=dict(arrowstyle="->"))
                                     annot.set_visible(False)
+
                                     def update_annot2(ind):
-                                    
                                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                         annot.xy = pos
                                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                         annot.set_text(text)
+
+
                                     def hover(event):
                                         vis = annot.get_visible()
                                         if event.inaxes == ax:
@@ -6431,6 +6157,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 if vis:
                                                     annot.set_visible(False)
                                                     canvas.draw_idle()
+
+
                                     A.set_xlabel('Seconds of the day')        
                                     A.axes.get_yaxis().set_visible(False)                     
                                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6443,8 +6171,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     toolbar = NavigationToolbar2Tk(canvas, self)
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-                                
-                                
                                 
                             elif df_dep_output2.empty ==True:#arr only
                                 f = Figure(figsize=(5,5), dpi=100)  
@@ -6467,17 +6193,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                                 A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
             
-                            
                                 annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
+
                                 def update_annot2(ind):
-                                
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                     annot.xy = pos
                                     text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                     annot.set_text(text)
+
+
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -6490,6 +6217,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             if vis:
                                                 annot.set_visible(False)
                                                 canvas.draw_idle()
+
+
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False)                     
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6524,7 +6253,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                                 A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                                 
-                                
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                                 A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
             
@@ -6535,12 +6263,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 bbox=dict(boxstyle="round", fc="w"),
                                                 arrowprops=dict(arrowstyle="->"))
                                 annot.set_visible(False)
+
                                 def update_annot2(ind):
-                                
                                     pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                     annot.xy = pos
                                     text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                     annot.set_text(text)
+
                                 def hover(event):
                                     vis = annot.get_visible()
                                     if event.inaxes == ax:
@@ -6553,6 +6282,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             if vis:
                                                 annot.set_visible(False)
                                                 canvas.draw_idle()
+
+
                                 A.set_xlabel('Seconds of the day')        
                                 A.axes.get_yaxis().set_visible(False)                     
                                 A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -6566,12 +6297,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                 
-                                
-                          
-                                
+
                 # ============================================================================#
-                #                           ADA buffer                                          #
+                #                           ADA buffer                                        #
                 # ============================================================================#
+
                 class ADAbuffer2(tk.Frame):
                 
                     def __init__(self, parent, controller):
@@ -6605,8 +6335,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                                 command=lambda: controller.show_frame(ArrivalDelay2))
                             button3.pack()
                             
-                        
-                        
                         df_Buffer = pd.DataFrame()
                         df_Buffer['ADA_Buffer'] = df_sequence_output['ADA Buffer']        
                         df_Buffer = df_Buffer.dropna(subset = ['ADA_Buffer'])
@@ -6622,9 +6350,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         
                         xs, ys = zip(*coord) #create lists of x and y values
                 
-                
                         fit = stats.norm.pdf(h, np.mean(h), np.std(h))  #this is a fitting indeed
-                        
                         
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
@@ -6645,10 +6371,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
-    
-    
-        
-                    
+
                 app2 = RAPIDvisual2()
                 
                 app2.columnconfigure(0, weight=1)
@@ -6663,17 +6386,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             entry4 = ttk.Entry(self, width=7, textvariable=m2_input)
             entry4.pack()
             
-            
             button6 = tk.Button(self, text="SHOW", command=show_button)
             button6.pack()
             
-          
-        
-            
-            
+
     # ============================================================================#
     #                           CONVERGENCE                                       #
     # ============================================================================#
+
     #if convergenceFLAG ==True:
     class Conv(tk.Frame):
     
@@ -6686,7 +6406,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack()
             
-            
             if Thr_FLAG == True:
                 button = ttk.Button(self, text="Throughput",
                                     command=lambda: controller.show_frame(Thr))
@@ -6696,14 +6415,17 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button2 = ttk.Button(self, text="RWY Hold Delay",
                                     command=lambda: controller.show_frame(DepDelay))
                 button2.pack()
+
             if Delay_FLAG == True:
                 button5 = ttk.Button(self, text="Push/Start Delay",
                                     command=lambda: controller.show_frame(DepDelay2))
                 button5.pack()
+
             if arr_delay_FLAG == True:
                 button3 = ttk.Button(self, text="Arrivals Delay",
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
+
             if Seq_FLAG == True:
                 button4 = ttk.Button(self, text="Sequence",
                                     command=lambda: controller.show_frame(Seq))
@@ -6714,14 +6436,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
     
-           
             thr_av_diff = pd.DataFrame(df_thr['Difference in thr averages'])
             thr_av_diff=thr_av_diff.dropna(subset=['Difference in thr averages'])
            
             thr_av_diff['Tags'] = thr_av_diff['Difference in thr averages'].apply(lambda x: json.loads(x))
             thr_av_difference = thr_av_diff['Tags'].tolist()
-            
-            
             
             print(len(thr_av_difference[0][0]))
             print(len(thr_av_difference[0]))
@@ -6759,6 +6478,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     # ============================================================================#
     #                          THROUGHPUT                                         #
     # ============================================================================#
+
     #if Thr_FLAG == True:
     class Thr(tk.Frame):
     
@@ -6771,11 +6491,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack()
             
-            
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
                 button1.pack()
+
             if Delay_FLAG == True:
                 button2 = ttk.Button(self, text="RWY Hold Delay",
                                     command=lambda: controller.show_frame(DepDelay))
@@ -6784,14 +6504,17 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button5 = ttk.Button(self, text="Push/Start Delay",
                                     command=lambda: controller.show_frame(DepDelay2))
                 button5.pack()
+
             if arr_delay_FLAG == True:
                 button3 = ttk.Button(self, text="Arrivals Delay",
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
+
             if Seq_FLAG == True:
                 button4 = ttk.Button(self, text="Sequence",
                                     command=lambda: controller.show_frame(Seq))
                 button4.pack()
+
             if ADA_buffer_FLAG == True:
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
@@ -6808,8 +6531,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 return df_thr_to_plot2
             
-           
-            
+
             def create_multiple_df_thr(df_thr_to_plot2, df_thr_input, name):
                 df_thr_to_plot2[name] = df_thr_input['Total Throughput']
                 df_thr_to_plot_temp = pd.DataFrame()
@@ -6825,26 +6547,31 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 return df_thr_to_plot2 
             
-        #        def add_operational_data ():
-        #            #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
-        #            df_thr_to_plot_temp = pd.DataFrame()
-        #            df_thr_to_plot_temp['Hour'] = op_data['Hour']
-        #            a = 'Hour'
-        #            df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
-        #            b = 'Operational Data'
-        #            df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
-        #                
-        #            df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
-        #                    
-        #            df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
-                
+
+            # def add_operational_data ():
+            #     #df_thr_to_plot2['Operational Data'] = op_data['Total Throughput']
+            #     df_thr_to_plot_temp = pd.DataFrame()
+            #     df_thr_to_plot_temp['Hour'] = op_data['Hour']
+            #     a = 'Hour'
+            #     df_thr_to_plot_temp['Operational Data'] = op_data['Total Throughput']
+            #     b = 'Operational Data'
+            #     df_thr_to_plot_temp = df_thr_to_plot_temp.dropna(subset=['Hour'])
+                    
+            #     df_thr_to_plot_temp2 = df_thr_to_plot_temp[[a,b]].groupby(a).sum()    
+                        
+            #     df_thr_to_plot2['Operational Data'] = df_thr_to_plot_temp2['Operational Data']
+        
+
             def plot_bar_thr(df_thr_to_plot2, A):                      
                 df_thr_to_plot2.plot(kind='bar', legend=False, ax=A) 
             
+
             def total_thr(df_thr_input):
                 total_thr = df_thr_input['Total Throughput']
                 total_thr = total_thr.reset_index()
                 return(total_thr)
+
+
             def hour_thr(df_thr_input):
                 hour_Thr = df_thr_input['Hour'].tolist()
                 return(hour_Thr)
@@ -6854,9 +6581,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 if m>= 1:
                     f = Figure(figsize=(5,5), dpi=100)
                     A = f.add_subplot(111)
-        #                throughput(df_thr, 'k')
-        #                throughput(df_thr2, 'g')
-                    
+                    # throughput(df_thr, 'k')
+                    # throughput(df_thr2, 'g')
                     df_thr_to_plot2 = create_first_df_thr()
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
                     
@@ -6875,7 +6601,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.legend(('Model', 'Model 2'), loc = 'upper right')
                     if m>= 2:
                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr3, 'RUN 3')
-                        #throughput(df_thr3, 'c') 
+                        # throughput(df_thr3, 'c') 
                         if (m==2) and (average_FLAG ==True):
                             a=total_thr(df_thr)            
                             b=total_thr(df_thr2)
@@ -6891,7 +6617,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         else:
                             A.legend(('Model','Model 2', 'Model 3'), loc = 'upper right')
                         if m>=3:
-                            #throughput(df_thr4, 'm') 
+                            # throughput(df_thr4, 'm') 
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr4, 'RUN 4')
                             if (m==3) and (average_FLAG ==True):
                                 a=total_thr(df_thr)            
@@ -6909,7 +6635,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             else:
                                 A.legend(('Model','Model 2', 'Model 3','Model 4'), loc = 'upper right')
                             if m>=4:
-                                #throughput(df_thr5, 'y') 
+                                # throughput(df_thr5, 'y') 
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr5, 'RUN 5')
                                 if (m==4) and (average_FLAG ==True):
                                     a=total_thr(df_thr)            
@@ -6955,7 +6681,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.set_xlabel('Hours of the day')
                     A.set_ylabel('No of A/C')
                     A.grid(color='b', linestyle='-', linewidth=0.1) 
-                    #A.title('Throughput')   
+                    # A.title('Throughput')   
                     canvas = FigureCanvasTkAgg(f, self)
                     canvas.draw()
                     canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -6966,10 +6692,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             else:
                 f = Figure(figsize=(5,5), dpi=100)
                 A = f.add_subplot(111)    
-                #df_thr_to_plot2 = throughput2(df_thr) 
+                # df_thr_to_plot2 = throughput2(df_thr) 
                 df_thr_to_plot2 = create_first_df_thr()
                     
-                #df_thr_to_plot2.plot(kind='bar', legend=False, ax=A)          
+                # df_thr_to_plot2.plot(kind='bar', legend=False, ax=A)          
                 
                 if OP_FLAG == True:
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')            
@@ -6978,7 +6704,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 A.set_xlabel('Hours of the day')
                 A.set_ylabel('No of A/C')
                 A.grid(color='b', linestyle='-', linewidth=0.1)     
-                #A.title('Throughput')   
+                # A.title('Throughput')   
                 canvas = FigureCanvasTkAgg(f, self)
                 canvas.draw()
                 canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -6988,11 +6714,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
             
     
-    
     # ============================================================================#
     #                         DEPARTURE DELAY - RWY hold delay                    #
     # ============================================================================#
-    #if Delay_FLAG == True:
+
+    # if Delay_FLAG == True:
     class DepDelay(tk.Frame):
     
         def __init__(self, parent, controller):
@@ -7004,11 +6730,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack() 
             
-            
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
                 button1.pack()
+
             if Thr_FLAG == True:
                 button = ttk.Button(self, text="Throughput",
                                     command=lambda: controller.show_frame(Thr))
@@ -7017,19 +6743,23 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             if Delay_FLAG == True:
                 button5 = ttk.Button(self, text="Push/Start Delay",
                                     command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()                
+                button5.pack()   
+
             if arr_delay_FLAG == True:
                 button3 = ttk.Button(self, text="Arrivals Delay",
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
+
             if Seq_FLAG == True:
                 button4 = ttk.Button(self, text="Sequence",
                                     command=lambda: controller.show_frame(Seq))
                 button4.pack()
+
             if ADA_buffer_FLAG == True:
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
+
             if (df_delay.empty == True):
                 print("No departures. Nothing to show")
             else:   
@@ -7061,51 +6791,48 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-        #            
-        #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-        #                #For RWY_Hold Delay
-        #                df_rwy = df_delay_input
-        #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-        #                df_rwy = df_rwy.reset_index()
-        #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-        #                df_rwy_avg = df_rwy_avg.reset_index()
-        #                df_rwy = df_rwy.reset_index()
-        #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-        #                
-        #                
-        #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-        #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-        #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-        #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-        #                
-        #                #For Push/Start Delay
-        #                df_ps = df_delay_input
-        #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-        #                df_ps = df_ps.reset_index() 
-        #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-        #                dh_ps_avg = dh_ps_avg.reset_index()
-        #                df_ps = df_ps.reset_index()
-        #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-        #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-        #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-        #                
-        #               
-        #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-        #                df_final_ps = df_final_ps.drop(columns=['index'])
-        #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-        #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-        #                
-        #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-        #                #Extract lists to plot
-        #                H_delay_time = df_rwy['Time interval'].tolist()
-        #                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-        #                
-        #                    
-        #        #        return(H_delay_time,H_delay,PS_time,PS_delay)
+                
+                    # df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+                    # #For RWY_Hold Delay
+                    # df_rwy = df_delay_input
+                    # df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+                    # df_rwy_avg = df_rwy_avg.reset_index()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+                    
+                    # df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+                    # df_final_rwy = df_final_rwy.drop(columns=['index'])
+                    # df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+                    
+                    # #For Push/Start Delay
+                    # df_ps = df_delay_input
+                    # df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+                    # df_ps = df_ps.reset_index() 
+                    # dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+                    # dh_ps_avg = dh_ps_avg.reset_index()
+                    # df_ps = df_ps.reset_index()
+                    # df_ps = df_ps.drop(columns=['Push/Start Delay'])
+                    # #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+                    # #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+                    
+                    # df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+                    # df_final_ps = df_final_ps.drop(columns=['index'])
+                    # df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+                    
+                    # df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+                    # #Extract lists to plot
+                    # H_delay_time = df_rwy['Time interval'].tolist()
+                    # H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+                    
+                    # # return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
                             'b': RWYhold_Delay}
-        #                
-        #        #    def print_Hold_delay(H_delay_time,H_delay,color):
+                              
+                        
                 def print_Hold_delay(ab, color):
                     
                     H_delay_time = ab['a']
@@ -7118,9 +6845,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.plot(OP_Time_H_Delay,OP_H_Delay, 'b')    
                         A.legend(('Model','Operational Data'), loc = 'upper right')
                         
-                
-             
-                
+
                 if new_set_FLAG == True:
                     if m >=1:          
                         f = Figure(figsize=(5,5), dpi=100)
@@ -7130,8 +6855,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         hold_delay2 = delay(df_delay2,df_dep_output2)
                         print_Hold_delay(hold_delay2,'g')
                         
-                        
-                        
                         if OP_FLAG == True:
                             A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                         else:
@@ -7139,7 +6862,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         if m>=2:
                             hold_delay3 = delay(df_delay3,df_dep_output3)
                             print_Hold_delay(hold_delay3,'c')
-                            
                             
                             if OP_FLAG == True:
                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
@@ -7149,8 +6871,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 hold_delay4 = delay(df_delay4,df_dep_output4)
                                 print_Hold_delay(hold_delay4,'m')
                                 
-                               
-                                
                                 if OP_FLAG == True:
                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 else:
@@ -7158,7 +6878,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 if m>=4:
                                     hold_delay5 = delay(df_delay5,df_dep_output5)
                                     print_Hold_delay(hold_delay5,'y')
-                                    
                                     
                                     if OP_FLAG == True:
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -7168,7 +6887,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         hold_delay6 = delay(df_delay6,df_dep_output6)
                                         print_Hold_delay(hold_delay6,color='purple')
                                         
-                                        
                                         if OP_FLAG == True:
                                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                         else:
@@ -7177,7 +6895,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.set_ylabel('Seconds of delay')                
                         A.grid(color='b', linestyle='-', linewidth=0.1)
     
-                      
                         canvas = FigureCanvasTkAgg(f, self)
                         canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -7201,7 +6918,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        #                
                    
     
     # ============================================================================#
@@ -7219,31 +6935,36 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack() 
             
-            
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
                 button1.pack()   
+
             if Thr_FLAG == True:
                 button = ttk.Button(self, text="Throughput",
                                     command=lambda: controller.show_frame(Thr))
                 button.pack()   
+
             if Delay_FLAG == True:
                 button2 = ttk.Button(self, text="RWY HOLD DELAY",
                                     command=lambda: controller.show_frame(DepDelay))
-                button2.pack()                
+                button2.pack()   
+
             if arr_delay_FLAG == True:
                 button3 = ttk.Button(self, text="Arrivals Delay",
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
+
             if Seq_FLAG == True:
                 button4 = ttk.Button(self, text="Sequence",
                                     command=lambda: controller.show_frame(Seq))
                 button4.pack()
+
             if ADA_buffer_FLAG == True:
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
+
             if (df_delay.empty == True):
                 print("No departures. Nothing to show")
             else:   
@@ -7274,64 +6995,60 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_ps_delay['DATE'] = df_ps_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_ps_delay['DATE']
-        #            
-        #                df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
-        #                #For RWY_Hold Delay
-        #                df_rwy = df_delay_input
-        #                df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
-        #                df_rwy = df_rwy.reset_index()
-        #                df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
-        #                df_rwy_avg = df_rwy_avg.reset_index()
-        #                df_rwy = df_rwy.reset_index()
-        #                df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
-        #                
-        #                
-        #                df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
-        #                df_final_rwy = df_final_rwy.drop(columns=['index'])
-        #                df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
-        #                df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
-        #                
-        #                #For Push/Start Delay
-        #                df_ps = df_delay_input
-        #                df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
-        #                df_ps = df_ps.reset_index() 
-        #                dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
-        #                dh_ps_avg = dh_ps_avg.reset_index()
-        #                df_ps = df_ps.reset_index()
-        #                df_ps = df_ps.drop(columns=['Push/Start Delay'])
-        #                #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
-        #                #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
-        #                
-        #               
-        #                df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
-        #                df_final_ps = df_final_ps.drop(columns=['index'])
-        #                df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
-        #                df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
-        #                
-        #                df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
-        #                #Extract lists to plot
-        ##                H_delay_time = df_rwy['Time interval'].tolist()
-        ##                H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
-        #                PS_time = df_rwy['Time interval'].tolist()
-        #                PS_delay = df_final_ps['Push/Start Delay'].tolist()
-        #                    
-    
+                
+                    # df_delay_input['Time interval'] = pd.DatetimeIndex(df_delay_input['Time interval'])
+                    # # For RWY_Hold Delay
+                    # df_rwy = df_delay_input
+                    # df_rwy = df_rwy.groupby(['Time interval'])['RWY_Hold Delay'].mean()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy_avg = df_rwy.rolling(window='3600s', on='Time interval')['RWY_Hold Delay'].mean()
+                    # df_rwy_avg = df_rwy_avg.reset_index()
+                    # df_rwy = df_rwy.reset_index()
+                    # df_rwy = df_rwy.drop(columns=['RWY_Hold Delay'])
+                    
+                    
+                    # df_final_rwy = pd.merge(df_rwy, df_rwy_avg,  how='left', on=['index'], copy=True)
+                    # df_final_rwy = df_final_rwy.drop(columns=['index'])
+                    # df_final_rwy['Time interval'] = pd.to_timedelta(df_final_rwy['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_rwy['Time interval'] = df_final_rwy['Time interval'].dt.seconds
+                    
+                    # # For Push/Start Delay
+                    # df_ps = df_delay_input
+                    # df_ps = df_ps.groupby(['Time interval'])['Push/Start Delay'].mean()
+                    # df_ps = df_ps.reset_index() 
+                    # dh_ps_avg = df_ps.rolling(window='3600s', on='Time interval')['Push/Start Delay'].mean()
+                    # dh_ps_avg = dh_ps_avg.reset_index()
+                    # df_ps = df_ps.reset_index()
+                    # df_ps = df_ps.drop(columns=['Push/Start Delay'])
+                    # #df_ps['Time interval'] = df_ps['Time interval'].apply(lambda x: x.time())
+                    # #df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())
+                    
+                    
+                    # df_final_ps = pd.merge(df_ps, dh_ps_avg,  how='left', on=['index'], copy=True)
+                    # df_final_ps = df_final_ps.drop(columns=['index'])
+                    # df_final_ps['Time interval'] = pd.to_timedelta(df_final_ps['Time interval']) # convert to timedelta to calculate seconds
+                    # df_final_ps['Time interval'] = df_final_ps['Time interval'].dt.seconds
+                    
+                    # df_rwy['Time interval'] = df_rwy['Time interval'].apply(lambda x: x.time())
+                    # # Extract lists to plot
+                    # # H_delay_time = df_rwy['Time interval'].tolist()
+                    # # H_delay = df_final_rwy['RWY_Hold Delay'].tolist()
+                    # PS_time = df_rwy['Time interval'].tolist()
+                    # PS_delay = df_final_ps['Push/Start Delay'].tolist()
+                        
                     return {'c': time_interval,
                             'd': PS_delay}
                     
-           
-                
-                
+
                 def print_PS_delay(ab, color):
                     PS_time = ab['c']
                     PS_delay = ab['d']
                     B = f.add_subplot(111)
                     B.plot(PS_time, PS_delay, color)
-                    #B.set_title('PUSH/START DELAY', loc = 'right')
+                    # B.set_title('PUSH/START DELAY', loc = 'right')
                     if OP_FLAG == True:#Plot Operational Data
-                        
                         B.plot(OP_Time_PS_Delay,OP_PS_Delay, 'b')    
-                        #plt.legend(('Model','Operational Data'), loc = 'upper right')
+                        # plt.legend(('Model','Operational Data'), loc = 'upper right')
                 
                 if new_set_FLAG == True:
                     
@@ -7342,7 +7059,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         print_PS_delay(Push_delay,'k')
                         Push_delay2 = delay(df_delay2, df_dep_output2)
                         print_PS_delay(Push_delay2,'g')
-                        
                         
                         if OP_FLAG == True:
                             B.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
@@ -7360,7 +7076,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 Push_delay4 = delay(df_delay4, df_dep_output4)
                                 print_PS_delay(Push_delay4,'m')
                                 
-                                
                                 if OP_FLAG == True:
                                     B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 else:
@@ -7368,7 +7083,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 if m>=4:
                                     Push_delay5 = delay(df_delay5, df_dep_output5)
                                     print_PS_delay(Push_delay5,'y')
-                                    
                                     
                                     if OP_FLAG == True:
                                         B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -7409,10 +7123,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar = NavigationToolbar2Tk(canvas, self)
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-    
+
+
     # ============================================================================#
     #                          ARRIVAL DELAY                                      # 
     # ============================================================================#
+
     #if arr_delay_FLAG == True:
     class ArrivalDelay(tk.Frame):
     
@@ -7425,19 +7141,21 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack()
             
-            
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
                 button1.pack()
+
             if Thr_FLAG == True:
                 button = ttk.Button(self, text="Throughput",
                                     command=lambda: controller.show_frame(Thr))
                 button.pack()
+
             if Delay_FLAG == True:
                 button2 = ttk.Button(self, text="RWY Hold Delay",
                                     command=lambda: controller.show_frame(DepDelay))
                 button2.pack()
+
             if Delay_FLAG == True:
                 button5 = ttk.Button(self, text="Push/Start Delay",
                                     command=lambda: controller.show_frame(DepDelay2))
@@ -7447,13 +7165,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button4 = ttk.Button(self, text="Sequence",
                                     command=lambda: controller.show_frame(Seq))
                 button4.pack()
+
             if ADA_buffer_FLAG == True:
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
     
-            
-            
             if (df_delay.empty == True):
                     print("No departures. Nothing to show")
             else:     
@@ -7484,37 +7201,37 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     df_arr_delay['DATE'] = df_arr_delay['DATE'].apply(lambda x: x.time())
                     
                     time_interval = df_arr_delay['DATE']
-        #                print(df_arr_delay['Time1'].value())
-        #                df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
-        #                #For RWY_Hold Delay
-        #                df_rwy_arr = df_delay_input
-        #                df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
-        #                df_rwy_arr = df_rwy_arr.reset_index()
-        #                df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
-        #                df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
-        #                df_rwy_arr = df_rwy_arr.reset_index()
-        #                df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
-        #                
-        #                df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
-        #                df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
-        #                df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
-        #                df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
-        #                
-        #                df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
-        #                
-        #                #Extract lists to plot
-        #                arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
-        #                arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
-        #                
-                        
-                    #        return(H_delay_time,H_delay,PS_time,PS_delay)
+                    # print(df_arr_delay['Time1'].value())
+                    # df_delay_input['Arr Time Interval'] = pd.DatetimeIndex(df_delay_input['Arr Time Interval'])
+                    # #For RWY_Hold Delay
+                    # df_rwy_arr = df_delay_input
+                    # df_rwy_arr = df_rwy_arr.groupby(['Arr Time Interval'])['Arr Delay'].mean()
+                    # df_rwy_arr = df_rwy_arr.reset_index()
+                    # df_rwy_arr_avg = df_rwy_arr.rolling(window='3600s', on='Arr Time Interval')['Arr Delay'].mean()
+                    # df_rwy_arr_avg = df_rwy_arr_avg.reset_index()
+                    # df_rwy_arr = df_rwy_arr.reset_index()
+                    # df_rwy_arr = df_rwy_arr.drop(columns=['Arr Delay'])
+                    
+                    # df_final_arr_rwy = pd.merge(df_rwy_arr, df_rwy_arr_avg,  how='left', on=['index'], copy=True)
+                    # df_final_arr_rwy = df_final_arr_rwy.drop(columns=['index'])
+                    # df_final_arr_rwy['Arr Time Interval'] = pd.to_timedelta(df_final_arr_rwy['Arr Time Interval']) # convert to timedelta to calculate seconds
+                    # df_final_arr_rwy['Arr Time Interval'] = df_final_arr_rwy['Arr Time Interval'].dt.seconds
+                    
+                    # df_rwy_arr['Arr Time Interval'] = df_rwy_arr['Arr Time Interval'].apply(lambda x: x.time())           
+                    
+                    # #Extract lists to plot
+                    # arr_delay_time = df_rwy_arr['Arr Time Interval'].tolist()
+                    # arr_delay = df_final_arr_rwy['Arr Delay'].tolist()
+                
+                    # return(H_delay_time,H_delay,PS_time,PS_delay)
                     return {'a': time_interval,
                             'b': ARR_delay}
                
+
                 def plotArrDelay(ab, color):            
                     arr_delay_time = ab['a']
                     arr_delay = ab['b'] 
-                    #f = Figure(figsize=(5,5), dpi=100)
+                    # f = Figure(figsize=(5,5), dpi=100)
                     A = f.add_subplot(111)                      
                     A.plot(arr_delay_time, arr_delay, color)     
                 
@@ -7537,12 +7254,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                
                                 A.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 if m>=4:
-                                    #A.plot(ArrDelay(df_delay5)['a'],ArrDelay(df_delay2)['b'],'y')
+                                    # A.plot(ArrDelay(df_delay5)['a'],ArrDelay(df_delay2)['b'],'y')
                                     plotArrDelay(ArrDelay(df_delay5, df_arr_output5),'y')
                                     
                                     A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                     if m>=5:
-                                        #A.plot(ArrDelay(df_delay6)['a'],ArrDelay(df_delay2)['b'],'purple')
+                                        # A.plot(ArrDelay(df_delay6)['a'],ArrDelay(df_delay2)['b'],'purple')
                                         plotArrDelay(ArrDelay(df_delay6, df_arr_output6),'purple')
                                         
                                         A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -7576,7 +7293,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     # ============================================================================#
     #                           SEQUENCE                                          #
     # ============================================================================#
-    #if Seq_FLAG == True:
+
+    # if Seq_FLAG == True:
     class Seq(tk.Frame):
     
         def __init__(self, parent, controller):
@@ -7587,10 +7305,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             button1 = ttk.Button(self, text="Back to Home",
                                 command=lambda: controller.show_frame(StartPage))
             button1.pack() 
+
             if convergenceFLAG ==True:
                 button1 = ttk.Button(self, text="Convergence Throughput",
                                     command=lambda: controller.show_frame(Conv))
                 button1.pack()
+
             if Thr_FLAG == True:
                 button = ttk.Button(self, text="Throughput",
                                     command=lambda: controller.show_frame(Thr))
@@ -7600,6 +7320,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button2 = ttk.Button(self, text="RWY Hold Delay",
                                     command=lambda: controller.show_frame(DepDelay))
                 button2.pack()
+
             if Delay_FLAG == True:
                 button5 = ttk.Button(self, text="Push/Start Delay",
                                     command=lambda: controller.show_frame(DepDelay2))
@@ -7614,19 +7335,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button5 = ttk.Button(self, text="ADA Buffer",
                                     command=lambda: controller.show_frame(ADAbuffer))
                 button5.pack()
-                
-            
-                
-           
-                
-            
-                
             
             def sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
     
                 df_sequence = pd.DataFrame()
-                #Arrivals 
-                
+                # Arrivals 
                 df_sequence['ARRIVAL'] = df_arr_output['ACTUAL Landing Time'] + (df_arr_output['AROT']/2)
                 df_sequence['ARRIVAL_error'] = df_arr_output['AROT']/2
                 df_sequence['ARRIVAL_spacing'] = df_arr_output['ACTUAL Landing Time']
@@ -7639,11 +7352,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['ARRIVAL_spacing_error'] = df_temp['MAX Constraint']           
                 df_sequence['Arrival_ZERO'] = df_temp['Arrival_ZERO']
                 
-                #Positions
+                # Positions
                 df_sequence['main_position'] = number
                 df_sequence['arr_spacing_position'] = number+0.005
                 
-                #Annotation
+                # Annotation
                 
                 df_temp = pd.DataFrame()
                 df_temp['ARR_ID'] = df_arr_output['Arrival ID'].astype(str)
@@ -7683,7 +7396,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 labels_y = main_data_position +  arrival_spacing_position 
                 labels_x = main_arrival +  arrival_spacing 
             
-            
                 return{'0a': arrival_zero,
                        '1' : main_arrival, 
                        '2' : main_arrival_error,
@@ -7695,9 +7407,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                        '13' : labels_y,
                        '14' : labels_x}
              
+
             def sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
                 df_sequence = pd.DataFrame()
-                #Departure
+                # Departure
                 
                 df_sequence['DEPARTURES'] = df_dep_output['Departure_RWY_ENTRY'] + (df_dep_output['DROT']/2)
                 df_sequence['DEPARTURES_error'] = df_dep_output['DROT']/2
@@ -7711,7 +7424,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['DEPARTURES_spacing_error'] = df_temp['Dep MIN Separation']            
                 df_sequence['Departure_ZERO'] = df_temp['Departure_ZERO']
                             
-                #Positions
+                # Positions
                 df_sequence['main_position'] = number
                 df_sequence['dep_spacing_position'] = number-0.005
                 
@@ -7751,13 +7464,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 main_data_position = df_sequence['main_position'].tolist()
                 departure_spacing_position = df_sequence['dep_spacing_position'].tolist()
                 
-                
-                
                 #Data prep for tags
                 labels = departure_label +  departure_spacing_label
                 labels_y = main_data_position + departure_spacing_position
                 labels_x = main_departure +  departure_spacing
-            
             
                 return{'0b': departure_zero,
                        '5' : main_departure, 
@@ -7770,11 +7480,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                        '13' : labels_y,
                        '14' : labels_x}
             
+
             def sequence(df_arr_output_input, df_rwy_calcs_input, df_dep_output_input, number): ######MIX MODE
                 
                 df_sequence = pd.DataFrame()
                 #Arrivals 
-                
                 df_sequence['ARRIVAL'] = df_arr_output_input['ACTUAL Landing Time'] + (df_arr_output_input['AROT']/2)
                 df_sequence['ARRIVAL_error'] = df_arr_output_input['AROT']/2
                 df_sequence['ARRIVAL_spacing'] = df_arr_output_input['ACTUAL Landing Time']
@@ -7787,9 +7497,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['ARRIVAL_spacing_error'] = df_temp['MAX Constraint']           
                 df_sequence['Arrival_ZERO'] = df_temp['Arrival_ZERO']
                 
-                
                 #Departure
-                
                 df_sequence['DEPARTURES'] = df_dep_output_input['Departure_RWY_ENTRY'] + (df_dep_output_input['DROT']/2)
                 df_sequence['DEPARTURES_error'] = df_dep_output_input['DROT']/2
                 df_sequence['DEPARTURES_spacing'] = df_dep_output_input['Departure_RWY_ENTRY']
@@ -7807,9 +7515,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['arr_spacing_position'] = number+0.005
                 df_sequence['dep_spacing_position'] = number-0.005
                 
-                
                 #Annotation
-                
                 df_temp = pd.DataFrame()
                 df_temp['ARR_ID'] = df_arr_output_input['Arrival ID'].astype(str)
                 df_temp['ARR_WAKE'] = df_rwy_calcs_input['ARRIVAL actual WAKE'].astype(str)
@@ -7875,13 +7581,10 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 arrival_spacing_position = df_sequence['arr_spacing_position'].tolist()
                 departure_spacing_position = df_sequence['dep_spacing_position'].tolist()
                 
-                
-                
                 #Data prep for tags
                 labels = arrival_label + departure_label + arrival_spacing_label  + departure_spacing_label
                 labels_y = main_data_position + main_data_position + arrival_spacing_position + departure_spacing_position
                 labels_x = main_arrival + main_departure + arrival_spacing + departure_spacing
-            
             
                 return{'0a': arrival_zero,
                        '0b': departure_zero,
@@ -7900,6 +7603,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                        '13' : labels_y,
                        '14' : labels_x}
             
+
             #------ ARRIVALS only -------#
             
             if df_dep_output.empty ==True:
@@ -7917,32 +7621,27 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             labels_x = sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] + sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['14']
                             
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
-                            #plt.axhline(y = 10, color='w')                    
-                            #A.axhline(y=0.5, color='w')
+                            # plt.axhline(y = 10, color='w')                    
+                            # A.axhline(y=0.5, color='w')
                                
-                            
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                             
                             A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='maroon', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='indigo', fmt='o', markersize=8, capsize=10, )
-                            
-                                            
+                                      
                             annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                             bbox=dict(boxstyle="round", fc="w"),
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
                             
-                        
                             def update_annot(ind):
-                            
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
                             
-                        
-                                            
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -7956,8 +7655,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             annot.set_visible(False)
                                             canvas.draw_idle()
                             
-                        
-                            
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False) 
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -7983,7 +7681,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
                             #plt.axhline(y = 10, color='w')                    
                             #A.axhline(y=0.5, color='w')
-                               
                             
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                             A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
@@ -7999,16 +7696,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
                             
-                        
                             def update_annot(ind):
                             
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
-                            
-                        
-                                            
+
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -8022,8 +7717,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             annot.set_visible(False)
                                             canvas.draw_idle()
                             
-                        
-                            
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False) 
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8037,7 +7731,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
-                    
                     
                     elif df_arr_output2.empty ==True: # ARR only + DEP only                    
                         f = Figure(figsize=(5,5), dpi=100)  
@@ -8063,16 +7756,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
                         
-                    
                         def update_annot(ind):
                         
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
-                        
-                    
-                                        
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8086,8 +7777,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         annot.set_visible(False)
                                         canvas.draw_idle()
                         
-                    
-                        
+
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False) 
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8105,7 +7795,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         f = Figure(figsize=(5,5), dpi=100)  
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
-                        
                         
                         labels =  sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12']  + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] 
                         tag_text_use = np.array(list(labels))
@@ -8127,12 +7816,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
+
                         def update_annot2(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8145,6 +7836,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     if vis:
                                         annot.set_visible(False)
                                         canvas.draw_idle()
+
+
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False)                     
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8158,7 +7851,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
-                        
                 else:  #only one ARRonly              
                     f = Figure(figsize=(5,5), dpi=100)  
                     A = f.add_subplot(111)
@@ -8168,30 +7860,24 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     tag_text_use = np.array(list(labels))
                     
                     tags_main_data = A.scatter(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'],sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] , c='w', s=100)      
-                    #plt.axhline(y = 10, color='w')                    
-                    #A.axhline(y=0.5, color='w')
-                       
+                    # plt.axhline(y = 10, color='w')                    
+                    # A.axhline(y=0.5, color='w')
                     
                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['1'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                     A.errorbar(sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
-                    
-                    
                     
                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                     bbox=dict(boxstyle="round", fc="w"),
                                     arrowprops=dict(arrowstyle="->"))
                     annot.set_visible(False)
                     
-                
                     def update_annot(ind):
-                    
                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                         annot.xy = pos
                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                         annot.set_text(text)
                     
-                
-                                    
+
                     def hover(event):
                         vis = annot.get_visible()
                         if event.inaxes == ax:
@@ -8206,7 +7892,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.draw_idle()
                     
                 
-                    
                     A.set_xlabel('Seconds of the day')        
                     A.axes.get_yaxis().set_visible(False) 
                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8220,8 +7905,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
-            
-            
             #-------DEPARTURES only --------#
             
             elif df_arr_output.empty ==True:
@@ -8238,7 +7921,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         labels_x = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] + sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['14']
                         labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] + sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['13']
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
-                        #A.axhline(y=0.5, color='w')
+                        # A.axhline(y=0.5, color='w')
                            
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8246,21 +7929,17 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                       
-                                        
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
                         
-                    
                         def update_annot(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
                         
-                    
                                         
                         def hover(event):
                             vis = annot.get_visible()
@@ -8275,13 +7954,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         annot.set_visible(False)
                                         canvas.draw_idle()
                         
-                    
                         
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False) 
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
                         A.legend(("Legend","Departures M1","Departures Spacing M1","Arrivals M2", "Arrivals Spacing M2"), loc = 'upper right')
-                        #plt.title("Sequence analysis")
+                        # plt.title("Sequence analysis")
                         canvas = FigureCanvasTkAgg(f, self)
                         canvas.draw()
                         canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -8301,7 +7979,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         labels_x = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] + sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['14'] 
                                                 
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
-                        #A.axhline(y=0.5, color='w')
+                        # A.axhline(y=0.5, color='w')
                         
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
@@ -8309,23 +7987,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='darkgreen', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], color='indigo', fmt='o', markersize=8, capsize=10)
     
-    
-                        
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
                         
-                    
                         def update_annot(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
-                        
-                    
-                                        
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8340,7 +8013,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         canvas.draw_idle()
                         
                     
-                        
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False) 
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8359,16 +8031,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
                         
-                        
                         labels =  sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12']  + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] 
                         tag_text_use = np.array(list(labels))
                         labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['13'] 
                         labels_x = sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['14']
                                                 
                         tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
-                        #A.axhline(y=0.5, color='w')
-                                                   
-                                            
+                        # A.axhline(y=0.5, color='w')
+                                             
                         A.errorbar(sequenceDepOnly(df_dep_output, 1)['3'], sequenceDepOnly(df_dep_output, 1)['4'], xerr=[sequenceDepOnly(df_dep_output, 1)['5'], sequenceDepOnly(df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)
                         A.errorbar(sequenceDepOnly(df_dep_output, 1)['10'], sequenceDepOnly(df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_dep_output, 1)['11'], sequenceDepOnly(df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                         
@@ -8381,12 +8051,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
+
                         def update_annot2(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8399,6 +8071,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     if vis:
                                         annot.set_visible(False)
                                         canvas.draw_idle()
+
+
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False)                     
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8422,29 +8096,23 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     labels_x = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] 
                     labels_y = sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['13']
                     tags_main_data = A.scatter(labels_x,labels_y , c='w', s=100)      
-                    #A.axhline(y=0.5, color='w')
+                    # A.axhline(y=0.5, color='w')
                        
                     A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['5'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['9'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                     A.errorbar(sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
-                    
-                    
-     
                     
                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                     bbox=dict(boxstyle="round", fc="w"),
                                     arrowprops=dict(arrowstyle="->"))
                     annot.set_visible(False)
-                    
                 
                     def update_annot(ind):
-                    
                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                         annot.xy = pos
                         text = "{}".format(" ".join([sequenceDepOnly(df_dep_output, 1)['7'][n] for n in ind["ind"]]))
                         annot.set_text(text)
                     
-                
-                                    
+
                     def hover(event):
                         vis = annot.get_visible()
                         if event.inaxes == ax:
@@ -8459,7 +8127,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     canvas.draw_idle()
                     
                 
-                    
                     A.set_xlabel('Seconds of the day')        
                     A.axes.get_yaxis().set_visible(False) 
                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8473,7 +8140,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
-            
             #------------------ MIXED MODE ------------------------#
             
             else: 
@@ -8485,7 +8151,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             f = Figure(figsize=(5,5), dpi=100)  
                             A = f.add_subplot(111)
                             ax = f.add_subplot(111)
-                            
                             
                             labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] +sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['12']
                             tag_text_use = np.array(list(labels))
@@ -8510,19 +8175,19 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.errorbar(sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['7'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['11'], xerr=[sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['0b'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['8']], color='royalblue',fmt = 'o', markersize=8, capsize=10)
                             A.errorbar(sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['3'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['10'], xerr=[sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['0a'], sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['4']], color='magenta', fmt='o', markersize=8, capsize=10, )
                             
-                            
-                            
-                            
                             annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                             bbox=dict(boxstyle="round", fc="w"),
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
+
+
                             def update_annot2(ind):
-                            
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
+
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -8535,6 +8200,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         if vis:
                                             annot.set_visible(False)
                                             canvas.draw_idle()
+
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False)                     
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8548,7 +8215,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
-                        
                         
                         elif m==3:#MIXED +MIXED + MIXED + MIXED
                                     
@@ -8584,18 +8250,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.errorbar(sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['7'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['11'], xerr=[sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['0b'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['8']], color='cyan',fmt = 'o', markersize=8, capsize=10)
                             A.errorbar(sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['3'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['10'], xerr=[sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['0a'], sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['4']], color='orchid', fmt='o', markersize=8, capsize=10, )
                             
-                            
-                            
                             annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                             bbox=dict(boxstyle="round", fc="w"),
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
+
                             def update_annot2(ind):
-                            
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
+
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -8608,6 +8274,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         if vis:
                                             annot.set_visible(False)
                                             canvas.draw_idle()
+
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False)                     
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8621,13 +8289,13 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
+
                         elif m==4: #MIXED +MIXED + MIXED +MIXED + MIXED
                                                             
                             f = Figure(figsize=(5,5), dpi=100)  
                             A = f.add_subplot(111)
                             ax = f.add_subplot(111)
-                            
-                            
+
                             labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['12'] +sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['12'] + sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['12'] + sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['12']
                             tag_text_use = np.array(list(labels))
                             labels_x = sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['14'] + sequence(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['14'] +sequence(df_arr_output3, df_rwy_calcs3, df_dep_output3, 0.96)['14'] + sequence(df_arr_output4, df_rwy_calcs4, df_dep_output4, 0.94)['14'] + sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['14']
@@ -8661,19 +8329,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             A.errorbar(sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['7'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['11'], xerr=[sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['0b'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['8']], color='mediumblue',fmt = 'o', markersize=8, capsize=10)
                             A.errorbar(sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['3'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['10'], xerr=[sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['0a'], sequence(df_arr_output5, df_rwy_calcs5, df_dep_output5, 0.92)['4']], color='deeppink', fmt='o', markersize=8, capsize=10, )
                             
-                        
-                            
-                            
                             annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                             bbox=dict(boxstyle="round", fc="w"),
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
+
                             def update_annot2(ind):
-                            
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
+
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -8686,6 +8353,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         if vis:
                                             annot.set_visible(False)
                                             canvas.draw_idle()
+
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False)                    
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8729,12 +8398,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                             bbox=dict(boxstyle="round", fc="w"),
                                             arrowprops=dict(arrowstyle="->"))
                             annot.set_visible(False)
+
                             def update_annot2(ind):
-                            
                                 pos = tags_main_data.get_offsets()[ind["ind"][0]]
                                 annot.xy = pos
                                 text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                                 annot.set_text(text)
+
+
                             def hover(event):
                                 vis = annot.get_visible()
                                 if event.inaxes == ax:
@@ -8747,6 +8418,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         if vis:
                                             annot.set_visible(False)
                                             canvas.draw_idle()
+
+
                             A.set_xlabel('Seconds of the day')        
                             A.axes.get_yaxis().set_visible(False)                     
                             A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8759,8 +8432,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                             toolbar = NavigationToolbar2Tk(canvas, self)
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-                        
-                        
                         
                     elif df_dep_output2.empty ==True:#arr only
                         f = Figure(figsize=(5,5), dpi=100)  
@@ -8783,17 +8454,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['1'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['2']], color='r', fmt='o', markersize=8, capsize=10, )
                         A.errorbar(sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['3'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['10'], xerr=[sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0a'], sequenceArrOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
     
-                    
                         annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
+
                         def update_annot2(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8806,6 +8478,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     if vis:
                                         annot.set_visible(False)
                                         canvas.draw_idle()
+
+
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False)                     
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8840,7 +8514,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                         A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                         
-                        
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['5'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['9'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['6']], color='g', fmt='o', markersize=8, capsize=10)    
                         A.errorbar(sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['7'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['11'], xerr=[sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['0b'], sequenceDepOnly(df_arr_output2, df_rwy_calcs2, df_dep_output2, 0.98)['8']], fmt='o', markersize=8, capsize=10)
     
@@ -8851,12 +8524,14 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                         bbox=dict(boxstyle="round", fc="w"),
                                         arrowprops=dict(arrowstyle="->"))
                         annot.set_visible(False)
+
                         def update_annot2(ind):
-                        
                             pos = tags_main_data.get_offsets()[ind["ind"][0]]
                             annot.xy = pos
                             text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                             annot.set_text(text)
+
+
                         def hover(event):
                             vis = annot.get_visible()
                             if event.inaxes == ax:
@@ -8869,6 +8544,8 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     if vis:
                                         annot.set_visible(False)
                                         canvas.draw_idle()
+
+
                         A.set_xlabel('Seconds of the day')        
                         A.axes.get_yaxis().set_visible(False)                     
                         A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8882,15 +8559,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                         
-                    
-                        
                 else: # only one MIXED
                     f = Figure(figsize=(5,5), dpi=100)  
                     A = f.add_subplot(111)
-                    ax = f.add_subplot(111)                
-                    
-                    
-                    
+                    ax = f.add_subplot(111)
+
                     labels =  sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['12'] 
                     tag_text_use = np.array(list(labels))
                     
@@ -8903,17 +8576,18 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['7'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['11'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0b'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['8']], fmt='o', markersize=8, capsize=10)
                     A.errorbar(sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['3'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['10'], xerr=[sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['0a'], sequence(df_arr_output, df_rwy_calcs, df_dep_output, 1)['4']], color='purple', fmt='o', markersize=8, capsize=10, )
                     
-                    
                     annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
                                     bbox=dict(boxstyle="round", fc="w"),
                                     arrowprops=dict(arrowstyle="->"))
                     annot.set_visible(False)
+
                     def update_annot2(ind):
-                    
                         pos = tags_main_data.get_offsets()[ind["ind"][0]]
                         annot.xy = pos
                         text = "{}".format(" ".join([tag_text_use[n] for n in ind["ind"]]))
                         annot.set_text(text)
+
+
                     def hover(event):
                         vis = annot.get_visible()
                         if event.inaxes == ax:
@@ -8927,6 +8601,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                                     annot.set_visible(False)
                                     canvas.draw_idle()
                     
+
                     A.set_xlabel('Seconds of the day')        
                     A.axes.get_yaxis().set_visible(False)    
                     A.grid(color='b', linestyle='-', linewidth=0.1)    
@@ -8940,12 +8615,12 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                     toolbar.update()
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                     
-                    
-                    
+
     # ============================================================================#
-    #                           ADA buffer                                          #
+    #                           ADA buffer                                         #
     # ============================================================================#
-    #if Seq_FLAG == True:
+
+    # if Seq_FLAG == True:
     class ADAbuffer(tk.Frame):
     
         def __init__(self, parent, controller):
@@ -8978,8 +8653,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 button3 = ttk.Button(self, text="Arrivals Delay",
                                     command=lambda: controller.show_frame(ArrivalDelay))
                 button3.pack()
-                
-            
             
             df_Buffer = pd.DataFrame()
             df_Buffer['ADA_Buffer'] = df_sequence_output['ADA Buffer']        
@@ -8990,33 +8663,31 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             b = int(max(ADA_buffer))
             number_bins = b-a
             h = [0]+sorted(ADA_buffer)
-        #        ba = [15,15]
-        #        bb = [0,0.013]
-        #        da = [0,15]
-        #        db = [0.013,0.013]
+            # ba = [15,15]
+            # bb = [0,0.013]
+            # da = [0,15]
+            # db = [0.013,0.013]
             
             coord = [[0,0], [15,0], [15,0.013], [0,0.013]]
             coord.append(coord[0]) #repeat the first point to create a 'closed loop'
             
             xs, ys = zip(*coord) #create lists of x and y values
-    
-    
+
             fit = stats.norm.pdf(h, np.mean(h), np.std(h))  #this is a fitting indeed
-            
             
             f = Figure(figsize=(5,5), dpi=100)
             A = f.add_subplot(111)
             A.plot(h,fit,'-o')
             A.hist(h,normed=True,bins=number_bins)
-            #A.axvline(x=15, color='red', linestyle='--')
-            #A.plot(da,db, color='red',linestyle='--')
+            # A.axvline(x=15, color='red', linestyle='--')
+            # A.plot(da,db, color='red',linestyle='--')
             
             A.plot(xs,ys,"r") 
             
             A.set_xlabel('SECONDS')
             A.set_ylabel('%')
             A.grid(color='b', linestyle='-', linewidth=0.1)     
-            #A.title('Throughput')   
+            # A.title('Throughput')   
             canvas = FigureCanvasTkAgg(f, self)
             canvas.draw()
             canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -9026,10 +8697,6 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     
     
-    
-    
-    
-    
     app = RAPIDvisual()
     
     app.columnconfigure(0, weight=1)
@@ -9037,10 +8704,3 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
     app.rowconfigure(1, weight=1)
     
     app.mainloop()
-
-
-
-
-
-
-
