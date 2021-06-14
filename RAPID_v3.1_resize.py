@@ -25,8 +25,6 @@ from datetime import datetime, timedelta
 
 # Default DROT + buffer value ('n') variable for main runway
 n = 50
-# Default DROT + buffer value ('n') variable for northern runway
-northern_n = 20
 # Default minimum Departure Separation (Alt SIDs) in secs
 minDep_altSID = 60 # minDep_altSID = 60
 # Default minimum Departure Separation (Same SIDs) in secs
@@ -34,17 +32,13 @@ minDep_sameSID = 109 #minDep_sameSID = 120
 SIDmax = 4
 n_times = 1
 ADA_x = 10
-#SIDmax = 4
 SIDgroup_separation = "(2,4)(3,4)"
 SID_queue_assign = "1 3 | 2 4"
 
 debugFLAG = False
-debugFLAG2 = False # TAXI - RWY queue checks
-multipleFLAG = False # used for multiple runs
 TBS_Flag = False
 RECatFLAG = False
 averagethrFLAG = False
-taxi_outliers = True
 
 distance_based_FLAG = True
 time_based_FLAG = False
@@ -57,16 +51,6 @@ MRS_thr_FLAG = False
 WAKE_thr_FLAG = False
 ADA_thr_FLAG = False
 ADDA_thr_FLAG = False
-
-open_file1 = ""
-open_file = ""
-input_excel_sheet = ""
-name_input_file = ""
-operational_data = ""
-new_data2 = ""
-new_data4 = ""
-new_data5 = ""
-new_data6 = ""
 
 #====FOR VISUAL MODULE======#
 
@@ -172,64 +156,56 @@ def define_input_parameters():
     
     win.destroy()
 
+
 #-----------------------------------------------------------------------------#
 
-win = tk.Tk()                           # Create instance      
-win.title("RAPID V_2.0")                 # Add a title 
+win = tk.Tk()
+win.title("RAPID")
 
 # TABS
-mainframe = ttk.Frame(win, padding="10 10 30 40")
 
+mainframe = ttk.Frame(win, padding="10 10 30 40")
 mainframe.grid(column=0, row=0, sticky='NWES')
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
     
-input_module = ttk.Frame(mainframe)            # Create INPUT tab 
-input_module.grid(column=0, row=0, sticky='NWES')
+input_module = ttk.Frame(mainframe)
+core_module = ttk.Frame(mainframe)
+visual_module = ttk.Frame(mainframe)
 
-core_module = ttk.Frame(mainframe)            # Create CORE tab
-core_module.grid(row=0, sticky='NWES')
-
-visual_module = ttk.Frame(mainframe)            # Create VISUAL tab 
-visual_module.grid(column=0, row=0, sticky='NWES')
+for modules in (input_module, core_module, visual_module): modules.grid(column=0, row=0, sticky='NWES')
 
 # Fake TABS
 
 fakeTab_input = ttk.Frame(input_module)
-fakeTab_input.grid(row=0, sticky='NWES')
-
-tk.Button(fakeTab_input, text='INPUT MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=0)
-tk.Button(fakeTab_input, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
-tk.Button(fakeTab_input, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,column=2)
-
 fakeTab_core = ttk.Frame(core_module)
-fakeTab_core.grid(row=0, sticky='NWES')
-
-tk.Button(fakeTab_core, text='INPUT MODULE', height = 3, padx=100).grid(row=0,column=0)
-tk.Button(fakeTab_core, text='CORE MODULE', bg='pink', height = 3, padx=100 ).grid(row=0,column=1)
-tk.Button(fakeTab_core, text='VISUAL MODULE', height = 3, padx=100).grid(row=0,column=2)
-
 fakeTab_visual = ttk.Frame(visual_module)
-fakeTab_visual.grid(row=0, sticky='NWES')
 
-tk.Button(fakeTab_visual, text='INPUT MODULE', height = 3, padx=100).grid(row=0,column=0)
-tk.Button(fakeTab_visual, text='CORE MODULE', height = 3, padx=100 ).grid(row=0,column=1)
-tk.Button(fakeTab_visual, text='VISUAL MODULE', bg='pink', height = 3, padx=100).grid(row=0,column=2)
+tk.Button(fakeTab_input, text='INPUT MODULE', bg='pink', height=3, padx=100).grid(row=0,column=0)
+tk.Button(fakeTab_input, text='CORE MODULE', height=3, padx=100).grid(row=0,column=1)
+tk.Button(fakeTab_input, text='VISUAL MODULE', height=3, padx=100).grid(row=0,column=2)
+
+tk.Button(fakeTab_core, text='INPUT MODULE', height=3, padx=100).grid(row=0,column=0)
+tk.Button(fakeTab_core, text='CORE MODULE', bg='pink', height=3, padx=100).grid(row=0,column=1)
+tk.Button(fakeTab_core, text='VISUAL MODULE', height=3, padx=100).grid(row=0,column=2)
+
+tk.Button(fakeTab_visual, text='INPUT MODULE', height=3, padx=100).grid(row=0,column=0)
+tk.Button(fakeTab_visual, text='CORE MODULE', height=3, padx=100).grid(row=0,column=1)
+tk.Button(fakeTab_visual, text='VISUAL MODULE', bg='pink', height=3, padx=100).grid(row=0,column=2)
+
+for faketabs in (fakeTab_input, fakeTab_core, fakeTab_visual): faketabs.grid(row=0, sticky='NWES')
 
 # Main Contentframes
 
 tab1 = ttk.Frame(input_module)
-tab1.grid(row=1, sticky='NWES')
-
 tab2 = ttk.Frame(core_module)
-tab2.grid(row=1, sticky='NWES')
-
 tab3 = ttk.Frame(visual_module)
-tab3.grid(row=1, sticky='NWES')
+
+for tabs in (tab1, tab2, tab3): tabs.grid(row=1, sticky='NWES')
 
 #-------------------------------INPUT GUI-------------------------------------#
 
-def raise_main_frame(frame):
+def raise_frame(frame):
     frame.tkraise()
 
 
@@ -242,10 +218,6 @@ import_airport_data = tk.StringVar()
 input_file = tk.StringVar()
 open_file = tk.StringVar()
 
-def raise_frame(frame):
-    frame.tkraise()
-
-
 f0 = ttk.Frame(tab1)
 f1 = ttk.Frame(tab1)
 f2 = ttk.Frame(tab1)
@@ -253,7 +225,6 @@ f3 = ttk.Frame(tab1)
 f4 = ttk.Frame(tab1)
 f5 = ttk.Frame(tab1)
 f6 = ttk.Frame(tab1)
-f7 = ttk.Frame(tab1)
 
 for frame in (f0,f1,f2):
     frame.grid(row=0, column=0, sticky='NWES')
@@ -273,8 +244,6 @@ f0_content.grid(row=0, column=0, sticky='N', padx=10, pady=40, ipadx=5, ipady=10
 
 f0_content_a = ttk.LabelFrame(f0_content, text=" [ A ] - Analyse & Filter Operational Data ")
 f0_content_a.grid(row=2, column=0, sticky='N', padx=5, pady=15, ipadx=5, ipady=5)
-
-name_excel_sheet1 = tk.StringVar()
 
 tdf = pd.DataFrame()
 
@@ -1131,7 +1100,7 @@ def generate_new_input():
         f6_buttons= ttk.Frame(f6) 
         f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
         
-        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
+        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
         tk.Button(f6_buttons, text='<- BACK', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
         
         f6_content = tk.LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")
@@ -1383,7 +1352,7 @@ def load_input_file():
     ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky='N', pady=10)
     f0_buttons= tk.Frame(f0) 
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
-    tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+    tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
 
 import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
@@ -1579,7 +1548,7 @@ tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, fo
 
 buttons_frame_core = ttk.Frame(buttons_core)
 buttons_frame_core.pack(side="right")
-tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_main_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
+tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
 tk.Button(buttons_frame_core, text="Just run the model", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="bottom")
 
 #------------------------------VISUAL GUI-------------------------------------#
@@ -1639,10 +1608,10 @@ buttons_visual = ttk.Frame(visual_module)
 buttons_visual.grid(row=2, sticky='NWES')
 
 tk.Button(buttons_visual, text="RUN", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_main_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
 raise_frame(f0)
-raise_main_frame(input_module)
+raise_frame(input_module)
 
 win.columnconfigure(0, weight=1)
 win.rowconfigure(0, weight=1)
@@ -1833,12 +1802,10 @@ if new_set_FLAG == True:
 # ============================================================================#
 
 n_times = n_times_output.get()
-limit_to_change = 15
-lower_limit_to_change = 10
 
 big_list = []
-averages =[]
-difference=[]
+averages = []
+difference = []
 iter2 = 0
 iter1 = 0 
 
@@ -2740,6 +2707,7 @@ while (iter1 < maxIter):
            
             Arrival_Taxiin_mean = arrivalInput['I' + str(row)].value
             Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
+            # taxi_outliers = True
             # Taxiinlookup = arrivalInput['M' + str(row)].value
             # if taxi_outliers == False:
             tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
