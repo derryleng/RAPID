@@ -7288,15 +7288,15 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                        '14' : labels_x}
             
 
-            def sequence(df_arr_output_input, df_rwy_calcs_input, df_dep_output_input, number): ######MIX MODE
+            def sequence(df_arr_output, df_rwy_calcs, df_dep_output, number): ######MIX MODE
                 
                 df_sequence = pd.DataFrame()
                 #Arrivals 
-                df_sequence['ARRIVAL'] = df_arr_output_input['ACTUAL Landing Time'] + (df_arr_output_input['AROT']/2)
-                df_sequence['ARRIVAL_error'] = df_arr_output_input['AROT']/2
-                df_sequence['ARRIVAL_spacing'] = df_arr_output_input['ACTUAL Landing Time']
+                df_sequence['ARRIVAL'] = df_arr_output['ACTUAL Landing Time'] + (df_arr_output['AROT']/2)
+                df_sequence['ARRIVAL_error'] = df_arr_output['AROT']/2
+                df_sequence['ARRIVAL_spacing'] = df_arr_output['ACTUAL Landing Time']
                 df_temp = pd.DataFrame()
-                df_temp['MAX Constraint'] = df_arr_output_input['MAX Constraint']
+                df_temp['MAX Constraint'] = df_arr_output['MAX Constraint']
                 df_temp = df_temp.drop([0])
                 df_temp = df_temp.reset_index()
                 df_temp = df_temp.drop(columns=['index'])
@@ -7305,11 +7305,11 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['Arrival_ZERO'] = df_temp['Arrival_ZERO']
                 
                 #Departure
-                df_sequence['DEPARTURES'] = df_dep_output_input['Departure_RWY_ENTRY'] + (df_dep_output_input['DROT']/2)
-                df_sequence['DEPARTURES_error'] = df_dep_output_input['DROT']/2
-                df_sequence['DEPARTURES_spacing'] = df_dep_output_input['Departure_RWY_ENTRY']
+                df_sequence['DEPARTURES'] = df_dep_output['Departure_RWY_ENTRY'] + (df_dep_output['DROT']/2)
+                df_sequence['DEPARTURES_error'] = df_dep_output['DROT']/2
+                df_sequence['DEPARTURES_spacing'] = df_dep_output['Departure_RWY_ENTRY']
                 df_temp = pd.DataFrame()
-                df_temp['Dep MIN Separation'] = df_dep_output_input['Dep MIN Separation']
+                df_temp['Dep MIN Separation'] = df_dep_output['Dep MIN Separation']
                 df_temp=df_temp.drop([0])
                 df_temp = df_temp.reset_index()
                 df_temp = df_temp.drop(columns=['index'])
@@ -7324,25 +7324,25 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 
                 #Annotation
                 df_temp = pd.DataFrame()
-                df_temp['ARR_ID'] = df_arr_output_input['Arrival ID'].astype(str)
-                df_temp['ARR_WAKE'] = df_rwy_calcs_input['ARRIVAL actual WAKE'].astype(str)
-                df_temp['ARR_DELAY'] = df_arr_output_input['Arrival DELAY'].astype(str)
+                df_temp['ARR_ID'] = df_arr_output['Arrival ID'].astype(str)
+                df_temp['ARR_WAKE'] = df_rwy_calcs['ARRIVAL actual WAKE'].astype(str)
+                df_temp['ARR_DELAY'] = df_arr_output['Arrival DELAY'].astype(str)
                 df_temp['ARRIVAL_LABEL'] = 'ID = ' + df_temp['ARR_ID'] + ' | WAKE = ' + df_temp['ARR_WAKE'] + ' | Delay = ' + df_temp['ARR_DELAY']
                 
                 df_sequence['ARRIVAL_LABEL'] = df_temp['ARRIVAL_LABEL']
                 
                 df_temp = pd.DataFrame()
-                df_temp['DEP_ID'] = df_dep_output_input['Departure ID'].astype(str)
-                df_temp['DEP_SID'] = df_dep_output_input['SID GROUP'].astype(str)
-                df_temp['DEP_WAKE'] = df_dep_output_input['WAKE'].astype(str)
-                df_temp['DEP_DELAY1'] = df_dep_output_input['DELAY DepSTANDqueue'] + df_dep_output_input['DELAY TAXIhold'] + df_dep_output_input['DELAY RWYqueue']
+                df_temp['DEP_ID'] = df_dep_output['Departure ID'].astype(str)
+                df_temp['DEP_SID'] = df_dep_output['SID GROUP'].astype(str)
+                df_temp['DEP_WAKE'] = df_dep_output['WAKE'].astype(str)
+                df_temp['DEP_DELAY1'] = df_dep_output['DELAY DepSTANDqueue'] + df_dep_output['DELAY TAXIhold'] + df_dep_output['DELAY RWYqueue']
                 df_temp['DEP_DELAY'] = df_temp['DEP_DELAY1'].astype(str)
                 df_temp['DEPARTURE_LABEL'] = 'ID = ' + df_temp['DEP_ID'] + ' | SID = ' +df_temp['DEP_SID'] +' | WAKE = ' + df_temp['DEP_WAKE'] + ' | Delay = ' + df_temp['DEP_DELAY']
                 
                 df_sequence['DEPARTURE_LABEL'] = df_temp['DEPARTURE_LABEL']
                 
                 df_temp = pd.DataFrame()
-                df_temp['reason'] = df_arr_output_input['MAX Constraint Label']
+                df_temp['reason'] = df_arr_output['MAX Constraint Label']
                 df_temp = df_temp.drop([0])
                 df_temp = df_temp.reset_index()
                 df_temp = df_temp.drop(columns=['index'])
@@ -7352,7 +7352,7 @@ if (Thr_FLAG == True) or (Delay_FLAG == True) or (arr_delay_FLAG == True) or (Se
                 df_sequence['ARRIVAL_spacing_LABEL'] = df_temp['ARRIVAL_spacing_LABEL']
                 
                 df_temp = pd.DataFrame()
-                df_temp['reason'] = df_dep_output_input['Dep MIN Separation Label']
+                df_temp['reason'] = df_dep_output['Dep MIN Separation Label']
                 df_temp = df_temp.drop([0])
                 df_temp = df_temp.reset_index()
                 df_temp = df_temp.drop(columns=['index'])

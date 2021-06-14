@@ -58,6 +58,13 @@ To generate requirements.txt type in console:
 pip freeze > requirements.txt
 ```
 
+To check duplicate code blocks using CPD:
+```
+cd /d/pmd-bin-6.35.0/bin
+
+./cpd.bat --minimum-tokens 75 --files /d/Bonobo\ Git\ Server/RAPID/RAPID_v3.1_resize.py --language python > /d/Bonobo\ Git\ Server/RAPID/duplicates.txt
+```
+
 ## References
 
 Useful guide for openpyxl here: https://automatetheboringstuff.com/chapter12/
