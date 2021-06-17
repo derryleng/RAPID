@@ -205,10 +205,6 @@ for tabs in (tab1, tab2, tab3): tabs.grid(row=1, sticky='NWES')
 
 #-------------------------------INPUT GUI-------------------------------------#
 
-def raise_frame(frame):
-    frame.tkraise()
-
-
 for main_frames in (input_module, core_module, visual_module ):
     main_frames.grid(row=0, column=0, sticky='NWES')
     main_frames.columnconfigure(0, weight=0)
@@ -1100,7 +1096,7 @@ def generate_new_input():
         f6_buttons= ttk.Frame(f6)
         f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
 
-        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
+        tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda: core_module.tkraise(), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
         tk.Button(f6_buttons, text='<- BACK', command=lambda:raise_subframe(f5), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
         f6_content = tk.LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")
@@ -1334,7 +1330,7 @@ def generate_new_input():
 
         ttk.Button(StratInputFrame, text=" Assign Strategy  ", command=assign_strat_tool).grid(column=1, row=2, sticky='N', ipadx=5, ipady=5)
 
-        raise_frame(f1)
+        f1.tkraise()
 
     tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_subframe_f0(f1), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
@@ -1352,7 +1348,7 @@ def load_input_file():
     ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky='N', pady=10)
     f0_buttons= tk.Frame(f0)
     f0_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
-    tk.Button(f0_buttons, text='NEXT ->', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+    tk.Button(f0_buttons, text='NEXT ->', command=lambda: core_module.tkraise(), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
 
 import2 = ttk.Button(f0_content_b, text="Select INPUT File", command=load_input_file).grid(column=1, row=0, sticky='N', padx=10, pady=10, ipadx=5, ipady=5)
@@ -1548,7 +1544,7 @@ tk.Checkbutton(stepTwoThirdFrame, text = 'Print a debug tab', variable=var14, fo
 
 buttons_frame_core = ttk.Frame(buttons_core)
 buttons_frame_core.pack(side="right")
-tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda:raise_frame(visual_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
+tk.Button(buttons_frame_core, text="VISUALIZATION MODULE ->", command=lambda: visual_module.tkraise(), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="top")
 tk.Button(buttons_frame_core, text="Just run the model", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="bottom")
 
 #------------------------------VISUAL GUI-------------------------------------#
@@ -1608,10 +1604,10 @@ buttons_visual = ttk.Frame(visual_module)
 buttons_visual.grid(row=2, sticky='NWES')
 
 tk.Button(buttons_visual, text="RUN", command=define_input_parameters, activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
-tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda:raise_frame(core_module), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
+tk.Button(buttons_visual, text='<- CORE MODULE', command=lambda: core_module.tkraise(), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
-raise_frame(f0)
-raise_frame(input_module)
+f0.tkraise()
+input_module.tkraise()
 
 win.columnconfigure(0, weight=1)
 win.rowconfigure(0, weight=1)
