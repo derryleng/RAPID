@@ -10,7 +10,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-def input_pre_process(inputModule, app, tdf):
+def runPreprocess(inputModule, app, tdf):
     """WARNING: mostly copied over from previous version, not yet tested"""
 
     f1 = ttk.Frame(inputModule)

@@ -4,7 +4,7 @@
 
 All the inputs can be found in the folder called 'inputs'
 
-Compatibility : 
+Compatibility :
 
 1. **OPERATIONAL DATA:** Operational_data.csv
 2. **INPUT FILE:** Input_File_RAPID_v3.0
@@ -24,6 +24,22 @@ Compatibility :
 1. utility/AROTDROT_distributions.csv
 2. Input_File_RAPID_v3.0_ + (time) + .xlsx
 3. OUTPUT_RAPID_v3.0_ + str(output_extension) +  '.xlsx'
+
+## User Instructions
+
+### Core module
+
+- **When entering pairs of SID groups that require minimum separation:** Please use the following format: (SID1,SID2)(SID3,SID4)...
+
+- **When assigning SID groups to each runway queue:** Please use the following format: SID queue 1, SID queue 1... | SID queue 2 , ... | ...
+
+- **When selecting number of runs:** Chose how many times do you want to run the program, thus how many outputs do you want to get.
+
+- **When selecting "I want to feel confident!":** To increase the degree of confidence in of the total throughputs and will stop when the variation will be less de 2 aircrafts per hour
+
+- **DISTANCE-based arrivals separation:** Useful only for TIME-based separation
+
+- **Time-based arrivals separation:** By default everything is delivered to Threshold
 
 ## Developer Notes
 
