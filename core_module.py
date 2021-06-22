@@ -7,137 +7,32 @@ import pandas as pd
 import numpy as np
 import tkinter as tk
 
-def runModel(req, opt, run, input_filename, averagethrFLAG=False):
+def runModel(req, opt, run, input_filename):
 
-    debugFLAG = False
-    TBS_Flag = False
-    RECatFLAG = False
-    averagethrFLAG = False
+    flags = {
+        'RECAT': bool(int(opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
+        'avgThr': bool(int(run['var7'].get())),
+        'distanceBased': not bool(int(opt['separation_type'].get())),
+        'timeBased': bool(int(opt['separation_type'].get())),
+        'MRS_4DME': bool(int(opt['MRS_4dme'].get())),
+        'WAKE_4DME': bool(int(opt['WAKE_4dme'].get())),
+        'ADA_4DME': bool(int(opt['ADA_4dme'].get())),
+        'ADDA_4DME': bool(int(opt['ADDA_4dme'].get())),
+        'MRS_THR': bool(int(opt['MRS_thr'].get())),
+        'WAKE_THR': bool(int(opt['WAKE_thr'].get())),
+        'ADA_THR': bool(int(opt['ADA_thr'].get())),
+        'ADDA_THR': bool(int(opt['ADDA_thr'].get()))
+    }
 
-    distance_based_FLAG = True
-    time_based_FLAG = False
+    debug3_output = bool(int(run['var14'].get()))
 
-    MRS_4dme_FLAG = False
-    WAKE_4dme_FLAG = False
-    ADA_4dme_FLAG = False
-    ADDA_4dme_FLAG = False
-    MRS_thr_FLAG = False
-    WAKE_thr_FLAG = False
-    ADA_thr_FLAG = False
-    ADDA_thr_FLAG = False
+    RECAT_PWS_FLAG = bool(int(opt['var17'].get()))
+    queue1_output = bool(int(req['1x8'].get()))
+    queue2_output = bool(int(req['2x4'].get()))
+    queue3_output = bool(int(req['4x2'].get()))
+    queue4_output = bool(int(req['8x1'].get()))
 
-    button_check = tk.StringVar(value='0')
-    n_output = tk.IntVar()
-    minDep_altSID_output = tk.IntVar()
-    minDep_sameSID_output = tk.IntVar()
-    SIDmax_output = tk.IntVar()
-    SIDgroup_separation_output = tk.StringVar()
-    SID_queue_assign_output = tk.StringVar()
-    VTT_output = tk.IntVar()
-    debug_output = tk.IntVar()
-    Tower_sep_output = tk.IntVar()
-    TBS_output = tk.IntVar()
-    debug3_output = tk.IntVar()
-    RECat_output = tk.IntVar()
-    RECAT_PWS_output = tk.IntVar()
-    queue1_output = tk.IntVar()
-    queue2_output = tk.IntVar()
-    queue3_output = tk.IntVar()
-    queue4_output = tk.IntVar()
-    n_times_output = tk.IntVar()
-    averagethr_output = tk.IntVar()
-    distance_based_output = tk.IntVar()
-    time_based_output = tk.IntVar()
-    ADA_x_output = tk.IntVar()
-
-    MRS4dme_output= tk.IntVar()
-    WAKE4dme_output= tk.IntVar()
-    ADA4dme_output= tk.IntVar()
-    ADDA4dme_output= tk.IntVar()
-    MRSthr_output= tk.IntVar()
-    WAKEthr_output= tk.IntVar()
-    ADAthr_output= tk.IntVar()
-    ADDAthr_output= tk.IntVar()
-
-    name_excel_sheet = input_filename
-
-    m_input = tk.IntVar(value='0')
-    Throughput_check_output = tk.IntVar()
-    Delay_check_output = tk.IntVar()
-    Seq_check_output = tk.IntVar()
-    op_yes_output = tk.IntVar()
-    new_set_output = tk.IntVar()
-    m_output = tk.IntVar()
-    arr_delay_output = tk.IntVar()
-    convergence_output = tk.IntVar()
-
-
-    n = int(req['n_input'].get())
-    n_output.set(n)
-    minDep_altSID = int(req['minDep_altSID_input'].get())
-    minDep_altSID_output.set(minDep_altSID)
-    minDep_sameSID = int(req['minDep_sameSID_input'].get())
-    minDep_sameSID_output.set(minDep_sameSID)
-    SIDmax = int(req['SIDmax_input'].get())
-    SIDmax_output.set(SIDmax)
-    SIDgroup_separation = str(req['SIDgroup_separation_input'].get())
-    SIDgroup_separation_output.set(SIDgroup_separation)
-    SID_queue_assign = str(req['SID_queue_assign_input'].get())
-    SID_queue_assign_output.set(SID_queue_assign)
     n_times = int(run['n_times_input'].get())
-    n_times_output.set(n_times)
-    ADA_x = int(opt['ADA_x_input'].get())
-    ADA_x_output.set(ADA_x)
-
-    debug = int(opt['var2'].get())
-    debug_output.set(debug)
-    q1 = int(req['1x8'].get())
-    queue1_output.set(q1)
-    q2 = int(req['2x4'].get())
-    queue2_output.set(q2)
-    q3 = int(req['4x2'].get())
-    queue3_output.set(q3)
-    q4 = int(req['8x1'].get())
-    queue4_output.set(q4)
-    button_check.set(True)
-    # TBS = int(var5.get())
-    # TBS_output.set(TBS)
-    RECat = int(opt['var6'].get())
-    RECat_output.set(RECat)
-    RECAT_PWS = int(opt['var17'].get())
-    RECAT_PWS_output.set(RECAT_PWS)
-    averagethr = int(run['var7'].get())
-    averagethr_output.set(averagethr)
-    distance_based = int(opt['var15'].get())
-    distance_based_output.set(distance_based)
-    time_based = int(opt['var16'].get())
-    time_based_output.set(time_based)
-
-    MRS4dme = int(opt['MRS_4dme'].get())
-    MRS4dme_output.set(MRS4dme)
-    WAKE4dme = int(opt['WAKE_4dme'].get())
-    WAKE4dme_output.set(WAKE4dme)
-    ADA4dme = int(opt['ADA_4dme'].get())
-    ADA4dme_output.set(ADA4dme)
-    ADDA4dme = int(opt['ADDA_4dme'].get())
-    ADDA4dme_output.set(ADDA4dme)
-
-    MRSthr = int(opt['MRS_thr'].get())
-    MRSthr_output.set(MRSthr)
-    WAKEthr = int(opt['WAKE_thr'].get())
-    WAKEthr_output.set(WAKEthr)
-    ADAthr = int(opt['ADA_thr'].get())
-    ADAthr_output.set(ADAthr)
-    ADDAthr = int(opt['ADDA_thr'].get())
-    ADDAthr_output.set(ADDAthr)
-
-    #=============================================================================#
-    #                                                                             #
-    #                              CORE MODULE                                    #
-    #                                                                             #
-    # ============================================================================#
-
-    n_times = n_times_output.get()
 
     big_list = []
     averages = []
@@ -145,7 +40,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
     iter2 = 0
     iter1 = 0
 
-    if averagethrFLAG == True:
+    if flags['avgThr']:
         maxIter = 10
     else:
         maxIter = n_times
@@ -153,108 +48,27 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
     #How many times you want to do it....
     while (iter1 < maxIter):
 
-        n = n_output.get()
-        ADA_x = ADA_x_output.get()
-        minDep_altSID = minDep_altSID_output.get()
-        minDep_sameSID = minDep_sameSID_output.get()
-        SIDmax = SIDmax_output.get()
-        SIDgroup_separation = SIDgroup_separation_output.get()
-        SID_queue_assign = SID_queue_assign_output.get()
-        input_excel_sheet = name_excel_sheet#.get()
-
-        # Switch for including 'Debug' output
-        if debug_output.get() == 1:
-            debugFLAG = True
-        else:
-            debugFLAG = False
-
-        if debug3_output.get() == 1:
-            debugFLAG3 = True
-        else:
-            debugFLAG3 = False
-        # Switch for modelling 'Radar Tower Separation' concept
-
-        if TBS_output.get() == 1:
-            TBS_Flag = True
-        else:
-            TBS_Flag = False
-
-        if RECat_output.get() == 1:
-            RECatFLAG = True
-        else:
-            RECatFLAG = False
-
-        if RECAT_PWS_output.get() == 1:
-            RECAT_PWS_FLAG = True
-        else:
-            RECAT_PWS_FLAG = False
-
-        if averagethr_output.get() ==1:
-            averagethrFLAG = True
-        else:
-            averagethrFLAG = False
-
-        # if distance_based_output.get() ==1:
-        #     distance_based_FLAG = True
-        # else:
-        #     distance_based_FLAG = False
-
-        if time_based_output.get() ==1:
-            time_based_FLAG = True
-            distance_based_FLAG = False
-        else:
-            time_based_FLAG = False
-
-        #Delievery:
-        if MRS4dme_output.get() ==1:
-            MRS_4dme_FLAG = True
-        else:
-            MRS_4dme_FLAG = False
-
-        if WAKE4dme_output.get() ==1:
-            WAKE_4dme_FLAG = True
-        else:
-            WAKE_4dme_FLAG = False
-
-        if ADA4dme_output.get() ==1:
-            ADA_4dme_FLAG = True
-        else:
-            ADA_4dme_FLAG = False
-        if ADDA4dme_output.get() ==1:
-            ADDA_4dme_FLAG = True
-        else:
-            ADDA_4dme_FLAG = False
-        if MRSthr_output.get() ==1:
-            MRS_thr_FLAG = True
-        else:
-            MRS_thr_FLAG = False
-
-        if WAKEthr_output.get() ==1:
-            WAKE_thr_FLAG = True
-        else:
-            WAKE_thr_FLAG = False
-
-        if ADAthr_output.get() ==1:
-            ADA_thr_FLAG = True
-        else:
-            ADA_thr_FLAG = False
-        if ADDAthr_output.get() ==1:
-            ADDA_thr_FLAG = True
-        else:
-            ADDA_thr_FLAG = False
+        n = int(req['n_input'].get())
+        ADA_x = int(opt['ADA_x_input'].get())
+        minDep_altSID = int(req['minDep_altSID_input'].get())
+        minDep_sameSID = int(req['minDep_sameSID_input'].get())
+        SIDmax = int(req['SIDmax_input'].get())
+        SIDgroup_separation = str(req['SIDgroup_separation_input'].get())
+        SID_queue_assign = str(req['SID_queue_assign_input'].get())
+        input_excel_sheet = input_filename
 
         # Queue selection
-        if queue1_output.get() == 1:
+        if queue1_output:
             Use_queue = 1
             maxRWYqueue1Length = 8
             previousRWYqueue = 1
-        elif queue2_output.get() == 1:
+        elif queue2_output:
             Use_queue = 2
             maxRWYqueue1Length = 4
             maxRWYqueue2Length = 4
             # Forces RWYqueue1 to go first
             previousRWYqueue = 2
-        elif queue3_output.get() == 1:
+        elif queue3_output:
             Use_queue = 3
             maxRWYqueue1Length = 2
             maxRWYqueue2Length = 2
@@ -262,7 +76,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
             maxRWYqueue4Length = 2
             # Forces RWYqueue1/2 to go first
             previousRWYqueue = 3
-        elif queue4_output.get() == 1:
+        elif queue4_output:
             Use_queue = 4
             maxRWYqueue1Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
             maxRWYqueue2Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
@@ -273,10 +87,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
             sys.exit(0)
 
         print("Queue [", Use_queue,"] Selected")
-        # If GUI is exited, model will exit too
-        if button_check.get() == '0':
-            print("GUI closed! Exiting model ...")
-            sys.exit(0)
+
         # If no input file selected
         if input_excel_sheet == '':
             print("Please select an input file ...")
@@ -303,22 +114,22 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
         df_wake_WTC['WTC'] = df_wake['WTC']
         df_wake_WTC = df_wake_WTC.set_index('ICAO')
 
-        if RECatFLAG==True:
+        if flags['RECAT']:
             df_wake_RECAT=pd.DataFrame()
             df_wake_RECAT['ICAO'] = df_wake['ICAO']
             df_wake_RECAT['RECAT-EU'] = df_wake['RECAT-EU']
             df_wake_RECAT = df_wake_RECAT.set_index('ICAO')
 
         #-----RECAT-EU separation-------#
-        if RECatFLAG==True:
+        if flags['RECAT']:
             df_RECAT_EU_separation = pd.read_csv('utility/RECAT_EU_separation.csv')
             df_RECAT_EU_separation = df_RECAT_EU_separation.set_index("LEAD")
         #----WTC separation ------#
-        if RECatFLAG==False:
+        if flags['RECAT']==False:
             df_WTC_separation = pd.read_csv('utility/UK_wake_separation.csv')
             df_WTC_separation = df_WTC_separation.set_index("LEAD")
         #----RECAT-PWS separation ------#
-        if RECAT_PWS_FLAG == True:
+        if RECAT_PWS_FLAG:
             df_RECAT_PWS = pd.read_csv('utility/RECAT_PWS.csv')
             df_RECAT_PWS = df_RECAT_PWS.fillna(0)
             df_RECAT_PWS = df_RECAT_PWS.set_index('FOLLOW')
@@ -344,7 +155,6 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
         # process distributions AROT/DROT/TAXI-in/TAXI-out
         def process_each_column_in_distributions(dataframe,name):
-
             dataframe[name] = df_distributions[name]
             dataframe = dataframe.dropna(subset=[name])
             return dataframe
@@ -374,68 +184,6 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
         df_DROT_UM = process_each_column_in_distributions(df_DROT_UM, 'DROT_UM')
         df_DROT_S =  pd.DataFrame()
         df_DROT_S = process_each_column_in_distributions(df_DROT_S, 'DROT_S')
-
-        # df_TAXI_OUT_S1 =  pd.DataFrame()
-        # df_TAXI_OUT_S1 = process_each_column_in_distributions(df_TAXI_OUT_S1, 'TAXI_OUT_S1')
-        # df_TAXI_OUT_S2 =  pd.DataFrame()
-        # df_TAXI_OUT_S2 = process_each_column_in_distributions(df_TAXI_OUT_S2, 'TAXI_OUT_S2')
-        # df_TAXI_OUT_S3 =  pd.DataFrame()
-        # df_TAXI_OUT_S3 = process_each_column_in_distributions(df_TAXI_OUT_S3, 'TAXI_OUT_S3')
-        # df_TAXI_OUT_S4 =  pd.DataFrame()
-        # df_TAXI_OUT_S4 = process_each_column_in_distributions(df_TAXI_OUT_S4, 'TAXI_OUT_S4')
-        # df_TAXI_OUT_S5 =  pd.DataFrame()
-        # df_TAXI_OUT_S5 = process_each_column_in_distributions(df_TAXI_OUT_S5, 'TAXI_OUT_S5')
-        # df_TAXI_OUT_S6 =  pd.DataFrame()
-        # df_TAXI_OUT_S6 = process_each_column_in_distributions(df_TAXI_OUT_S6, 'TAXI_OUT_S6')
-        # df_TAXI_OUT_S7 =  pd.DataFrame()
-        # df_TAXI_OUT_S7 = process_each_column_in_distributions(df_TAXI_OUT_S7, 'TAXI_OUT_S7')
-        # df_TAXI_OUT_S8 =  pd.DataFrame()
-        # df_TAXI_OUT_S8 = process_each_column_in_distributions(df_TAXI_OUT_S8, 'TAXI_OUT_S8')
-        # df_TAXI_OUT_S9 =  pd.DataFrame()
-        # df_TAXI_OUT_S9 = process_each_column_in_distributions(df_TAXI_OUT_S9, 'TAXI_OUT_S9')
-        # df_TAXI_OUT_S10 =  pd.DataFrame()
-        # df_TAXI_OUT_S10 = process_each_column_in_distributions(df_TAXI_OUT_S10, 'TAXI_OUT_S10')
-        # df_TAXI_OUT_S11 =  pd.DataFrame()
-        # df_TAXI_OUT_S11 = process_each_column_in_distributions(df_TAXI_OUT_S11, 'TAXI_OUT_S11')
-        # df_TAXI_OUT_S12 =  pd.DataFrame()
-        # df_TAXI_OUT_S12 = process_each_column_in_distributions(df_TAXI_OUT_S12, 'TAXI_OUT_S12')
-        # df_TAXI_OUT_S13 =  pd.DataFrame()
-        # df_TAXI_OUT_S13 = process_each_column_in_distributions(df_TAXI_OUT_S13, 'TAXI_OUT_S13')
-        # df_TAXI_OUT_S14 =  pd.DataFrame()
-        # df_TAXI_OUT_S14 = process_each_column_in_distributions(df_TAXI_OUT_S14, 'TAXI_OUT_S14')
-        # df_TAXI_OUT_S15 =  pd.DataFrame()
-        # df_TAXI_OUT_S15 = process_each_column_in_distributions(df_TAXI_OUT_S15, 'TAXI_OUT_S15')
-
-        # df_TAXI_IN_S1 =  pd.DataFrame()
-        # df_TAXI_IN_S1 = process_each_column_in_distributions(df_TAXI_IN_S1, 'TAXI_IN_S1')
-        # df_TAXI_IN_S2 =  pd.DataFrame()
-        # df_TAXI_IN_S2 = process_each_column_in_distributions(df_TAXI_IN_S2, 'TAXI_IN_S2')
-        # df_TAXI_IN_S3 =  pd.DataFrame()
-        # df_TAXI_IN_S3 = process_each_column_in_distributions(df_TAXI_IN_S3, 'TAXI_IN_S3')
-        # df_TAXI_IN_S4 =  pd.DataFrame()
-        # df_TAXI_IN_S4 = process_each_column_in_distributions(df_TAXI_IN_S4, 'TAXI_IN_S4')
-        # df_TAXI_IN_S5 =  pd.DataFrame()
-        # df_TAXI_IN_S5 = process_each_column_in_distributions(df_TAXI_IN_S5, 'TAXI_IN_S5')
-        # df_TAXI_IN_S6 =  pd.DataFrame()
-        # df_TAXI_IN_S6 = process_each_column_in_distributions(df_TAXI_IN_S6, 'TAXI_IN_S6')
-        # df_TAXI_IN_S7 =  pd.DataFrame()
-        # df_TAXI_IN_S7 = process_each_column_in_distributions(df_TAXI_IN_S7, 'TAXI_IN_S7')
-        # df_TAXI_IN_S8 =  pd.DataFrame()
-        # df_TAXI_IN_S8 = process_each_column_in_distributions(df_TAXI_IN_S8, 'TAXI_IN_S8')
-        # df_TAXI_IN_S9 =  pd.DataFrame()
-        # df_TAXI_IN_S9 = process_each_column_in_distributions(df_TAXI_IN_S9, 'TAXI_IN_S9')
-        # df_TAXI_IN_S10 =  pd.DataFrame()
-        # df_TAXI_IN_S10 = process_each_column_in_distributions(df_TAXI_IN_S10, 'TAXI_IN_S10')
-        # df_TAXI_IN_S11 =  pd.DataFrame()
-        # df_TAXI_IN_S11 = process_each_column_in_distributions(df_TAXI_IN_S11, 'TAXI_IN_S11')
-        # df_TAXI_IN_S12 =  pd.DataFrame()
-        # df_TAXI_IN_S12 = process_each_column_in_distributions(df_TAXI_IN_S12, 'TAXI_IN_S12')
-        # df_TAXI_IN_S13 =  pd.DataFrame()
-        # df_TAXI_IN_S13 = process_each_column_in_distributions(df_TAXI_IN_S13, 'TAXI_IN_S13')
-        # df_TAXI_IN_S14 =  pd.DataFrame()
-        # df_TAXI_IN_S14 = process_each_column_in_distributions(df_TAXI_IN_S14, 'TAXI_IN_S14')
-        # df_TAXI_IN_S15 =  pd.DataFrame()
-        # df_TAXI_IN_S15 = process_each_column_in_distributions(df_TAXI_IN_S15, 'TAXI_IN_S15')
 
         ###########################################
 
@@ -587,7 +335,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
         wb.create_sheet(index=7, title='Sequence')
         sequenceTab = wb.get_sheet_by_name('Sequence')
 
-        if debugFLAG3 == True:
+        if debug3_output:
             wb.create_sheet(index=8,title='Debug')
             debugTab = wb.get_sheet_by_name('Debug')
 
@@ -701,7 +449,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
             sequenceTab['G' + str(1)].value = 'ADA Buffer'
 
             # Debug tab headers
-            if debugFLAG3 == True:
+            if debug3_output:
                 debugTab['A' + str(1)].value = 'Time'
                 debugTab['B' + str(1)].value = 'Runway status'
                 debugTab['C' + str(1)].value = 'Current Gap - D'
@@ -797,7 +545,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
             def fraction_of_segments(n,f,row):
                 T = 0
-                if n==1:
+                if n== 1:
                     S = f*(arrivalInput['AF'+str(row)].value - arrivalInput['AE'+str(row)].value) + arrivalInput['AE'+str(row)].value
                     T = (f*2*3600)/(S+arrivalInput['AE'+str(row)].value)
                 elif n==2:
@@ -867,7 +615,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
 
             def fraction_of_segments(n,f,row):
-                if n==1:
+                if n== 1:
                     S = f*(arrivalInput['AP'+str(row)].value - arrivalInput['AO'+str(row)].value) + arrivalInput['AO'+str(row)].value
                     T = (f*2*3600)/(S+arrivalInput['AO'+str(row)].value)
                 elif n==2:
@@ -997,10 +745,10 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 arrivalInput['E' +str(row)].value = df_wake_WTC.at[AC_type,'WTC']
 
                 # Write wake categories in runway calcs | used for wake separation:
-                if RECatFLAG == True:
+                if flags['RECAT']:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_wake_RECAT.at[AC_type,'RECAT-EU'] #RECT-EU cat
-                elif RECAT_PWS_FLAG == True:
+                elif RECAT_PWS_FLAG:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_RECAT20.at[AC_type,'RECAT20']
 
@@ -1045,7 +793,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
                 # taxi_outliers = True
                 # Taxiinlookup = arrivalInput['M' + str(row)].value
-                # if taxi_outliers == False:
+                # if not taxi_outliers:
                 tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
                 # else:
                     # tempTaxiIn = Taxiinlookup
@@ -1130,7 +878,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 def min_wake_separation_arrs(key_of_nextArrival): # delievered at THR ACTUAL SPEED PROFILE
                     minWakeSepArr = 0 # Initialise local variable (reset on each iteration)
 
-                    if RECAT_PWS_FLAG == True: # analyse by ac type
+                    if RECAT_PWS_FLAG: # analyse by ac type
                         previousArrival = arrivalInput['D' +str(key_of_nextArrival-1)].value
                         currentArrival = arrivalInput['D' +str(key_of_nextArrival)].value
                         previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value #20cat classification
@@ -1149,25 +897,25 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                             if wakeDistance == 0:
                                 minWakeSepArr =0
                             else:
-                                if distance_based_FLAG == True:
-                                    if  WAKE_4dme_FLAG== True:
+                                if flags['distanceBased']:
+                                    if flags['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((wakeDistance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif WAKE_thr_FLAG == True:
+                                    elif flags['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
                                     else: # the same as the previous one but it's the default condition
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
 
-                                elif time_based_FLAG == True:
+                                elif flags['timeBased']:
                                     time1 = distance_to_time_assumed_speed_profile_IAS(key_of_nextArrival, d_dme, wakeDistance) #time
                                     distance = time_to_distance_assumed_speed_profile_GS(key_of_nextArrival, d_dme,int(time1))#distance
-                                    if WAKE_4dme_FLAG == True:
+                                    if flags['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((distance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
 
-                                    elif WAKE_thr_FLAG == True:
+                                    elif flags['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                     else:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
@@ -1179,7 +927,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                             minWakeSepArr = 0
                         else: #next arrivals
 
-                            if RECatFLAG == True: # delievered to THR
+                            if flags['RECAT']: # delievered to THR
                                 wakeDistance = df_RECAT_EU_separation.at[previousArrivalWake,currentArrivalWake]
                             else: #UK cat *********** should be delievered to 4dme
                                 wakeDistance = df_WTC_separation.at[previousArrivalWake,currentArrivalWake] #distance
@@ -1187,25 +935,25 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                             if wakeDistance == 0:
                                 minWakeSepArr =0
                             else:
-                                if distance_based_FLAG == True:
-                                    if WAKE_4dme_FLAG == True:
+                                if flags['distanceBased']:
+                                    if flags['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((wakeDistance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif WAKE_thr_FLAG == True:
+                                    elif flags['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
                                     else: # the same as the previous one but it's the default condition
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
 
-                                elif time_based_FLAG == True:
+                                elif flags['timeBased']:
                                     time1 = distance_to_time_assumed_speed_profile_IAS(key_of_nextArrival, d_dme, wakeDistance) #time
                                     distance = time_to_distance_assumed_speed_profile_GS(row, d_dme,int(time1))#distance
-                                    if WAKE_4dme_FLAG == True:
+                                    if flags['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((distance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
 
-                                    elif WAKE_thr_FLAG == True:
+                                    elif flags['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                     else:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
@@ -1218,11 +966,11 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 runwayCalculations['Q' + str(1)].value = "MRS"
                 MRSArr = 0
 
-                if (MRS_4dme_FLAG == True) and (row>2):
+                if (flags['MRS_4DME']) and (row>2):
                     Total_time_follow = int(DBS_actual_speed_profile((min_radar_separation_distance+4),row))
                     Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                     MRSArr = Total_time_follow - Time_lead_4dme_to_thr
-                elif MRS_thr_FLAG == True:
+                elif flags['MRS_THR']:
                     MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
                 else: # the same as the previous one but it's the default condition
                     MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
@@ -1241,7 +989,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                     else: #not he first arrival
                         AROT_constraint = runwayCalculations['C' + str(row-1)].value + 5
 
-                        if (df_dep.empty == True): #no departures
+                        if (df_dep.empty): #no departures
                             max_constraint = int(max(wake_constraint, MRS_constraint ,AROT_constraint))
                             if max_constraint == wake_constraint:
                                 spFLAG = "WAKE"
@@ -1249,8 +997,8 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                                 spFLAG = "MRS"
                             else:
                                 spFLAG = "AROT"
-                        elif (df_dep.empty == False) and (df_arr.empty == False): #there are both arrivals and departures scheduled
-                            if time_based_FLAG == True:
+                        elif (not df_dep.empty) and (not df_arr.empty): #there are both arrivals and departures scheduled
+                            if flags['timeBased']:
 
                                 max_constraint = int(max(wake_constraint, MRS_constraint, AROT_constraint))
                                 if max_constraint == wake_constraint:
@@ -1259,14 +1007,14 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                                     spFLAG = "MRS"
                                 else:
                                     spFLAG = "AROT"
-                            elif distance_based_FLAG == True:
+                            elif flags['distanceBased']:
                                 if (arrivalInput['U' + str(row)].value) == "ADDA" :
                                     ADDA_distance = runwayCalculations['E' + str(row)].value
-                                    if (ADDA_4dme_FLAG == True) and (row>2):
+                                    if (flags['ADDA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADDA_distance+4),row))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                                         ADDA_separation = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif ADDA_thr_FLAG == True:
+                                    elif flags['ADDA_THR']:
                                         ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
                                     else: # the same as the previous one but it's the default condition
                                         ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
@@ -1285,11 +1033,11 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
                                     ADA_distance = runwayCalculations['D' + str(row)].value
 
-                                    if (ADA_4dme_FLAG == True) and (row>2):
+                                    if (flags['ADA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADA_distance+4),row))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                                         ADA_separation = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif ADA_thr_FLAG == True:
+                                    elif flags['ADA_THR']:
                                         ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
                                     else: # the same as the previous one but it's the default condition
                                         ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
@@ -1876,7 +1624,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
             return (ARRkey)
 
 
-        def update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput): # add to APPqueue
+        def update_APPqueue(Current_time,DepOutput,End_time,ArrOutput): # add to APPqueue
             #print(Current_time, ' app queue called')
             if (len(ArrHOLDqueue)>0) and (len(APPqueue)==0): # There is something in the hold but nothing on approach
                 first_in_line_ArrHOLDqueue = min(list(ArrHOLDqueue.keys()))
@@ -1885,28 +1633,28 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 arrivalOutput['I' + str(ArrOutput)].value = runwayCalculations['N' + str(first_in_line_ArrHOLDqueue)].value
                 arrivalOutput['J' + str(ArrOutput)].value = runwayCalculations['O' + str(first_in_line_ArrHOLDqueue)].value
                 #target time, optimised gaps
-                if time_based_FLAG == True:
+                if flags['timeBased']:
                     if (len(RWYqueue1) + len(RWYqueue2))>0: #ther is a departure ready to go
                         if (arrivalInput['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADDA" :    #*********to be changed
                             AROT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][2]
                             firstDeparture, currentRWYqueue = first_in_line_RWYqueue_funct(DepOutput,End_time)
-                            if currentRWYqueue ==1:
+                            if currentRWYqueue == 1:
                                 DROT1 = RWYqueue1[firstDeparture][2]
                             else:
                                 DROT1 = RWYqueue2[firstDeparture][2]
                             # secondDeparture, nextRWYqueue = second_in_line_RWYqueues(currentRWYqueue,End_time)
-                            # if nextRWYqueue ==1:
+                            # if nextRWYqueue == 1:
                             #     DROT2 = RWYqueue1[secondDeparture][2]
                             # else:
                             #     DROT2 = RWYqueue2[secondDeparture][2]
                             ADDA_target_time = AROT + DROT1 + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                             ADDA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme,int(ADDA_target_time))#distance
-                            if (ADDA_4dme_FLAG == True) and (ArrOutput>2):
+                            if (flags['ADDA_4DME']) and (ArrOutput>2):
                                 Total_time_follow = int(DBS_actual_speed_profile((ADDA_target_distance+4),first_in_line_ArrHOLDqueue))
                                 Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,ArrOutput))
                                 ADDA_separation = Total_time_follow - Time_lead_4dme_to_thr
 
-                            elif ADDA_thr_FLAG == True:
+                            elif flags['ADDA_THR']:
                                 ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time
                             else:
                                 ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time - default
@@ -1918,18 +1666,18 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                         elif (arrivalInput['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADA" :
                             AROT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][2]
                             firstDeparture, currentRWYqueue = first_in_line_RWYqueue_funct(DepOutput,End_time)
-                            if currentRWYqueue ==1:
+                            if currentRWYqueue == 1:
                                 DROT1 = RWYqueue1[firstDeparture][2]
                             else:
                                 DROT1 = RWYqueue2[firstDeparture][2]
                             ADA_target_time = AROT + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                             ADA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme, int(ADA_target_time))#distance
-                            if (ADA_4dme_FLAG == True) and (ArrOutput>2):
+                            if (flags['ADA_4DME']) and (ArrOutput>2):
                                 Total_time_follow = int(DBS_actual_speed_profile((ADA_target_distance+4),first_in_line_ArrHOLDqueue))
                                 Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,ArrOutput-1))
                                 ADA_separation = Total_time_follow - Time_lead_4dme_to_thr
 
-                            elif ADA_thr_FLAG == True:
+                            elif flags['ADA_THR']:
                                 ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
                             else:
                                 ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
@@ -1939,7 +1687,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                                 arrivalOutput['I' + str(ArrOutput)].value = ADA_separation
                     # else: # no departure ready to go
                         # max_constraint = arrivalOutput['I' + str(ArrOutput)].value
-                # elif distance_based_FLAG == True:
+                # elif flags['distanceBased']:
                 max_constraint = arrivalOutput['I' + str(ArrOutput)].value
 
                 # print(Current_time, ArrOutput, ' | max_constraint = ', max_constraint)
@@ -2040,14 +1788,14 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
         #--------------------------------MODEL RUNS-----------------------------------#
 
-        print('distance_based_FLAG = ',distance_based_FLAG)
-        print('time_based_FLAG =',time_based_FLAG)
+        print('distanceBased = ',flags['distanceBased'])
+        print('timeBased =',flags['timeBased'])
         while Current_time < End_time:
             # print(Current_time)
             # print(RWY_status)
 
             if RWY_status == "E":
-                if df_dep.empty == False: #there are departures
+                if not df_dep.empty: #there are departures
 
                     SOBTrow = SOBTlookup(Current_time, SOBTrow)
                     if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
@@ -2056,10 +1804,10 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                     RWYqueues_update(Current_time)
                     update_Departure_Delays(Current_time)
 
-                if df_arr.empty == False: # there are arrivals
+                if not df_arr.empty: # there are arrivals
                     ARRkey = SAE_lookup(Current_time, ARRkey)
                     if len(APPqueue) == 0:
-                        update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput)
+                        update_APPqueue(Current_time,DepOutput,End_time,ArrOutput)
                     update_ARRIVALqueue(Current_time,End_time)
                     currentGap = update_currentGap(Current_time, End_time)
 
@@ -2067,7 +1815,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                     currentGap = End_time #huuuuuge gap
 
                 #DEPARTURES TAKE OFF
-                if df_dep.empty == False:
+                if not df_dep.empty:
                     if (len(RWYqueue1)+len(RWYqueue2))>0:#there is something waiting to takeoff
                         #print('TAKE OFF called')
                         DepOutput,seqRow = Dep_TAKE_OFF(Current_time,DepOutput,currentGap,End_time,seqRow)
@@ -2080,7 +1828,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                             RWY_status = "D"
 
                 #ARRIVALS LANDING
-                if df_arr.empty == False:
+                if not df_arr.empty:
                     if len(APPqueue)!=0:
                         first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue
                         if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
@@ -2099,10 +1847,10 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                 RWYqueues_update(Current_time)
                 update_Departure_Delays(Current_time)
 
-                if df_arr.empty == False: #there are arrivals
+                if not df_arr.empty: #there are arrivals
                     ARRkey = SAE_lookup(Current_time, ARRkey)
                     if len(APPqueue) == 0:
-                        update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput)
+                        update_APPqueue(Current_time,DepOutput,End_time,ArrOutput)
                     update_ARRIVALqueue(Current_time,End_time)
                     currentGap = update_currentGap(Current_time,End_time)
                 else:#if there aren't any arrivals
@@ -2112,7 +1860,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                     RWY_status = "E"
 
                 #ARRIVALS LANDING (GO-AROUND case)
-                if df_arr.empty == False:
+                if not df_arr.empty:
                     if len(APPqueue)!=0:
                         first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue
                         if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
@@ -2123,7 +1871,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
             elif RWY_status == "A":
                 #print(Current_time,' | ', RWY_status)
-                if df_dep.empty == False: #there are departures
+                if not df_dep.empty: #there are departures
                     SOBTrow = SOBTlookup(Current_time, SOBTrow)
                     if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
                         TAXIqueue_update(Current_time)
@@ -2133,7 +1881,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
 
                 ARRkey = SAE_lookup(Current_time, ARRkey)
                 if len(APPqueue) == 0:
-                    update_APPqueue(Current_time,DepOutput,End_time,distance_based_FLAG,time_based_FLAG,ArrOutput)
+                    update_APPqueue(Current_time,DepOutput,End_time,ArrOutput)
                 update_ARRIVALqueue(Current_time,End_time)
                 currentGap = update_currentGap(Current_time,End_time)
 
@@ -2222,7 +1970,7 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
         if (len(ARRIVALqueue)>0) or (len(APPqueue)>0) or (len(ArrHOLDqueue)>0):
             print("ERROR!!!  Check ARRIVALS")
 
-        if averagethrFLAG == False:
+        if not flags['avgThr']:
             output_extension = time.strftime("%H_%M", time.localtime(time.time()))
             throughputTab['F' + str(1)].value = 'Difference in thr averages'
             extra_diff=[0]*(throughputTab.max_row-1)
@@ -2230,7 +1978,6 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
             throughputTab['F' + str(2)].value = str(difference)
 
             wb.save('OUTPUT_RAPID_v3.0_' + str(output_extension) +  '.xlsx') # Choose file name once complete?
-            name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) +  '.xlsx'
             iter1 += 1
 
         else:
@@ -2323,7 +2070,6 @@ def runModel(req, opt, run, input_filename, averagethrFLAG=False):
                     arrivalOutput.delete_cols(13)
                     arrivalOutput.delete_cols(13)
                     wb.save('OUTPUT_RAPID_v3.0_' + str(output_extension) + '_iteration_' + str(output_extension2) +  '.xlsx') # Choose file name once complete?
-                    name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) + '_iteration_' + str(output_extension2) +  '.xlsx'
                 else:
                     maxIter += 1
                     print('n_times 2 =', maxIter)

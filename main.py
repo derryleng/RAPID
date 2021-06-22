@@ -20,10 +20,9 @@ class inputModule(ttk.Frame):
 
     def __init__(self, master):
         ttk.Frame.__init__(self)
-        tk.Label(self, text='Select Input Type').pack()
-        self.selection = tk.IntVar()
-        tk.Radiobutton(self, text='Analyse & Filter Operational Data', var=self.selection, value=0).pack()
-        tk.Radiobutton(self, text='Load existing INPUT file', var=self.selection, value=1).pack()
+        self.input_type = tk.IntVar()
+        tk.Radiobutton(self, text='Analyse & Filter Operational Data', var=self.input_type, value=0).pack(anchor='w')
+        tk.Radiobutton(self, text='Load existing INPUT file', var=self.input_type, value=1).pack(anchor='w')
         tk.Button(self, text='Choose File', command=lambda: self.getInput(master)).pack()
 
     def getInput(self, master):
@@ -33,11 +32,12 @@ class inputModule(ttk.Frame):
         Option 1 (Load existing INPUT file) - skips straight to core module (bypass input_pre_process)
         """
         master.filename = filedialog.askopenfilename()
-        if self.selection.get() == 0:
-            imported_data = pd.read_csv(master.filename)
-            runPreprocess(self, app, imported_data)
-        tk.Label(self, text='Loaded file %s' % master.filename.split('/')[-1]).pack()
-        app.select('.!coremodule')
+        if master.filename != '':
+            if self.input_type.get() == 0:
+                imported_data = pd.read_csv(master.filename)
+                runPreprocess(self, app, imported_data)
+            tk.Label(self, text='Loaded file %s' % master.filename.split('/')[-1]).pack()
+            app.select('.!coremodule')
 
 
 class coreModule(ttk.Frame):
@@ -82,9 +82,7 @@ class coreModule(ttk.Frame):
         self.opt = {
             'var6': tk.IntVar(),
             'var17': tk.IntVar(),
-            'var2': tk.IntVar(),
-            'var15': tk.IntVar(),
-            'var16': tk.IntVar(),
+            'separation_type': tk.IntVar(),
             'ADA_x_input': tk.IntVar(value='10'),
             'MRS_4dme': tk.IntVar(),
             'WAKE_4dme': tk.IntVar(),
@@ -98,9 +96,8 @@ class coreModule(ttk.Frame):
         coreframe2 = ttk.LabelFrame(self, text=' Enablers (Optional) ')
         tk.Checkbutton(coreframe2, text='RECAT', variable=self.opt['var6']).pack()
         tk.Checkbutton(coreframe2, text='RECAT-PWS', variable=self.opt['var17']).pack()
-        tk.Checkbutton(coreframe2, text='Debug', variable=self.opt['var2']).pack()
-        tk.Checkbutton(coreframe2, text='DISTANCE-based Arrivals separation', variable=self.opt['var15']).pack()
-        tk.Checkbutton(coreframe2, text='TIME-based Arrivals separation', variable=self.opt['var16']).pack()
+        tk.Radiobutton(coreframe2, text='DISTANCE-based Arrivals separation', var=self.opt['separation_type'], value=0).pack()
+        tk.Radiobutton(coreframe2, text='TIME-based Arrivals separation', var=self.opt['separation_type'], value=1).pack()
         tk.Label(coreframe2, text='ADA target time X-value = ').pack()
         tk.Entry(coreframe2, width=7, textvariable=self.opt['ADA_x_input']).pack()
         tk.Label(coreframe2, text='4DME Separation Delivery').pack()
