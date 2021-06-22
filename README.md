@@ -41,6 +41,12 @@ Compatibility :
 
 - **Time-based arrivals separation:** By default everything is delivered to Threshold
 
+### Visual Module
+
+- **When comparing results to operational data:** If this box is checked, another window will pop-up after pressing 'Visualize results'. Please make sure that the operational data are in the right format.
+
+- **When comparing results with other sets of results:** If this box is checked, another window will pop-up after pressing 'Visualize results'. Please make sure that the new data are in the same format as the outputs of the model.
+
 ## Developer Notes
 
 ### 1. Install miniconda

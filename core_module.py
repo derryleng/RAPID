@@ -5,12 +5,12 @@ import sys
 import math
 import pandas as pd
 import numpy as np
-import tkinter as tk
 
 def runModel(req, opt, run, input_filename):
 
     flags = {
         'RECAT': bool(int(opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
+        'RECAT_PWS': bool(int(opt['var17'].get())),
         'avgThr': bool(int(run['var7'].get())),
         'distanceBased': not bool(int(opt['separation_type'].get())),
         'timeBased': bool(int(opt['separation_type'].get())),
@@ -26,7 +26,6 @@ def runModel(req, opt, run, input_filename):
 
     debug3_output = bool(int(run['var14'].get()))
 
-    RECAT_PWS_FLAG = bool(int(opt['var17'].get()))
     queue1_output = bool(int(req['1x8'].get()))
     queue2_output = bool(int(req['2x4'].get()))
     queue3_output = bool(int(req['4x2'].get()))
@@ -125,11 +124,11 @@ def runModel(req, opt, run, input_filename):
             df_RECAT_EU_separation = pd.read_csv('utility/RECAT_EU_separation.csv')
             df_RECAT_EU_separation = df_RECAT_EU_separation.set_index("LEAD")
         #----WTC separation ------#
-        if flags['RECAT']==False:
+        if not flags['RECAT']:
             df_WTC_separation = pd.read_csv('utility/UK_wake_separation.csv')
             df_WTC_separation = df_WTC_separation.set_index("LEAD")
         #----RECAT-PWS separation ------#
-        if RECAT_PWS_FLAG:
+        if flags['RECAT_PWS']:
             df_RECAT_PWS = pd.read_csv('utility/RECAT_PWS.csv')
             df_RECAT_PWS = df_RECAT_PWS.fillna(0)
             df_RECAT_PWS = df_RECAT_PWS.set_index('FOLLOW')
@@ -748,7 +747,7 @@ def runModel(req, opt, run, input_filename):
                 if flags['RECAT']:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_wake_RECAT.at[AC_type,'RECAT-EU'] #RECT-EU cat
-                elif RECAT_PWS_FLAG:
+                elif flags['RECAT_PWS']:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_RECAT20.at[AC_type,'RECAT20']
 
@@ -878,7 +877,7 @@ def runModel(req, opt, run, input_filename):
                 def min_wake_separation_arrs(key_of_nextArrival): # delievered at THR ACTUAL SPEED PROFILE
                     minWakeSepArr = 0 # Initialise local variable (reset on each iteration)
 
-                    if RECAT_PWS_FLAG: # analyse by ac type
+                    if flags['RECAT_PWS']: # analyse by ac type
                         previousArrival = arrivalInput['D' +str(key_of_nextArrival-1)].value
                         currentArrival = arrivalInput['D' +str(key_of_nextArrival)].value
                         previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value #20cat classification
