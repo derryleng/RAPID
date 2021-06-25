@@ -10,18 +10,18 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-def runPreprocess(inputModule, app, filename):
+def runPreprocess(parentFrame, filename):
 
     tdf = pd.read_csv(filename)
 
     """WARNING: mostly copied over from previous version, not yet tested"""
 
-    f1 = ttk.Frame(inputModule)
-    f2 = ttk.Frame(inputModule)
-    f3 = ttk.Frame(inputModule)
-    f4 = ttk.Frame(inputModule)
-    f5 = ttk.Frame(inputModule)
-    f6 = ttk.Frame(inputModule)
+    f1 = ttk.Frame(parentFrame)
+    f2 = ttk.Frame(parentFrame)
+    f3 = ttk.Frame(parentFrame)
+    f4 = ttk.Frame(parentFrame)
+    f5 = ttk.Frame(parentFrame)
+    f6 = ttk.Frame(parentFrame)
 
     for frame in (f1,f2):
         frame.grid(row=0, column=0, sticky='NWES')
@@ -841,7 +841,7 @@ def runPreprocess(inputModule, app, filename):
     f6_buttons= ttk.Frame(f6)
     f6_buttons.grid(column = 0, row=1, columnspan = 7, sticky='NWES')
 
-    tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda: app.select('.!coremodule'), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
+    #tk.Button(f6_buttons, text='TO CORE MODULE ->', command=lambda: app.select('.!coremodule'), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 25).pack(side="right")
     tk.Button(f6_buttons, text='<- BACK', command=lambda: f5.tkraise(), activebackground = "pink", font=16, height = 1, overrelief="raised", width = 15).pack(side="right")
 
     f6_content = tk.LabelFrame(f6, text="    RAPID - INPUT FILE GENERATION    ", font="Helvetica 14 bold")

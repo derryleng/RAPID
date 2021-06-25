@@ -6,7 +6,12 @@ import math
 import pandas as pd
 import numpy as np
 
-def runModel(req, opt, run, input_filename):
+def runModel(parentFrame):
+
+    req = parentFrame.req
+    opt = parentFrame.opt
+    run = parentFrame.run
+    input_filename = parentFrame.filename
 
     flags = {
         'RECAT': bool(int(opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
@@ -1975,8 +1980,8 @@ def runModel(req, opt, run, input_filename):
             extra_diff=[0]*(throughputTab.max_row-1)
             difference.append(extra_diff)
             throughputTab['F' + str(2)].value = str(difference)
-
-            wb.save('OUTPUT_RAPID_v3.0_' + str(output_extension) +  '.xlsx') # Choose file name once complete?
+            parentFrame.name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) +  '.xlsx'
+            wb.save(parentFrame.name_output_file) # Choose file name once complete?
             iter1 += 1
 
         else:
@@ -2068,7 +2073,8 @@ def runModel(req, opt, run, input_filename):
                     output_extension2 = iter1+1
                     arrivalOutput.delete_cols(13)
                     arrivalOutput.delete_cols(13)
-                    wb.save('OUTPUT_RAPID_v3.0_' + str(output_extension) + '_iteration_' + str(output_extension2) +  '.xlsx') # Choose file name once complete?
+                    parentFrame.name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) + '_iteration_' + str(output_extension2) +  '.xlsx'
+                    wb.save(parentFrame.name_output_file) # Choose file name once complete?
                 else:
                     maxIter += 1
                     print('n_times 2 =', maxIter)

@@ -9,7 +9,7 @@ import json
 import scipy.stats as stats
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 
 import matplotlib
 matplotlib.use("TkAgg")
@@ -69,7 +69,7 @@ ADA_buffer_FLAG = False
 #----------------------------GLOBAL FUNCTIONS---------------------------------#
 
 def load_file(filename):
-    filename.set(tk.filedialog.askopenfilename())
+    filename.set(filedialog.askopenfilename())
 
 
 def define_input_parameters():
@@ -244,7 +244,7 @@ f0_content_a.grid(row=2, column=0, sticky='N', padx=5, pady=15, ipadx=5, ipady=5
 tdf = pd.DataFrame()
 
 def airport_data_load_file():
-    airport_data = tk.filedialog.askopenfilename()
+    airport_data = filedialog.askopenfilename()
     import_airport_data.set(airport_data)
     ttk.Label(f0_content_a, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
     # print("#####", import_excel_schedule, "###", import_schedule)
@@ -1260,7 +1260,7 @@ def generate_new_input():
         ##########################################################################################################################################
 
         def sch_load_file():
-            import_schedule = tk.filedialog.askopenfilename()
+            import_schedule = filedialog.askopenfilename()
             import_excel_schedule.set(import_schedule)
             ttk.Label(SchImportFrame, text="File Successfully Imported!").grid(column=1, row=3, sticky='N', pady=10)
             # print("#####", import_excel_schedule, "###", import_schedule)
@@ -1342,7 +1342,7 @@ f0_content_b = ttk.LabelFrame(f0_content, text=" [ B ] - Load existing INPUT fil
 f0_content_b.grid(row=2, column=1, sticky='E', padx=5, pady=15, ipadx=5, ipady=5)
 
 def load_input_file():
-    input_file_excel = tk.filedialog.askopenfilename()
+    input_file_excel = filedialog.askopenfilename()
     name_excel_sheet.set(input_file_excel)
 
     ttk.Label(f0_content_b, text="File Successfully Loaded!").grid(column=1, row=3, sticky='N', pady=10)

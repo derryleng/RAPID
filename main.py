@@ -35,7 +35,7 @@ class inputFrame(ttk.LabelFrame):
         master.filename = filedialog.askopenfilename()
         if master.filename != '':
             if bool(self.procFlag.get()):
-                runPreprocess(self, app, master.filename)
+                runPreprocess(self, master.filename)
             self.loadedText.set(master.filename.split('/')[-1])
 
 
@@ -148,7 +148,24 @@ class runFrame(ttk.LabelFrame):
         tk.Entry(self, width=8, textvariable=master.run['n_times_input']).place(x=147, y=0)
         tk.Checkbutton(self, text='I want to feel confident!', variable=master.run['var7']).pack(anchor='w')
         tk.Checkbutton(self, text='Print a debug tab', variable=master.run['var14']).pack(anchor='w')
-        tk.Button(self, text='Run Model', command=lambda: runModel(master.req, master.opt, master.run, master.filename)).pack(expand=True, fill='both')
+        tk.Button(self, text='Run Model', command=lambda: self.runRAPID(master)).pack(expand=True, fill='both')
+    
+    @staticmethod
+    def runRAPID(master):
+        """
+        Wrapper function which first runs the core RAPID model,
+        then runs the visual module if any visual options are selected.
+        """
+        runModel(master)
+        if (
+            bool(int(master.vis['var0'].get())) or
+            bool(int(master.vis['var8'].get())) or
+            bool(int(master.vis['var9'].get())) or
+            bool(int(master.vis['var13'].get())) or
+            bool(int(master.vis['var10'].get())) or
+            bool(int(master.vis['var18'].get()))
+        ):
+            runVisual(master)
 
 
 if __name__ == '__main__':
