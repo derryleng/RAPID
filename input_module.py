@@ -14,14 +14,15 @@ def runPreprocess(parentFrame, filename):
 
     tdf = pd.read_csv(filename)
 
-    """WARNING: mostly copied over from previous version, not yet tested"""
+    inputModule = tk.Tk()
+    inputModule.title('RAPID Input Module')
 
-    f1 = ttk.Frame(parentFrame)
-    f2 = ttk.Frame(parentFrame)
-    f3 = ttk.Frame(parentFrame)
-    f4 = ttk.Frame(parentFrame)
-    f5 = ttk.Frame(parentFrame)
-    f6 = ttk.Frame(parentFrame)
+    f1 = ttk.Frame(inputModule)
+    f2 = ttk.Frame(inputModule)
+    f3 = ttk.Frame(inputModule)
+    f4 = ttk.Frame(inputModule)
+    f5 = ttk.Frame(inputModule)
+    f6 = ttk.Frame(inputModule)
 
     for frame in (f1,f2):
         frame.grid(row=0, column=0, sticky='NWES')
@@ -1076,3 +1077,6 @@ def runPreprocess(parentFrame, filename):
     ttk.Button(StratInputFrame, text=" Assign Strategy  ", command=assign_strat_tool).grid(column=1, row=2, sticky='N', ipadx=5, ipady=5)
 
     f1.tkraise()
+
+
+    inputModule.mainloop()

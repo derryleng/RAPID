@@ -8,35 +8,38 @@ import numpy as np
 
 def runModel(parentFrame):
 
-    req = parentFrame.req
-    opt = parentFrame.opt
-    run = parentFrame.run
-    input_filename = parentFrame.filename
-
     flags = {
-        'RECAT': bool(int(opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
-        'RECAT_PWS': bool(int(opt['var17'].get())),
-        'avgThr': bool(int(run['var7'].get())),
-        'distanceBased': not bool(int(opt['separation_type'].get())),
-        'timeBased': bool(int(opt['separation_type'].get())),
-        'MRS_4DME': bool(int(opt['MRS_4dme'].get())),
-        'WAKE_4DME': bool(int(opt['WAKE_4dme'].get())),
-        'ADA_4DME': bool(int(opt['ADA_4dme'].get())),
-        'ADDA_4DME': bool(int(opt['ADDA_4dme'].get())),
-        'MRS_THR': bool(int(opt['MRS_thr'].get())),
-        'WAKE_THR': bool(int(opt['WAKE_thr'].get())),
-        'ADA_THR': bool(int(opt['ADA_thr'].get())),
-        'ADDA_THR': bool(int(opt['ADDA_thr'].get()))
+        'RECAT': bool(int(parentFrame.opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
+        'RECAT_PWS': bool(int(parentFrame.opt['var17'].get())),
+        'avgThr': bool(int(parentFrame.run['var7'].get())),
+        'distanceBased': not bool(int(parentFrame.opt['separation_type'].get())),
+        'timeBased': bool(int(parentFrame.opt['separation_type'].get())),
+        'MRS_4DME': bool(int(parentFrame.opt['MRS_4dme'].get())),
+        'WAKE_4DME': bool(int(parentFrame.opt['WAKE_4dme'].get())),
+        'ADA_4DME': bool(int(parentFrame.opt['ADA_4dme'].get())),
+        'ADDA_4DME': bool(int(parentFrame.opt['ADDA_4dme'].get())),
+        'MRS_THR': bool(int(parentFrame.opt['MRS_thr'].get())),
+        'WAKE_THR': bool(int(parentFrame.opt['WAKE_thr'].get())),
+        'ADA_THR': bool(int(parentFrame.opt['ADA_thr'].get())),
+        'ADDA_THR': bool(int(parentFrame.opt['ADDA_thr'].get()))
     }
 
-    debug3_output = bool(int(run['var14'].get()))
+    debug3_output = bool(int(parentFrame.run['var14'].get()))
 
-    queue1_output = bool(int(req['1x8'].get()))
-    queue2_output = bool(int(req['2x4'].get()))
-    queue3_output = bool(int(req['4x2'].get()))
-    queue4_output = bool(int(req['8x1'].get()))
+    queue1_output = False
+    queue2_output = False
+    queue3_output = False
+    queue4_output = False
+    if parentFrame.req['queue_type'].get() == '1x8':
+        queue1_output = True
+    elif parentFrame.req['queue_type'].get() == '2x4':
+        queue2_output = True
+    elif parentFrame.req['queue_type'].get() == '4x2':
+        queue3_output = True
+    elif parentFrame.req['queue_type'].get() == '8x1':
+        queue4_output = True
 
-    n_times = int(run['n_times_input'].get())
+    n_times = int(parentFrame.run['n_times_input'].get())
 
     big_list = []
     averages = []
@@ -52,14 +55,14 @@ def runModel(parentFrame):
     #How many times you want to do it....
     while (iter1 < maxIter):
 
-        n = int(req['n_input'].get())
-        ADA_x = int(opt['ADA_x_input'].get())
-        minDep_altSID = int(req['minDep_altSID_input'].get())
-        minDep_sameSID = int(req['minDep_sameSID_input'].get())
-        SIDmax = int(req['SIDmax_input'].get())
-        SIDgroup_separation = str(req['SIDgroup_separation_input'].get())
-        SID_queue_assign = str(req['SID_queue_assign_input'].get())
-        input_excel_sheet = input_filename
+        n = int(parentFrame.req['n_input'].get())
+        ADA_x = int(parentFrame.opt['ADA_x_input'].get())
+        minDep_altSID = int(parentFrame.req['minDep_altSID_input'].get())
+        minDep_sameSID = int(parentFrame.req['minDep_sameSID_input'].get())
+        SIDmax = int(parentFrame.req['SIDmax_input'].get())
+        SIDgroup_separation = str(parentFrame.req['SIDgroup_separation_input'].get())
+        SID_queue_assign = str(parentFrame.req['SID_queue_assign_input'].get())
+        input_excel_sheet = parentFrame.filename
 
         # Queue selection
         if queue1_output:

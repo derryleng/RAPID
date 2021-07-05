@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
-
 from input_module import runPreprocess
 from core_module import runModel
 from visual_module import runVisual
@@ -48,10 +47,7 @@ class reqFrame(ttk.LabelFrame):
             'minDep_sameSID_input': tk.IntVar(value='109'),
             'SIDmax_input': tk.IntVar(value='4'),
             'SIDgroup_separation_input': tk.StringVar(value='(2,4)(3,4)'),
-            '1x8':tk.IntVar(),
-            '2x4':tk.IntVar(value='1'),
-            '4x2':tk.IntVar(),
-            '8x1':tk.IntVar(),
+            'queue_type': tk.StringVar(value='2x4'),
             'SID_queue_assign_input': tk.StringVar(value='1 3 | 2 4')
         }
         tk.Label(self, text='[Arrival lead time] n value (secs)').grid(row=0, column=0, columnspan=2, sticky='w')
@@ -65,10 +61,10 @@ class reqFrame(ttk.LabelFrame):
         tk.Label(self, text='SID groups pairs with minimum separation').grid(row=4, rowspan=2, column=0, columnspan=2, sticky='w')
         tk.Entry(self, width=29,  textvariable=master.req['SIDgroup_separation_input']).grid(row=4, column=6, columnspan=4, sticky='w')
         tk.Label(self, text='Type of queue').grid(row=6, column=0, sticky='w')
-        tk.Checkbutton(self, text='1x8', variable=master.req['1x8']).grid(row=6, column=6, sticky='w')
-        tk.Checkbutton(self, text='2x4', variable=master.req['2x4']).grid(row=6, column=7, sticky='w')
-        tk.Checkbutton(self, text='4x2', variable=master.req['4x2']).grid(row=6, column=8, sticky='w')
-        tk.Checkbutton(self, text='8x1', variable=master.req['8x1']).grid(row=6, column=9, sticky='w')
+        tk.Radiobutton(self, text='1x8', variable=master.req['queue_type'], value='1x8').grid(row=6, column=6, sticky='w')
+        tk.Radiobutton(self, text='2x4', variable=master.req['queue_type'], value='2x4').grid(row=6, column=7, sticky='w')
+        tk.Radiobutton(self, text='4x2', variable=master.req['queue_type'], value='4x2').grid(row=6, column=8, sticky='w')
+        tk.Radiobutton(self, text='8x1', variable=master.req['queue_type'], value='8x1').grid(row=6, column=9, sticky='w')
         tk.Label(self, text='SID groups to RWY queue').grid(row=7, column=0, columnspan=2, sticky='w')
         tk.Entry(self, width=29, textvariable=master.req['SID_queue_assign_input']).grid(row=7, column=6, columnspan=4, sticky='w')
 
@@ -79,7 +75,7 @@ class optFrame(ttk.LabelFrame):
         master.opt = {
             'var6': tk.IntVar(),
             'var17': tk.IntVar(),
-            'separation_type': tk.IntVar(),
+            'separation_type': tk.IntVar(value='0'),
             'ADA_x_input': tk.IntVar(value='10'),
             'MRS_4dme': tk.IntVar(),
             'WAKE_4dme': tk.IntVar(),
@@ -149,9 +145,8 @@ class runFrame(ttk.LabelFrame):
         tk.Checkbutton(self, text='I want to feel confident!', variable=master.run['var7']).pack(anchor='w')
         tk.Checkbutton(self, text='Print a debug tab', variable=master.run['var14']).pack(anchor='w')
         tk.Button(self, text='Run Model', command=lambda: self.runRAPID(master)).pack(expand=True, fill='both')
-    
-    @staticmethod
-    def runRAPID(master):
+
+    def runRAPID(self, master):
         """
         Wrapper function which first runs the core RAPID model,
         then runs the visual module if any visual options are selected.
@@ -172,5 +167,5 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.title('RAPID')
     root.resizable(False, False)
-    app = mainWindow(root)
+    mainWindow(root)
     root.mainloop()

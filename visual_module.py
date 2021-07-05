@@ -46,77 +46,21 @@ def runVisual(parentFrame):
     # VISUAL
     m = int(m_input.get())
     m_output.set(m)
-    convergence = int(var0.get())
-    convergence_output.set(convergence)
-    Throughput_check = int(var8.get())
-    Throughput_check_output.set(Throughput_check)
-    Delay_check = int(var9.get())
-    Delay_check_output.set(Delay_check)
-    arr_delay = int(var13.get())
-    arr_delay_output.set(arr_delay)
-    Seq_check = int(var10.get())
-    Seq_check_output.set(Seq_check)
-    op_yes = int(var11.get())
-    op_yes_output.set(op_yes)
-    new_set = int(var12.get())
-    new_set_output.set(new_set)
-    ADA_buffer = int(var18.get())
-    ADA_buffer_output.set(ADA_buffer)
 
+    convergenceFLAG = bool(int(parentFrame.vis['var0'].get()))
+    Thr_FLAG = bool(int(parentFrame.vis['var8'].get()))
+    Delay_FLAG = bool(int(parentFrame.vis['var9'].get()))
+    Seq_FLAG = bool(int(parentFrame.vis['var10'].get()))
+    ADA_buffer_FLAG = bool(int(parentFrame.vis['var18'].get()))
+    OP_FLAG = bool(int(parentFrame.vis['var11'].get()))
+    new_set_FLAG = bool(int(parentFrame.vis['var12'].get()))
+    arr_delay_FLAG = bool(int(parentFrame.vis['var13'].get()))
 
     n_times = n_times_output.get()
     m = m_output.get()
 
-    # Switch for Convergence
-    if convergence_output.get() == 1:
-        convergenceFLAG = True
-    else:
-        convergenceFLAG = False
-
-    # Switch for Throughput
-    if Throughput_check_output.get() == 1:
-        Thr_FLAG = True
-    else:
-        Thr_FLAG = False
-
-    # Switch for Departures Delay
-    if Delay_check_output.get() == 1:
-        Delay_FLAG = True
-    else:
-        Delay_FLAG = False
-
-    #Switch for Sequence
-    if Seq_check_output.get() == 1:
-        Seq_FLAG = True
-    else:
-        Seq_FLAG = False
-
-    #Switch for ADA Buffer
-    if ADA_buffer_output.get() == 1:
-        ADA_buffer_FLAG = True
-    else:
-        ADA_buffer_FLAG = False
-
-    #Switch for op data
-    if op_yes_output.get() == 1:
-        OP_FLAG = True
-    else:
-        OP_FLAG = False
-
-    #Switch for comparison
-    if new_set_output.get() == 1:
-        new_set_FLAG = True
-    else:
-        new_set_FLAG = False
-
-    # Switch for Arrivals Delay
-    if arr_delay_output.get() == 1:
-        arr_delay_FLAG = True
-    else:
-        arr_delay_FLAG = False
-
     #----Operational Data -----#
-    if OP_FLAG == True:
+    if OP_FLAG:
         win = tk.Tk()
         win.title("Operational Data import")
         mainframe = ttk.Frame(win, padding="10 10 30 40")
@@ -124,7 +68,7 @@ def runVisual(parentFrame):
         mainframe.columnconfigure(0, weight=1)
         mainframe.rowconfigure(0, weight=1)
         innerframe = ttk.Frame(win, padding="5 5 0 0")
-        
+
         op_data_sheet = tk.StringVar()
         ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky='W')
         open_op_data = ttk.Button(mainframe, text="Import operational data", command=lambda: load_file(op_data_sheet)).grid(column=2, row=1, sticky='W')
@@ -132,7 +76,7 @@ def runVisual(parentFrame):
         inner.grid(column=0, row=1)
         inner.columnconfigure(0, weight=1)
         inner.rowconfigure(0, weight=1)
-        ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
+        # ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
 
         win.columnconfigure(0, weight=1)
         win.rowconfigure(0, weight=1)
@@ -182,7 +126,7 @@ def runVisual(parentFrame):
             inner.grid(column=0, row=1)
             inner.columnconfigure(0, weight=1)
             inner.rowconfigure(0, weight=1)
-            ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
+            # ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
 
             win.columnconfigure(0, weight=1)
             win.rowconfigure(0, weight=1)
@@ -236,9 +180,6 @@ def runVisual(parentFrame):
                             df_arr_output6 = xls6.parse(3)
                             df_rwy_calcs6 = xls6.parse(2)
 
-
-
-
     xls = pd.ExcelFile(parentFrame.name_output_file)
     df_thr = xls.parse(5)
     df_delay = xls.parse(6)
@@ -270,120 +211,81 @@ def runVisual(parentFrame):
         OP_PS_Delay = op_data['PS-Delay'].tolist()
         OP_Time_PS_Delay = op_data['Time Bin - PS'].tolist()
 
-    LARGE_FONT= ("Verdana", 12)
 
-    Flag_another_run =  False
     class RAPIDvisual(tk.Tk):
-
         def __init__(self, *args, **kwargs):
-
             tk.Tk.__init__(self, *args, **kwargs)
-
             # tk.Tk.iconbitmap(self, text="clienticon.ico")
             tk.Tk.wm_title(self, "RAPID VISUAL")
-
             container = tk.Frame(self)
             container.pack(side="top", fill="both", expand = True)
             container.grid_rowconfigure(0, weight=1)
             container.grid_columnconfigure(0, weight=1)
-
             self.frames = {}
             for F in (StartPage, Conv, Thr, DepDelay, DepDelay2, ArrivalDelay, Seq, ADAbuffer):
-
                 frame = F(container, self)
-
                 self.frames[F] = frame
-
                 frame.grid(row=0, column=0, sticky='NWES')
-
             self.show_frame(StartPage)
-        def show_frame(self, cont):
 
+        def show_frame(self, cont):
             frame = self.frames[cont]
             frame.tkraise()
 
-    class StartPage(tk.Frame):
 
+    class StartPage(tk.Frame):
         def __init__(self, parent, controller):
             tk.Frame.__init__(self,parent)
-            label = tk.Label(self, text="Start Page", font=LARGE_FONT)
-            label.pack(pady=10,padx=10)
-
+            tk.Label(self, text="Start Page").pack(pady=10,padx=10)
             if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
+                ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv)).pack()
             if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
+                ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr)).pack()
             if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
+                ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay)).pack()
             if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
+                ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay2)).pack()
             if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
+                ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay)).pack()
             if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
+                ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq)).pack()
             if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
-
-            label1_1 = ttk.Label(self, text=".")
-            label1_1.pack()
-            label1_2 = ttk.Label(self, text=".")
-            label1_2.pack()
-            label1_3 = ttk.Label(self, text=".")
-            label1_3.pack()
-            label1 = ttk.Label(self, text="I want to compare my results")
-            label1.pack()
-            label2 = ttk.Label(self, text="_____________________________")
-            label2.pack()
-            label3 = ttk.Label(self, text="How many new sets?")
-            label3.pack()
+                ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer)).pack()
+            ttk.Label(self, text=".").pack()
+            ttk.Label(self, text=".").pack()
+            ttk.Label(self, text=".").pack()
+            ttk.Label(self, text="I want to compare my results").pack()
+            ttk.Label(self, text="_____________________________").pack()
+            ttk.Label(self, text="How many new sets?").pack()
 
             def show_button():
                 m2 = int(m2_input.get())
                 m2_output.set(m2)
-
                 app.destroy()
                 m2 = m2_output.get()
 
-                def define_input_parameters3():
-                    convergence = int(var0.get())
-                    convergence_output.set(convergence)
-                    Throughput_check = int(var8.get())
-                    Throughput_check_output.set(Throughput_check)
-                    Delay_check = int(var9.get())
-                    Delay_check_output.set(Delay_check)
-                    arr_delay = int(var13.get())
-                    arr_delay_output.set(arr_delay)
-                    Seq_check = int(var10.get())
-                    Seq_check_output.set(Seq_check)
-
-                    op_yes = int(var11.get())
-                    op_yes_output.set(op_yes)
-                    new_set = int(var12.get())
-                    new_set_output.set(new_set)
-                    ADA_buffer = int(var18.get())
-                    ADA_buffer_output.set(ADA_buffer)
-
-                    average_check = int(var6.get())
-                    average_check_output.set(average_check)
-
-                    window.destroy()
+                # def define_input_parameters3():
+                #     convergence = int(parentFrame.vis['var0'].get())
+                #     convergence_output.set(convergence)
+                #     Throughput_check = int(parentFrame.vis['var8'].get())
+                #     Throughput_check_output.set(Throughput_check)
+                #     Delay_check = int(parentFrame.vis['var9'].get())
+                #     Delay_check_output.set(Delay_check)
+                #     arr_delay = int(parentFrame.vis['var13'].get())
+                #     arr_delay_output.set(arr_delay)
+                #     Seq_check = int(parentFrame.vis['var10'].get())
+                #     Seq_check_output.set(Seq_check)
+                #     op_yes = int(parentFrame.vis['var11'].get())
+                #     op_yes_output.set(op_yes)
+                #     new_set = int(parentFrame.vis['var12'].get())
+                #     new_set_output.set(new_set)
+                #     ADA_buffer = int(parentFrame.vis['var18'].get())
+                #     ADA_buffer_output.set(ADA_buffer)
+                #     average_check = int(parentFrame.vis['var6'].get())
+                #     average_check_output.set(average_check)
+                #     window.destroy()
 
                 if m2 >= 1 :
-
                     window = tk.Tk()
                     window.title("New set of data import")
 
@@ -421,7 +323,7 @@ def runVisual(parentFrame):
                     inner.grid(column=0, row=1)
                     inner.columnconfigure(0, weight=1)
                     inner.rowconfigure(0, weight=1)
-                    ttk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky='W')
+                    # tk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky='W')
 
                     for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
                     # window.bind('<Return>', define_input_parameters)
@@ -478,8 +380,6 @@ def runVisual(parentFrame):
                 #                       VISUAL GUI                                            #
                 # ============================================================================#
 
-                LARGE_FONT= ("Verdana", 12)
-
                 class RAPIDvisual2(tk.Tk):
 
                     def __init__(self, *args, **kwargs):
@@ -516,7 +416,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self,parent)
-                        label = tk.Label(self, text="Start Page", font=LARGE_FONT)
+                        label = tk.Label(self, text="Start Page")
                         label.pack(pady=10,padx=10)
 
                         if convergenceFLAG ==True:
@@ -553,7 +453,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="THROUGHPUT CONVERGENCE", font=LARGE_FONT)
+                        label = tk.Label(self, text="THROUGHPUT CONVERGENCE")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -637,7 +537,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="THROUGHPUT", font=LARGE_FONT)
+                        label = tk.Label(self, text="THROUGHPUT")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -786,7 +686,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="RWY HOLD DELAY", font=LARGE_FONT)
+                        label = tk.Label(self, text="RWY HOLD DELAY")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -931,7 +831,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="PUSH/START DELAY", font=LARGE_FONT)
+                        label = tk.Label(self, text="PUSH/START DELAY")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -1078,7 +978,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="ARRIVALS DELAY", font=LARGE_FONT)
+                        label = tk.Label(self, text="ARRIVALS DELAY")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -1197,7 +1097,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
+                        label = tk.Label(self, text="SEQUENCE")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -2348,7 +2248,7 @@ def runVisual(parentFrame):
 
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
+                        label = tk.Label(self, text="SEQUENCE")
                         label.pack(pady=10,padx=10)
 
                         button1 = ttk.Button(self, text="Back to Home",
@@ -2441,7 +2341,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="THROUGHPUT CONVERGENCE", font=LARGE_FONT)
+            label = tk.Label(self, text="THROUGHPUT CONVERGENCE")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -2526,7 +2426,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="THROUGHPUT", font=LARGE_FONT)
+            label = tk.Label(self, text="THROUGHPUT")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -2765,7 +2665,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="RWY HOLD DELAY", font=LARGE_FONT)
+            label = tk.Label(self, text="RWY HOLD DELAY")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -2970,7 +2870,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="PUSH/START DELAY", font=LARGE_FONT)
+            label = tk.Label(self, text="PUSH/START DELAY")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -3176,7 +3076,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="ARRIVALS DELAY", font=LARGE_FONT)
+            label = tk.Label(self, text="ARRIVALS DELAY")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -3341,7 +3241,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
+            label = tk.Label(self, text="SEQUENCE")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
@@ -4667,7 +4567,7 @@ def runVisual(parentFrame):
 
         def __init__(self, parent, controller):
             tk.Frame.__init__(self, parent)
-            label = tk.Label(self, text="SEQUENCE", font=LARGE_FONT)
+            label = tk.Label(self, text="SEQUENCE")
             label.pack(pady=10,padx=10)
 
             button1 = ttk.Button(self, text="Back to Home",
