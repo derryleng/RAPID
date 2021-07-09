@@ -1,14 +1,144 @@
 import openpyxl
 import random
 import time
-import sys
 import math
 import pandas as pd
 import numpy as np
+import re
+
+# Function to write headers for the output excel sheets
+def set_Output_Excel_headers(runwayCalculations, arrivalOutput, arrivalInput, departureOutput, throughputTab, delayTab, sequenceTab, debugTabFlag, debugTab):
+
+    # runway Calculations (intermediate step) headers
+    runwayCalculations['A' + str(1)].value = 'Arrival ID'
+    runwayCalculations['B' + str(1)].value = 'TAXI-IN'
+    runwayCalculations['C' + str(1)].value = 'AROT'
+    runwayCalculations['D' + str(1)].value = 'ADA'
+    runwayCalculations['E' + str(1)].value = 'ADDA'
+    runwayCalculations['F' + str(1)].value = 'ATCO variability'
+    runwayCalculations['G' + str(1)].value = 'WIND1'
+    runwayCalculations['H' + str(1)].value = 'SPEED1'
+    runwayCalculations['I' + str(1)].value = 'WIND2'
+    runwayCalculations['J' + str(1)].value = 'SPEED2'
+    runwayCalculations['K' + str(1)].value = 'VTGT'
+    runwayCalculations['L' + str(1)].value = 'SAE'
+    runwayCalculations['M' + str(1)].value = 'PREDICTED Landing Time'
+    runwayCalculations['N' + str(1)].value = 'MAX Constraint'
+    runwayCalculations['O' + str(1)].value = 'MAX Constraint Label'
+    runwayCalculations['R' + str(1)].value = 'Departure ID'
+    runwayCalculations['S' + str(1)].value = 'TAXI-OUT'
+    runwayCalculations['T' + str(1)].value = 'DROT'
+    runwayCalculations['U' + str(1)].value = 'ARRIVAL actual WAKE'
+
+    # Arrival Output tab headers
+    arrivalOutput['A' + str(1)].value = 'Arrival ID'
+    arrivalOutput['B' + str(1)].value = 'Arrival HOUR'
+    arrivalOutput['C' + str(1)].value = 'ACTUAL Landing Time'
+    arrivalOutput['D' + str(1)].value = 'Arrival RWY_EXIT'
+    arrivalOutput['E' + str(1)].value = 'WAKE'
+    arrivalOutput['F' + str(1)].value = 'In Blocks Time'
+    arrivalOutput['G' + str(1)].value = 'AROT'
+    arrivalOutput['H' + str(1)].value = 'TAXI-IN Duration'
+    arrivalOutput['I' + str(1)].value = 'MAX Constraint'
+    arrivalOutput['J' + str(1)].value = 'MAX Constraint Label'
+    arrivalOutput['K' + str(1)].value = 'len(ArrHOLDqueue)'
+    arrivalOutput['L' + str(1)].value = 'Arrival DELAY'
+
+    #Arrival Input tab added columns (ACTUAL SPEED PROFILE)
+    arrivalInput['AD' + str(1)].value = 'GS_0_1dme'
+    arrivalInput['AE' + str(1)].value = 'GS_1_2dme'
+    arrivalInput['AF' + str(1)].value = 'GS_2_3dme'
+    arrivalInput['AG' + str(1)].value = 'GS_3_4dme'
+    arrivalInput['AH' + str(1)].value = 'GS_4_5dme'
+    arrivalInput['AI' + str(1)].value = 'GS_5_6dme'
+    arrivalInput['AJ' + str(1)].value = 'GS_6_7dme'
+    arrivalInput['AK' + str(1)].value = 'GS_7_8dme'
+    arrivalInput['AL' + str(1)].value = 'GS_8_9dme'
+    arrivalInput['AM' + str(1)].value = 'GS_9_10dme'
+
+    arrivalInput['AN' + str(1)].value = 'IAS_0_1dme'
+    arrivalInput['AO' + str(1)].value = 'IAS_1_2dme'
+    arrivalInput['AP' + str(1)].value = 'IAS_2_3dme'
+    arrivalInput['AQ' + str(1)].value = 'IAS_3_4dme'
+    arrivalInput['AR' + str(1)].value = 'IAS_4_5dme'
+    arrivalInput['AS' + str(1)].value = 'IAS_5_6dme'
+    arrivalInput['AT' + str(1)].value = 'IAS_6_7dme'
+    arrivalInput['AU' + str(1)].value = 'IAS_7_8dme'
+    arrivalInput['AV' + str(1)].value = 'IAS_8_9dme'
+    arrivalInput['AW' + str(1)].value = 'IAS_9_10dme'
+
+    # Departure Output tab headers
+    departureOutput['A' + str(1)].value = 'Departure ID'
+    departureOutput['B' + str(1)].value = 'Departure HOUR'
+    departureOutput['C' + str(1)].value = 'Departure_RWY_ENTRY'
+    departureOutput['D' + str(1)].value = 'Departure_RWY_EXIT'
+    departureOutput['E' + str(1)].value = 'WAKE'
+    departureOutput['F' + str(1)].value = 'SID GROUP'
+    departureOutput['G' + str(1)].value = 'DROT'
+    departureOutput['H' + str(1)].value = 'TAXI-OUT'
+    departureOutput['I' + str(1)].value = 'Dep MIN Separation'
+    departureOutput['J' + str(1)].value = 'Dep MIN Separation Label'
+    departureOutput['K' + str(1)].value = 'currentGap'
+    departureOutput['L' + str(1)].value = 'len(DepSTANDqueue)'
+    departureOutput['M' + str(1)].value = 'len(TAXIhold)'
+    departureOutput['N' + str(1)].value = 'len(RWYqueue1)'
+    departureOutput['O' + str(1)].value = 'len(RWYqueue2)'
+    departureOutput['P' + str(1)].value = 'len(RWYqueue3)'
+    departureOutput['Q' + str(1)].value = 'len(RWYqueue4)'
+    departureOutput['R' + str(1)].value = 'DELAY DepSTANDqueue'
+    departureOutput['S' + str(1)].value = 'DELAY TAXIhold'
+    departureOutput['T' + str(1)].value = 'DELAY RWYqueue'
+    departureOutput['U' + str(1)].value = 'RWY queue USED'
+
+    # Throughput tab headers
+    throughputTab['A' + str(1)].value = 'Hour'
+    throughputTab['B' + str(1)].value = 'Departure Throughput'
+    throughputTab['C' + str(1)].value = 'Arrival Throughput'
+    throughputTab['D' + str(1)].value = 'Total Throughput'
+    throughputTab['E' + str(1)].value = 'Cum. No. of Go-Arounds'
+
+    # Delay tab headers
+    delayTab['A' + str(1)].value = 'Departure ID'
+    delayTab['B' + str(1)].value = 'HOUR'
+    delayTab['C' + str(1)].value = 'RWY HOLD Delay'
+    delayTab['D' + str(1)].value = 'Push/Start Delay'
+
+    delayTab['I' + str(1)].value = 'Arrival ID'
+    delayTab['J' + str(1)].value = 'HOUR'
+    delayTab['K' + str(1)].value = 'Arrival Delay'
+
+    # Sequence tab headers
+    sequenceTab['A' + str(1)].value = 'Type'
+    sequenceTab['B' + str(1)].value = 'ID'
+    sequenceTab['C' + str(1)].value = 'RWY ENTRY'
+    sequenceTab['D' + str(1)].value = 'RWY EXIT'
+    sequenceTab['E' + str(1)].value = 'ROT'
+    sequenceTab['F' + str(1)].value = 'Arr ID start ADA pair'
+    sequenceTab['G' + str(1)].value = 'ADA Buffer'
+
+    # Debug tab headers
+    if debugTabFlag:
+        debugTab['A' + str(1)].value = 'Time'
+        debugTab['B' + str(1)].value = 'Runway status'
+        debugTab['C' + str(1)].value = 'Current Gap - D'
+        debugTab['D' + str(1)].value = 'Current Gap - A'
+        debugTab['E' + str(1)].value = 'Current Gap - E'
+        debugTab['L' + str(1)].value = 'Arrival Hold Delay'
+
+
+
+
 
 def runModel(parentFrame):
+    
+    # ---------------------------------------------------------------------------- #
+    #                               Data Preparation                               #
+    # ---------------------------------------------------------------------------- #
 
-    flags = {
+    # --------------------------- parentFrame Variables -------------------------- #
+    
+    v = {
+        'filename': parentFrame.filename,
         'RECAT': bool(int(parentFrame.opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
         'RECAT_PWS': bool(int(parentFrame.opt['var17'].get())),
         'avgThr': bool(int(parentFrame.run['var7'].get())),
@@ -21,122 +151,79 @@ def runModel(parentFrame):
         'MRS_THR': bool(int(parentFrame.opt['MRS_thr'].get())),
         'WAKE_THR': bool(int(parentFrame.opt['WAKE_thr'].get())),
         'ADA_THR': bool(int(parentFrame.opt['ADA_thr'].get())),
-        'ADDA_THR': bool(int(parentFrame.opt['ADDA_thr'].get()))
+        'ADDA_THR': bool(int(parentFrame.opt['ADDA_thr'].get())),
+        'debugTab': bool(int(parentFrame.run['var14'].get())),
+        'queueType': str(parentFrame.req['queue_type'].get()),
+        'maxRuns': int(parentFrame.run['n_times_input'].get()),
+        'n': int(parentFrame.req['n_input'].get()),
+        'ADA_x': int(parentFrame.opt['ADA_x_input'].get()), # UNUSED
+        'minDep_altSID': int(parentFrame.req['minDep_altSID_input'].get()),
+        'minDep_sameSID': int(parentFrame.req['minDep_sameSID_input'].get()),
+        'SIDmax': int(parentFrame.req['SIDmax_input'].get()), #UNUSED
+        'SIDgroup_separation': str(parentFrame.req['SIDgroup_separation_input'].get()),
+        'SID_queue_assign': str(parentFrame.req['SID_queue_assign_input'].get())
     }
 
-    debug3_output = bool(int(parentFrame.run['var14'].get()))
+    # -------------------------- AROT/DROT LOOKUP TABLE -------------------------- #
 
-    queue1_output = False
-    queue2_output = False
-    queue3_output = False
-    queue4_output = False
-    if parentFrame.req['queue_type'].get() == '1x8':
-        queue1_output = True
-    elif parentFrame.req['queue_type'].get() == '2x4':
-        queue2_output = True
-    elif parentFrame.req['queue_type'].get() == '4x2':
-        queue3_output = True
-    elif parentFrame.req['queue_type'].get() == '8x1':
-        queue4_output = True
+    df_distributions = pd.read_csv('utility/AROTDROT_distributions.csv')
 
-    n_times = int(parentFrame.run['n_times_input'].get())
+    df_AROT_L = df_distributions['AROT_L'].dropna()
+    df_AROT_S = df_distributions['AROT_S'].dropna()
+    df_AROT_M = df_distributions['AROT_M'].dropna()
+    df_AROT_UM = df_distributions['AROT_UM'].dropna()
+    df_AROT_H = df_distributions['AROT_H'].dropna()
+    df_AROT_J = df_distributions['AROT_J'].dropna()
 
-    big_list = []
-    averages = []
-    difference = []
-    iter2 = 0
-    iter1 = 0
+    df_DROT_L = df_distributions['DROT_L'].dropna()
+    df_DROT_S = df_distributions['DROT_S'].dropna()
+    df_DROT_M = df_distributions['DROT_M'].dropna()
+    df_DROT_UM = df_distributions['DROT_UM'].dropna()
+    df_DROT_H = df_distributions['DROT_H'].dropna()
+    df_DROT_J = df_distributions['DROT_J'].dropna()
 
-    if flags['avgThr']:
-        maxIter = 10
-    else:
-        maxIter = n_times
+    # --------------------------- ACTUAL SPEED PROFILE --------------------------- #
 
-    #How many times you want to do it....
-    while (iter1 < maxIter):
+    df_speed_profiles = pd.read_csv('utility/actual_speed_profiles.csv')
+    df_speed_profiles = df_speed_profiles.drop(columns=['Unnamed: 0'])
 
-        n = int(parentFrame.req['n_input'].get())
-        ADA_x = int(parentFrame.opt['ADA_x_input'].get())
-        minDep_altSID = int(parentFrame.req['minDep_altSID_input'].get())
-        minDep_sameSID = int(parentFrame.req['minDep_sameSID_input'].get())
-        SIDmax = int(parentFrame.req['SIDmax_input'].get())
-        SIDgroup_separation = str(parentFrame.req['SIDgroup_separation_input'].get())
-        SID_queue_assign = str(parentFrame.req['SID_queue_assign_input'].get())
-        input_excel_sheet = parentFrame.filename
+    # ----------------------------------- WAKE ----------------------------------- #
 
-        # Queue selection
-        if queue1_output:
-            Use_queue = 1
-            maxRWYqueue1Length = 8
-            previousRWYqueue = 1
-        elif queue2_output:
-            Use_queue = 2
-            maxRWYqueue1Length = 4
-            maxRWYqueue2Length = 4
-            # Forces RWYqueue1 to go first
-            previousRWYqueue = 2
-        elif queue3_output:
-            Use_queue = 3
-            maxRWYqueue1Length = 2
-            maxRWYqueue2Length = 2
-            maxRWYqueue3Length = 2
-            maxRWYqueue4Length = 2
-            # Forces RWYqueue1/2 to go first
-            previousRWYqueue = 3
-        elif queue4_output:
-            Use_queue = 4
-            maxRWYqueue1Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
-            maxRWYqueue2Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
-            # Forces RWYqueue1 to go first
-            previousRWYqueue = 2
-        else:
-            print("Please select ONE of the queue options. Exiting..")
-            sys.exit(0)
+    RECAT_categories = {
+        'A': ['A388','A124'],
+        'B': ['A332','A333','A343','A345','A346','A359','B744','B748','B772','B773','B77L','B77W','B788','B789','IL96'],
+        'C': ['A306','A30B ','A310','B703 ','B752','B753 ','B762','B763','B764','B783','C135','DC10','DC85','IL76','MD11','TU22','TU95'],
+        'D': ['A318','A319','A320','A321','AN12','B736','B737','B738','B739','C130','IL18','MD81','MD82','MD83','MD87','MD88','MD90','T204','TU16'],
+        'E': ['AT43','AT45','AT72','B712','B732','B733','B734','B735','CL60','CRJ1','CRJ2','CRJ7','CRJ9','DH8D','E135','E145','E170','E175','E190','E195','F70','F100','GLF4','RJ85','RJ1H'],
+        'F': ['FA10','FA20','D328','E120','BE40','BE45','H25B','JS32','JS41','LJ35','LJ60','SF34','P180','C650','C525','C180','C152']
+    }
 
-        print("Queue [", Use_queue,"] Selected")
+    df_wake = pd.read_csv('utility/wake.csv')
 
-        # If no input file selected
-        if input_excel_sheet == '':
-            print("Please select an input file ...")
-            sys.exit(0)
+    df_wake_WTC=pd.DataFrame()
+    df_wake_WTC['ICAO'] = df_wake['ICAO']
+    df_wake_WTC['WTC'] = df_wake['WTC']
+    df_wake_WTC = df_wake_WTC.set_index('ICAO')
 
-        #####################################################################
-        #                           START OF MODEL                          #
-        #####################################################################
+    if v['RECAT']:
+        
+        df_wake_RECAT=pd.DataFrame()
+        df_wake_RECAT['ICAO'] = df_wake['ICAO']
+        df_wake_RECAT['RECAT-EU'] = df_wake['RECAT-EU']
+        df_wake_RECAT = df_wake_RECAT.set_index('ICAO')
 
-        program_runtime_start = time.time() # RUNTIME CALCULATION
-        #-------------------------USEFUL FILES ---------------------------#
+        if v['RECAT']: # RECAT-EU separation
 
-        #----- SCHEDULE -----#
-        wb = openpyxl.load_workbook(input_excel_sheet, data_only=True)
-        #------AROT/DROT LOOKUP TABLE ------#
-        df_distributions = pd.read_csv('utility/AROTDROT_distributions.csv')
-        #------ACTUAL SPEED PROFILE -------#
-        df_speed_profiles = pd.read_csv('utility/actual_speed_profiles.csv')
-        #------- WAKE ---------#
-        df_wake = pd.read_csv('utility/wake.csv')
-
-        df_wake_WTC=pd.DataFrame()
-        df_wake_WTC['ICAO'] = df_wake['ICAO']
-        df_wake_WTC['WTC'] = df_wake['WTC']
-        df_wake_WTC = df_wake_WTC.set_index('ICAO')
-
-        if flags['RECAT']:
-            df_wake_RECAT=pd.DataFrame()
-            df_wake_RECAT['ICAO'] = df_wake['ICAO']
-            df_wake_RECAT['RECAT-EU'] = df_wake['RECAT-EU']
-            df_wake_RECAT = df_wake_RECAT.set_index('ICAO')
-
-        #-----RECAT-EU separation-------#
-        if flags['RECAT']:
             df_RECAT_EU_separation = pd.read_csv('utility/RECAT_EU_separation.csv')
             df_RECAT_EU_separation = df_RECAT_EU_separation.set_index("LEAD")
-        #----WTC separation ------#
-        if not flags['RECAT']:
+
+        if not v['RECAT']: # WTC separation
+
             df_WTC_separation = pd.read_csv('utility/UK_wake_separation.csv')
             df_WTC_separation = df_WTC_separation.set_index("LEAD")
-        #----RECAT-PWS separation ------#
-        if flags['RECAT_PWS']:
+
+        if v['RECAT_PWS']: # RECAT-PWS and RECAT-EU 20cat separation
+
             df_RECAT_PWS = pd.read_csv('utility/RECAT_PWS.csv')
             df_RECAT_PWS = df_RECAT_PWS.fillna(0)
             df_RECAT_PWS = df_RECAT_PWS.set_index('FOLLOW')
@@ -146,56 +233,43 @@ def runModel(parentFrame):
             df_RECAT20['RECAT20'] = df_wake['RECAT20']
             df_RECAT20 = df_RECAT20.set_index('ICAO')
 
-            #----RECAT-EU 20cat separation ------#
             df_RECAT20_separation = pd.read_csv('utility/RECAT20_separation.csv')
             df_RECAT20_separation = df_RECAT20_separation.fillna(0)
             df_RECAT20_separation = df_RECAT20_separation.set_index('LEAD')
-            #df_RECAT20_separation = df_RECAT_PWS.set_index('LEAD')
+            # df_RECAT20_separation = df_RECAT_PWS.set_index('LEAD')
 
-        df_speed_profiles = df_speed_profiles.drop(columns=['Unnamed: 0'])
+    # ------ Run Variables ------ #
+
+    big_list = []
+    averages = []
+    difference = []
+    iter2 = 0
+    iter1 = 0
+
+    if v['avgThr']:
+        maxIter = 10
+    else:
+        maxIter = v['maxRuns']
+
+    # ---------------------------------------------------------------------------- #
+    #                             Start of Model Run(s)                            #
+    # ---------------------------------------------------------------------------- #
+    
+    while (iter1 < maxIter):
+
+        program_runtime_start = time.time() # RUNTIME CALCULATION
+        
+        wb = openpyxl.load_workbook(v['filename'], data_only=True)
+
         dict_actual_speed_profiles= {k: v for k, v in df_speed_profiles.groupby('Aircraft_Type')}
         for key in list(dict_actual_speed_profiles.keys()):
             dict_actual_speed_profiles[key] = dict_actual_speed_profiles[key].reset_index()
             dict_actual_speed_profiles[key] = dict_actual_speed_profiles[key].drop(columns = 'index')
 
-        # print(A_temp_df['NO PROFILE'].size)
-
-        # process distributions AROT/DROT/TAXI-in/TAXI-out
-        def process_each_column_in_distributions(dataframe,name):
-            dataframe[name] = df_distributions[name]
-            dataframe = dataframe.dropna(subset=[name])
-            return dataframe
-
-        df_AROT_H =  pd.DataFrame()
-        df_AROT_H = process_each_column_in_distributions(df_AROT_H, 'AROT_H')
-        df_AROT_M =  pd.DataFrame()
-        df_AROT_M = process_each_column_in_distributions(df_AROT_M, 'AROT_M')
-        df_AROT_L =  pd.DataFrame()
-        df_AROT_L = process_each_column_in_distributions(df_AROT_L, 'AROT_L')
-        df_AROT_J =  pd.DataFrame()
-        df_AROT_J = process_each_column_in_distributions(df_AROT_J, 'AROT_J')
-        df_AROT_UM =  pd.DataFrame()
-        df_AROT_UM = process_each_column_in_distributions(df_AROT_UM, 'AROT_UM')
-        df_AROT_S =  pd.DataFrame()
-        df_AROT_S = process_each_column_in_distributions(df_AROT_S, 'AROT_S')
-
-        df_DROT_H =  pd.DataFrame()
-        df_DROT_H = process_each_column_in_distributions(df_DROT_H, 'DROT_H')
-        df_DROT_M =  pd.DataFrame()
-        df_DROT_M = process_each_column_in_distributions(df_DROT_M, 'DROT_M')
-        df_DROT_L =  pd.DataFrame()
-        df_DROT_L = process_each_column_in_distributions(df_DROT_L, 'DROT_L')
-        df_DROT_J =  pd.DataFrame()
-        df_DROT_J = process_each_column_in_distributions(df_DROT_J, 'DROT_J')
-        df_DROT_UM =  pd.DataFrame()
-        df_DROT_UM = process_each_column_in_distributions(df_DROT_UM, 'DROT_UM')
-        df_DROT_S =  pd.DataFrame()
-        df_DROT_S = process_each_column_in_distributions(df_DROT_S, 'DROT_S')
-
         ###########################################
 
         # Data frame
-        xls = pd.ExcelFile(input_excel_sheet)
+        xls = pd.ExcelFile(v['filename'])
         df_dep = xls.parse(1)
         df_arr = xls.parse(0)
 
@@ -294,23 +368,10 @@ def runModel(parentFrame):
         x_buffer = 15
 
         throughput =[]
-        ####### Create list of hours from 15 to 15 mins
-        list_for_15min =[0]
-        entry_in_15min=900
-        while entry_in_15min <= 86400:
-            entry_in_15min = entry_in_15min + 900
-            list_for_15min.append(entry_in_15min)
-        start_value_15min = 0
 
         #########################################################################
         #                             RECAT                                     #
         #########################################################################
-        RECAT_categories = {'A': ['A388','A124'],
-                            'B': ['A332','A333','A343','A345','A346','A359','B744','B748','B772','B773','B77L','B77W','B788','B789','IL96'],
-                            'C' : ['A306','A30B ','A310','B703 ','B752','B753 ','B762','B763','B764','B783','C135','DC10','DC85','IL76','MD11','TU22','TU95'],
-                            'D' : ['A318', 'A319', 'A320', 'A321', 'AN12', 'B736', 'B737', 'B738', 'B739', 'C130', 'IL18', 'MD81', 'MD82', 'MD83', 'MD87', 'MD88', 'MD90', 'T204', 'TU16'],
-                            'E': ['AT43', 'AT45', 'AT72', 'B712', 'B732', 'B733', 'B734', 'B735', 'CL60', 'CRJ1', 'CRJ2', 'CRJ7', 'CRJ9', 'DH8D', 'E135', 'E145', 'E170', 'E175', 'E190', 'E195', 'F70', 'F100', 'GLF4', 'RJ85', 'RJ1H'],
-                            'F' : ['FA10', 'FA20', 'D328', 'E120', 'BE40', 'BE45', 'H25B', 'JS32', 'JS41', 'LJ35', 'LJ60', 'SF34', 'P180', 'C650', 'C525', 'C180', 'C152']}
         AC_types_list = []
         wake_cat_list = []
         for wake_cat in list(RECAT_categories.keys()):
@@ -342,130 +403,11 @@ def runModel(parentFrame):
         wb.create_sheet(index=7, title='Sequence')
         sequenceTab = wb.get_sheet_by_name('Sequence')
 
-        if debug3_output:
+        if v['debugTab']:
             wb.create_sheet(index=8,title='Debug')
             debugTab = wb.get_sheet_by_name('Debug')
 
-        # Function to write headers for the output excel sheets
-        def set_Output_Excel_headers():
-            # runway Calculations (intermediate step) headers
-            runwayCalculations['A' + str(1)].value = 'Arrival ID'
-            runwayCalculations['B' + str(1)].value = 'TAXI-IN'
-            runwayCalculations['C' + str(1)].value = 'AROT'
-            runwayCalculations['D' + str(1)].value = 'ADA'
-            runwayCalculations['E' + str(1)].value = 'ADDA'
-            runwayCalculations['F' + str(1)].value = 'ATCO variability'
-            runwayCalculations['G' + str(1)].value = 'WIND1'
-            runwayCalculations['H' + str(1)].value = 'SPEED1'
-            runwayCalculations['I' + str(1)].value = 'WIND2'
-            runwayCalculations['J' + str(1)].value = 'SPEED2'
-            runwayCalculations['K' + str(1)].value = 'VTGT'
-            runwayCalculations['L' + str(1)].value = 'SAE'
-            runwayCalculations['M' + str(1)].value = 'PREDICTED Landing Time'
-            runwayCalculations['N' + str(1)].value = 'MAX Constraint'
-            runwayCalculations['O' + str(1)].value = 'MAX Constraint Label'
-            runwayCalculations['R' + str(1)].value = 'Departure ID'
-            runwayCalculations['S' + str(1)].value = 'TAXI-OUT'
-            runwayCalculations['T' + str(1)].value = 'DROT'
-            runwayCalculations['U' + str(1)].value = 'ARRIVAL actual WAKE'
-
-            # Arrival Output tab headers
-            arrivalOutput['A' + str(1)].value = 'Arrival ID'
-            arrivalOutput['B' + str(1)].value = 'Arrival HOUR'
-            arrivalOutput['C' + str(1)].value = 'ACTUAL Landing Time'
-            arrivalOutput['D' + str(1)].value = 'Arrival RWY_EXIT'
-            arrivalOutput['E' + str(1)].value = 'WAKE'
-            arrivalOutput['F' + str(1)].value = 'In Blocks Time'
-            arrivalOutput['G' + str(1)].value = 'AROT'
-            arrivalOutput['H' + str(1)].value = 'TAXI-IN Duration'
-            arrivalOutput['I' + str(1)].value = 'MAX Constraint'
-            arrivalOutput['J' + str(1)].value = 'MAX Constraint Label'
-            arrivalOutput['K' + str(1)].value = 'len(ArrHOLDqueue)'
-            arrivalOutput['L' + str(1)].value = 'Arrival DELAY'
-
-            #Arrival Input tab added columns (ACTUAL SPEED PROFILE)
-            arrivalInput['AD' + str(1)].value = 'GS_0_1dme'
-            arrivalInput['AE' + str(1)].value = 'GS_1_2dme'
-            arrivalInput['AF' + str(1)].value = 'GS_2_3dme'
-            arrivalInput['AG' + str(1)].value = 'GS_3_4dme'
-            arrivalInput['AH' + str(1)].value = 'GS_4_5dme'
-            arrivalInput['AI' + str(1)].value = 'GS_5_6dme'
-            arrivalInput['AJ' + str(1)].value = 'GS_6_7dme'
-            arrivalInput['AK' + str(1)].value = 'GS_7_8dme'
-            arrivalInput['AL' + str(1)].value = 'GS_8_9dme'
-            arrivalInput['AM' + str(1)].value = 'GS_9_10dme'
-
-            arrivalInput['AN' + str(1)].value = 'IAS_0_1dme'
-            arrivalInput['AO' + str(1)].value = 'IAS_1_2dme'
-            arrivalInput['AP' + str(1)].value = 'IAS_2_3dme'
-            arrivalInput['AQ' + str(1)].value = 'IAS_3_4dme'
-            arrivalInput['AR' + str(1)].value = 'IAS_4_5dme'
-            arrivalInput['AS' + str(1)].value = 'IAS_5_6dme'
-            arrivalInput['AT' + str(1)].value = 'IAS_6_7dme'
-            arrivalInput['AU' + str(1)].value = 'IAS_7_8dme'
-            arrivalInput['AV' + str(1)].value = 'IAS_8_9dme'
-            arrivalInput['AW' + str(1)].value = 'IAS_9_10dme'
-
-            # Departure Output tab headers
-            departureOutput['A' + str(1)].value = 'Departure ID'
-            departureOutput['B' + str(1)].value = 'Departure HOUR'
-            departureOutput['C' + str(1)].value = 'Departure_RWY_ENTRY'
-            departureOutput['D' + str(1)].value = 'Departure_RWY_EXIT'
-            departureOutput['E' + str(1)].value = 'WAKE'
-            departureOutput['F' + str(1)].value = 'SID GROUP'
-            departureOutput['G' + str(1)].value = 'DROT'
-            departureOutput['H' + str(1)].value = 'TAXI-OUT'
-            departureOutput['I' + str(1)].value = 'Dep MIN Separation'
-            departureOutput['J' + str(1)].value = 'Dep MIN Separation Label'
-            departureOutput['K' + str(1)].value = 'currentGap'
-            departureOutput['L' + str(1)].value = 'len(DepSTANDqueue)'
-            departureOutput['M' + str(1)].value = 'len(TAXIhold)'
-            departureOutput['N' + str(1)].value = 'len(RWYqueue1)'
-            departureOutput['O' + str(1)].value = 'len(RWYqueue2)'
-            departureOutput['P' + str(1)].value = 'len(RWYqueue3)'
-            departureOutput['Q' + str(1)].value = 'len(RWYqueue4)'
-            departureOutput['R' + str(1)].value = 'DELAY DepSTANDqueue'
-            departureOutput['S' + str(1)].value = 'DELAY TAXIhold'
-            departureOutput['T' + str(1)].value = 'DELAY RWYqueue'
-            departureOutput['U' + str(1)].value = 'RWY queue USED'
-
-            # Throughput tab headers
-            throughputTab['A' + str(1)].value = 'Hour'
-            throughputTab['B' + str(1)].value = 'Departure Throughput'
-            throughputTab['C' + str(1)].value = 'Arrival Throughput'
-            throughputTab['D' + str(1)].value = 'Total Throughput'
-            throughputTab['E' + str(1)].value = 'Cum. No. of Go-Arounds'
-
-            # Delay tab headers
-            delayTab['A' + str(1)].value = 'Departure ID'
-            delayTab['B' + str(1)].value = 'HOUR'
-            delayTab['C' + str(1)].value = 'RWY HOLD Delay'
-            delayTab['D' + str(1)].value = 'Push/Start Delay'
-
-            delayTab['I' + str(1)].value = 'Arrival ID'
-            delayTab['J' + str(1)].value = 'HOUR'
-            delayTab['K' + str(1)].value = 'Arrival Delay'
-
-            # Sequence tab headers
-            sequenceTab['A' + str(1)].value = 'Type'
-            sequenceTab['B' + str(1)].value = 'ID'
-            sequenceTab['C' + str(1)].value = 'RWY ENTRY'
-            sequenceTab['D' + str(1)].value = 'RWY EXIT'
-            sequenceTab['E' + str(1)].value = 'ROT'
-            sequenceTab['F' + str(1)].value = 'Arr ID start ADA pair'
-            sequenceTab['G' + str(1)].value = 'ADA Buffer'
-
-            # Debug tab headers
-            if debug3_output:
-                debugTab['A' + str(1)].value = 'Time'
-                debugTab['B' + str(1)].value = 'Runway status'
-                debugTab['C' + str(1)].value = 'Current Gap - D'
-                debugTab['D' + str(1)].value = 'Current Gap - A'
-                debugTab['E' + str(1)].value = 'Current Gap - E'
-                debugTab['L' + str(1)].value = 'Arrival Hold Delay'
-
-
-    ####################### ARRIVALS SEPARATION FUNCTIONS########################
+        ####################### ARRIVALS SEPARATION FUNCTIONS########################
 
         def distance_to_time_assumed_speed_profile_IAS(i, d_dme, distance): #DELIVERED at THR
             #fixed d_dme at 3dme, variable c_dme because max deceleration speed is 20kts/NM
@@ -585,11 +527,11 @@ def runModel(parentFrame):
             if D <0:
                 T = (X*3600)/arrivalInput['AD'+str(row)].value
             elif D > 0:
-                n = math.floor(D)
-                f = D - n
-                T1 = full_segments(n,row)
-                if (f != 0) and (n<=8):
-                    T2 = fraction_of_segments(n,f,row)
+                v['n'] = math.floor(D)
+                f = D - v['n']
+                T1 = full_segments(v['n'],row)
+                if (f != 0) and (v['n']<=8):
+                    T2 = fraction_of_segments(v['n'],f,row)
                     T = T1 + T2 + (0.5*3600)/arrivalInput['AD'+str(row)].value
                 else:
                     T = T1 + (0.5*3600)/arrivalInput['AD'+str(row)].value
@@ -655,11 +597,11 @@ def runModel(parentFrame):
             if D <0:
                 T = (X*3600)/arrivalInput['AN'+str(row)].value
             elif D > 0:
-                n = math.floor(D)
-                f = D - n
-                T1 = full_segments(n,row)
-                if (f != 0) and (n<=8):
-                    T2 = fraction_of_segments(n,f,row)
+                v['n'] = math.floor(D)
+                f = D - v['n']
+                T1 = full_segments(v['n'],row)
+                if (f != 0) and (v['n']<=8):
+                    T2 = fraction_of_segments(v['n'],f,row)
                     T = T1 + T2 + (0.5*3600)/arrivalInput['AN'+str(row)].value
                 else:
                     T = T1
@@ -752,10 +694,10 @@ def runModel(parentFrame):
                 arrivalInput['E' +str(row)].value = df_wake_WTC.at[AC_type,'WTC']
 
                 # Write wake categories in runway calcs | used for wake separation:
-                if flags['RECAT']:
+                if v['RECAT']:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_wake_RECAT.at[AC_type,'RECAT-EU'] #RECT-EU cat
-                elif flags['RECAT_PWS']:
+                elif v['RECAT_PWS']:
                     AC_type = arrivalInput['D' +str(row)].value
                     runwayCalculations['U' +str(row)].value = df_RECAT20.at[AC_type,'RECAT20']
 
@@ -809,22 +751,22 @@ def runModel(parentFrame):
                 ####################### AROT - from lookup ########################
 
                 if arrivalInput['E'+str(row)].value=="H":
-                    random_arot = np.random.choice(df_AROT_H['AROT_H'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_H, 1)[0]
                     runwayCalculations['C' + str(row)].value = random_arot
                 elif arrivalInput['E'+str(row)].value=="M":
-                    random_arot = np.random.choice(df_AROT_M['AROT_M'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_M, 1)[0]
                     runwayCalculations['C' + str(row)].value = random_arot
                 elif arrivalInput['E'+str(row)].value=="L":
-                    random_arot = np.random.choice(df_AROT_L['AROT_L'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_L, 1)[0]
                     runwayCalculations['C' + str(row)].value= random_arot
                 elif arrivalInput['E'+str(row)].value=="UM":
-                    random_arot = np.random.choice(df_AROT_UM['AROT_UM'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_UM, 1)[0]
                     runwayCalculations['C' + str(row)].value = random_arot
                 elif arrivalInput['E'+str(row)].value=="J":
-                    random_arot = np.random.choice(df_AROT_J['AROT_J'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_J, 1)[0]
                     runwayCalculations['C' + str(row)].value = random_arot
                 elif arrivalInput['E'+str(row)].value=="S":
-                    random_arot = np.random.choice(df_AROT_S['AROT_S'], 1)[0]
+                    random_arot = np.random.choice(df_AROT_S, 1)[0]
                     runwayCalculations['C' + str(row)].value = random_arot
 
                 ##################### ADA - normal distribution ###############
@@ -885,7 +827,7 @@ def runModel(parentFrame):
                 def min_wake_separation_arrs(key_of_nextArrival): # delievered at THR ACTUAL SPEED PROFILE
                     minWakeSepArr = 0 # Initialise local variable (reset on each iteration)
 
-                    if flags['RECAT_PWS']: # analyse by ac type
+                    if v['RECAT_PWS']: # analyse by ac type
                         previousArrival = arrivalInput['D' +str(key_of_nextArrival-1)].value
                         currentArrival = arrivalInput['D' +str(key_of_nextArrival)].value
                         previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value #20cat classification
@@ -904,25 +846,25 @@ def runModel(parentFrame):
                             if wakeDistance == 0:
                                 minWakeSepArr =0
                             else:
-                                if flags['distanceBased']:
-                                    if flags['WAKE_4DME']:
+                                if v['distanceBased']:
+                                    if v['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((wakeDistance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif flags['WAKE_THR']:
+                                    elif v['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
                                     else: # the same as the previous one but it's the default condition
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
 
-                                elif flags['timeBased']:
+                                elif v['timeBased']:
                                     time1 = distance_to_time_assumed_speed_profile_IAS(key_of_nextArrival, d_dme, wakeDistance) #time
                                     distance = time_to_distance_assumed_speed_profile_GS(key_of_nextArrival, d_dme,int(time1))#distance
-                                    if flags['WAKE_4DME']:
+                                    if v['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((distance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
 
-                                    elif flags['WAKE_THR']:
+                                    elif v['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                     else:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
@@ -934,7 +876,7 @@ def runModel(parentFrame):
                             minWakeSepArr = 0
                         else: #next arrivals
 
-                            if flags['RECAT']: # delievered to THR
+                            if v['RECAT']: # delievered to THR
                                 wakeDistance = df_RECAT_EU_separation.at[previousArrivalWake,currentArrivalWake]
                             else: #UK cat *********** should be delievered to 4dme
                                 wakeDistance = df_WTC_separation.at[previousArrivalWake,currentArrivalWake] #distance
@@ -942,25 +884,25 @@ def runModel(parentFrame):
                             if wakeDistance == 0:
                                 minWakeSepArr =0
                             else:
-                                if flags['distanceBased']:
-                                    if flags['WAKE_4DME']:
+                                if v['distanceBased']:
+                                    if v['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((wakeDistance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif flags['WAKE_THR']:
+                                    elif v['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
                                     else: # the same as the previous one but it's the default condition
                                         minWakeSepArr = int(DBS_actual_speed_profile(wakeDistance,key_of_nextArrival))  #time
 
-                                elif flags['timeBased']:
+                                elif v['timeBased']:
                                     time1 = distance_to_time_assumed_speed_profile_IAS(key_of_nextArrival, d_dme, wakeDistance) #time
                                     distance = time_to_distance_assumed_speed_profile_GS(row, d_dme,int(time1))#distance
-                                    if flags['WAKE_4DME']:
+                                    if v['WAKE_4DME']:
                                         Total_time_follow = int(DBS_actual_speed_profile((distance+4),key_of_nextArrival))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(key_of_nextArrival-1)))
                                         minWakeSepArr = Total_time_follow - Time_lead_4dme_to_thr
 
-                                    elif flags['WAKE_THR']:
+                                    elif v['WAKE_THR']:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
                                     else:
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
@@ -973,11 +915,11 @@ def runModel(parentFrame):
                 runwayCalculations['Q' + str(1)].value = "MRS"
                 MRSArr = 0
 
-                if (flags['MRS_4DME']) and (row>2):
+                if (v['MRS_4DME']) and (row>2):
                     Total_time_follow = int(DBS_actual_speed_profile((min_radar_separation_distance+4),row))
                     Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                     MRSArr = Total_time_follow - Time_lead_4dme_to_thr
-                elif flags['MRS_THR']:
+                elif v['MRS_THR']:
                     MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
                 else: # the same as the previous one but it's the default condition
                     MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
@@ -1005,7 +947,7 @@ def runModel(parentFrame):
                             else:
                                 spFLAG = "AROT"
                         elif (not df_dep.empty) and (not df_arr.empty): #there are both arrivals and departures scheduled
-                            if flags['timeBased']:
+                            if v['timeBased']:
 
                                 max_constraint = int(max(wake_constraint, MRS_constraint, AROT_constraint))
                                 if max_constraint == wake_constraint:
@@ -1014,14 +956,14 @@ def runModel(parentFrame):
                                     spFLAG = "MRS"
                                 else:
                                     spFLAG = "AROT"
-                            elif flags['distanceBased']:
+                            elif v['distanceBased']:
                                 if (arrivalInput['U' + str(row)].value) == "ADDA" :
                                     ADDA_distance = runwayCalculations['E' + str(row)].value
-                                    if (flags['ADDA_4DME']) and (row>2):
+                                    if (v['ADDA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADDA_distance+4),row))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                                         ADDA_separation = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif flags['ADDA_THR']:
+                                    elif v['ADDA_THR']:
                                         ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
                                     else: # the same as the previous one but it's the default condition
                                         ADDA_separation = int(DBS_actual_speed_profile(ADDA_distance,row))  #time
@@ -1040,11 +982,11 @@ def runModel(parentFrame):
 
                                     ADA_distance = runwayCalculations['D' + str(row)].value
 
-                                    if (flags['ADA_4DME']) and (row>2):
+                                    if (v['ADA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADA_distance+4),row))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
                                         ADA_separation = Total_time_follow - Time_lead_4dme_to_thr
-                                    elif flags['ADA_THR']:
+                                    elif v['ADA_THR']:
                                         ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
                                     else: # the same as the previous one but it's the default condition
                                         ADA_separation = int(DBS_actual_speed_profile(ADA_distance,row))  #time
@@ -1109,22 +1051,22 @@ def runModel(parentFrame):
 
                 #------ DROT-------#
                 if departureInput['H'+ str(row)].value=="H":
-                    random_drot = np.random.choice(df_DROT_H['DROT_H'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_H, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
                 elif departureInput['H'+str(row)].value=="M":
-                    random_drot = np.random.choice(df_DROT_M['DROT_M'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_M, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
                 elif departureInput['H'+str(row)].value=="L":
-                    random_drot = np.random.choice(df_DROT_L['DROT_L'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_L, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
                 elif departureInput['H'+str(row)].value=="UM":
-                    random_drot = np.random.choice(df_DROT_UM['DROT_UM'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_UM, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
                 elif departureInput['H'+str(row)].value=="J":
-                    random_drot = np.random.choice(df_DROT_J['DROT_J'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_J, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
                 elif departureInput['H'+str(row)].value=="S":
-                    random_drot = np.random.choice(df_DROT_S['DROT_S'], 1)[0]
+                    random_drot = np.random.choice(df_DROT_S, 1)[0]
                     runwayCalculations['T' + str(row)].value = random_drot
 
 
@@ -1132,56 +1074,31 @@ def runModel(parentFrame):
         #                EXECUTE PRE-PROCESSING FUNCTIONS                   #
         #####################################################################
 
-        set_Output_Excel_headers()
+        set_Output_Excel_headers(
+            runwayCalculations = runwayCalculations,
+            arrivalOutput = arrivalOutput,
+            arrivalInput = arrivalInput,
+            departureOutput = departureOutput,
+            throughputTab = throughputTab,
+            delayTab = delayTab,
+            sequenceTab = sequenceTab,
+            debugTabFlag = v['debugTab'],
+            debugTab = debugTab
+        )
         Arrival_Input_pre_process()
         arrivalInputmaxRow = arrivalInput.max_row
         Departure_Input_pre_process()
         print("Input file successfully read")
 
-        #===== SID separation ====#
+        #===== SID group separation ====#
 
-        index_key_of_nextDeparture_Q1 = 0
-        index_key_of_nextDeparture_Q2 = 0
-        pair_SID = 0
-        # SIDgroup_separation = "(2,4)(3,4)"
-        SIDgroup_separation = SIDgroup_separation.replace("("," ")
-        SIDgroup_separation = SIDgroup_separation.replace(")","")
-        SIDgroup_separation = SIDgroup_separation.replace(","," ")
-        # print("SIDgroup_separation :  ",SIDgroup_separation)
-        list_SIDgroup = SIDgroup_separation.split(" ")
-        del list_SIDgroup[0]
-        SIDgroup_list1 = [int(x) for x in list_SIDgroup]
-        SIDgroup_list2 = SIDgroup_list1[::-1]
-        SIDgroup_list = SIDgroup_list1 + SIDgroup_list2
-        chunks2 = [SIDgroup_list[x:x+2] for x in range(0, len(SIDgroup_list), 2)]
+        SIDgroups = re.findall(r'\d+', v['SIDgroup_separation'])
+        SIDgroups = [[int(SIDgroups[x]), int(SIDgroups[y])] for (x, y) in [(0, 1), (2, 3), (3, 2), (1, 0)]]
 
         #===== SID queue ====#
 
-        # SID_queue_assign = "1 3 | 2 4"
-        Q1_SID = []
-        Q2_SID = []
-        Q3_SID = []
-        Q4_SID = []
-        Q5_SID = []
-        Q6_SID = []
-        Q7_SID = []
-        Q8_SID = []
-        SID_queue_assign = SID_queue_assign.split(' ')
-        index_queue_separator = SID_queue_assign.index('|')
-        SID_queue_assign.remove('|')
-        chunks = [SID_queue_assign[x:x+index_queue_separator] for x in range(0, len(SID_queue_assign), index_queue_separator)]
-        if len(chunks) >= 1 :
-            Q1_SID =[int(x) for x in chunks[0]]
-            if len(chunks) >= 2 :
-                Q2_SID =[int(x) for x in chunks[1]]
-                if len(chunks) >= 4 :
-                    Q3_SID =[int(x) for x in chunks[2]]
-                    Q4_SID =[int(x) for x in chunks[3]]
-                    if len(chunks) >= 8 :
-                        Q5_SID =[int(x) for x in chunks[4]]
-                        Q6_SID =[int(x) for x in chunks[5]]
-                        Q7_SID =[int(x) for x in chunks[6]]
-                        Q8_SID =[int(x) for x in chunks[7]]
+        SIDqueues = re.findall(r'\d+', v['SID_queue_assign']) # Input example: 1 2 | 3 4
+        SIDqueues = [[int(SIDqueues[x]), int(SIDqueues[y])] for (x, y) in [(0, 1), (2, 3)]]
 
         #===TIME limits====#
 
@@ -1268,8 +1185,28 @@ def runModel(parentFrame):
                     del TAXIqueue[first_in_line_TAXIqueue]
 
 
-        def transfer_to_2x4_RWYqueues(first_in_line_TAXIhold,Current_time):
-            if TAXIhold[first_in_line_TAXIhold][3] in Q1_SID: # First check if SID group belongs to RWYqueue1
+        def transfer_to_2x4_RWYqueues(first_in_line_TAXIhold,Current_time,queueType=v['queueType']):
+
+            # Queue selection
+            if queueType == '1x8':
+                maxRWYqueue1Length = 8
+                previousRWYqueue = 1
+            elif queueType == '2x4':
+                maxRWYqueue1Length = 4
+                maxRWYqueue2Length = 4
+                previousRWYqueue = 2 # Forces RWYqueue1 to go first
+            elif queueType == '4x2':
+                maxRWYqueue1Length = 2
+                maxRWYqueue2Length = 2
+                maxRWYqueue3Length = 2
+                maxRWYqueue4Length = 2
+                previousRWYqueue = 3 # Forces RWYqueue1/2 to go first
+            elif queueType == '8x1':
+                maxRWYqueue1Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
+                maxRWYqueue2Length = 4 # Will use 2x4 methods (accounts for 4 Queues x 1 in length)
+                previousRWYqueue = 2 # Forces RWYqueue1 to go first
+
+            if TAXIhold[first_in_line_TAXIhold][3] in SIDqueues[0]: # First check if SID group belongs to RWYqueue1
                 if len(RWYqueue1) < maxRWYqueue1Length: # if there is space in RWYqueue1 add A/C to the queue
                     TAXIhold[first_in_line_TAXIhold].append(Current_time) #RWYqueue1 entry time
                     TAXIhold[first_in_line_TAXIhold].append(0) # RWYqueue1 Delay
@@ -1278,7 +1215,7 @@ def runModel(parentFrame):
                     RWYqueue1[first_in_line_TAXIhold] = TAXIhold[first_in_line_TAXIhold]
                     del TAXIhold[first_in_line_TAXIhold]
 
-            elif TAXIhold[first_in_line_TAXIhold][3] in Q2_SID: # First check if SID group belongs to RWYqueue2
+            elif TAXIhold[first_in_line_TAXIhold][3] in SIDqueues[1]: # First check if SID group belongs to RWYqueue2
                 if len(RWYqueue2) < maxRWYqueue2Length: # if there is space in RWYqueue1 add A/C to the queue
                     TAXIhold[first_in_line_TAXIhold].append(Current_time) #RWYqueue2 entry time
                     TAXIhold[first_in_line_TAXIhold].append(0) # RWYqueue2 Delay
@@ -1464,14 +1401,14 @@ def runModel(parentFrame):
                 nextDepartureSID = departureInput['I' + str(first_in_line_RWYqueue)].value
 
                 if nextDepartureSID == previousDepartureSID: #IF the next departure SID is tha same as the previous departure SID => maximum separation
-                    minSIDsep = minDep_sameSID
+                    minSIDsep = v['minDep_sameSID']
                 # If they are not equal, check if the SID group has some more separation rules
                 elif nextDepartureSID != previousDepartureSID:
-                    minSIDsep = minDep_altSID
-                    for item in chunks2:
+                    minSIDsep = v['minDep_altSID']
+                    for item in SIDgroups:
                         if nextDepartureSID == item[0] and previousDepartureSID == item[1]:
                         #if previousDepartureSID == item[1]: # IF the previous departure SID matches the partner, apply maximum separation
-                            minSIDsep = minDep_sameSID
+                            minSIDsep = v['minDep_sameSID']
             return (minSIDsep)
 
 
@@ -1501,7 +1438,7 @@ def runModel(parentFrame):
                 minDepTime,minDepLabel = departure_separation(first_in_line_RWYqueue,DepOutput)
 
                 if DepOutput == 2: # First departure, no wake/sid constraints
-                    if (currentGap > n):
+                    if (currentGap > v['n']):
                         #TAKE-OFF
                         departureOutput['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
                         departureOutput['C' + str(DepOutput)].value = Current_time # Departure RWY Entry
@@ -1553,7 +1490,7 @@ def runModel(parentFrame):
 
                         DepOutput += 1
                 elif DepOutput != 2:
-                    if (currentGap > n) and (Current_time>(departureOutput['C' + str(DepOutput-1)].value)+minDepTime) :
+                    if (currentGap > v['n']) and (Current_time>(departureOutput['C' + str(DepOutput-1)].value)+minDepTime) :
                         #print(first_in_line_RWYqueue,' condition met', DepOutput)
                         #TAKE-OFF
                         departureOutput['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
@@ -1640,7 +1577,7 @@ def runModel(parentFrame):
                 arrivalOutput['I' + str(ArrOutput)].value = runwayCalculations['N' + str(first_in_line_ArrHOLDqueue)].value
                 arrivalOutput['J' + str(ArrOutput)].value = runwayCalculations['O' + str(first_in_line_ArrHOLDqueue)].value
                 #target time, optimised gaps
-                if flags['timeBased']:
+                if v['timeBased']:
                     if (len(RWYqueue1) + len(RWYqueue2))>0: #ther is a departure ready to go
                         if (arrivalInput['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADDA" :    #*********to be changed
                             AROT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][2]
@@ -1656,12 +1593,12 @@ def runModel(parentFrame):
                             #     DROT2 = RWYqueue2[secondDeparture][2]
                             ADDA_target_time = AROT + DROT1 + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                             ADDA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme,int(ADDA_target_time))#distance
-                            if (flags['ADDA_4DME']) and (ArrOutput>2):
+                            if (v['ADDA_4DME']) and (ArrOutput>2):
                                 Total_time_follow = int(DBS_actual_speed_profile((ADDA_target_distance+4),first_in_line_ArrHOLDqueue))
                                 Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,ArrOutput))
                                 ADDA_separation = Total_time_follow - Time_lead_4dme_to_thr
 
-                            elif flags['ADDA_THR']:
+                            elif v['ADDA_THR']:
                                 ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time
                             else:
                                 ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time - default
@@ -1679,12 +1616,12 @@ def runModel(parentFrame):
                                 DROT1 = RWYqueue2[firstDeparture][2]
                             ADA_target_time = AROT + DROT1 + x_buffer# AROT + NextDep DROT + NextDep2 DROT
                             ADA_target_distance = time_to_distance_assumed_speed_profile_GS(first_in_line_ArrHOLDqueue, d_dme, int(ADA_target_time))#distance
-                            if (flags['ADA_4DME']) and (ArrOutput>2):
+                            if (v['ADA_4DME']) and (ArrOutput>2):
                                 Total_time_follow = int(DBS_actual_speed_profile((ADA_target_distance+4),first_in_line_ArrHOLDqueue))
                                 Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,ArrOutput-1))
                                 ADA_separation = Total_time_follow - Time_lead_4dme_to_thr
 
-                            elif flags['ADA_THR']:
+                            elif v['ADA_THR']:
                                 ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
                             else:
                                 ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
@@ -1694,7 +1631,7 @@ def runModel(parentFrame):
                                 arrivalOutput['I' + str(ArrOutput)].value = ADA_separation
                     # else: # no departure ready to go
                         # max_constraint = arrivalOutput['I' + str(ArrOutput)].value
-                # elif flags['distanceBased']:
+                # elif v['distanceBased']:
                 max_constraint = arrivalOutput['I' + str(ArrOutput)].value
 
                 # print(Current_time, ArrOutput, ' | max_constraint = ', max_constraint)
@@ -1795,8 +1732,8 @@ def runModel(parentFrame):
 
         #--------------------------------MODEL RUNS-----------------------------------#
 
-        print('distanceBased = ',flags['distanceBased'])
-        print('timeBased =',flags['timeBased'])
+        print('distanceBased = ',v['distanceBased'])
+        print('timeBased =',v['timeBased'])
         while Current_time < End_time:
             # print(Current_time)
             # print(RWY_status)
@@ -1977,7 +1914,7 @@ def runModel(parentFrame):
         if (len(ARRIVALqueue)>0) or (len(APPqueue)>0) or (len(ArrHOLDqueue)>0):
             print("ERROR!!!  Check ARRIVALS")
 
-        if not flags['avgThr']:
+        if not v['avgThr']:
             output_extension = time.strftime("%H_%M", time.localtime(time.time()))
             throughputTab['F' + str(1)].value = 'Difference in thr averages'
             extra_diff=[0]*(throughputTab.max_row-1)
@@ -2066,7 +2003,7 @@ def runModel(parentFrame):
                         break
                 summ=0
                 if iter2 == 0:
-                    print('n_times 1 =', maxIter)
+                    print('maxRuns 1 =', maxIter)
                     throughputTab['F' + str(1)].value = 'Difference in thr averages'
                     extra_diff=[0]*(throughputTab.max_row-1)
 
@@ -2080,5 +2017,5 @@ def runModel(parentFrame):
                     wb.save(parentFrame.name_output_file) # Choose file name once complete?
                 else:
                     maxIter += 1
-                    print('n_times 2 =', maxIter)
+                    print('maxRuns 2 =', maxIter)
             iter1 += 1

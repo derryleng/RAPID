@@ -2297,7 +2297,7 @@ def runVisual(parentFrame):
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
                         A.plot(h,fit,'-o')
-                        A.hist(h,normed=True,bins=number_bins)
+                        A.hist(h,density=True,bins=number_bins)
 
                         A.plot(xs,ys,"r")
 
@@ -4620,7 +4620,7 @@ def runVisual(parentFrame):
             f = Figure(figsize=(5,5), dpi=100)
             A = f.add_subplot(111)
             A.plot(h,fit,'-o')
-            A.hist(h,normed=True,bins=number_bins)
+            A.hist(h,density=True,bins=number_bins)
             # A.axvline(x=15, color='red', linestyle='--')
             # A.plot(da,db, color='red',linestyle='--')
 

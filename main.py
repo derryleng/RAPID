@@ -5,14 +5,17 @@ from core_module import runModel
 from visual_module import runVisual
 
 
-class mainWindow(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self)
+class mainWindow(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.title('RAPID')
+        self.resizable(False, False)
         inputFrame(self).grid(row=0, column=0, sticky='nsew', padx=(12,6), pady=5)
         runFrame(self).grid(row=0, column=1, sticky='nsew', padx=(6,12), pady=5)
         reqFrame(self).grid(row=1, column=0, columnspan=2, sticky='nsew', padx=12, pady=5, ipady=3)
         optFrame(self).grid(row=2, column=0, columnspan=2, sticky='nsew', padx=12, pady=5)
         visualFrame(self).grid(row=3, column=0, columnspan=2, sticky='nsew', padx=12, pady=(5,12), ipady=3)
+        self.mainloop()
 
 
 class inputFrame(ttk.LabelFrame):
@@ -164,8 +167,4 @@ class runFrame(ttk.LabelFrame):
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    root.title('RAPID')
-    root.resizable(False, False)
-    mainWindow(root)
-    root.mainloop()
+    mainWindow()
