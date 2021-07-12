@@ -10,7 +10,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-def runPreprocess(parentFrame, filename):
+def runPreprocess(filename):
 
     tdf = pd.read_csv(filename)
 

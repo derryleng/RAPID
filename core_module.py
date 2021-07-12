@@ -130,13 +130,13 @@ def set_Output_Excel_headers(runwayCalculations, arrivalOutput, arrivalInput, de
 
 
 def runModel(parentFrame):
-    
+
     # ---------------------------------------------------------------------------- #
     #                               Data Preparation                               #
     # ---------------------------------------------------------------------------- #
 
     # --------------------------- parentFrame Variables -------------------------- #
-    
+
     v = {
         'filename': parentFrame.filename,
         'RECAT': bool(int(parentFrame.opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
@@ -206,7 +206,7 @@ def runModel(parentFrame):
     df_wake_WTC = df_wake_WTC.set_index('ICAO')
 
     if v['RECAT']:
-        
+
         df_wake_RECAT=pd.DataFrame()
         df_wake_RECAT['ICAO'] = df_wake['ICAO']
         df_wake_RECAT['RECAT-EU'] = df_wake['RECAT-EU']
@@ -254,11 +254,11 @@ def runModel(parentFrame):
     # ---------------------------------------------------------------------------- #
     #                             Start of Model Run(s)                            #
     # ---------------------------------------------------------------------------- #
-    
+
     while (iter1 < maxIter):
 
         program_runtime_start = time.time() # RUNTIME CALCULATION
-        
+
         wb = openpyxl.load_workbook(v['filename'], data_only=True)
 
         dict_actual_speed_profiles= {k: v for k, v in df_speed_profiles.groupby('Aircraft_Type')}

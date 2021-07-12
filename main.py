@@ -37,7 +37,7 @@ class inputFrame(ttk.LabelFrame):
         master.filename = filedialog.askopenfilename()
         if master.filename != '':
             if bool(self.procFlag.get()):
-                runPreprocess(self, master.filename)
+                runPreprocess(master.filename)
             self.loadedText.set(master.filename.split('/')[-1])
 
 
