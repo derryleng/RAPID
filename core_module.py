@@ -1,80 +1,132 @@
 import openpyxl
-import random
 import time
+import random
 import math
 import pandas as pd
 import re
 
 f_name = 'inputs/Input_File_RAPID_v3.0_15_23.xlsx'
 
-# ---------------------------------------------------------------------------- #
-#                                   Functions                                  #
-# ---------------------------------------------------------------------------- #
+class outputWorkbook:
+    """Initialises output Excel file"""
 
-# ---------------------------- Workbook Functions ---------------------------- #
+    def __init__(self, v):
+        self.workbook = openpyxl.load_workbook(v['filename'], data_only=True)
 
-# Writes a list to a worksheet row (creates worksheet if not exist)
-def writeRow(wb, ws, value_list, start_col=1, row=1):
-    if ws not in wb.sheetnames:
-        wb.create_sheet(ws)
-    for i in range(len(value_list)):
-        wb[ws][openpyxl.utils.get_column_letter(start_col + i) + str(row)].value = value_list[i]
-
-
-# Creates new sheets and columns in Workbook (new header columns are defined here)
-def initialiseOutput(wb, debugFlag):
-    writeRow(wb, 'Arrivals', [
-        'GS_0_1dme', 'GS_1_2dme', 'GS_2_3dme', 'GS_3_4dme', 'GS_4_5dme',
-        'GS_5_6dme', 'GS_6_7dme', 'GS_7_8dme', 'GS_8_9dme', 'GS_9_10dme',
-        'IAS_0_1dme', 'IAS_1_2dme', 'IAS_2_3dme', 'IAS_3_4dme', 'IAS_4_5dme',
-        'IAS_5_6dme', 'IAS_6_7dme', 'IAS_7_8dme', 'IAS_8_9dme', 'IAS_9_10dme'
-    ], start_col = 30)
-    writeRow(wb, 'Runway_calcs', [
-        'Arrival ID', 'TAXI-IN', 'AROT', 'ADA', 'ADDA',
-        'ATCO variability', 'WIND1', 'SPEED1', 'WIND2', 'SPEED2',
-        'VTGT', 'SAE', 'PREDICTED Landing Time', 'MAX Constraint', 'MAX Constraint Label',
-        '', '', 'WAKE SEPARATION', 'MRS', 'Departure ID',
-        'TAXI-OUT', 'DROT', 'ARRIVAL actual WAKE'
-    ])
-    writeRow(wb, 'Arrival_Output', [
-        'Arrival ID', 'Arrival HOUR', 'ACTUAL Landing Time', 'Arrival RWY_EXIT', 'WAKE',
-        'In Blocks Time', 'AROT', 'TAXI-IN Duration', 'MAX Constraint', 'MAX Constraint Label',
-        'len(ArrHOLDqueue)', 'Arrival DELAY'
-    ])
-    writeRow(wb, 'Departure_Output', [
-        'Departure ID', 'Departure HOUR', 'Departure_RWY_ENTRY', 'Departure_RWY_EXIT', 'WAKE',
-        'SID GROUP', 'DROT', 'TAXI-OUT', 'Dep MIN Separation', 'Dep MIN Separation Label',
-        'currentGap', 'len(DepSTANDqueue)', 'len(TAXIhold)', 'len(RWYqueue1)', 'len(RWYqueue2)',
-        'len(RWYqueue3)', 'len(RWYqueue4)', 'DELAY DepSTANDqueue', 'DELAY TAXIhold', 'DELAY RWYqueue',
-        'RWY queue USED'
-    ])
-    writeRow(wb, 'Throughput', [
-        'Hour', 'Departure Throughput', 'Arrival Throughput', 'Total Throughput', 'Cum. No. of Go-Arounds'
-    ])
-    writeRow(wb, 'Delay', [
-        'Departure ID', 'HOUR', 'RWY HOLD Delay', 'Push/Start Delay', '',
-        '', '', '', 'Arrival ID', 'HOUR', 'Arrival Delay'
-    ])
-    writeRow(wb, 'Sequence', [
-        'Type', 'ID', 'RWY ENTRY', 'RWY EXIT', 'ROT',
-        'Arr ID start ADA pair', 'ADA Buffer'
-    ])
-    if debugFlag:
-        writeRow(wb, 'Debug', [
-            'Time', 'Runway status', 'Current Gap - D', 'Current Gap - A', 'Current Gap - E',
-            '', '', '', '', '', '',  'Arrival Hold Delay'
+        # Creates new sheets and columns in Workbook (new header columns are defined here)
+        self.writeRow('Arrivals', [
+            'GS_0_1dme', 'GS_1_2dme', 'GS_2_3dme', 'GS_3_4dme', 'GS_4_5dme',
+            'GS_5_6dme', 'GS_6_7dme', 'GS_7_8dme', 'GS_8_9dme', 'GS_9_10dme',
+            'IAS_0_1dme', 'IAS_1_2dme', 'IAS_2_3dme', 'IAS_3_4dme', 'IAS_4_5dme',
+            'IAS_5_6dme', 'IAS_6_7dme', 'IAS_7_8dme', 'IAS_8_9dme', 'IAS_9_10dme'
+        ], start_col = 30)
+        self.writeRow('Runway_calcs', [
+            'Arrival ID', 'TAXI-IN', 'AROT', 'ADA', 'ADDA',
+            'ATCO variability', 'WIND1', 'SPEED1', 'WIND2', 'SPEED2',
+            'VTGT', 'SAE', 'PREDICTED Landing Time', 'MAX Constraint', 'MAX Constraint Label',
+            '', '', 'WAKE SEPARATION', 'MRS', 'Departure ID',
+            'TAXI-OUT', 'DROT', 'ARRIVAL actual WAKE'
         ])
+        self.writeRow('Arrival_Output', [
+            'Arrival ID', 'Arrival HOUR', 'ACTUAL Landing Time', 'Arrival RWY_EXIT', 'WAKE',
+            'In Blocks Time', 'AROT', 'TAXI-IN Duration', 'MAX Constraint', 'MAX Constraint Label',
+            'len(ArrHOLDqueue)', 'Arrival DELAY'
+        ])
+        self.writeRow('Departure_Output', [
+            'Departure ID', 'Departure HOUR', 'Departure_RWY_ENTRY', 'Departure_RWY_EXIT', 'WAKE',
+            'SID GROUP', 'DROT', 'TAXI-OUT', 'Dep MIN Separation', 'Dep MIN Separation Label',
+            'currentGap', 'len(DepSTANDqueue)', 'len(TAXIhold)', 'len(RWYqueue1)', 'len(RWYqueue2)',
+            'len(RWYqueue3)', 'len(RWYqueue4)', 'DELAY DepSTANDqueue', 'DELAY TAXIhold', 'DELAY RWYqueue',
+            'RWY queue USED'
+        ])
+        self.writeRow('Throughput', [
+            'Hour', 'Departure Throughput', 'Arrival Throughput', 'Total Throughput', 'Cum. No. of Go-Arounds'
+        ])
+        self.writeRow('Delay', [
+            'Departure ID', 'HOUR', 'RWY HOLD Delay', 'Push/Start Delay', '',
+            '', '', '', 'Arrival ID', 'HOUR', 'Arrival Delay'
+        ])
+        self.writeRow('Sequence', [
+            'Type', 'ID', 'RWY ENTRY', 'RWY EXIT', 'ROT',
+            'Arr ID start ADA pair', 'ADA Buffer'
+        ])
+        if v['debugTab']:
+            self.writeRow('Debug', [
+                'Time', 'Runway status', 'Current Gap - D', 'Current Gap - A', 'Current Gap - E',
+                '', '', '', '', '', '',  'Arrival Hold Delay'
+            ])
+
+        # Very necessary to reduce total running time!
+        self.TOTAL_ARRIVALS = self.workbook['Arrivals'].max_row
+        self.TOTAL_DEPARTURES = self.workbook['Departures'].max_row
+
+    def writeRow(self, ws, value_list, start_col=1, row=1):
+        """Writes a list to a worksheet row (creates worksheet if not exist)"""
+        if ws not in self.workbook.sheetnames:
+            self.workbook.create_sheet(ws)
+        for i in range(len(value_list)):
+            self.workbook[ws][openpyxl.utils.get_column_letter(start_col + i) + str(row)].value = value_list[i]
 
 
-# ---------------------------------------------------------------------------- #
-#                                 Run Function                                 #
-# ---------------------------------------------------------------------------- #
+class referenceDatasets:
+    """Imports data from utility folder"""
+
+    def __init__(self):
+
+        # AROT/DROT Lookup Table
+        self.rot_lookup = pd.read_csv('utility/AROTDROT_distributions.csv').drop(columns=['Unnamed: 0'])
+
+        # Actual Speed Profiles
+        self.speed_profile = pd.read_csv('utility/actual_speed_profiles.csv').drop(columns=['Unnamed: 0'])
+
+        self.wake_rules = {
+            # Departure Wake Rules - SOME UNUSED
+            'H_H_d': 90,
+            'H_M_d': 139, # Used for H_ UM/M/S/L
+            'J_H_d': 139, #120
+            'J_M_d': 204, #180 #2016 data
+            'J_S_d': 204, #180 #2016 data
+            'J_L_d': 204, #180 #2016 data
+            'M_L_d': 139, #Used for UM_L & M_L
+            'S_L_d': 139, #120
+
+            # (DBS) ICAO wake rules. obs: L=S and M=UM - ALL UNUSED
+            'j_h': 6,
+            'j_m': 7,
+            'j_l': 8,
+            'h_h': 4,
+            'h_m': 5,
+            'h_l': 6,
+            'm_l': 5,
+
+            # (DBS) RECAT separation (RECAT-EU edition 1.1: 15/07/2015) - ALL UNUSED
+            'A_A': 3, #same for : B_B , C_C , C_D , F_F
+            'A_B': 4, #same for : B_C , B_D , C_E , E_F
+            'A_C': 5, #same for : A_D , B_E , D_F
+            'A_D': 6, #same for : A_E , C_F
+            'A_F': 8,
+            'B_F': 7,
+
+            # (TBS) RECAT separation (RECAT-EU edition 1.1: 15/07/2015) - ALL UNUSED
+            'a_b': 100, #same for : B_C , B_D , C_E , E_F
+            'a_c': 120, #same for : B_E , C_F , D_F
+            'a_d': 140, #same for : B_F
+            'a_e': 160,
+            'a_f': 180,
+            'c_d': 80 #same for : F_F
+        }
+
+        self.wake_lookup = pd.read_csv('utility/wake.csv')
+
+        self.wake_separations = {
+            'RECAT-EU': pd.read_csv('utility/RECAT_EU_separation.csv').set_index("LEAD"),
+            'UK': pd.read_csv('utility/UK_wake_separation.csv').set_index("LEAD"),
+            'RECAT_PWS': pd.read_csv('utility/RECAT_PWS.csv').fillna(0).set_index('FOLLOW'),
+            'RECAT20': pd.read_csv('utility/RECAT20_separation.csv').fillna(0).set_index('LEAD')
+        }
+
 
 def runModel(parentFrame):
-
-    # ---------------------------------------------------------------------------- #
-    #                                  Import Data                                 #
-    # ---------------------------------------------------------------------------- #
 
     # Variables from GUI
     v = {
@@ -104,59 +156,15 @@ def runModel(parentFrame):
         'SID_queue_assign': str(parentFrame.req['SID_queue_assign_input'].get())
     }
 
-    # AROT/DROT Lookup Table
-    df_distributions = pd.read_csv('utility/AROTDROT_distributions.csv')
+    utility = referenceDatasets()
 
-    # Actual Speed Profile
-    speed_profile = pd.read_csv('utility/actual_speed_profiles.csv').drop(columns=['Unnamed: 0'])
+    # SID group separation
+    SIDgroups = re.findall(r'\d+', v['SIDgroup_separation']) # Input example: (2,4)(3,4)
+    SIDgroups = [[int(SIDgroups[x]), int(SIDgroups[y])] for (x, y) in [(0, 1), (2, 3), (3, 2), (1, 0)]]
 
-    # ----------------------------------- Wake ----------------------------------- #
-
-    wake_rules = {
-        # Departure Wake Rules - SOME UNUSED
-        'H_H_d': 90,
-        'H_M_d': 139, # Used for H_ UM/M/S/L
-        'J_H_d': 139, #120
-        'J_M_d': 204, #180 #2016 data
-        'J_S_d': 204, #180 #2016 data
-        'J_L_d': 204, #180 #2016 data
-        'M_L_d': 139, #Used for UM_L & M_L
-        'S_L_d': 139, #120
-
-        # (DBS) ICAO wake rules. obs: L=S and M=UM - ALL UNUSED
-        'j_h': 6,
-        'j_m': 7,
-        'j_l': 8,
-        'h_h': 4,
-        'h_m': 5,
-        'h_l': 6,
-        'm_l': 5,
-
-        # (DBS) RECAT separation (RECAT-EU edition 1.1: 15/07/2015) - ALL UNUSED
-        'A_A': 3, #same for : B_B , C_C , C_D , F_F
-        'A_B': 4, #same for : B_C , B_D , C_E , E_F
-        'A_C': 5, #same for : A_D , B_E , D_F
-        'A_D': 6, #same for : A_E , C_F
-        'A_F': 8,
-        'B_F': 7,
-
-        # (TBS) RECAT separation (RECAT-EU edition 1.1: 15/07/2015) - ALL UNUSED
-        'a_b': 100, #same for : B_C , B_D , C_E , E_F
-        'a_c': 120, #same for : B_E , C_F , D_F
-        'a_d': 140, #same for : B_F
-        'a_e': 160,
-        'a_f': 180,
-        'c_d': 80 #same for : F_F
-    }
-
-    wake_lookup = pd.read_csv('utility/wake.csv')
-
-    wake_separations = {
-        'RECAT-EU': pd.read_csv('utility/RECAT_EU_separation.csv').set_index("LEAD"),
-        'UK': pd.read_csv('utility/UK_wake_separation.csv').set_index("LEAD"),
-        'RECAT_PWS': pd.read_csv('utility/RECAT_PWS.csv').fillna(0).set_index('FOLLOW'),
-        'RECAT20': pd.read_csv('utility/RECAT20_separation.csv').fillna(0).set_index('LEAD')
-    }
+    # SID queue
+    SIDqueues = re.findall(r'\d+', v['SID_queue_assign']) # Input example: 1 2 | 3 4
+    SIDqueues = [[int(SIDqueues[x]), int(SIDqueues[y])] for (x, y) in [(0, 1), (2, 3)]]
 
     # ------------------------------- Run Variables ------------------------------ #
 
@@ -177,28 +185,10 @@ def runModel(parentFrame):
 
     while (iter1 < maxIter):
 
-        program_runtime_start = time.time() # RUNTIME CALCULATION
-
-        # wb = openpyxl.load_workbook(f_name, data_only=True)
-        # initialiseOutput(wb, False)
+        timer_start = time.perf_counter()
 
         # Initialise Output Workbook
-        wb = openpyxl.load_workbook(v['filename'], data_only=True)
-        initialiseOutput(wb, v['debugTab']) # New header columns are defined here
-        arrivalInput = wb['Arrivals']
-        departureInput = wb['Departures']
-        TOTAL_ARRIVALS = arrivalInput.max_row
-        TOTAL_DEPARTURES = departureInput.max_row
-        runwayCalculations = wb['Runway_calcs']
-        arrivalOutput = wb['Arrival_Output']
-        departureOutput = wb['Departure_Output']
-        throughputTab = wb['Throughput']
-        delayTab = wb['Delay']
-        sequenceTab = wb['Sequence']
-        if v['debugTab']:
-            debugTab = wb['Debug']
-
-        #---------------------------GLOBAL VARIABLES----------------------------------#
+        wb = outputWorkbook(v)
 
         c_dme = 4
         d_dme = 3
@@ -223,30 +213,10 @@ def runModel(parentFrame):
         RWYqueue4 = {}
 
         GoAroundCount = {}
-        # maxTAXIaircraft = 23 # OLD VALUE - Didn't result in any HOLDdelay!
-        maxTAXIaircraft = 15
-
-        # If no queued Departures arrive at Alpha_box - counts as 'debug'
-        countDEPdebug = 0
-        countARRdebug = 0
-
-        STANDholdDelay = 0 # Instigate new variable 'STANDholdDelay' ready to store STANDholdDelay values in DepSTANDhold queue
-        TAXIholdDelay = 0 # Instigate new variable 'TAXIholdDelay' ready to store TAXIholdDelay values in TAXIqueue
-        RWYqueueDelay = 0 # Calc time each A/C spent in RWYqueue
 
         currentGap = 86400
-        ArrthroughputRow = 2     # For throughput calcs
-        # Count number of times each method called for Debug
-        countArr = 0
-        countDep = 0
         # Arrival 'go-around' case
-        goAroundCase = False
         number_of_goArounds_queued = 0
-        #Timing variables
-        SOBTtime = 0
-        dep2time = 0
-        deptime = 0
-        currentGapErrorFLAG = False
         #ARRIVALS
         ARRkey = 2
         ArrOutput = 2
@@ -257,7 +227,7 @@ def runModel(parentFrame):
 
         x_buffer = 15
 
-        throughput =[]
+        throughput = []
 
         # ----------------------- Arrival Separation Functions ----------------------- #
 
@@ -266,25 +236,25 @@ def runModel(parentFrame):
             c_dme = 4
 
             ##### JI - THESE THREE LINES LOOK FISHY!
-            deceleration_difference= runwayCalculations['H' + str(i)].value - runwayCalculations['K' + str(i)].value
+            deceleration_difference= wb.workbook['Runway_calcs']['H' + str(i)].value - wb.workbook['Runway_calcs']['K' + str(i)].value
             if deceleration_difference > 20 :
                 c_dme = deceleration_difference / 20
             #####
 
             TBS_assumed_speed_profile_value = 0
             #time between d_dme - THR:
-            t1 = (d_dme *3600)/(runwayCalculations['K' + str(i)].value)
+            t1 = (d_dme *3600)/(wb.workbook['Runway_calcs']['K' + str(i)].value)
             #time between c_dme - d_dme:
-            t2 = (2*3600*(c_dme-d_dme))/(runwayCalculations['H' + str(i)].value+runwayCalculations['K' + str(i)].value)
+            t2 = (2*3600*(c_dme-d_dme))/(wb.workbook['Runway_calcs']['H' + str(i)].value+wb.workbook['Runway_calcs']['K' + str(i)].value)
 
             if distance >= c_dme:
-                TBS_assumed_speed_profile_value = int(t1+t2+((distance-c_dme)*3600/runwayCalculations['H' + str(i)].value))
+                TBS_assumed_speed_profile_value = int(t1+t2+((distance-c_dme)*3600/wb.workbook['Runway_calcs']['H' + str(i)].value))
             elif (distance < c_dme) and (distance>d_dme):
                 d1 = distance-d_dme
-                speed_at_d1 = (d1*( runwayCalculations['H' + str(i)].value - runwayCalculations['K' + str(i)].value ) /(c_dme-d_dme)) + runwayCalculations['K' + str(i)].value
-                TBS_assumed_speed_profile_value = int(d1*3600*2/(speed_at_d1 + runwayCalculations['K' + str(i)].value) + t1)
+                speed_at_d1 = (d1*( wb.workbook['Runway_calcs']['H' + str(i)].value - wb.workbook['Runway_calcs']['K' + str(i)].value ) /(c_dme-d_dme)) + wb.workbook['Runway_calcs']['K' + str(i)].value
+                TBS_assumed_speed_profile_value = int(d1*3600*2/(speed_at_d1 + wb.workbook['Runway_calcs']['K' + str(i)].value) + t1)
             elif distance <= d_dme:
-                TBS_assumed_speed_profile_value = int(distance*3600/runwayCalculations['K' + str(i)].value)
+                TBS_assumed_speed_profile_value = int(distance*3600/wb.workbook['Runway_calcs']['K' + str(i)].value)
             #print('TBS - on' )
 
             return TBS_assumed_speed_profile_value
@@ -293,24 +263,24 @@ def runModel(parentFrame):
         def DBS_assumed_speed_profile(i, d_dme, distance): #DELIVERED at THR
 
             c_dme = 4
-            deceleration_difference= (runwayCalculations['H' + str(i)].value - runwayCalculations['G' + str(i)].value) - (runwayCalculations['K' + str(i)].value - runwayCalculations['I' + str(i)].value)
+            deceleration_difference= (wb.workbook['Runway_calcs']['H' + str(i)].value - wb.workbook['Runway_calcs']['G' + str(i)].value) - (wb.workbook['Runway_calcs']['K' + str(i)].value - wb.workbook['Runway_calcs']['I' + str(i)].value)
             if deceleration_difference > 20 :
                 c_dme = deceleration_difference / 20
 
             DBS_assumed_speed_profile_value = 0
             #time between d_dme - THR:
-            t1 = (d_dme *3600)/(runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value)
+            t1 = (d_dme *3600)/(wb.workbook['Runway_calcs']['K' + str(i)].value-wb.workbook['Runway_calcs']['I' + str(i)].value)
             #time between c_dme - d_dme:
-            t2 = (2*3600*(c_dme-d_dme))/((runwayCalculations['H' + str(i)].value-runwayCalculations['G' + str(i)].value)+(runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value))
+            t2 = (2*3600*(c_dme-d_dme))/((wb.workbook['Runway_calcs']['H' + str(i)].value-wb.workbook['Runway_calcs']['G' + str(i)].value)+(wb.workbook['Runway_calcs']['K' + str(i)].value-wb.workbook['Runway_calcs']['I' + str(i)].value))
 
             if distance >= c_dme:
-                DBS_assumed_speed_profile_value = int(t1+t2+((distance-c_dme)*3600/(runwayCalculations['H' + str(i)].value-runwayCalculations['G' + str(i)].value)))
+                DBS_assumed_speed_profile_value = int(t1+t2+((distance-c_dme)*3600/(wb.workbook['Runway_calcs']['H' + str(i)].value-wb.workbook['Runway_calcs']['G' + str(i)].value)))
             elif (distance < c_dme) and (distance>d_dme):
                 d1 = distance-d_dme
-                speed_at_d1 = (d1*( (runwayCalculations['H' + str(i)].value-runwayCalculations['G' + str(i)].value) - (runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value) ) /(c_dme-d_dme)) + (runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value)
-                DBS_assumed_speed_profile_value = int(d1*3600*2/(speed_at_d1 + runwayCalculations['K' + str(i)].value - runwayCalculations['I' + str(i)].value) + t1)
+                speed_at_d1 = (d1*( (wb.workbook['Runway_calcs']['H' + str(i)].value-wb.workbook['Runway_calcs']['G' + str(i)].value) - (wb.workbook['Runway_calcs']['K' + str(i)].value-wb.workbook['Runway_calcs']['I' + str(i)].value) ) /(c_dme-d_dme)) + (wb.workbook['Runway_calcs']['K' + str(i)].value-wb.workbook['Runway_calcs']['I' + str(i)].value)
+                DBS_assumed_speed_profile_value = int(d1*3600*2/(speed_at_d1 + wb.workbook['Runway_calcs']['K' + str(i)].value - wb.workbook['Runway_calcs']['I' + str(i)].value) + t1)
             elif distance <= d_dme:
-                DBS_assumed_speed_profile_value = int(distance*3600/(runwayCalculations['K' + str(i)].value-runwayCalculations['I' + str(i)].value))
+                DBS_assumed_speed_profile_value = int(distance*3600/(wb.workbook['Runway_calcs']['K' + str(i)].value-wb.workbook['Runway_calcs']['I' + str(i)].value))
 
             return DBS_assumed_speed_profile_value
 
@@ -322,139 +292,139 @@ def runModel(parentFrame):
             def full_segments(n,row):
                 T= 0
                 if n >= 1:
-                    T = 2*3600/(arrivalInput['AD'+str(row)].value+arrivalInput['AE'+str(row)].value)
+                    T = 2*3600/(wb.workbook['Arrivals']['AD'+str(row)].value+wb.workbook['Arrivals']['AE'+str(row)].value)
                     if n >=2:
-                        T += 2*3600/(arrivalInput['AE'+str(row)].value +arrivalInput['AF'+str(row)].value)
+                        T += 2*3600/(wb.workbook['Arrivals']['AE'+str(row)].value +wb.workbook['Arrivals']['AF'+str(row)].value)
                         if n>=3:
-                            T += 2*3600/(arrivalInput['AF'+str(row)].value + arrivalInput['AG'+str(row)].value)
+                            T += 2*3600/(wb.workbook['Arrivals']['AF'+str(row)].value + wb.workbook['Arrivals']['AG'+str(row)].value)
                             if n>=4:
-                                T += 2*3600/(arrivalInput['AG'+str(row)].value + arrivalInput['AH'+str(row)].value)
+                                T += 2*3600/(wb.workbook['Arrivals']['AG'+str(row)].value + wb.workbook['Arrivals']['AH'+str(row)].value)
                                 if n>=5:
-                                    T += 2*3600/(arrivalInput['AH'+str(row)].value+arrivalInput['AI'+str(row)].value)
+                                    T += 2*3600/(wb.workbook['Arrivals']['AH'+str(row)].value+wb.workbook['Arrivals']['AI'+str(row)].value)
                                     if n>=6:
-                                        T += 2*3600/(arrivalInput['AI'+str(row)].value+arrivalInput['AJ'+str(row)].value)
+                                        T += 2*3600/(wb.workbook['Arrivals']['AI'+str(row)].value+wb.workbook['Arrivals']['AJ'+str(row)].value)
                                         if n>=7:
-                                            T += 2*3600/(arrivalInput['AJ'+str(row)].value+arrivalInput['AK'+str(row)].value)
+                                            T += 2*3600/(wb.workbook['Arrivals']['AJ'+str(row)].value+wb.workbook['Arrivals']['AK'+str(row)].value)
                                             if n>=8:
-                                                T += 2*3600/(arrivalInput['AK'+str(row)].value+arrivalInput['AL'+str(row)].value)
+                                                T += 2*3600/(wb.workbook['Arrivals']['AK'+str(row)].value+wb.workbook['Arrivals']['AL'+str(row)].value)
                                                 if n==9:
-                                                    T += 2*3600/(arrivalInput['AL'+str(row)].value + arrivalInput['AM'+str(row)].value)
+                                                    T += 2*3600/(wb.workbook['Arrivals']['AL'+str(row)].value + wb.workbook['Arrivals']['AM'+str(row)].value)
                                                 elif n>9:
-                                                    T += (n-9)*3600/arrivalInput['AM'+str(row)].value
+                                                    T += (n-9)*3600/wb.workbook['Arrivals']['AM'+str(row)].value
                 return T
 
 
             def fraction_of_segments(n,f,row):
                 T = 0
                 if n== 1:
-                    S = f*(arrivalInput['AF'+str(row)].value - arrivalInput['AE'+str(row)].value) + arrivalInput['AE'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AE'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AF'+str(row)].value - wb.workbook['Arrivals']['AE'+str(row)].value) + wb.workbook['Arrivals']['AE'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AE'+str(row)].value)
                 elif n==2:
-                    S = f*(arrivalInput['AG'+str(row)].value - arrivalInput['AF'+str(row)].value) + arrivalInput['AF'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AF'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AG'+str(row)].value - wb.workbook['Arrivals']['AF'+str(row)].value) + wb.workbook['Arrivals']['AF'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AF'+str(row)].value)
                 elif n==3:
-                    S = f*(arrivalInput['AH'+str(row)].value - arrivalInput['AG'+str(row)].value) + arrivalInput['AG'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AG'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AH'+str(row)].value - wb.workbook['Arrivals']['AG'+str(row)].value) + wb.workbook['Arrivals']['AG'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AG'+str(row)].value)
                 elif n==4:
-                    S = f*(arrivalInput['AI'+str(row)].value - arrivalInput['AH'+str(row)].value) + arrivalInput['AH'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AH'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AI'+str(row)].value - wb.workbook['Arrivals']['AH'+str(row)].value) + wb.workbook['Arrivals']['AH'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AH'+str(row)].value)
                 elif n==5:
-                    S = f*(arrivalInput['AJ'+str(row)].value - arrivalInput['AI'+str(row)].value) + arrivalInput['AI'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AI'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AJ'+str(row)].value - wb.workbook['Arrivals']['AI'+str(row)].value) + wb.workbook['Arrivals']['AI'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AI'+str(row)].value)
                 elif n==6:
-                    S = f*(arrivalInput['AK'+str(row)].value - arrivalInput['AJ'+str(row)].value) + arrivalInput['AJ'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AJ'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AK'+str(row)].value - wb.workbook['Arrivals']['AJ'+str(row)].value) + wb.workbook['Arrivals']['AJ'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AJ'+str(row)].value)
                 elif n==7:
-                    S = f*(arrivalInput['AL'+str(row)].value - arrivalInput['AK'+str(row)].value) + arrivalInput['AK'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AK'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AL'+str(row)].value - wb.workbook['Arrivals']['AK'+str(row)].value) + wb.workbook['Arrivals']['AK'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AK'+str(row)].value)
                 elif n==8:
-                    S = f*(arrivalInput['AM'+str(row)].value - arrivalInput['AL'+str(row)].value) + arrivalInput['AL'+str(row)].value
-                    T = (f*3600)/(arrivalInput['AM'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AM'+str(row)].value - wb.workbook['Arrivals']['AL'+str(row)].value) + wb.workbook['Arrivals']['AL'+str(row)].value
+                    T = (f*3600)/(wb.workbook['Arrivals']['AM'+str(row)].value)
                 return T
 
 
             # if distance > 0:
-            X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
+            X = distance + wb.workbook['Runway_calcs']['F' + str(row)].value # Actual distance + ATCO var
             D = X - 0.5
             if D <0:
-                T = (X*3600)/arrivalInput['AD'+str(row)].value
+                T = (X*3600)/wb.workbook['Arrivals']['AD'+str(row)].value
             elif D > 0:
                 v['n'] = math.floor(D)
                 f = D - v['n']
                 T1 = full_segments(v['n'],row)
                 if (f != 0) and (v['n']<=8):
                     T2 = fraction_of_segments(v['n'],f,row)
-                    T = T1 + T2 + (0.5*3600)/arrivalInput['AD'+str(row)].value
+                    T = T1 + T2 + (0.5*3600)/wb.workbook['Arrivals']['AD'+str(row)].value
                 else:
-                    T = T1 + (0.5*3600)/arrivalInput['AD'+str(row)].value
+                    T = T1 + (0.5*3600)/wb.workbook['Arrivals']['AD'+str(row)].value
             return T
 
 
         def TBS_actual_speed_profile(distance,row): #DELIVERED at THR # use IAS
             def full_segments(n,row):
                 if n >= 1:
-                    T = 2*3600/(arrivalInput['AN'+str(row)].value+arrivalInput['AO'+str(row)].value)
+                    T = 2*3600/(wb.workbook['Arrivals']['AN'+str(row)].value+wb.workbook['Arrivals']['AO'+str(row)].value)
                     if n >=2:
-                        T += 2*3600/(arrivalInput['AO'+str(row)].value+arrivalInput['AP'+str(row)].value)
+                        T += 2*3600/(wb.workbook['Arrivals']['AO'+str(row)].value+wb.workbook['Arrivals']['AP'+str(row)].value)
                         if n>=3:
-                            T += 2*3600/(arrivalInput['AP'+str(row)].value + arrivalInput['AQ'+str(row)].value)
+                            T += 2*3600/(wb.workbook['Arrivals']['AP'+str(row)].value + wb.workbook['Arrivals']['AQ'+str(row)].value)
                             if n>=4:
-                                T += 2*3600/(arrivalInput['AQ'+str(row)].value+arrivalInput['AR'+str(row)].value)
+                                T += 2*3600/(wb.workbook['Arrivals']['AQ'+str(row)].value+wb.workbook['Arrivals']['AR'+str(row)].value)
                                 if n>=5:
-                                    T += 2*3600/(arrivalInput['AR'+str(row)].value + arrivalInput['AS'+str(row)].value)
+                                    T += 2*3600/(wb.workbook['Arrivals']['AR'+str(row)].value + wb.workbook['Arrivals']['AS'+str(row)].value)
                                     if n>=6:
-                                        T += 2*3600/(arrivalInput['AS'+str(row)].value+arrivalInput['AT'+str(row)].value)
+                                        T += 2*3600/(wb.workbook['Arrivals']['AS'+str(row)].value+wb.workbook['Arrivals']['AT'+str(row)].value)
                                         if n>=7:
-                                            T += 2*3600/(arrivalInput['AT'+str(row)].value+arrivalInput['AU'+str(row)].value)
+                                            T += 2*3600/(wb.workbook['Arrivals']['AT'+str(row)].value+wb.workbook['Arrivals']['AU'+str(row)].value)
                                             if n>=8:
-                                                T += 2*3600/(arrivalInput['AU'+str(row)].value+arrivalInput['AV'+str(row)].value)
+                                                T += 2*3600/(wb.workbook['Arrivals']['AU'+str(row)].value+wb.workbook['Arrivals']['AV'+str(row)].value)
                                                 if n==9:
-                                                    T += 2*3600/(arrivalInput['AV'+str(row)].value + arrivalInput['AW'+str(row)].value)
+                                                    T += 2*3600/(wb.workbook['Arrivals']['AV'+str(row)].value + wb.workbook['Arrivals']['AW'+str(row)].value)
                                                 elif n>9:
-                                                    T += (n-9)*3600/arrivalInput['AW'+str(row)].value
+                                                    T += (n-9)*3600/wb.workbook['Arrivals']['AW'+str(row)].value
                 return T
 
 
             def fraction_of_segments(n,f,row):
                 if n== 1:
-                    S = f*(arrivalInput['AP'+str(row)].value - arrivalInput['AO'+str(row)].value) + arrivalInput['AO'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AO'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AP'+str(row)].value - wb.workbook['Arrivals']['AO'+str(row)].value) + wb.workbook['Arrivals']['AO'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AO'+str(row)].value)
                 elif n==2:
-                    S = f*(arrivalInput['AQ'+str(row)].value - arrivalInput['AP'+str(row)].value) + arrivalInput['AP'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AP'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AQ'+str(row)].value - wb.workbook['Arrivals']['AP'+str(row)].value) + wb.workbook['Arrivals']['AP'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AP'+str(row)].value)
                 elif n==3:
-                    S = f*(arrivalInput['AR'+str(row)].value - arrivalInput['AQ'+str(row)].value) + arrivalInput['AQ'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AQ'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AR'+str(row)].value - wb.workbook['Arrivals']['AQ'+str(row)].value) + wb.workbook['Arrivals']['AQ'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AQ'+str(row)].value)
                 elif n==4:
-                    S = f*(arrivalInput['AS'+str(row)].value - arrivalInput['AR'+str(row)].value) + arrivalInput['AR'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AR'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AS'+str(row)].value - wb.workbook['Arrivals']['AR'+str(row)].value) + wb.workbook['Arrivals']['AR'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AR'+str(row)].value)
                 elif n==5:
-                    S = f*(arrivalInput['AT'+str(row)].value - arrivalInput['AS'+str(row)].value) + arrivalInput['AS'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AS'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AT'+str(row)].value - wb.workbook['Arrivals']['AS'+str(row)].value) + wb.workbook['Arrivals']['AS'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AS'+str(row)].value)
                 elif n==6:
-                    S = f*(arrivalInput['AU'+str(row)].value - arrivalInput['AT'+str(row)].value) + arrivalInput['AT'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AT'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AU'+str(row)].value - wb.workbook['Arrivals']['AT'+str(row)].value) + wb.workbook['Arrivals']['AT'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AT'+str(row)].value)
                 elif n==7:
-                    S = f*(arrivalInput['AV'+str(row)].value - arrivalInput['AU'+str(row)].value) + arrivalInput['AU'+str(row)].value
-                    T = (f*2*3600)/(S+arrivalInput['AU'+str(row)].value)
+                    S = f*(wb.workbook['Arrivals']['AV'+str(row)].value - wb.workbook['Arrivals']['AU'+str(row)].value) + wb.workbook['Arrivals']['AU'+str(row)].value
+                    T = (f*2*3600)/(S+wb.workbook['Arrivals']['AU'+str(row)].value)
                 elif n==8:
-                    S = f*(arrivalInput['AW'+str(row)].value - arrivalInput['AV'+str(row)].value) + arrivalInput['AV'+str(row)].value
-                    T = (f*3600)/arrivalInput['AW'+str(row)].value
+                    S = f*(wb.workbook['Arrivals']['AW'+str(row)].value - wb.workbook['Arrivals']['AV'+str(row)].value) + wb.workbook['Arrivals']['AV'+str(row)].value
+                    T = (f*3600)/wb.workbook['Arrivals']['AW'+str(row)].value
                 return T
 
 
             # if distance > 0:
-            X = distance + runwayCalculations['F' + str(row)].value # Actual distance + ATCO var
+            X = distance + wb.workbook['Runway_calcs']['F' + str(row)].value # Actual distance + ATCO var
             D = X - 0.5
             if D <0:
-                T = (X*3600)/arrivalInput['AN'+str(row)].value
+                T = (X*3600)/wb.workbook['Arrivals']['AN'+str(row)].value
             elif D > 0:
                 v['n'] = math.floor(D)
                 f = D - v['n']
                 T1 = full_segments(v['n'],row)
                 if (f != 0) and (v['n']<=8):
                     T2 = fraction_of_segments(v['n'],f,row)
-                    T = T1 + T2 + (0.5*3600)/arrivalInput['AN'+str(row)].value
+                    T = T1 + T2 + (0.5*3600)/wb.workbook['Arrivals']['AN'+str(row)].value
                 else:
                     T = T1
             return T
@@ -462,53 +432,51 @@ def runModel(parentFrame):
 
         def time_to_distance_assumed_speed_profile_IAS(row, d_dme, T):
             c_dme = 4
-            deceleration_difference= (runwayCalculations['H' + str(row)].value - runwayCalculations['K' + str(row)].value)
+            deceleration_difference= (wb.workbook['Runway_calcs']['H' + str(row)].value - wb.workbook['Runway_calcs']['K' + str(row)].value)
             if deceleration_difference > 20 :
                 c_dme = deceleration_difference / 20
-            t1 = d_dme*3600/runwayCalculations['K' + str(row)].value
-            t2 = (c_dme - d_dme)*3600*2/(runwayCalculations['K' + str(row)].value + runwayCalculations['H' + str(row)].value) + t1
+            t1 = d_dme*3600/wb.workbook['Runway_calcs']['K' + str(row)].value
+            t2 = (c_dme - d_dme)*3600*2/(wb.workbook['Runway_calcs']['K' + str(row)].value + wb.workbook['Runway_calcs']['H' + str(row)].value) + t1
 
             if T <= t1 :
-                D = (runwayCalculations['K' + str(row)].value*T)/3600
+                D = (wb.workbook['Runway_calcs']['K' + str(row)].value*T)/3600
             elif (T > t1) and (T < t2):
                 t = T- t1
-                S = (t*(runwayCalculations['H' + str(row)].value-runwayCalculations['K' + str(row)].value))/t2 + runwayCalculations['K' + str(row)].value
-                D = (t*(runwayCalculations['K' + str(row)].value+S))/(2*3600) + d_dme
+                S = (t*(wb.workbook['Runway_calcs']['H' + str(row)].value-wb.workbook['Runway_calcs']['K' + str(row)].value))/t2 + wb.workbook['Runway_calcs']['K' + str(row)].value
+                D = (t*(wb.workbook['Runway_calcs']['K' + str(row)].value+S))/(2*3600) + d_dme
             elif T >= t2:
-                D = c_dme + (T-t2)*runwayCalculations['H' + str(row)].value/3600
+                D = c_dme + (T-t2)*wb.workbook['Runway_calcs']['H' + str(row)].value/3600
             return D
 
 
         def time_to_distance_assumed_speed_profile_GS(row, d_dme,T):
             c_dme = 4
-            deceleration_difference= (runwayCalculations['H' + str(row)].value - runwayCalculations['G' + str(row)].value) - (runwayCalculations['K' + str(row)].value - runwayCalculations['I' + str(row)].value)
+            deceleration_difference= (wb.workbook['Runway_calcs']['H' + str(row)].value - wb.workbook['Runway_calcs']['G' + str(row)].value) - (wb.workbook['Runway_calcs']['K' + str(row)].value - wb.workbook['Runway_calcs']['I' + str(row)].value)
             if deceleration_difference > 20 :
                 c_dme = deceleration_difference / 20
-            t1 = d_dme*3600/(runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)
-            t2 = (c_dme - d_dme)*3600*2/((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value) + (runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value)) + t1
+            t1 = d_dme*3600/(wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)
+            t2 = (c_dme - d_dme)*3600*2/((wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value) + (wb.workbook['Runway_calcs']['H' + str(row)].value- wb.workbook['Runway_calcs']['G' + str(row)].value)) + t1
 
             if T <= t1 :
-                D = ((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)*T)/3600
+                D = ((wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)*T)/3600
             elif (T > t1) and (T < t2):
                 t = T- t1
-                S = (t*((runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value)-(runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)))/t2 + (runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)
-                D = (t*((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)+S))/(2*3600) + d_dme
-                D = (T*((runwayCalculations['K' + str(row)].value- runwayCalculations['I' + str(row)].value)+(runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value))/(2*3600)) + d_dme
+                S = (t*((wb.workbook['Runway_calcs']['H' + str(row)].value- wb.workbook['Runway_calcs']['G' + str(row)].value)-(wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)))/t2 + (wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)
+                D = (t*((wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)+S))/(2*3600) + d_dme
+                D = (T*((wb.workbook['Runway_calcs']['K' + str(row)].value- wb.workbook['Runway_calcs']['I' + str(row)].value)+(wb.workbook['Runway_calcs']['H' + str(row)].value- wb.workbook['Runway_calcs']['G' + str(row)].value))/(2*3600)) + d_dme
             elif T >= t2:
-                D = c_dme + (T-t2)*(runwayCalculations['H' + str(row)].value- runwayCalculations['G' + str(row)].value)/3600
+                D = c_dme + (T-t2)*(wb.workbook['Runway_calcs']['H' + str(row)].value- wb.workbook['Runway_calcs']['G' + str(row)].value)/3600
             return D
 
 
-        # Function to pre-process the Arrival input file and make initial calculations
         def Arrival_Input_pre_process():
-
+            """Function to pre-process the Arrival input file and make initial calculations"""
             def write_actual_speed_profile_to_output(row, AC_type):
-                sp_type = speed_profile[speed_profile['Aircraft_Type'] == AC_type]
+                sp_type = utility.speed_profile[utility.speed_profile['Aircraft_Type'] == AC_type]
                 rand_row = random.randint(0, len(sp_type.index) - 1)
                 sp_start_col = sp_type.columns.get_loc('GSPD_0_1DME')
                 sp_end_col = sp_start_col + 21
-                writeRow(
-                    wb,
+                wb.writeRow(
                     'Arrivals',
                     sp_type.iloc[rand_row, sp_start_col:sp_end_col].tolist(),
                     start_col=30,
@@ -516,42 +484,42 @@ def runModel(parentFrame):
                 )
 
             # Read in Arrival data from an excel workbook
-            for row in range(2, TOTAL_ARRIVALS + 1):
+            for row in range(2, wb.TOTAL_ARRIVALS + 1):
 
-                if arrivalInput['A' + str(row)].value == None: ## Blank space in input
+                if wb.workbook['Arrivals']['A' + str(row)].value == None: ## Blank space in input
                     print("Blank space detected in input file, terminating 'Read Input' here")
                     break
 
                 #If SIBTs are in time format convert them into seconds.
-                if arrivalInput['C' + str(row)].value == None: ## SIBT seconds are not printed:
-                    SIBT = arrivalInput['B' + str(row)].value
+                if wb.workbook['Arrivals']['C' + str(row)].value == None: ## SIBT seconds are not printed:
+                    SIBT = wb.workbook['Arrivals']['B' + str(row)].value
                     SIBT_sec = (SIBT.hour * 3600) + (SIBT.minute * 60) + SIBT.second
-                    arrivalInput['C' + str(row)].value = SIBT_sec # Used from initial schedule
+                    wb.workbook['Arrivals']['C' + str(row)].value = SIBT_sec # Used from initial schedule
                 # Write WTC in arrival Input | it will be used for AROT
 
-                AC_type = arrivalInput['D' +str(row)].value
-                arrivalInput['E' +str(row)].value = wake_lookup[wake_lookup['ICAO']==AC_type]['WTC'].item()
+                AC_type = wb.workbook['Arrivals']['D' +str(row)].value
+                wb.workbook['Arrivals']['E' +str(row)].value = utility.wake_lookup[utility.wake_lookup['ICAO']==AC_type]['WTC'].item()
 
                 # Write wake categories in runway calcs | used for wake separation:
                 if v['RECAT']:
-                    AC_type = arrivalInput['D' +str(row)].value
-                    runwayCalculations['U' +str(row)].value = wake_lookup[wake_lookup['ICAO']==AC_type]['RECAT-EU'].item() #RECT-EU cat
+                    AC_type = wb.workbook['Arrivals']['D' +str(row)].value
+                    wb.workbook['Runway_calcs']['U' +str(row)].value = utility.wake_lookup[utility.wake_lookup['ICAO']==AC_type]['RECAT-EU'].item() #RECT-EU cat
                 elif v['RECAT_PWS']:
-                    AC_type = arrivalInput['D' +str(row)].value
-                    runwayCalculations['U' +str(row)].value = wake_separations['RECAT_PWS'].at[AC_type,'RECAT20']
+                    AC_type = wb.workbook['Arrivals']['D' +str(row)].value
+                    wb.workbook['Runway_calcs']['U' +str(row)].value = utility.wake_separations['RECAT_PWS'].at[AC_type,'RECAT20']
                 else:
-                    runwayCalculations['U' +str(row)].value = arrivalInput['E' +str(row)].value #WTC cat
+                    wb.workbook['Runway_calcs']['U' +str(row)].value = wb.workbook['Arrivals']['E' +str(row)].value #WTC cat
 
                 ################# ACTUAL _ SPEED _ PROFILE ####################
 
-                AC_type = arrivalInput['D' + str(row)].value
-                if AC_type in speed_profile['Aircraft_Type'].unique():
+                AC_type = wb.workbook['Arrivals']['D' + str(row)].value
+                if AC_type in utility.speed_profile['Aircraft_Type'].unique():
                     write_actual_speed_profile_to_output(row, AC_type)
                 else:
                     # Find other AC types in wake category with speed profiles
                     AC_type_other = list(
-                        set(wake_lookup[wake_lookup['RECAT-EU'] == wake_lookup[wake_lookup['ICAO'] == AC_type]['RECAT-EU'].item()]['ICAO']) &
-                        set(speed_profile['Aircraft_Type'].unique())
+                        set(utility.wake_lookup[utility.wake_lookup['RECAT-EU'] == utility.wake_lookup[utility.wake_lookup['ICAO'] == AC_type]['RECAT-EU'].item()]['ICAO']) &
+                        set(utility.speed_profile['Aircraft_Type'].unique())
                     )
                     # Select a random AC type to use
                     write_actual_speed_profile_to_output(row, random.choice(AC_type_other))
@@ -559,86 +527,86 @@ def runModel(parentFrame):
                 ######################## INTERMEDIATE CALCULATIONS ###########################
 
                 # Arrival ID
-                runwayCalculations['A' + str(row)].value = arrivalInput['A' + str(row)].value
+                wb.workbook['Runway_calcs']['A' + str(row)].value = wb.workbook['Arrivals']['A' + str(row)].value
                 ##################### TAXI-IN - normal distribution ###############
 
-                Arrival_Taxiin_mean = arrivalInput['I' + str(row)].value
-                Arrival_Taxiin_SD = arrivalInput['J' + str(row)].value
+                Arrival_Taxiin_mean = wb.workbook['Arrivals']['I' + str(row)].value
+                Arrival_Taxiin_SD = wb.workbook['Arrivals']['J' + str(row)].value
                 # taxi_outliers = True
-                # Taxiinlookup = arrivalInput['M' + str(row)].value
+                # Taxiinlookup = wb.workbook['Arrivals']['M' + str(row)].value
                 # if not taxi_outliers:
                 tempTaxiIn = random.normalvariate(Arrival_Taxiin_mean, Arrival_Taxiin_SD)
                 # else:
                     # tempTaxiIn = Taxiinlookup
-                runwayCalculations['B' + str(row)].value = round(tempTaxiIn, 0)
+                wb.workbook['Runway_calcs']['B' + str(row)].value = round(tempTaxiIn, 0)
 
                 ####################### AROT - from lookup ########################
 
-                if arrivalInput['E' + str(row)].value == "H":
-                    runwayCalculations['C' + str(row)].value = random.choice(df_distributions['AROT_H'].dropna())
-                elif arrivalInput['E' + str(row)].value == "M":
-                    runwayCalculations['C' + str(row)].value = random.choice(df_distributions['AROT_M'].dropna())
-                elif arrivalInput['E' + str(row)].value == "L":
-                    runwayCalculations['C' + str(row)].value= random.choice(df_distributions['AROT_L'].dropna())
-                elif arrivalInput['E' + str(row)].value == "UM":
-                    runwayCalculations['C' + str(row)].value = random.choice(df_distributions['AROT_UM'].dropna())
-                elif arrivalInput['E' + str(row)].value == "J":
-                    runwayCalculations['C' + str(row)].value = random.choice(df_distributions['AROT_J'].dropna())
-                elif arrivalInput['E' + str(row)].value == "S":
-                    runwayCalculations['C' + str(row)].value = random.choice(df_distributions['AROT_S'].dropna())
+                if wb.workbook['Arrivals']['E' + str(row)].value == "H":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value = random.choice(utility.rot_lookup['AROT_H'].dropna())
+                elif wb.workbook['Arrivals']['E' + str(row)].value == "M":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value = random.choice(utility.rot_lookup['AROT_M'].dropna())
+                elif wb.workbook['Arrivals']['E' + str(row)].value == "L":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value= random.choice(utility.rot_lookup['AROT_L'].dropna())
+                elif wb.workbook['Arrivals']['E' + str(row)].value == "UM":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value = random.choice(utility.rot_lookup['AROT_UM'].dropna())
+                elif wb.workbook['Arrivals']['E' + str(row)].value == "J":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value = random.choice(utility.rot_lookup['AROT_J'].dropna())
+                elif wb.workbook['Arrivals']['E' + str(row)].value == "S":
+                    wb.workbook['Runway_calcs']['C' + str(row)].value = random.choice(utility.rot_lookup['AROT_S'].dropna())
 
                 ##################### ADA - normal distribution ###############
-                ADA_mean = arrivalInput['O' + str(row)].value
-                ADA_sd = arrivalInput['P' + str(row)].value
+                ADA_mean = wb.workbook['Arrivals']['O' + str(row)].value
+                ADA_sd = wb.workbook['Arrivals']['P' + str(row)].value
                 actualADA = random.normalvariate(ADA_mean, ADA_sd)
-                runwayCalculations['D' + str(row)].value  = int(actualADA)
+                wb.workbook['Runway_calcs']['D' + str(row)].value  = int(actualADA)
 
                 ##################### ADDA - normal distribution ###############
-                ADDA_mean = arrivalInput['Q' + str(row)].value
-                ADDA_sd = arrivalInput['R' + str(row)].value
+                ADDA_mean = wb.workbook['Arrivals']['Q' + str(row)].value
+                ADDA_sd = wb.workbook['Arrivals']['R' + str(row)].value
                 actualADDA = random.normalvariate(ADDA_mean, ADDA_sd)
-                runwayCalculations['E' + str(row)].value  = int(actualADDA)
+                wb.workbook['Runway_calcs']['E' + str(row)].value  = int(actualADDA)
 
                 ################ ATCO variability - normal distribution ###########
-                ATCO_mean = arrivalInput['S' + str(row)].value
-                ATCO_sd = arrivalInput['T' + str(row)].value
+                ATCO_mean = wb.workbook['Arrivals']['S' + str(row)].value
+                ATCO_sd = wb.workbook['Arrivals']['T' + str(row)].value
                 actualATCO = random.normalvariate(ATCO_mean, ATCO_sd)
-                runwayCalculations['F' + str(row)].value  = int(actualATCO)
+                wb.workbook['Runway_calcs']['F' + str(row)].value  = int(actualATCO)
 
                 ################## ASSUMED_SPEED_PROFILE ######################
 
                 # --- WIND 1  ---#
-                WIND1_mean = arrivalInput['V' + str(row)].value
-                WIND1_sd = arrivalInput['W' + str(row)].value
+                WIND1_mean = wb.workbook['Arrivals']['V' + str(row)].value
+                WIND1_sd = wb.workbook['Arrivals']['W' + str(row)].value
                 actualWIND1 = random.normalvariate(WIND1_mean, WIND1_sd)
-                runwayCalculations['G' + str(row)].value  = actualWIND1
+                wb.workbook['Runway_calcs']['G' + str(row)].value  = actualWIND1
                 # --- SPEED 1  ---#
-                SPEED1_mean = arrivalInput['X' + str(row)].value
-                SPEED1_sd = arrivalInput['Y' + str(row)].value
+                SPEED1_mean = wb.workbook['Arrivals']['X' + str(row)].value
+                SPEED1_sd = wb.workbook['Arrivals']['Y' + str(row)].value
                 actualSPEED1 = random.normalvariate(SPEED1_mean, SPEED1_sd)
-                runwayCalculations['H' + str(row)].value  = actualSPEED1
+                wb.workbook['Runway_calcs']['H' + str(row)].value  = actualSPEED1
                 # --- WIND 2  ---#
-                WIND2_mean = arrivalInput['Z' + str(row)].value
-                WIND2_sd = arrivalInput['AA' + str(row)].value
+                WIND2_mean = wb.workbook['Arrivals']['Z' + str(row)].value
+                WIND2_sd = wb.workbook['Arrivals']['AA' + str(row)].value
                 actualWIND2 = random.normalvariate(WIND2_mean, WIND2_sd)
-                runwayCalculations['I' + str(row)].value  = actualWIND2
+                wb.workbook['Runway_calcs']['I' + str(row)].value  = actualWIND2
                 # --- SPEED 2  ---#
-                SPEED2_mean = arrivalInput['AB' + str(row)].value
-                SPEED2_sd = arrivalInput['AC' + str(row)].value
+                SPEED2_mean = wb.workbook['Arrivals']['AB' + str(row)].value
+                SPEED2_sd = wb.workbook['Arrivals']['AC' + str(row)].value
                 actualSPEED2 = random.normalvariate(SPEED2_mean, SPEED2_sd)
-                runwayCalculations['J' + str(row)].value  = actualSPEED2
+                wb.workbook['Runway_calcs']['J' + str(row)].value  = actualSPEED2
                 # --- VTGT  ---#
                 if (actualWIND2 < 5) or (actualWIND2>20):
                     wind_adjustment = 5
                 else:
                     wind_adjustment = actualWIND2*0.5
                 V_TGT = actualSPEED2 + wind_adjustment
-                runwayCalculations['K' + str(row)].value = V_TGT
+                wb.workbook['Runway_calcs']['K' + str(row)].value = V_TGT
 
                 #------ SAE -------#
-                runwayCalculations['L' + str(row)].value = arrivalInput['C' + str(row)].value - STT - 200 # SAE = SIBT - Standard Taxi Time - App length*
+                wb.workbook['Runway_calcs']['L' + str(row)].value = wb.workbook['Arrivals']['C' + str(row)].value - STT - 200 # SAE = SIBT - Standard Taxi Time - App length*
                 #---- Predicted Landing Time --------#
-                runwayCalculations['M' + str(row)].value = runwayCalculations['L' + str(row)].value + 60 # PLT = SAE + MRS*
+                wb.workbook['Runway_calcs']['M' + str(row)].value = wb.workbook['Runway_calcs']['L' + str(row)].value + 60 # PLT = SAE + MRS*
 
                 ############################ MAX CONSTRAINT CALCS ##################################
 
@@ -646,20 +614,20 @@ def runModel(parentFrame):
                     minWakeSepArr = 0 # Initialise local variable (reset on each iteration)
 
                     if v['RECAT_PWS']: # analyse by ac type
-                        previousArrival = arrivalInput['D' +str(key_of_nextArrival-1)].value
-                        currentArrival = arrivalInput['D' +str(key_of_nextArrival)].value
-                        previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value #20cat classification
-                        currentArrivalWake = runwayCalculations['U' +str(key_of_nextArrival)].value #20cat classification
+                        previousArrival = wb.workbook['Arrivals']['D' +str(key_of_nextArrival-1)].value
+                        currentArrival = wb.workbook['Arrivals']['D' +str(key_of_nextArrival)].value
+                        previousArrivalWake = wb.workbook['Runway_calcs']['U' +str(key_of_nextArrival-1)].value #20cat classification
+                        currentArrivalWake = wb.workbook['Runway_calcs']['U' +str(key_of_nextArrival)].value #20cat classification
 
                         if key_of_nextArrival == 2: #FirstArrival
                             minWakeSepArr = 0
                         else:
-                            if (currentArrival in wake_separations['RECAT_PWS']) and (previousArrival in wake_separations['RECAT_PWS']):
-                                wakeDistance = wake_separations['RECAT_PWS'].at[currentArrival,previousArrival]
+                            if (currentArrival in utility.wake_separations['RECAT_PWS']) and (previousArrival in utility.wake_separations['RECAT_PWS']):
+                                wakeDistance = utility.wake_separations['RECAT_PWS'].at[currentArrival,previousArrival]
                                 if wakeDistance==0:
-                                    wakeDistance = wake_separations['RECAT20'].at[previousArrivalWake,currentArrivalWake]
+                                    wakeDistance = utility.wake_separations['RECAT20'].at[previousArrivalWake,currentArrivalWake]
                             else: # if the pair is not in the 96x96 table, search in the 20cat
-                                wakeDistance = wake_separations['RECAT20'].at[previousArrivalWake,currentArrivalWake]
+                                wakeDistance = utility.wake_separations['RECAT20'].at[previousArrivalWake,currentArrivalWake]
 
                             if wakeDistance == 0:
                                 minWakeSepArr =0
@@ -688,16 +656,16 @@ def runModel(parentFrame):
                                         minWakeSepArr = int(DBS_actual_speed_profile(distance,key_of_nextArrival)) #time
 
                     else: #analyze by wake
-                        previousArrivalWake = runwayCalculations['U' +str(key_of_nextArrival-1)].value
-                        currentArrivalWake = runwayCalculations['U' +str(key_of_nextArrival)].value
+                        previousArrivalWake = wb.workbook['Runway_calcs']['U' +str(key_of_nextArrival-1)].value
+                        currentArrivalWake = wb.workbook['Runway_calcs']['U' +str(key_of_nextArrival)].value
                         if key_of_nextArrival == 2: #FirstArrival
                             minWakeSepArr = 0
                         else: #next arrivals
 
                             if v['RECAT']: # delievered to THR
-                                wakeDistance = wake_separations['RECAT-EU'].at[previousArrivalWake,currentArrivalWake]
+                                wakeDistance = utility.wake_separations['RECAT-EU'].at[previousArrivalWake,currentArrivalWake]
                             else: #UK cat *********** should be delievered to 4dme
-                                wakeDistance = wake_separations['UK'].at[previousArrivalWake,currentArrivalWake] #distance
+                                wakeDistance = utility.wake_separations['UK'].at[previousArrivalWake,currentArrivalWake] #distance
 
                             if wakeDistance == 0:
                                 minWakeSepArr =0
@@ -728,9 +696,9 @@ def runModel(parentFrame):
                     return(minWakeSepArr)
 
 
-                runwayCalculations['P' + str(1)].value = "WAKE SEPARATION"
-                runwayCalculations['P' + str(row)].value = int(min_wake_separation_arrs(row)) #always Distance-based
-                runwayCalculations['Q' + str(1)].value = "MRS"
+                wb.workbook['Runway_calcs']['P' + str(1)].value = "WAKE SEPARATION"
+                wb.workbook['Runway_calcs']['P' + str(row)].value = int(min_wake_separation_arrs(row)) #always Distance-based
+                wb.workbook['Runway_calcs']['Q' + str(1)].value = "MRS"
                 MRSArr = 0
 
                 if (v['MRS_4DME']) and (row>2):
@@ -742,11 +710,11 @@ def runModel(parentFrame):
                 else: # the same as the previous one but it's the default condition
                     MRSArr = int(DBS_actual_speed_profile(min_radar_separation_distance,row))  #time
 
-                runwayCalculations['Q' + str(row)].value = MRSArr
+                wb.workbook['Runway_calcs']['Q' + str(row)].value = MRSArr
 
                 def max_constraint_generator(row):
-                    wake_constraint = runwayCalculations['P' + str(row)].value
-                    MRS_constraint = runwayCalculations['Q' + str(row)].value
+                    wake_constraint = wb.workbook['Runway_calcs']['P' + str(row)].value
+                    MRS_constraint = wb.workbook['Runway_calcs']['Q' + str(row)].value
                     spFLAG = "None"
                     max_constraint = 0
 
@@ -754,9 +722,9 @@ def runModel(parentFrame):
                         max_constraint = max(wake_constraint,MRS_constraint)
                         spFLAG = "First Arrival"
                     else: #not he first arrival
-                        AROT_constraint = runwayCalculations['C' + str(row-1)].value + 5
+                        AROT_constraint = wb.workbook['Runway_calcs']['C' + str(row-1)].value + 5
 
-                        if TOTAL_DEPARTURES == 0: #no departures
+                        if wb.TOTAL_DEPARTURES == 0: #no departures
                             max_constraint = int(max(wake_constraint, MRS_constraint ,AROT_constraint))
                             if max_constraint == wake_constraint:
                                 spFLAG = "WAKE"
@@ -764,7 +732,7 @@ def runModel(parentFrame):
                                 spFLAG = "MRS"
                             else:
                                 spFLAG = "AROT"
-                        elif TOTAL_DEPARTURES > 0 and TOTAL_ARRIVALS > 0: #there are both arrivals and departures scheduled
+                        elif wb.TOTAL_DEPARTURES > 0 and wb.TOTAL_ARRIVALS > 0: #there are both arrivals and departures scheduled
                             if v['timeBased']:
 
                                 max_constraint = int(max(wake_constraint, MRS_constraint, AROT_constraint))
@@ -775,8 +743,8 @@ def runModel(parentFrame):
                                 else:
                                     spFLAG = "AROT"
                             elif v['distanceBased']:
-                                if (arrivalInput['U' + str(row)].value) == "ADDA" :
-                                    ADDA_distance = runwayCalculations['E' + str(row)].value
+                                if (wb.workbook['Arrivals']['U' + str(row)].value) == "ADDA" :
+                                    ADDA_distance = wb.workbook['Runway_calcs']['E' + str(row)].value
                                     if (v['ADDA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADDA_distance+4),row))
                                         Time_lead_4dme_to_thr = int(DBS_actual_speed_profile(4,(row-1)))
@@ -796,9 +764,9 @@ def runModel(parentFrame):
                                         spFLAG = "MRS"
                                     else:
                                         spFLAG = "AROT"
-                                elif (arrivalInput['U' + str(row)].value) == "ADA" :
+                                elif (wb.workbook['Arrivals']['U' + str(row)].value) == "ADA" :
 
-                                    ADA_distance = runwayCalculations['D' + str(row)].value
+                                    ADA_distance = wb.workbook['Runway_calcs']['D' + str(row)].value
 
                                     if (v['ADA_4DME']) and (row>2):
                                         Total_time_follow = int(DBS_actual_speed_profile((ADA_distance+4),row))
@@ -832,53 +800,52 @@ def runModel(parentFrame):
 
                 ################################### MAX CONSTRAINT PRINT ###################################
 
-                runwayCalculations['N' + str(row)].value = max_constraint_generator(row)['a']
-                runwayCalculations['O' + str(row)].value = max_constraint_generator(row)['b']
+                wb.workbook['Runway_calcs']['N' + str(row)].value = max_constraint_generator(row)['a']
+                wb.workbook['Runway_calcs']['O' + str(row)].value = max_constraint_generator(row)['b']
 
 
-        # Function to pre-process the Departure input file and make initial calculations
         def Departure_Input_pre_process():
-
+            """Function to pre-process the Departure input file and make initial calculations"""
             # Initialise Departure input
             # Read in Departure data from an excel workbook
-            for row in range(2, TOTAL_DEPARTURES + 1):
-                if departureInput['A' + str(row)].value == None:  # NO (more) DEPARTURES
+            for row in range(2, wb.TOTAL_DEPARTURES + 1):
+                if wb.workbook['Departures']['A' + str(row)].value == None:  # NO (more) DEPARTURES
                     print("Blank space detected in input file, terminating 'Read Input' here")
                     break
-                if departureInput['C' + str(row)].value == None: #SOBT are in time-format
-                    SOBT = departureInput['B' + str(row)].value
+                if wb.workbook['Departures']['C' + str(row)].value == None: #SOBT are in time-format
+                    SOBT = wb.workbook['Departures']['B' + str(row)].value
                     SOBT_sec = (SOBT.hour * 3600) + (SOBT.minute * 60) + SOBT.second
-                    departureInput['C' + str(row)].value = SOBT_sec # Used from initial schedule
+                    wb.workbook['Departures']['C' + str(row)].value = SOBT_sec # Used from initial schedule
 
                 ################### INTERMEDIATE CALCULATIONS #####################
 
                 #-----Departure WAKE category-----#
-                AC_type = departureInput['F' +str(row)].value
-                departureInput['H' +str(row)].value = wake_lookup[wake_lookup['ICAO']==AC_type]['WTC'].item()
+                AC_type = wb.workbook['Departures']['F' +str(row)].value
+                wb.workbook['Departures']['H' +str(row)].value = utility.wake_lookup[utility.wake_lookup['ICAO']==AC_type]['WTC'].item()
 
                 #----Departure ID -----#
-                runwayCalculations['R' + str(row)].value = departureInput['A' + str(row)].value
+                wb.workbook['Runway_calcs']['R' + str(row)].value = wb.workbook['Departures']['A' + str(row)].value
 
                 #------TAXI-OUT------#
 
-                Departure_Taxiout_mean = departureInput['K' + str(row)].value
-                Departure_Taxiout_SD = departureInput['L' + str(row)].value
+                Departure_Taxiout_mean = wb.workbook['Departures']['K' + str(row)].value
+                Departure_Taxiout_SD = wb.workbook['Departures']['L' + str(row)].value
                 actualTAXIOUT = random.normalvariate(Departure_Taxiout_mean, Departure_Taxiout_SD)
-                runwayCalculations['S' + str(row)].value = round(actualTAXIOUT,0)
+                wb.workbook['Runway_calcs']['S' + str(row)].value = round(actualTAXIOUT,0)
 
                 #------ DROT-------#
-                if departureInput['H' + str(row)].value == "H":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_H'].dropna())
-                elif departureInput['H' + str(row)].value == "M":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_M'].dropna())
-                elif departureInput['H' + str(row)].value == "L":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_L'].dropna())
-                elif departureInput['H' + str(row)].value == "UM":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_UM'].dropna())
-                elif departureInput['H' + str(row)].value == "J":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_J'].dropna())
-                elif departureInput['H' + str(row)].value == "S":
-                    runwayCalculations['T' + str(row)].value = random.choice(df_distributions['DROT_S'].dropna())
+                if wb.workbook['Departures']['H' + str(row)].value == "H":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_H'].dropna())
+                elif wb.workbook['Departures']['H' + str(row)].value == "M":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_M'].dropna())
+                elif wb.workbook['Departures']['H' + str(row)].value == "L":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_L'].dropna())
+                elif wb.workbook['Departures']['H' + str(row)].value == "UM":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_UM'].dropna())
+                elif wb.workbook['Departures']['H' + str(row)].value == "J":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_J'].dropna())
+                elif wb.workbook['Departures']['H' + str(row)].value == "S":
+                    wb.workbook['Runway_calcs']['T' + str(row)].value = random.choice(utility.rot_lookup['DROT_S'].dropna())
 
 
         # ------------------------ Arrival Movement Functions ------------------------ #
@@ -890,9 +857,9 @@ def runModel(parentFrame):
 
 
         def SAE_lookup(Current_time, ARRkey):
-            if ARRkey != (TOTAL_ARRIVALS - 1):
-                if Current_time >= runwayCalculations['L' + str(ARRkey)].value : # Current_time = SAE
-                    ArrHOLDqueue[ARRkey] = [arrivalInput['A' + str(ARRkey)].value, runwayCalculations['L' + str(ARRkey)].value, runwayCalculations['C' + str(ARRkey)].value, runwayCalculations['M' + str(ARRkey)].value, 0]
+            if ARRkey != (wb.TOTAL_ARRIVALS - 1):
+                if Current_time >= wb.workbook['Runway_calcs']['L' + str(ARRkey)].value : # Current_time = SAE
+                    ArrHOLDqueue[ARRkey] = [wb.workbook['Arrivals']['A' + str(ARRkey)].value, wb.workbook['Runway_calcs']['L' + str(ARRkey)].value, wb.workbook['Runway_calcs']['C' + str(ARRkey)].value, wb.workbook['Runway_calcs']['M' + str(ARRkey)].value, 0]
                     ARRkey += 1
             update_ArrHOLDqueue_Delay(Current_time)
             return (ARRkey)
@@ -904,12 +871,12 @@ def runModel(parentFrame):
                 first_in_line_ArrHOLDqueue = min(list(ArrHOLDqueue.keys()))
 
                 max_constraint = 0
-                arrivalOutput['I' + str(ArrOutput)].value = runwayCalculations['N' + str(first_in_line_ArrHOLDqueue)].value
-                arrivalOutput['J' + str(ArrOutput)].value = runwayCalculations['O' + str(first_in_line_ArrHOLDqueue)].value
+                wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value = wb.workbook['Runway_calcs']['N' + str(first_in_line_ArrHOLDqueue)].value
+                wb.workbook['Arrival_Output']['J' + str(ArrOutput)].value = wb.workbook['Runway_calcs']['O' + str(first_in_line_ArrHOLDqueue)].value
                 #target time, optimised gaps
                 if v['timeBased']:
                     if (len(RWYqueue1) + len(RWYqueue2))>0: #ther is a departure ready to go
-                        if (arrivalInput['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADDA" :    #*********to be changed
+                        if (wb.workbook['Arrivals']['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADDA" :    #*********to be changed
                             AROT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][2]
                             firstDeparture, currentRWYqueue = first_in_line_RWYqueue_funct(DepOutput,End_time)
                             if currentRWYqueue == 1:
@@ -933,11 +900,11 @@ def runModel(parentFrame):
                             else:
                                 ADDA_separation = int(DBS_actual_speed_profile(ADDA_target_distance,first_in_line_ArrHOLDqueue)) #time - default
 
-                            if ADDA_separation > arrivalOutput['I' + str(ArrOutput)].value:
-                                arrivalOutput['J' + str(ArrOutput)].value= "ADDA"
-                                arrivalOutput['I' + str(ArrOutput)].value = ADDA_separation
+                            if ADDA_separation > wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value:
+                                wb.workbook['Arrival_Output']['J' + str(ArrOutput)].value= "ADDA"
+                                wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value = ADDA_separation
 
-                        elif (arrivalInput['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADA" :
+                        elif (wb.workbook['Arrivals']['U' + str(first_in_line_ArrHOLDqueue)].value) == "ADA" :
                             AROT = ArrHOLDqueue[first_in_line_ArrHOLDqueue][2]
                             firstDeparture, currentRWYqueue = first_in_line_RWYqueue_funct(DepOutput,End_time)
                             if currentRWYqueue == 1:
@@ -956,13 +923,13 @@ def runModel(parentFrame):
                             else:
                                 ADA_separation = int(DBS_actual_speed_profile(ADA_target_distance,first_in_line_ArrHOLDqueue)) #time
 
-                            if ADA_separation > arrivalOutput['I' + str(ArrOutput)].value:
-                                arrivalOutput['J' + str(ArrOutput)].value = "ADA"
-                                arrivalOutput['I' + str(ArrOutput)].value = ADA_separation
+                            if ADA_separation > wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value:
+                                wb.workbook['Arrival_Output']['J' + str(ArrOutput)].value = "ADA"
+                                wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value = ADA_separation
                     # else: # no departure ready to go
-                        # max_constraint = arrivalOutput['I' + str(ArrOutput)].value
+                        # max_constraint = wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value
                 # elif v['distanceBased']:
-                max_constraint = arrivalOutput['I' + str(ArrOutput)].value
+                max_constraint = wb.workbook['Arrival_Output']['I' + str(ArrOutput)].value
 
                 # print(Current_time, ArrOutput, ' | max_constraint = ', max_constraint)
 
@@ -998,29 +965,29 @@ def runModel(parentFrame):
 
             elif RWY_status == "E":
                 #print(RWY_status)
-                arrivalOutput['A' + str(ArrOutput)].value = arrivalInput['A' + str(first_in_line_APPqueue)].value #ARR ID
-                arrivalOutput['B' + str(ArrOutput)].value = int(Current_time/3600) #LANDING HOUR
-                arrivalOutput['C' + str(ArrOutput)].value = Current_time #ACTUAL LANDING TIME
-                arrivalOutput['D' + str(ArrOutput)].value = APPqueue[first_in_line_APPqueue][7] # RWY EXIT
-                arrivalOutput['E' + str(ArrOutput)].value = runwayCalculations['U' + str(first_in_line_APPqueue)].value #WAKE
-                arrivalOutput['F' + str(ArrOutput)].value = arrivalOutput['D' + str(ArrOutput)].value + runwayCalculations['B' + str(first_in_line_APPqueue)].value #In blocks time
-                arrivalOutput['G' + str(ArrOutput)].value = runwayCalculations['C' + str(first_in_line_APPqueue)].value#AROT
-                arrivalOutput['H' + str(ArrOutput)].value = runwayCalculations['B' + str(first_in_line_APPqueue)].value# Taxi-in duration
+                wb.workbook['Arrival_Output']['A' + str(ArrOutput)].value = wb.workbook['Arrivals']['A' + str(first_in_line_APPqueue)].value #ARR ID
+                wb.workbook['Arrival_Output']['B' + str(ArrOutput)].value = int(Current_time/3600) #LANDING HOUR
+                wb.workbook['Arrival_Output']['C' + str(ArrOutput)].value = Current_time #ACTUAL LANDING TIME
+                wb.workbook['Arrival_Output']['D' + str(ArrOutput)].value = APPqueue[first_in_line_APPqueue][7] # RWY EXIT
+                wb.workbook['Arrival_Output']['E' + str(ArrOutput)].value = wb.workbook['Runway_calcs']['U' + str(first_in_line_APPqueue)].value #WAKE
+                wb.workbook['Arrival_Output']['F' + str(ArrOutput)].value = wb.workbook['Arrival_Output']['D' + str(ArrOutput)].value + wb.workbook['Runway_calcs']['B' + str(first_in_line_APPqueue)].value #In blocks time
+                wb.workbook['Arrival_Output']['G' + str(ArrOutput)].value = wb.workbook['Runway_calcs']['C' + str(first_in_line_APPqueue)].value#AROT
+                wb.workbook['Arrival_Output']['H' + str(ArrOutput)].value = wb.workbook['Runway_calcs']['B' + str(first_in_line_APPqueue)].value# Taxi-in duration
 
 
-                arrivalOutput['K' + str(ArrOutput)].value = len(ArrHOLDqueue)#length ArrHOLDqueue
-                arrivalOutput['L' + str(ArrOutput)].value = APPqueue[first_in_line_APPqueue][4]# ArrHOLDqueue delay
-                AIBT = arrivalOutput['F' + str(ArrOutput)].value
+                wb.workbook['Arrival_Output']['K' + str(ArrOutput)].value = len(ArrHOLDqueue)#length ArrHOLDqueue
+                wb.workbook['Arrival_Output']['L' + str(ArrOutput)].value = APPqueue[first_in_line_APPqueue][4]# ArrHOLDqueue delay
+                AIBT = wb.workbook['Arrival_Output']['F' + str(ArrOutput)].value
 
                 #Add Arrival to ARRIVALqueue
-                ARRIVALqueue[first_in_line_APPqueue]=[arrivalOutput['A' + str(ArrOutput)].value, AIBT, ArrOutput]
+                ARRIVALqueue[first_in_line_APPqueue]=[wb.workbook['Arrival_Output']['A' + str(ArrOutput)].value, AIBT, ArrOutput]
                 #print('ARRIVALqueue = ', list(ARRIVALqueue.keys()))
                 del APPqueue[first_in_line_APPqueue]
-                sequenceTab['A' + str(seqRow)].value = 'A'
-                sequenceTab['B' + str(seqRow)].value = arrivalOutput['A' + str(ArrOutput)].value
-                sequenceTab['C' + str(seqRow)].value = arrivalOutput['C' + str(ArrOutput)].value
-                sequenceTab['D' + str(seqRow)].value = arrivalOutput['D' + str(ArrOutput)].value
-                sequenceTab['E' + str(seqRow)].value = arrivalOutput['G' + str(ArrOutput)].value
+                wb.workbook['Sequence']['A' + str(seqRow)].value = 'A'
+                wb.workbook['Sequence']['B' + str(seqRow)].value = wb.workbook['Arrival_Output']['A' + str(ArrOutput)].value
+                wb.workbook['Sequence']['C' + str(seqRow)].value = wb.workbook['Arrival_Output']['C' + str(ArrOutput)].value
+                wb.workbook['Sequence']['D' + str(seqRow)].value = wb.workbook['Arrival_Output']['D' + str(ArrOutput)].value
+                wb.workbook['Sequence']['E' + str(seqRow)].value = wb.workbook['Arrival_Output']['G' + str(ArrOutput)].value
                 ArrOutput+=1
                 seqRow += 1
 
@@ -1082,9 +1049,9 @@ def runModel(parentFrame):
 
 
         def SOBTlookup(Current_time, SOBTrow):
-            if SOBTrow < TOTAL_DEPARTURES - 1:
-                if Current_time >= departureInput['C' + str(SOBTrow)].value :# Current time = SOBT
-                    DepSTANDqueue[SOBTrow]=[departureInput['A' + str(SOBTrow)].value,departureInput['C' + str(SOBTrow)].value,runwayCalculations['T' + str(SOBTrow)].value,departureInput['I' + str(SOBTrow)].value,0]
+            if SOBTrow < wb.TOTAL_DEPARTURES - 1:
+                if Current_time >= wb.workbook['Departures']['C' + str(SOBTrow)].value :# Current time = SOBT
+                    DepSTANDqueue[SOBTrow]=[wb.workbook['Departures']['A' + str(SOBTrow)].value,wb.workbook['Departures']['C' + str(SOBTrow)].value,wb.workbook['Runway_calcs']['T' + str(SOBTrow)].value,wb.workbook['Departures']['I' + str(SOBTrow)].value,0]
                     SOBTrow += 1
             return SOBTrow
 
@@ -1095,7 +1062,7 @@ def runModel(parentFrame):
             first_in_line_DepSTANDqueue = min(list(DepSTANDqueue.keys()))
 
             DepSTANDqueue[first_in_line_DepSTANDqueue].append(Current_time) #TAXIqueue entry time
-            DepSTANDqueue[first_in_line_DepSTANDqueue].append(runwayCalculations['S' + str(first_in_line_DepSTANDqueue)].value) #TAXI-out
+            DepSTANDqueue[first_in_line_DepSTANDqueue].append(wb.workbook['Runway_calcs']['S' + str(first_in_line_DepSTANDqueue)].value) #TAXI-out
 
 
             #ADD first_in_line_DepSTANDqueue to TAXIqueue:
@@ -1207,7 +1174,7 @@ def runModel(parentFrame):
                     currentRWYqueue = 2
 
             elif DepOutput!=2 :
-                if departureOutput['U' + str(DepOutput-1)].value == 1: #If previous departure started from queue 1
+                if wb.workbook['Departure_Output']['U' + str(DepOutput-1)].value == 1: #If previous departure started from queue 1
 
                     # use RWYqueue2
                     if len(RWYqueue2)>0: #There is smth in the queue
@@ -1227,7 +1194,7 @@ def runModel(parentFrame):
                                 min_entry_time = RWYqueue1[AC][9]
                                 first_in_line_RWYqueue = AC
                         currentRWYqueue = 1
-                elif departureOutput['U' + str(DepOutput-1)].value == 2: #If previous departure started from queue 2
+                elif wb.workbook['Departure_Output']['U' + str(DepOutput-1)].value == 2: #If previous departure started from queue 2
 
                     # use RWYqueue1
                     if len(RWYqueue1)>0: #There is smth in the queue
@@ -1289,18 +1256,18 @@ def runModel(parentFrame):
             if DepOutput == 2: #first departure:
                 minWakeSep = 0
             else:
-                previousDepartureWake = departureOutput['E' + str(DepOutput-1)].value
-                currentDepartureWake = departureInput['H' + str(first_in_line_RWYqueue)].value
+                previousDepartureWake = wb.workbook['Departure_Output']['E' + str(DepOutput-1)].value
+                currentDepartureWake = wb.workbook['Departures']['H' + str(first_in_line_RWYqueue)].value
 
                 if previousDepartureWake == "J":
                     if currentDepartureWake == "J":
                         minWakeSep = 0
                     elif currentDepartureWake == "H":
-                        minWakeSep = wake_rules['J_H_d']
+                        minWakeSep = utility.wake_rules['J_H_d']
                     elif (currentDepartureWake == "UM") or (currentDepartureWake == "M"):
-                        minWakeSep = wake_rules['J_H_d']
+                        minWakeSep = utility.wake_rules['J_H_d']
                     elif (currentDepartureWake == "S") or (currentDepartureWake == "L"):
-                        minWakeSep = wake_rules['J_L_d']
+                        minWakeSep = utility.wake_rules['J_L_d']
                     else:
                         print("[J-] Wake Category other than normal detected - check Input file")
 
@@ -1308,17 +1275,17 @@ def runModel(parentFrame):
                     if currentDepartureWake == "J":
                         minWakeSep = 0
                     elif currentDepartureWake == "H":
-                        minWakeSep = wake_rules['H_H_d']
+                        minWakeSep = utility.wake_rules['H_H_d']
                     elif (currentDepartureWake == "UM") or (currentDepartureWake == "M"):
-                        minWakeSep = wake_rules['H_M_d']
+                        minWakeSep = utility.wake_rules['H_M_d']
                     elif (currentDepartureWake == "S") or (currentDepartureWake == "L"):
-                        minWakeSep = wake_rules['H_M_d']
+                        minWakeSep = utility.wake_rules['H_M_d']
                     else:
                         print("[H-] Wake Category other than normal detected - check Input file")
 
                 elif (previousDepartureWake == "UM") or (previousDepartureWake == "M"):
                     if currentDepartureWake == "L":
-                        minWakeSep = wake_rules['M_L_d']
+                        minWakeSep = utility.wake_rules['M_L_d']
                     else:
                         minWakeSep = 0
 
@@ -1338,8 +1305,8 @@ def runModel(parentFrame):
                 minSIDsep = 0
             else:
                 # Compares SID groups between the previous and current A/C - then sets 'minSIDsep' variable as either altSID or sameSID
-                previousDepartureSID = departureOutput['F' + str(DepOutput-1)].value
-                nextDepartureSID = departureInput['I' + str(first_in_line_RWYqueue)].value
+                previousDepartureSID = wb.workbook['Departure_Output']['F' + str(DepOutput-1)].value
+                nextDepartureSID = wb.workbook['Departures']['I' + str(first_in_line_RWYqueue)].value
 
                 if nextDepartureSID == previousDepartureSID: #IF the next departure SID is tha same as the previous departure SID => maximum separation
                     minSIDsep = v['minDep_sameSID']
@@ -1381,164 +1348,147 @@ def runModel(parentFrame):
                 if DepOutput == 2: # First departure, no wake/sid constraints
                     if (currentGap > v['n']):
                         #TAKE-OFF
-                        departureOutput['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
-                        departureOutput['C' + str(DepOutput)].value = Current_time # Departure RWY Entry
+                        wb.workbook['Departure_Output']['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
+                        wb.workbook['Departure_Output']['C' + str(DepOutput)].value = Current_time # Departure RWY Entry
 
                         if currentRWYqueue == 1:
-                            departureOutput['A' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][0] # AC ID
-                            departureOutput['D' + str(DepOutput)].value = departureOutput['C' + str(DepOutput)].value + RWYqueue1[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
-                            departureOutput['E' + str(DepOutput)].value = departureInput['H'+ str(first_in_line_RWYqueue)].value #WAKE
-                            departureOutput['F' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][3] #SID
-                            departureOutput['G' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][2]#DROT
-                            departureOutput['H' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][6]#TAXIOUT
-                            departureOutput['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
-                            departureOutput['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
-                            departureOutput['K' + str(DepOutput)].value = currentGap#currentGap
-                            departureOutput['L' + str(DepOutput)].value = len(DepSTANDqueue)
-                            departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
-                            departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
-                            departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-                            # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-                            # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
-                            departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
-                            departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
-                            departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
-                            departureOutput['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
+                            wb.workbook['Departure_Output']['A' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][0] # AC ID
+                            wb.workbook['Departure_Output']['D' + str(DepOutput)].value = wb.workbook['Departure_Output']['C' + str(DepOutput)].value + RWYqueue1[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
+                            wb.workbook['Departure_Output']['E' + str(DepOutput)].value = wb.workbook['Departures']['H'+ str(first_in_line_RWYqueue)].value #WAKE
+                            wb.workbook['Departure_Output']['F' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][3] #SID
+                            wb.workbook['Departure_Output']['G' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][2]#DROT
+                            wb.workbook['Departure_Output']['H' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][6]#TAXIOUT
+                            wb.workbook['Departure_Output']['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
+                            wb.workbook['Departure_Output']['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
+                            wb.workbook['Departure_Output']['K' + str(DepOutput)].value = currentGap#currentGap
+                            wb.workbook['Departure_Output']['L' + str(DepOutput)].value = len(DepSTANDqueue)
+                            wb.workbook['Departure_Output']['M' + str(DepOutput)].value = len(TAXIhold)
+                            wb.workbook['Departure_Output']['N' + str(DepOutput)].value = len(RWYqueue1)
+                            wb.workbook['Departure_Output']['O' + str(DepOutput)].value = len(RWYqueue2)
+                            # wb.workbook['Departure_Output']['P' + str(DepOutput)].value = len(RWYqueue3)
+                            # wb.workbook['Departure_Output']['Q' + str(DepOutput)].value = len(RWYqueue4)
+                            wb.workbook['Departure_Output']['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
+                            wb.workbook['Departure_Output']['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
+                            wb.workbook['Departure_Output']['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
+                            wb.workbook['Departure_Output']['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
 
                             del RWYqueue1[first_in_line_RWYqueue]
 
                         elif currentRWYqueue == 2:
-                            departureOutput['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID
-                            departureOutput['D' + str(DepOutput)].value = departureOutput['C' + str(DepOutput)].value + RWYqueue2[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
-                            departureOutput['E' + str(DepOutput)].value = departureInput['H'+ str(first_in_line_RWYqueue)].value #WAKE
-                            departureOutput['F' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][3] #SID
-                            departureOutput['G' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][2]#DROT
-                            departureOutput['H' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][6]#TAXIOUT
-                            departureOutput['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
-                            departureOutput['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
-                            departureOutput['K' + str(DepOutput)].value = currentGap#currentGap
-                            departureOutput['L' + str(DepOutput)].value = len(DepSTANDqueue)
-                            departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
-                            departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
-                            departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-                            # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-                            # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
-                            departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
-                            departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
-                            departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
-                            departureOutput['U' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][11]#RWYqueue USED
+                            wb.workbook['Departure_Output']['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID
+                            wb.workbook['Departure_Output']['D' + str(DepOutput)].value = wb.workbook['Departure_Output']['C' + str(DepOutput)].value + RWYqueue2[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
+                            wb.workbook['Departure_Output']['E' + str(DepOutput)].value = wb.workbook['Departures']['H'+ str(first_in_line_RWYqueue)].value #WAKE
+                            wb.workbook['Departure_Output']['F' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][3] #SID
+                            wb.workbook['Departure_Output']['G' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][2]#DROT
+                            wb.workbook['Departure_Output']['H' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][6]#TAXIOUT
+                            wb.workbook['Departure_Output']['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
+                            wb.workbook['Departure_Output']['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
+                            wb.workbook['Departure_Output']['K' + str(DepOutput)].value = currentGap#currentGap
+                            wb.workbook['Departure_Output']['L' + str(DepOutput)].value = len(DepSTANDqueue)
+                            wb.workbook['Departure_Output']['M' + str(DepOutput)].value = len(TAXIhold)
+                            wb.workbook['Departure_Output']['N' + str(DepOutput)].value = len(RWYqueue1)
+                            wb.workbook['Departure_Output']['O' + str(DepOutput)].value = len(RWYqueue2)
+                            # wb.workbook['Departure_Output']['P' + str(DepOutput)].value = len(RWYqueue3)
+                            # wb.workbook['Departure_Output']['Q' + str(DepOutput)].value = len(RWYqueue4)
+                            wb.workbook['Departure_Output']['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
+                            wb.workbook['Departure_Output']['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
+                            wb.workbook['Departure_Output']['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
+                            wb.workbook['Departure_Output']['U' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][11]#RWYqueue USED
                             del RWYqueue2[first_in_line_RWYqueue]
 
                         DepOutput += 1
                 elif DepOutput != 2:
-                    if (currentGap > v['n']) and (Current_time>(departureOutput['C' + str(DepOutput-1)].value)+minDepTime) :
+                    if (currentGap > v['n']) and (Current_time>(wb.workbook['Departure_Output']['C' + str(DepOutput-1)].value)+minDepTime) :
                         #print(first_in_line_RWYqueue,' condition met', DepOutput)
                         #TAKE-OFF
-                        departureOutput['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
-                        departureOutput['C' + str(DepOutput)].value = Current_time # Departure RWY Entry
+                        wb.workbook['Departure_Output']['B' + str(DepOutput)].value = int(Current_time/3600) # Dep HOUR
+                        wb.workbook['Departure_Output']['C' + str(DepOutput)].value = Current_time # Departure RWY Entry
 
                         if currentRWYqueue == 1:
-                            departureOutput['A' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][0] # AC ID
-                            departureOutput['D' + str(DepOutput)].value = departureOutput['C' + str(DepOutput)].value + RWYqueue1[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
-                            departureOutput['E' + str(DepOutput)].value = departureInput['H'+ str(first_in_line_RWYqueue)].value #WAKE
-                            departureOutput['F' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][3] #SID
-                            departureOutput['G' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][2]#DROT
-                            departureOutput['H' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][6]#TAXIOUT
-                            departureOutput['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
-                            departureOutput['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
-                            departureOutput['K' + str(DepOutput)].value = currentGap#currentGap
-                            departureOutput['L' + str(DepOutput)].value = len(DepSTANDqueue)
-                            departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
-                            departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
-                            departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-                            # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-                            # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
-                            departureOutput['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
-                            departureOutput['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
-                            departureOutput['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
-                            departureOutput['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
+                            wb.workbook['Departure_Output']['A' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][0] # AC ID
+                            wb.workbook['Departure_Output']['D' + str(DepOutput)].value = wb.workbook['Departure_Output']['C' + str(DepOutput)].value + RWYqueue1[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
+                            wb.workbook['Departure_Output']['E' + str(DepOutput)].value = wb.workbook['Departures']['H'+ str(first_in_line_RWYqueue)].value #WAKE
+                            wb.workbook['Departure_Output']['F' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][3] #SID
+                            wb.workbook['Departure_Output']['G' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][2]#DROT
+                            wb.workbook['Departure_Output']['H' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][6]#TAXIOUT
+                            wb.workbook['Departure_Output']['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
+                            wb.workbook['Departure_Output']['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
+                            wb.workbook['Departure_Output']['K' + str(DepOutput)].value = currentGap#currentGap
+                            wb.workbook['Departure_Output']['L' + str(DepOutput)].value = len(DepSTANDqueue)
+                            wb.workbook['Departure_Output']['M' + str(DepOutput)].value = len(TAXIhold)
+                            wb.workbook['Departure_Output']['N' + str(DepOutput)].value = len(RWYqueue1)
+                            wb.workbook['Departure_Output']['O' + str(DepOutput)].value = len(RWYqueue2)
+                            # wb.workbook['Departure_Output']['P' + str(DepOutput)].value = len(RWYqueue3)
+                            # wb.workbook['Departure_Output']['Q' + str(DepOutput)].value = len(RWYqueue4)
+                            wb.workbook['Departure_Output']['R' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
+                            wb.workbook['Departure_Output']['S' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][8]#DELAY TAXIhold
+                            wb.workbook['Departure_Output']['T' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][10]#DELAY RWYqueue
+                            wb.workbook['Departure_Output']['U' + str(DepOutput)].value = RWYqueue1[first_in_line_RWYqueue][11]#RWYqueue USED
                             del RWYqueue1[first_in_line_RWYqueue]
 
                         elif currentRWYqueue == 2:
-                            departureOutput['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID
-                            departureOutput['D' + str(DepOutput)].value = departureOutput['C' + str(DepOutput)].value + RWYqueue2[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
-                            departureOutput['E' + str(DepOutput)].value = departureInput['H'+ str(first_in_line_RWYqueue)].value #WAKE
-                            departureOutput['F' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][3] #SID
-                            departureOutput['G' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][2]#DROT
-                            departureOutput['H' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][6]#TAXIOUT
-                            departureOutput['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
-                            departureOutput['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
-                            departureOutput['K' + str(DepOutput)].value = currentGap#currentGap
-                            departureOutput['L' + str(DepOutput)].value = len(DepSTANDqueue)
-                            departureOutput['M' + str(DepOutput)].value = len(TAXIhold)
-                            departureOutput['N' + str(DepOutput)].value = len(RWYqueue1)
-                            departureOutput['O' + str(DepOutput)].value = len(RWYqueue2)
-                            # departureOutput['P' + str(DepOutput)].value = len(RWYqueue3)
-                            # departureOutput['Q' + str(DepOutput)].value = len(RWYqueue4)
-                            departureOutput['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
-                            departureOutput['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
-                            departureOutput['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
-                            departureOutput['U' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][11]#RWYqueue USED
+                            wb.workbook['Departure_Output']['A' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][0] # AC ID
+                            wb.workbook['Departure_Output']['D' + str(DepOutput)].value = wb.workbook['Departure_Output']['C' + str(DepOutput)].value + RWYqueue2[first_in_line_RWYqueue][2] # Dep RWY EXIT = Dep RWY ENTRY + DROT
+                            wb.workbook['Departure_Output']['E' + str(DepOutput)].value = wb.workbook['Departures']['H'+ str(first_in_line_RWYqueue)].value #WAKE
+                            wb.workbook['Departure_Output']['F' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][3] #SID
+                            wb.workbook['Departure_Output']['G' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][2]#DROT
+                            wb.workbook['Departure_Output']['H' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][6]#TAXIOUT
+                            wb.workbook['Departure_Output']['I' + str(DepOutput)].value = minDepTime#DEP MIN SEPARATION
+                            wb.workbook['Departure_Output']['J' + str(DepOutput)].value = minDepLabel#DEP MIN SEPARATION LABEL
+                            wb.workbook['Departure_Output']['K' + str(DepOutput)].value = currentGap#currentGap
+                            wb.workbook['Departure_Output']['L' + str(DepOutput)].value = len(DepSTANDqueue)
+                            wb.workbook['Departure_Output']['M' + str(DepOutput)].value = len(TAXIhold)
+                            wb.workbook['Departure_Output']['N' + str(DepOutput)].value = len(RWYqueue1)
+                            wb.workbook['Departure_Output']['O' + str(DepOutput)].value = len(RWYqueue2)
+                            # wb.workbook['Departure_Output']['P' + str(DepOutput)].value = len(RWYqueue3)
+                            # wb.workbook['Departure_Output']['Q' + str(DepOutput)].value = len(RWYqueue4)
+                            wb.workbook['Departure_Output']['R' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][4]#DELAY DepSTANDqueue
+                            wb.workbook['Departure_Output']['S' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][8]#DELAY TAXIhold
+                            wb.workbook['Departure_Output']['T' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][10]#DELAY RWYqueue
+                            wb.workbook['Departure_Output']['U' + str(DepOutput)].value = RWYqueue2[first_in_line_RWYqueue][11]#RWYqueue USED
                             del RWYqueue2[first_in_line_RWYqueue]
 
-                        sequenceTab['A' + str(seqRow)].value = 'D'
-                        sequenceTab['B' + str(seqRow)].value = departureOutput['A' + str(DepOutput)].value
-                        sequenceTab['C' + str(seqRow)].value = departureOutput['C' + str(DepOutput)].value
-                        sequenceTab['D' + str(seqRow)].value = departureOutput['D' + str(DepOutput)].value
-                        sequenceTab['E' + str(seqRow)].value = departureOutput['G' + str(DepOutput)].value
+                        wb.workbook['Sequence']['A' + str(seqRow)].value = 'D'
+                        wb.workbook['Sequence']['B' + str(seqRow)].value = wb.workbook['Departure_Output']['A' + str(DepOutput)].value
+                        wb.workbook['Sequence']['C' + str(seqRow)].value = wb.workbook['Departure_Output']['C' + str(DepOutput)].value
+                        wb.workbook['Sequence']['D' + str(seqRow)].value = wb.workbook['Departure_Output']['D' + str(DepOutput)].value
+                        wb.workbook['Sequence']['E' + str(seqRow)].value = wb.workbook['Departure_Output']['G' + str(DepOutput)].value
                         seqRow+=1
                         DepOutput += 1
 
             return(DepOutput,seqRow)
 
-
-        #####################################################################
-        #                EXECUTE PRE-PROCESSING FUNCTIONS                   #
-        #####################################################################
+        # ---------------------------------------------------------------------------- #
+        #                       Execute Pre-Processing Functions                       #
+        # ---------------------------------------------------------------------------- #
 
         Arrival_Input_pre_process()
         Departure_Input_pre_process()
-        print("Input file successfully read")
 
-        #===== SID group separation ====#
+        # -------------------------------- Time Limits ------------------------------- #
 
-        SIDgroups = re.findall(r'\d+', v['SIDgroup_separation'])
-        SIDgroups = [[int(SIDgroups[x]), int(SIDgroups[y])] for (x, y) in [(0, 1), (2, 3), (3, 2), (1, 0)]]
-
-        #===== SID queue ====#
-
-        SIDqueues = re.findall(r'\d+', v['SID_queue_assign']) # Input example: 1 2 | 3 4
-        SIDqueues = [[int(SIDqueues[x]), int(SIDqueues[y])] for (x, y) in [(0, 1), (2, 3)]]
-
-        #===TIME limits====#
-
-        if arrivalInput['A' + str(2)].value==None: #no arrivals:
-            Start_time = departureInput['C' +str(2)].value - 3000
-        elif departureInput['A' +str(2)].value == None: #no departures
-            Start_time = arrivalInput['C' + str(2)].value - 3000
+        if wb.workbook['Arrivals']['A' + str(2)].value==None: #no arrivals:
+            Start_time = wb.workbook['Departures']['C' +str(2)].value - 3000
+        elif wb.workbook['Departures']['A' +str(2)].value == None: #no departures
+            Start_time = wb.workbook['Arrivals']['C' + str(2)].value - 3000
         else:
-            Start_time = min(arrivalInput['C' + str(2)].value,departureInput['C' +str(2)].value) - 3000
+            Start_time = min(wb.workbook['Arrivals']['C' + str(2)].value,wb.workbook['Departures']['C' +str(2)].value) - 3000
 
-        if arrivalInput['A' + str(2)].value==None: #no arrivals:
-            End_time = departureInput['C' +str(TOTAL_DEPARTURES)].value + 10000
-        elif departureInput['A' +str(2)].value == None: #no departures
-            End_time = arrivalInput['C' + str(TOTAL_ARRIVALS)].value + 10000
+        if wb.workbook['Arrivals']['A' + str(2)].value==None: #no arrivals:
+            End_time = wb.workbook['Departures']['C' +str(wb.TOTAL_DEPARTURES)].value + 10000
+        elif wb.workbook['Departures']['A' +str(2)].value == None: #no departures
+            End_time = wb.workbook['Arrivals']['C' + str(wb.TOTAL_ARRIVALS)].value + 10000
         else:
-            End_time = min(arrivalInput['C' + str(TOTAL_ARRIVALS)].value,departureInput['C' +str(TOTAL_DEPARTURES)].value) + 10000
+            End_time = min(wb.workbook['Arrivals']['C' + str(wb.TOTAL_ARRIVALS)].value,wb.workbook['Departures']['C' +str(wb.TOTAL_DEPARTURES)].value) + 10000
 
         Current_time = Start_time
 
-        #--------------------------------MODEL RUNS-----------------------------------#
+        # --------------------------------- Model Run -------------------------------- #
 
-        print('distanceBased = ',v['distanceBased'])
-        print('timeBased =',v['timeBased'])
         while Current_time < End_time:
-            # print(Current_time)
-            # print(RWY_status)
 
             if RWY_status == "E":
-                if TOTAL_DEPARTURES > 0: #there are departures
-
+                if wb.TOTAL_DEPARTURES > 0: #there are departures
                     SOBTrow = SOBTlookup(Current_time, SOBTrow)
                     if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
                         TAXIqueue_update(Current_time)
@@ -1546,37 +1496,36 @@ def runModel(parentFrame):
                     RWYqueues_update(Current_time)
                     update_Departure_Delays(Current_time)
 
-                if TOTAL_ARRIVALS > 0: # there are arrivals
+                if wb.TOTAL_ARRIVALS > 0: # there are arrivals
                     ARRkey = SAE_lookup(Current_time, ARRkey)
                     if len(APPqueue) == 0:
                         update_APPqueue(Current_time,DepOutput,End_time,ArrOutput)
                     update_ARRIVALqueue(Current_time,End_time)
                     currentGap = update_currentGap(Current_time, End_time)
-
                 else:#if there aren't any arrivals
                     currentGap = End_time #huuuuuge gap
 
                 #DEPARTURES TAKE OFF
-                if TOTAL_DEPARTURES > 0:
+                if wb.TOTAL_DEPARTURES > 0:
                     if (len(RWYqueue1)+len(RWYqueue2))>0:#there is something waiting to takeoff
                         #print('TAKE OFF called')
                         DepOutput,seqRow = Dep_TAKE_OFF(Current_time,DepOutput,currentGap,End_time,seqRow)
                         #print('dep took off')
                         # Note : DepOurputROW was already increased so (DepOutputROW-1) will reffer to the current departure
-                        #if type(departureOutput['C' + str(DepOutput-1)].value) == int:
-                            #print(departureOutput['C' + str(DepOutput-1)].value)
-                        if Current_time < departureOutput['D' + str(DepOutput-1)].value : # while the Departure is still on the runway
+                        #if type(wb.workbook['Departure_Output']['C' + str(DepOutput-1)].value) == int:
+                            #print(wb.workbook['Departure_Output']['C' + str(DepOutput-1)].value)
+                        if Current_time < wb.workbook['Departure_Output']['D' + str(DepOutput-1)].value : # while the Departure is still on the runway
                             #print(Current_time,' Departure {',(DepOutput-1),'} is about to take-off')
                             RWY_status = "D"
 
                 #ARRIVALS LANDING
-                if TOTAL_ARRIVALS > 0:
+                if wb.TOTAL_ARRIVALS > 0:
                     if len(APPqueue)!=0:
                         first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue
                         if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
                             #print('Current_time = ', Current_time, '| ALT = ',APPqueue[first_in_line_APPqueue][6])
                             ArrOutput,seqRow = Arr_LANDING(Current_time, ArrOutput,first_in_line_APPqueue,seqRow)
-                            if Current_time < arrivalOutput['D' + str(ArrOutput-1)].value : #while Arrival is still on the runway
+                            if Current_time < wb.workbook['Arrival_Output']['D' + str(ArrOutput-1)].value : #while Arrival is still on the runway
                                 #print(Current_time,' Arrival {',ArrOutput-1,'} is about to land ')
                                 RWY_status = "A"
 
@@ -1589,7 +1538,7 @@ def runModel(parentFrame):
                 RWYqueues_update(Current_time)
                 update_Departure_Delays(Current_time)
 
-                if TOTAL_ARRIVALS > 0: #there are arrivals
+                if wb.TOTAL_ARRIVALS > 0: #there are arrivals
                     ARRkey = SAE_lookup(Current_time, ARRkey)
                     if len(APPqueue) == 0:
                         update_APPqueue(Current_time,DepOutput,End_time,ArrOutput)
@@ -1598,11 +1547,11 @@ def runModel(parentFrame):
                 else:#if there aren't any arrivals
                     currentGap = End_time #huuuuuge gap
 
-                if Current_time == departureOutput['D' + str(DepOutput-1)].value : # when current_time > departure RWY_EXIT the rwy is empty again
+                if Current_time == wb.workbook['Departure_Output']['D' + str(DepOutput-1)].value : # when current_time > departure RWY_EXIT the rwy is empty again
                     RWY_status = "E"
 
                 #ARRIVALS LANDING (GO-AROUND case)
-                if TOTAL_ARRIVALS > 0:
+                if wb.TOTAL_ARRIVALS > 0:
                     if len(APPqueue)!=0:
                         first_in_line_APPqueue = min(list(APPqueue.keys()))#there is only one AC in the APPqueue
                         if Current_time == APPqueue[first_in_line_APPqueue][6]: #it's time to land
@@ -1613,7 +1562,7 @@ def runModel(parentFrame):
 
             elif RWY_status == "A":
                 #print(Current_time,' | ', RWY_status)
-                if TOTAL_DEPARTURES > 0: #there are departures
+                if wb.TOTAL_DEPARTURES > 0: #there are departures
                     SOBTrow = SOBTlookup(Current_time, SOBTrow)
                     if ((len(TAXIqueue) + len(ARRIVALqueue)+ len(TAXIhold))<15) and len(DepSTANDqueue)> 0: # if there are less than 15 AC moving on the TAXIway and there's something in DepSTANDqueue
                         TAXIqueue_update(Current_time)
@@ -1627,7 +1576,7 @@ def runModel(parentFrame):
                 update_ARRIVALqueue(Current_time,End_time)
                 currentGap = update_currentGap(Current_time,End_time)
 
-                if Current_time == arrivalOutput['D' + str(ArrOutput-1)].value : #while Arrival is still on the runway
+                if Current_time == wb.workbook['Arrival_Output']['D' + str(ArrOutput-1)].value : #while Arrival is still on the runway
                     RWY_status = "E"
             Current_time += 1
 
@@ -1636,50 +1585,50 @@ def runModel(parentFrame):
         # ============================================================================#
         bufferRow = 2
 
-        for row in range (2, (sequenceTab.max_row-2)):
-            if (sequenceTab['A'+str(row)].value == "A") and (sequenceTab['A'+str(row+1)].value == "D") and  (sequenceTab['A'+str(row+2)].value == "A") :#ADA sequence:
-                sequenceTab['G' + str(bufferRow)].value = (sequenceTab['C'+str(row+1)].value - sequenceTab['D'+str(row)].value) + (sequenceTab['C'+str(row+2)].value - sequenceTab['D'+str(row+1)].value)
-                sequenceTab['F' + str(bufferRow)].value = sequenceTab['B' + str(row)].value
+        for row in range (2, (wb.workbook['Sequence'].max_row-2)):
+            if (wb.workbook['Sequence']['A'+str(row)].value == "A") and (wb.workbook['Sequence']['A'+str(row+1)].value == "D") and  (wb.workbook['Sequence']['A'+str(row+2)].value == "A") :#ADA sequence:
+                wb.workbook['Sequence']['G' + str(bufferRow)].value = (wb.workbook['Sequence']['C'+str(row+1)].value - wb.workbook['Sequence']['D'+str(row)].value) + (wb.workbook['Sequence']['C'+str(row+2)].value - wb.workbook['Sequence']['D'+str(row+1)].value)
+                wb.workbook['Sequence']['F' + str(bufferRow)].value = wb.workbook['Sequence']['B' + str(row)].value
                 bufferRow+=1
 
         # ============================================================================#
         #                   THROUGHPUT AND DELAYS CALCULATIONS                        #
         # ============================================================================#
 
-        min_thr_HOUR = min(arrivalOutput['B' + str(2)].value,departureOutput['B' + str(2)].value)
-        print('arrivalOutput["B" + str(ArrOutput-1)].value = ',arrivalOutput['B' + str(ArrOutput-1)].value)
-        print('departureOutput["B" + str(DepOutput-1)].value = ', departureOutput['B' + str(DepOutput-1)].value)
-        max_thr_HOUR = min(arrivalOutput['B' + str(ArrOutput-1)].value,departureOutput['B' + str(DepOutput-1)].value)
+        min_thr_HOUR = min(wb.workbook['Arrival_Output']['B' + str(2)].value,wb.workbook['Departure_Output']['B' + str(2)].value)
+        print('wb.workbook[\'Arrival_Output\']["B" + str(ArrOutput-1)].value = ',wb.workbook['Arrival_Output']['B' + str(ArrOutput-1)].value)
+        print('wb.workbook[\'Departure_Output\']["B" + str(DepOutput-1)].value = ', wb.workbook['Departure_Output']['B' + str(DepOutput-1)].value)
+        max_thr_HOUR = min(wb.workbook['Arrival_Output']['B' + str(ArrOutput-1)].value,wb.workbook['Departure_Output']['B' + str(DepOutput-1)].value)
         diff_thr_HOUR = max_thr_HOUR-min_thr_HOUR
 
         for row in range(2,(diff_thr_HOUR+3)):
             dep_thr_count = 0
             arr_thr_count = 0
-            throughputTab['A' + str(row)].value = min_thr_HOUR
+            wb.workbook['Throughput']['A' + str(row)].value = min_thr_HOUR
 
             for i in range(2, (DepOutput)):
-                if departureOutput['B' + str(i)].value == None: #no departures
+                if wb.workbook['Departure_Output']['B' + str(i)].value == None: #no departures
                     break
-                if departureOutput['B' + str(i)].value == min_thr_HOUR:
+                if wb.workbook['Departure_Output']['B' + str(i)].value == min_thr_HOUR:
                     dep_thr_count +=1
-            throughputTab['B' + str(row)].value = dep_thr_count
+            wb.workbook['Throughput']['B' + str(row)].value = dep_thr_count
             for i in range(2, (ArrOutput)):
-                if arrivalOutput['B' + str(i)].value == None: #No arrivals
+                if wb.workbook['Arrival_Output']['B' + str(i)].value == None: #No arrivals
                     break
-                if arrivalOutput['B' + str(i)].value == min_thr_HOUR:
+                if wb.workbook['Arrival_Output']['B' + str(i)].value == min_thr_HOUR:
                     arr_thr_count +=1
 
-            throughputTab['C' + str(row)].value = arr_thr_count
-            throughputTab['D' + str(row)].value = throughputTab['B' + str(row)].value + throughputTab['C' + str(row)].value
-            total_thr = throughputTab['D' + str(row)].value
+            wb.workbook['Throughput']['C' + str(row)].value = arr_thr_count
+            wb.workbook['Throughput']['D' + str(row)].value = wb.workbook['Throughput']['B' + str(row)].value + wb.workbook['Throughput']['C' + str(row)].value
+            total_thr = wb.workbook['Throughput']['D' + str(row)].value
             throughput.append(total_thr)
 
             if min_thr_HOUR in list(GoAroundCount.keys()):#there was at least a goAround at that hour:
 
-                throughputTab['E' + str(row)].value = sum(GoAroundCount[min_thr_HOUR])
+                wb.workbook['Throughput']['E' + str(row)].value = sum(GoAroundCount[min_thr_HOUR])
 
             else:
-                throughputTab['E' + str(row)].value = 0
+                wb.workbook['Throughput']['E' + str(row)].value = 0
             min_thr_HOUR +=1
 
         # ============================================================================#
@@ -1687,15 +1636,15 @@ def runModel(parentFrame):
         # ============================================================================#
 
         for row in range(2, DepOutput):
-            delayTab['A' + str(row)].value = departureOutput['A' + str(row)].value
-            delayTab['B' + str(row)].value = departureOutput['B' + str(row)].value
-            delayTab['C' + str(row)].value = departureOutput['T' + str(row)].value + departureOutput['S' + str(row)].value
-            delayTab['D' + str(row)].value = departureOutput['R' + str(row)].value
+            wb.workbook['Delay']['A' + str(row)].value = wb.workbook['Departure_Output']['A' + str(row)].value
+            wb.workbook['Delay']['B' + str(row)].value = wb.workbook['Departure_Output']['B' + str(row)].value
+            wb.workbook['Delay']['C' + str(row)].value = wb.workbook['Departure_Output']['T' + str(row)].value + wb.workbook['Departure_Output']['S' + str(row)].value
+            wb.workbook['Delay']['D' + str(row)].value = wb.workbook['Departure_Output']['R' + str(row)].value
 
         for row in range(2, ArrOutput):
-            delayTab['I' + str(row)].value = arrivalOutput['A' + str(row)].value
-            delayTab['J' + str(row)].value = arrivalOutput['B' + str(row)].value
-            delayTab['K' + str(row)].value = arrivalOutput['L' + str(row)].value
+            wb.workbook['Delay']['I' + str(row)].value = wb.workbook['Arrival_Output']['A' + str(row)].value
+            wb.workbook['Delay']['J' + str(row)].value = wb.workbook['Arrival_Output']['B' + str(row)].value
+            wb.workbook['Delay']['K' + str(row)].value = wb.workbook['Arrival_Output']['L' + str(row)].value
 
         number_of_goArounds_queued = 0
         for i in list(GoAroundCount.keys()):
@@ -1703,10 +1652,8 @@ def runModel(parentFrame):
         print('End_time = ',End_time)
         print("There are [", str(len(TAXIhold)),"] Departure A/C remaining in the TAXI ,", str(len(RWYqueue1)+len(RWYqueue2)),"Departure A/C remaining in the RWY queues,")
         print("There are [", str(len(ArrHOLDqueue)),"] Arrivals remaining in the Arrival Hold Queue ,", str(len(APPqueue)),"Arrivals remaining in the APPqueue,")
-        # print("Out of interest - [",countArr,"] times 'departureLookup' method (for Arrivals) was non-zero + [",countDep,"] times 'departureLookup2' method (for queued A/C) was non-zero")
-        # print("DEBUG - countARRdebug =", countARRdebug, "and countDEPdebug =", countDEPdebug)
         print("Final number of go-around Arrival cases (Queued):", number_of_goArounds_queued)
-        print("Model took %s seconds to run" % round((time.time() - program_runtime_start),2))
+        print(f'Model took {round(time.perf_counter() - timer_start, 4)} seconds to run')
         if (len(DepSTANDqueue)>0 or len(TAXIhold)>0):
             print("ERROR!!!  Check DEPARTURES")
         if (len(ARRIVALqueue)>0) or (len(APPqueue)>0) or (len(ArrHOLDqueue)>0):
@@ -1714,12 +1661,12 @@ def runModel(parentFrame):
 
         if not v['avgThr']:
             output_extension = time.strftime("%H_%M", time.localtime(time.time()))
-            throughputTab['F' + str(1)].value = 'Difference in thr averages'
-            extra_diff=[0]*(throughputTab.max_row-1)
+            wb.workbook['Throughput']['F' + str(1)].value = 'Difference in thr averages'
+            extra_diff=[0]*(wb.workbook['Throughput'].max_row-1)
             difference.append(extra_diff)
-            throughputTab['F' + str(2)].value = str(difference)
+            wb.workbook['Throughput']['F' + str(2)].value = str(difference)
             parentFrame.name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) +  '.xlsx'
-            wb.save(parentFrame.name_output_file) # Choose file name once complete?
+            wb.workbook.save(parentFrame.name_output_file) # Choose file name once complete?
             iter1 += 1
 
         else:
@@ -1802,17 +1749,17 @@ def runModel(parentFrame):
                 summ=0
                 if iter2 == 0:
                     print('maxRuns 1 =', maxIter)
-                    throughputTab['F' + str(1)].value = 'Difference in thr averages'
-                    extra_diff=[0]*(throughputTab.max_row-1)
+                    wb.workbook['Throughput']['F' + str(1)].value = 'Difference in thr averages'
+                    extra_diff=[0]*(wb.workbook['Throughput'].max_row-1)
 
                     difference.append(extra_diff)
-                    throughputTab['F' + str(2)].value = str(difference)
+                    wb.workbook['Throughput']['F' + str(2)].value = str(difference)
                     output_extension = time.strftime("%H_%M", time.localtime(time.time()))
                     output_extension2 = iter1+1
-                    arrivalOutput.delete_cols(13)
-                    arrivalOutput.delete_cols(13)
+                    wb.workbook['Arrival_Output'].delete_cols(13)
+                    wb.workbook['Arrival_Output'].delete_cols(13)
                     parentFrame.name_output_file = 'OUTPUT_RAPID_v3.0_' + str(output_extension) + '_iteration_' + str(output_extension2) +  '.xlsx'
-                    wb.save(parentFrame.name_output_file) # Choose file name once complete?
+                    wb.workbook.save(parentFrame.name_output_file) # Choose file name once complete?
                 else:
                     maxIter += 1
                     print('maxRuns 2 =', maxIter)
