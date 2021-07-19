@@ -1,5 +1,9 @@
 # RAPID - v3.2
 
+Relevant files are found here:
+- Dropbox (Think Research)\Projects\Fast Time Simulation\RAPID
+- Dropbox (Think Research)\Think Research\7. R&D\07. Airfield Capacity Optimisation Project
+
 ## Inputs
 
 All the inputs can be found in the folder called 'inputs'

@@ -143,7 +143,7 @@ class runFrame(ttk.LabelFrame):
             'var7': tk.IntVar(),
             'var14': tk.IntVar()
         }
-        tk.Label(self, text='Number of runs            ').pack(anchor='w')
+        tk.Label(self, text='Number of runs            ').pack(anchor='w') # Trailing spaces are for spacing
         tk.Entry(self, width=8, textvariable=master.run['n_times_input']).place(x=147, y=0)
         tk.Checkbutton(self, text='I want to feel confident!', variable=master.run['var7']).pack(anchor='w')
         tk.Checkbutton(self, text='Print a debug tab', variable=master.run['var14']).pack(anchor='w')
