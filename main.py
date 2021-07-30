@@ -113,26 +113,20 @@ class visualFrame(ttk.LabelFrame):
     def __init__(self, master):
         ttk.LabelFrame.__init__(self, text=' Visualise Results ')
         master.vis = {
-            'var0': tk.IntVar(value='1'),
-            'var8': tk.IntVar(value='1'),
-            'var9': tk.IntVar(value='1'),
-            'var13': tk.IntVar(value='1'),
-            'var10': tk.IntVar(value='1'),
-            'var18': tk.IntVar(value='1'),
             'var11': tk.IntVar(),
             'var12': tk.IntVar()
         }
-        tk.Checkbutton(self, text="Convergence", variable=master.vis['var0']).grid(row=0, column=0, sticky='w')
-        tk.Checkbutton(self, text="Throughput", variable=master.vis['var8']).grid(row=1, column=0, sticky='w')
-        tk.Checkbutton(self, text="Departures Delay", variable=master.vis['var9']).grid(row=0, column=1, sticky='w')
-        tk.Checkbutton(self, text="Arrivals Delay", variable=master.vis['var13']).grid(row=1, column=1, sticky='w')
-        tk.Checkbutton(self, text="Sequence", variable=master.vis['var10']).grid(row=0, column=2, sticky='w')
-        tk.Checkbutton(self, text="ADA Buffer", variable=master.vis['var18']).grid(row=1, column=2, sticky='w')
-        tk.Label(self, text="Compare results to").grid(row=3, column=0, columnspan=10, sticky='w')
-        tk.Checkbutton(self, text="operational data", variable=master.vis['var11']).place(x=105, y=48)
-        tk.Checkbutton(self, text="other results", variable=master.vis['var12']).place(x=218, y=48)
-        tk.Label(self, text=" - no. (up to 5)").place(x=306, y=50)
-        tk.Entry(self, width=5, text='0').place(x=390, y=51)
+        tk.Label(self, text="Compare results to").grid(row=1, column=0, columnspan=10, sticky='w')
+        tk.Checkbutton(self, text="operational data", variable=master.vis['var11']).place(x=105, y=-2)
+        tk.Checkbutton(self, text="other results", variable=master.vis['var12']).place(x=218, y=-2)
+        tk.Label(self, text=" - no. (up to 5)").place(x=306, y=0)
+        tk.Entry(self, width=5, text='0', variable=master.vis['var13']).place(x=390, y=1)
+        tk.Button(self, text='Visualise existing output data', command=lambda: self.runVisualExisting(master)).grid(row=2, column=0, sticky='w')
+
+    def runVisualExisting(self, master):
+        master.name_output_file = filedialog.askopenfilename(title='Open existing OUTPUT_*.xlsx file')
+        if master.name_output_file != '':
+            runVisual(master)
 
 
 class runFrame(ttk.LabelFrame):
@@ -152,18 +146,10 @@ class runFrame(ttk.LabelFrame):
     def runRAPID(self, master):
         """
         Wrapper function which first runs the core RAPID model,
-        then runs the visual module if any visual options are selected.
+        then runs the visual module.
         """
         runModel(master)
-        if (
-            bool(int(master.vis['var0'].get())) or
-            bool(int(master.vis['var8'].get())) or
-            bool(int(master.vis['var9'].get())) or
-            bool(int(master.vis['var13'].get())) or
-            bool(int(master.vis['var10'].get())) or
-            bool(int(master.vis['var18'].get()))
-        ):
-            runVisual(master)
+        runVisual(master)
 
 
 if __name__ == '__main__':

@@ -11,132 +11,94 @@ matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
+class dataImport(tk.Tk):
+    def __init__(self, m):
+        tk.Tk.__init__(self)
+        self.title("New set of data import")
+        new_data_sheet2 = tk.StringVar()
+        ttk.Label(self, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')
+        ttk.Button(self, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
+        new_data2 = new_data_sheet2.get()
+        xls2 = pd.ExcelFile(new_data2)
+        df_thr2 = xls2.parse(5)
+        df_delay2 = xls2.parse(6)
+        df_dep_output2 = xls2.parse(4)
+        df_arr_output2 = xls2.parse(3)
+        df_rwy_calcs2 = xls2.parse(2)
+
+        if m >= 2:
+            new_data_sheet3 = tk.StringVar()
+            ttk.Label(self, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')
+            ttk.Button(self, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
+            if m >= 3:
+                new_data_sheet4 = tk.StringVar()
+                ttk.Label(self, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')
+                ttk.Button(self, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
+                if m >= 4:
+                    new_data_sheet5 = tk.StringVar()
+                    ttk.Label(self, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')
+                    ttk.Button(self, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
+                    if m >= 5:
+                        new_data_sheet6 = tk.StringVar()
+                        ttk.Label(self, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')
+                        ttk.Button(self, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
+        self.mainloop()
+
+
 def load_file(filename):
     filename.set(filedialog.askopenfilename())
 
+
 def runVisual(parentFrame):
 
-    n_times_input= tk.IntVar(value='1')
-    n_times_output = tk.IntVar()
-
-    n_times = int(n_times_input.get())
-    n_times_output.set(n_times)
-
-    m_input = tk.IntVar(value='0')
-    Throughput_check_output = tk.IntVar()
-    Delay_check_output = tk.IntVar()
-    Seq_check_output = tk.IntVar()
-    op_yes_output = tk.IntVar()
-    new_set_output = tk.IntVar()
-    m_output = tk.IntVar()
-    arr_delay_output = tk.IntVar()
-    convergence_output = tk.IntVar()
-
-    ADA_buffer_output = tk.IntVar()
-
-    n_times = 1
-
-    #====FOR VISUAL MODULE======#
-
-    m = 0
-
-    Seq_FLAG = False
     average_FLAG = False
 
-    # VISUAL
-    m = int(m_input.get())
-    m_output.set(m)
-
-    convergenceFLAG = bool(int(parentFrame.vis['var0'].get()))
-    Thr_FLAG = bool(int(parentFrame.vis['var8'].get()))
-    Delay_FLAG = bool(int(parentFrame.vis['var9'].get()))
-    Seq_FLAG = bool(int(parentFrame.vis['var10'].get()))
-    ADA_buffer_FLAG = bool(int(parentFrame.vis['var18'].get()))
     OP_FLAG = bool(int(parentFrame.vis['var11'].get()))
     new_set_FLAG = bool(int(parentFrame.vis['var12'].get()))
-    arr_delay_FLAG = bool(int(parentFrame.vis['var13'].get()))
+    m = int(parentFrame.vis['var13'].get())
 
-    n_times = n_times_output.get()
-    m = m_output.get()
+    if new_set_FLAG:
 
-    #----Operational Data -----#
-    if OP_FLAG:
-        win = tk.Tk()
-        win.title("Operational Data import")
-        mainframe = ttk.Frame(win, padding="10 10 30 40")
-        mainframe.grid(column=0, row=0, sticky='NWES')
-        mainframe.columnconfigure(0, weight=1)
-        mainframe.rowconfigure(0, weight=1)
-        innerframe = ttk.Frame(win, padding="5 5 0 0")
-
-        op_data_sheet = tk.StringVar()
-        ttk.Label(mainframe, text="Import the Operational Data File : ").grid(column=1, row=1, sticky='W')
-        open_op_data = ttk.Button(mainframe, text="Import operational data", command=lambda: load_file(op_data_sheet)).grid(column=2, row=1, sticky='W')
-        inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
-        inner.grid(column=0, row=1)
-        inner.columnconfigure(0, weight=1)
-        inner.rowconfigure(0, weight=1)
-        # ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
-
-        win.columnconfigure(0, weight=1)
-        win.rowconfigure(0, weight=1)
-        win.rowconfigure(1, weight=1)
-
-        win.mainloop()
-        operational_data = op_data_sheet.get()
-
-    #----New set of data---#
-    if new_set_FLAG == True:
         if m >= 1 :
+            dataImport(m)
+
             win = tk.Tk()
             win.title("New set of data import")
-
             mainframe = ttk.Frame(win, padding="10 10 30 40")
             mainframe.grid(column=0, row=0, sticky='NWES')
             mainframe.columnconfigure(0, weight=1)
             mainframe.rowconfigure(0, weight=1)
 
-            innerframe = ttk.Frame(win, padding="5 5 0 0")
-
-            average_check_output = tk.IntVar()
             new_data_sheet2 = tk.StringVar()
             ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')
-            open_new_data2 = ttk.Button(mainframe, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
-
-            if m >=2:
+            ttk.Button(mainframe, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
+            if m >= 2:
                 new_data_sheet3 = tk.StringVar()
                 ttk.Label(mainframe, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')
-                open_new_data3 = ttk.Button(mainframe, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
-
-                if m >=3:
+                ttk.Button(mainframe, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
+                if m >= 3:
                     new_data_sheet4 = tk.StringVar()
                     ttk.Label(mainframe, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')
-                    open_new_data4 = ttk.Button(mainframe, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
-                    if m >=4:
+                    ttk.Button(mainframe, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
+                    if m >= 4:
                         new_data_sheet5 = tk.StringVar()
                         ttk.Label(mainframe, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')
-                        open_new_data5 = ttk.Button(mainframe, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
-                        if m >=5:
+                        ttk.Button(mainframe, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
+                        if m >= 5:
                             new_data_sheet6 = tk.StringVar()
                             ttk.Label(mainframe, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')
-                            open_new_data6 = ttk.Button(mainframe, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
-
+                            ttk.Button(mainframe, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
 
             inner = tk.Frame(win, bg='pink', width=0, height=0, padx=20, pady=20)
             inner.grid(column=0, row=1)
             inner.columnconfigure(0, weight=1)
             inner.rowconfigure(0, weight=1)
-            # ttk.Button(inner, text="Visualize results", command=define_input_parameters).grid(column=0, row=0, sticky='W')
 
             win.columnconfigure(0, weight=1)
             win.rowconfigure(0, weight=1)
             win.rowconfigure(1, weight=1)
 
             win.mainloop()
-            if average_check_output.get() == 1:
-                average_FLAG = True
-            else:
-                average_FLAG = False
 
         if m>=1:
             new_data2 = new_data_sheet2.get()
@@ -146,7 +108,6 @@ def runVisual(parentFrame):
             df_dep_output2 = xls2.parse(4)
             df_arr_output2 = xls2.parse(3)
             df_rwy_calcs2 = xls2.parse(2)
-
             if m>=2:
                 new_data3 = new_data_sheet3.get()
                 xls3 = pd.ExcelFile(new_data3)
@@ -189,10 +150,10 @@ def runVisual(parentFrame):
     df_sequence_output =xls.parse(7)
     df_thr['Mean Thr'] = 0
 
-    if OP_FLAG == True:
-        opr_xls = pd.ExcelFile(operational_data)
+    if OP_FLAG:
+        opr_xls = pd.ExcelFile(filedialog.askopenfilename(title='Import operational data'))
         op_data = opr_xls.parse(0)
-        #Transform date format into seconds
+        # Transform date format into seconds
         op_data['Time Bin-H'] = op_data['Time Bin-H'] .astype(str)
         op_data['Time Bin-H'] = pd.DatetimeIndex(op_data['Time Bin-H'])
         op_data['Time Bin-H'] = pd.to_timedelta(op_data['Time Bin-H']) # convert to timedelta to calculate seconds
@@ -203,7 +164,7 @@ def runVisual(parentFrame):
         op_data['Time Bin - PS'] = pd.to_timedelta(op_data['Time Bin - PS']) # convert to timedelta to calculate seconds
         op_data['Time Bin - PS'] = op_data['Time Bin - PS'].dt.seconds
 
-        #Extract lists to plot them
+        # Extract lists to plot them
         OD_Thr_Hour = op_data['Hour'].tolist()
         OD_Thr = op_data['Total Throughput'].tolist()
         OP_H_Delay = op_data['Hold-Delay'].tolist()
@@ -212,78 +173,37 @@ def runVisual(parentFrame):
         OP_Time_PS_Delay = op_data['Time Bin - PS'].tolist()
 
 
-    class RAPIDvisual(tk.Tk):
-        def __init__(self, *args, **kwargs):
-            tk.Tk.__init__(self, *args, **kwargs)
-            # tk.Tk.iconbitmap(self, text="clienticon.ico")
-            tk.Tk.wm_title(self, "RAPID VISUAL")
-            container = tk.Frame(self)
-            container.pack(side="top", fill="both", expand = True)
-            container.grid_rowconfigure(0, weight=1)
-            container.grid_columnconfigure(0, weight=1)
-            self.frames = {}
-            for F in (StartPage, Conv, Thr, DepDelay, DepDelay2, ArrivalDelay, Seq, ADAbuffer):
-                frame = F(container, self)
-                self.frames[F] = frame
-                frame.grid(row=0, column=0, sticky='NWES')
-            self.show_frame(StartPage)
-
-        def show_frame(self, cont):
-            frame = self.frames[cont]
-            frame.tkraise()
+    class visualWindow(tk.Tk):
+        def __init__(self):
+            tk.Tk.__init__(self)
+            self.title("RAPID VISUAL")
+            self.tabs = ttk.Notebook(self)
+            self.tabs.add(Conv(self.tabs), text='Convergence')
+            self.tabs.add(Thr(self.tabs), text='Throughput')
+            # self.tabs.add(DepDelay(self.tabs), text='Departures Runway Hold Delay')
+            # self.tabs.add(DepDelay2(self.tabs), text='Departures Push/Start Delay')
+            # self.tabs.add(ArrivalDelay(self.tabs), text='Arrivals Delay')
+            self.tabs.add(Seq(self.tabs), text='Sequence')
+            self.tabs.add(ADAbuffer(self.tabs), text='ADA Buffer')
+            self.tabs.add(StartPage(self.tabs), text='Options')
+            self.tabs.pack(fill='both', expand=True)
+            self.mainloop()
 
 
     class StartPage(tk.Frame):
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self,parent)
             tk.Label(self, text="Start Page").pack(pady=10,padx=10)
-            if convergenceFLAG ==True:
-                ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv)).pack()
-            if Thr_FLAG == True:
-                ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr)).pack()
-            if Delay_FLAG == True:
-                ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay)).pack()
-            if Delay_FLAG == True:
-                ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay2)).pack()
-            if arr_delay_FLAG == True:
-                ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay)).pack()
-            if Seq_FLAG == True:
-                ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq)).pack()
-            if ADA_buffer_FLAG == True:
-                ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer)).pack()
-            ttk.Label(self, text=".").pack()
-            ttk.Label(self, text=".").pack()
-            ttk.Label(self, text=".").pack()
+
             ttk.Label(self, text="I want to compare my results").pack()
             ttk.Label(self, text="_____________________________").pack()
             ttk.Label(self, text="How many new sets?").pack()
 
+            m2_input = tk.IntVar(self, value='0')
+            ttk.Entry(self, width=7, textvariable=m2_input).pack()
+
             def show_button():
                 m2 = int(m2_input.get())
-                m2_output.set(m2)
-                app.destroy()
-                m2 = m2_output.get()
-
-                # def define_input_parameters3():
-                #     convergence = int(parentFrame.vis['var0'].get())
-                #     convergence_output.set(convergence)
-                #     Throughput_check = int(parentFrame.vis['var8'].get())
-                #     Throughput_check_output.set(Throughput_check)
-                #     Delay_check = int(parentFrame.vis['var9'].get())
-                #     Delay_check_output.set(Delay_check)
-                #     arr_delay = int(parentFrame.vis['var13'].get())
-                #     arr_delay_output.set(arr_delay)
-                #     Seq_check = int(parentFrame.vis['var10'].get())
-                #     Seq_check_output.set(Seq_check)
-                #     op_yes = int(parentFrame.vis['var11'].get())
-                #     op_yes_output.set(op_yes)
-                #     new_set = int(parentFrame.vis['var12'].get())
-                #     new_set_output.set(new_set)
-                #     ADA_buffer = int(parentFrame.vis['var18'].get())
-                #     ADA_buffer_output.set(ADA_buffer)
-                #     average_check = int(parentFrame.vis['var6'].get())
-                #     average_check_output.set(average_check)
-                #     window.destroy()
 
                 if m2 >= 1 :
                     window = tk.Tk()
@@ -294,9 +214,6 @@ def runVisual(parentFrame):
                     mainframe.columnconfigure(0, weight=1)
                     mainframe.rowconfigure(0, weight=1)
 
-                    #innerframe = ttk.Frame(window, padding="5 5 0 0")
-
-                    average_check_output = tk.IntVar()
                     new_data_sheet2 = tk.StringVar()
                     ttk.Label(mainframe, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')
                     ttk.Button(mainframe, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
@@ -323,10 +240,8 @@ def runVisual(parentFrame):
                     inner.grid(column=0, row=1)
                     inner.columnconfigure(0, weight=1)
                     inner.rowconfigure(0, weight=1)
-                    # tk.Button(inner, text="Visualize results", command=define_input_parameters3).grid(column=0, row=0, sticky='W')
 
                     for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
-                    # window.bind('<Return>', define_input_parameters)
 
                     window.columnconfigure(0, weight=1)
                     window.rowconfigure(0, weight=1)
@@ -376,10 +291,6 @@ def runVisual(parentFrame):
                                     df_arr_output6 = xls6.parse(3)
                                     df_rwy_calcs6 = xls6.parse(2)
 
-                # ============================================================================#
-                #                       VISUAL GUI                                            #
-                # ============================================================================#
-
                 class RAPIDvisual2(tk.Tk):
 
                     def __init__(self, *args, **kwargs):
@@ -413,80 +324,28 @@ def runVisual(parentFrame):
 
 
                 class StartPage2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self,parent)
-                        label = tk.Label(self, text="Start Page")
-                        label.pack(pady=10,padx=10)
-
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
+                        tk.Label(self, text="Start Page").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
 
 
-                # ============================================================================#
-                #                           CONVERGENCE                                       #
-                # ============================================================================#
-                #if convergenceFLAG ==True:
                 class Conv2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="THROUGHPUT CONVERGENCE")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-
-
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
-
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer))
-                            button5.pack()
+                        tk.Label(self, text="THROUGHPUT CONVERGENCE").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer)).pack()
 
                         thr_av_diff = pd.DataFrame(df_thr['Difference in thr averages'])
                         thr_av_diff=thr_av_diff.dropna(subset=['Difference in thr averages'])
@@ -528,46 +387,17 @@ def runVisual(parentFrame):
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                          THROUGHPUT                                         #
-                # ============================================================================#
-
-                #if Thr_FLAG == True:
                 class Thr2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="THROUGHPUT")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer2))
-                            button5.pack()
+                        tk.Label(self, text="THROUGHPUT").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer2)).pack()
 
                         def create_first_df_thr():
                             df_thr_to_plot = pd.DataFrame()
@@ -619,7 +449,7 @@ def runVisual(parentFrame):
                             df_thr_to_plot2 = create_first_df_thr()
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
 
-                            if OP_FLAG == True:
+                            if OP_FLAG:
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                 A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                             else:
@@ -627,7 +457,7 @@ def runVisual(parentFrame):
                             if m2>= 2:
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr3, 'RUN 3')
 
-                                if OP_FLAG ==True:
+                                if OP_FLAG:
                                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                                 else:
@@ -636,7 +466,7 @@ def runVisual(parentFrame):
                                     #throughput(df_thr4, 'm')
                                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr4, 'RUN 4')
 
-                                    if OP_FLAG ==True:
+                                    if OP_FLAG:
                                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                     else:
@@ -645,7 +475,7 @@ def runVisual(parentFrame):
                                         #throughput(df_thr5, 'y')
                                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr5, 'RUN 5')
 
-                                        if OP_FLAG ==True:
+                                        if OP_FLAG:
                                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                         else:
@@ -655,13 +485,13 @@ def runVisual(parentFrame):
                                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr6, 'RUN 6')
                                             #throughput(df_thr6, color = 'purple')
 
-                                            if OP_FLAG ==True:
+                                            if OP_FLAG:
                                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                             else:
                                                 A.legend(('Model','Model 2', 'Model 3','Model 4','Model 5','Model 6'), loc = 'upper right')
                             plot_bar_thr(df_thr_to_plot2, A)
-                            if OP_FLAG ==True:
+                            if OP_FLAG:
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                             A.set_xlabel('Hours of the day')
@@ -677,48 +507,18 @@ def runVisual(parentFrame):
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                         DEPARTURE DELAY - RWY hold delay                    #
-                # ============================================================================#
-
-                #if Delay_FLAG == True:
                 class DepDelay22(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="RWY HOLD DELAY")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer2))
-                            button5.pack()
-                        if (df_delay.empty == True):
+                        tk.Label(self, text="RWY HOLD DELAY").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer2)).pack()
+                        if (df_delay.empty):
                             print("No departures. Nothing to show")
                         else:
                             def delay(df_delay,df_dep_output):
@@ -761,7 +561,7 @@ def runVisual(parentFrame):
                                 A = f.add_subplot(111)
                                 A.plot(H_delay_time, H_delay, color)
                                 #A.set_title('RWY HOLD DELAY', loc='left')
-                                if OP_FLAG == True: #Plot Operational Data
+                                if OP_FLAG: #Plot Operational Data
                                     A.plot(OP_Time_H_Delay,OP_H_Delay, 'b')
                                     A.legend(('Model','Operational Data'), loc = 'upper right')
 
@@ -774,7 +574,7 @@ def runVisual(parentFrame):
                                 hold_delay2 = delay(df_delay2,df_dep_output2)
                                 print_Hold_delay(hold_delay2,'g')
 
-                                if OP_FLAG == True:
+                                if OP_FLAG:
                                     A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                                 else:
                                     A.legend(('Model', 'Model 2'), loc = 'upper right')
@@ -782,7 +582,7 @@ def runVisual(parentFrame):
                                     hold_delay3 = delay(df_delay3,df_dep_output3)
                                     print_Hold_delay(hold_delay3,'c')
 
-                                    if OP_FLAG == True:
+                                    if OP_FLAG:
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                                     else:
                                         A.legend(('Model', 'Model 2', 'Model 3'), loc = 'upper right')
@@ -790,7 +590,7 @@ def runVisual(parentFrame):
                                         hold_delay4 = delay(df_delay4,df_dep_output4)
                                         print_Hold_delay(hold_delay4,'m')
 
-                                        if OP_FLAG == True:
+                                        if OP_FLAG:
                                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                         else:
                                             A.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -798,7 +598,7 @@ def runVisual(parentFrame):
                                             hold_delay5 = delay(df_delay5,df_dep_output5)
                                             print_Hold_delay(hold_delay5,'y')
 
-                                            if OP_FLAG == True:
+                                            if OP_FLAG:
                                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                             else:
                                                 A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -806,7 +606,7 @@ def runVisual(parentFrame):
                                                 hold_delay6 = delay(df_delay6,df_dep_output6)
                                                 print_Hold_delay(hold_delay6,color='purple')
 
-                                                if OP_FLAG == True:
+                                                if OP_FLAG:
                                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                                 else:
                                                     A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -823,46 +623,18 @@ def runVisual(parentFrame):
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                   DEPARTURE DELAY - PS delay                                #
-                # ============================================================================#
-
                 class DepDelay222(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="PUSH/START DELAY")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY HOLD DELAY",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer2))
-                            button5.pack()
-                        if (df_delay.empty == True):
+                        tk.Label(self, text="PUSH/START DELAY").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY HOLD DELAY", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer2)).pack()
+                        if (df_delay.empty):
                             print("No departures. Nothing to show")
                         else:
                             def delay(df_delay, df_dep_output):
@@ -903,7 +675,7 @@ def runVisual(parentFrame):
                                 B = f.add_subplot(111)
                                 B.plot(PS_time, PS_delay, color)
                                 #B.set_title('PUSH/START DELAY', loc = 'right')
-                                if OP_FLAG == True:#Plot Operational Data
+                                if OP_FLAG:#Plot Operational Data
 
                                     B.plot(OP_Time_PS_Delay,OP_PS_Delay, 'b')
                                     #plt.legend(('Model','Operational Data'), loc = 'upper right')
@@ -917,7 +689,7 @@ def runVisual(parentFrame):
                                 Push_delay2 = delay(df_delay2, df_dep_output2)
                                 print_PS_delay(Push_delay2,'g')
 
-                                if OP_FLAG == True:
+                                if OP_FLAG:
                                     B.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                                 else:
                                     B.legend(('Model', 'Model 2'), loc = 'upper right')
@@ -925,7 +697,7 @@ def runVisual(parentFrame):
                                     Push_delay3 = delay(df_delay3, df_dep_output3)
                                     print_PS_delay(Push_delay3,'c')
 
-                                    if OP_FLAG == True:
+                                    if OP_FLAG:
                                         B.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                                     else:
                                         B.legend(('Model', 'Model 2', 'Model 3'), loc = 'upper right')
@@ -934,7 +706,7 @@ def runVisual(parentFrame):
                                         print_PS_delay(Push_delay4,'m')
 
 
-                                        if OP_FLAG == True:
+                                        if OP_FLAG:
                                             B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                         else:
                                             B.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -943,7 +715,7 @@ def runVisual(parentFrame):
                                             print_PS_delay(Push_delay5,'y')
 
 
-                                            if OP_FLAG == True:
+                                            if OP_FLAG:
                                                 B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                             else:
                                                 B.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -952,7 +724,7 @@ def runVisual(parentFrame):
                                                 print_PS_delay(Push_delay6, color='purple')
 
 
-                                                if OP_FLAG == True:
+                                                if OP_FLAG:
                                                     B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                                 else:
                                                     B.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -969,49 +741,18 @@ def runVisual(parentFrame):
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                          ARRIVAL DELAY                                      #
-                # ============================================================================#
-
-                #if arr_delay_FLAG == True:
                 class ArrivalDelay2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="ARRIVALS DELAY")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-
-                        if Seq_FLAG == True:
-                            button4 = ttk.Button(self, text="Sequence",
-                                                command=lambda: controller.show_frame(Seq2))
-                            button4.pack()
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer2))
-                            button5.pack()
-
-                        if (df_delay.empty == True):
+                        tk.Label(self, text="ARRIVALS DELAY").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Sequence", command=lambda: controller.show_frame(Seq2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer2)).pack()
+                        if (df_delay.empty):
                                 print("No departures. Nothing to show")
                         else:
                             def ArrDelay(df_delay, df_arr_output):
@@ -1088,48 +829,17 @@ def runVisual(parentFrame):
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                           SEQUENCE                                          #
-                # ============================================================================#
-
-                #if Seq_FLAG == True:
                 class Seq2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="SEQUENCE")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
-
-                        if ADA_buffer_FLAG == True:
-                            button5 = ttk.Button(self, text="ADA Buffer",
-                                                command=lambda: controller.show_frame(ADAbuffer2))
-                            button5.pack()
+                        tk.Label(self, text="SEQUENCE").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
+                        ttk.Button(self, text="ADA Buffer", command=lambda: controller.show_frame(ADAbuffer2)).pack()
 
                         def sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
 
@@ -1193,15 +903,15 @@ def runVisual(parentFrame):
                             labels_x = main_arrival +  arrival_spacing
 
                             return{'0a': arrival_zero,
-                                   '1' : main_arrival,
-                                   '2' : main_arrival_error,
-                                   '3' : arrival_spacing,
-                                   '4' : arrival_spacing_error,
-                                   '9' : main_data_position,
-                                   '10' : arrival_spacing_position,
-                                   '12' : labels,
-                                   '13' : labels_y,
-                                   '14' : labels_x}
+                                    '1' : main_arrival,
+                                    '2' : main_arrival_error,
+                                    '3' : arrival_spacing,
+                                    '4' : arrival_spacing_error,
+                                    '9' : main_data_position,
+                                    '10' : arrival_spacing_position,
+                                    '12' : labels,
+                                    '13' : labels_y,
+                                    '14' : labels_x}
 
 
                         def sequenceDepOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
@@ -1266,15 +976,15 @@ def runVisual(parentFrame):
                             labels_x = main_departure +  departure_spacing
 
                             return{'0b': departure_zero,
-                                   '5' : main_departure,
-                                   '6' : main_departure_error,
-                                   '7' : departure_spacing,
-                                   '8' : departure_spacing_error,
-                                   '9' : main_data_position,
-                                   '11' : departure_spacing_position,
-                                   '12' : labels,
-                                   '13' : labels_y,
-                                   '14' : labels_x}
+                                    '5' : main_departure,
+                                    '6' : main_departure_error,
+                                    '7' : departure_spacing,
+                                    '8' : departure_spacing_error,
+                                    '9' : main_data_position,
+                                    '11' : departure_spacing_position,
+                                    '12' : labels,
+                                    '13' : labels_y,
+                                    '14' : labels_x}
 
 
                         def sequence(df_arr_output, df_rwy_calcs, df_dep_output, number): ######MIX MODE
@@ -1386,28 +1096,28 @@ def runVisual(parentFrame):
                             labels_x = main_arrival + main_departure + arrival_spacing + departure_spacing
 
                             return{'0a': arrival_zero,
-                                   '0b': departure_zero,
-                                   '1' : main_arrival,
-                                   '2' : main_arrival_error,
-                                   '3' : arrival_spacing,
-                                   '4' : arrival_spacing_error,
-                                   '5' : main_departure,
-                                   '6' : main_departure_error,
-                                   '7' : departure_spacing,
-                                   '8' : departure_spacing_error,
-                                   '9' : main_data_position,
-                                   '10' : arrival_spacing_position,
-                                   '11' : departure_spacing_position,
-                                   '12' : labels,
-                                   '13' : labels_y,
-                                   '14' : labels_x}
+                                    '0b': departure_zero,
+                                    '1' : main_arrival,
+                                    '2' : main_arrival_error,
+                                    '3' : arrival_spacing,
+                                    '4' : arrival_spacing_error,
+                                    '5' : main_departure,
+                                    '6' : main_departure_error,
+                                    '7' : departure_spacing,
+                                    '8' : departure_spacing_error,
+                                    '9' : main_data_position,
+                                    '10' : arrival_spacing_position,
+                                    '11' : departure_spacing_position,
+                                    '12' : labels,
+                                    '13' : labels_y,
+                                    '14' : labels_x}
 
 
                         #------ ARRIVALS only -------#
 
-                        if df_dep_output.empty ==True:
+                        if df_dep_output.empty:
 
-                            if df_dep_output2.empty ==True:#arr only
+                            if df_dep_output2.empty:#arr only
                                 if m2==1: # two arr only comparison
                                     f = Figure(figsize=(5,5), dpi=100)
                                     A = f.add_subplot(111)
@@ -1531,7 +1241,7 @@ def runVisual(parentFrame):
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                                     #f.canvas.figure.savefig('sequence.png')
 
-                            elif df_arr_output2.empty ==True: # ARR only + DEP only
+                            elif df_arr_output2.empty: # ARR only + DEP only
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
@@ -1653,9 +1363,9 @@ def runVisual(parentFrame):
 
                         #-------DEPARTURES only --------#
 
-                        elif df_arr_output.empty ==True:
+                        elif df_arr_output.empty:
 
-                            if df_dep_output2.empty ==True: # DEPonly + ARRonly
+                            if df_dep_output2.empty: # DEPonly + ARRonly
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
@@ -1713,7 +1423,7 @@ def runVisual(parentFrame):
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                            elif df_arr_output2.empty ==True: # DEPonly + DEPonly
+                            elif df_arr_output2.empty: # DEPonly + DEPonly
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
@@ -2114,7 +1824,7 @@ def runVisual(parentFrame):
                                     toolbar.update()
                                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                            elif df_dep_output2.empty ==True:#arr only
+                            elif df_dep_output2.empty:#arr only
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
                                 ax = f.add_subplot(111)
@@ -2174,7 +1884,7 @@ def runVisual(parentFrame):
                                 toolbar.update()
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                            elif df_arr_output2.empty ==True: # MIXED + ARRonly
+                            elif df_arr_output2.empty: # MIXED + ARRonly
 
                                 f = Figure(figsize=(5,5), dpi=100)
                                 A = f.add_subplot(111)
@@ -2240,42 +1950,16 @@ def runVisual(parentFrame):
                                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-                # ============================================================================#
-                #                           ADA buffer                                        #
-                # ============================================================================#
-
                 class ADAbuffer2(tk.Frame):
-
                     def __init__(self, parent, controller):
                         tk.Frame.__init__(self, parent)
-                        label = tk.Label(self, text="SEQUENCE")
-                        label.pack(pady=10,padx=10)
-
-                        button1 = ttk.Button(self, text="Back to Home",
-                                            command=lambda: controller.show_frame(StartPage2))
-                        button1.pack()
-                        if convergenceFLAG ==True:
-                            button1 = ttk.Button(self, text="Convergence Throughput",
-                                                command=lambda: controller.show_frame(Conv2))
-                            button1.pack()
-                        if Thr_FLAG == True:
-                            button = ttk.Button(self, text="Throughput",
-                                                command=lambda: controller.show_frame(Thr2))
-                            button.pack()
-
-                        if Delay_FLAG == True:
-                            button2 = ttk.Button(self, text="RWY Hold Delay",
-                                                command=lambda: controller.show_frame(DepDelay22))
-                            button2.pack()
-                        if Delay_FLAG == True:
-                            button5 = ttk.Button(self, text="Push/Start Delay",
-                                                command=lambda: controller.show_frame(DepDelay222))
-                            button5.pack()
-
-                        if arr_delay_FLAG == True:
-                            button3 = ttk.Button(self, text="Arrivals Delay",
-                                                command=lambda: controller.show_frame(ArrivalDelay2))
-                            button3.pack()
+                        tk.Label(self, text="SEQUENCE").pack(pady=10,padx=10)
+                        ttk.Button(self, text="Back to Home", command=lambda: controller.show_frame(StartPage2)).pack()
+                        ttk.Button(self, text="Convergence Throughput", command=lambda: controller.show_frame(Conv2)).pack()
+                        ttk.Button(self, text="Throughput", command=lambda: controller.show_frame(Thr2)).pack()
+                        ttk.Button(self, text="RWY Hold Delay", command=lambda: controller.show_frame(DepDelay22)).pack()
+                        ttk.Button(self, text="Push/Start Delay", command=lambda: controller.show_frame(DepDelay222)).pack()
+                        ttk.Button(self, text="Arrivals Delay", command=lambda: controller.show_frame(ArrivalDelay2)).pack()
 
                         df_Buffer = pd.DataFrame()
                         df_Buffer['ADA_Buffer'] = df_sequence_output['ADA Buffer']
@@ -2315,68 +1999,18 @@ def runVisual(parentFrame):
 
 
                 app2 = RAPIDvisual2()
-
-                app2.columnconfigure(0, weight=1)
-                app2.rowconfigure(0, weight=1)
-                app2.rowconfigure(1, weight=1)
-
                 app2.mainloop()
 
 
-            m2_input = tk.IntVar(self, value='0')
-            m2_output = tk.IntVar()
-            entry4 = ttk.Entry(self, width=7, textvariable=m2_input)
-            entry4.pack()
-
-            button6 = tk.Button(self, text="SHOW", command=show_button)
-            button6.pack()
+            tk.Button(self, text="SHOW", command=show_button).pack()
 
 
-    # ============================================================================#
-    #                           CONVERGENCE                                       #
-    # ============================================================================#
-
-    #if convergenceFLAG ==True:
     class Conv(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="THROUGHPUT CONVERGENCE")
             label.pack(pady=10,padx=10)
-
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-
-            if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
-
-            if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
 
             thr_av_diff = pd.DataFrame(df_thr['Difference in thr averages'])
             thr_av_diff=thr_av_diff.dropna(subset=['Difference in thr averages'])
@@ -2417,50 +2051,13 @@ def runVisual(parentFrame):
             toolbar.update()
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-    # ============================================================================#
-    #                          THROUGHPUT                                         #
-    # ============================================================================#
 
-    #if Thr_FLAG == True:
     class Thr(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="THROUGHPUT")
             label.pack(pady=10,padx=10)
-
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
-
-            if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
 
             def create_first_df_thr():
                 df_thr_to_plot = pd.DataFrame()
@@ -2519,7 +2116,7 @@ def runVisual(parentFrame):
                 return(hour_Thr)
 
 
-            if new_set_FLAG == True:
+            if new_set_FLAG:
                 if m>= 1:
                     f = Figure(figsize=(5,5), dpi=100)
                     A = f.add_subplot(111)
@@ -2528,7 +2125,7 @@ def runVisual(parentFrame):
                     df_thr_to_plot2 = create_first_df_thr()
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr2, 'RUN 2')
 
-                    if (m == 1) and (average_FLAG == True):
+                    if (m == 1) and (average_FLAG):
                         a=total_thr(df_thr)
                         b=total_thr(df_thr2)
                         average = pd.DataFrame()
@@ -2536,7 +2133,7 @@ def runVisual(parentFrame):
                         average_thr = average['Total Throughput'].tolist()
                         A.plot(hour_thr(df_thr),average_thr, linewidth=3.0, color = 'red', linestyle='dashed', alpha = 0.5)
 
-                    if OP_FLAG == True:
+                    if OP_FLAG:
                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                         A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                     else:
@@ -2544,7 +2141,7 @@ def runVisual(parentFrame):
                     if m>= 2:
                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr3, 'RUN 3')
                         # throughput(df_thr3, 'c')
-                        if (m==2) and (average_FLAG ==True):
+                        if (m==2) and (average_FLAG):
                             a=total_thr(df_thr)
                             b=total_thr(df_thr2)
                             c=total_thr(df_thr3)
@@ -2553,7 +2150,7 @@ def runVisual(parentFrame):
                             average_thr = average['Total Throughput'].tolist()
                             A.plot(hour_thr(df_thr),average_thr, linewidth=3.0, color = 'red', linestyle='dashed', alpha = 0.5)
 
-                        if OP_FLAG ==True:
+                        if OP_FLAG:
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                         else:
@@ -2561,7 +2158,7 @@ def runVisual(parentFrame):
                         if m>=3:
                             # throughput(df_thr4, 'm')
                             df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr4, 'RUN 4')
-                            if (m==3) and (average_FLAG ==True):
+                            if (m==3) and (average_FLAG):
                                 a=total_thr(df_thr)
                                 b=total_thr(df_thr2)
                                 c=total_thr(df_thr3)
@@ -2571,7 +2168,7 @@ def runVisual(parentFrame):
                                 average_thr = average['Total Throughput'].tolist()
                                 A.plot(hour_thr(df_thr),average_thr, linewidth=3.0, color = 'red',linestyle='dashed', alpha = 0.5)
 
-                            if OP_FLAG ==True:
+                            if OP_FLAG:
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                             else:
@@ -2579,7 +2176,7 @@ def runVisual(parentFrame):
                             if m>=4:
                                 # throughput(df_thr5, 'y')
                                 df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr5, 'RUN 5')
-                                if (m==4) and (average_FLAG ==True):
+                                if (m==4) and (average_FLAG):
                                     a=total_thr(df_thr)
                                     b=total_thr(df_thr2)
                                     c=total_thr(df_thr3)
@@ -2590,7 +2187,7 @@ def runVisual(parentFrame):
                                     average_thr = average['Total Throughput'].tolist()
                                     A.plot(hour_thr(df_thr),average_thr, linewidth=3.0, color = 'red', linestyle='dashed', alpha = 0.5)
 
-                                if OP_FLAG ==True:
+                                if OP_FLAG:
                                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                 else:
@@ -2599,7 +2196,7 @@ def runVisual(parentFrame):
                                 if m>=5:
                                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, df_thr6, 'RUN 6')
                                     #throughput(df_thr6, color = 'purple')
-                                    if (m==5) and (average_FLAG ==True):
+                                    if (m==5) and (average_FLAG):
                                         a=total_thr(df_thr)
                                         b=total_thr(df_thr2)
                                         c=total_thr(df_thr3)
@@ -2611,13 +2208,13 @@ def runVisual(parentFrame):
                                         average_thr = average['Total Throughput'].tolist()
                                         A.plot(hour_thr(df_thr),average_thr, linewidth=3.0, color = 'red',linestyle='dashed',  alpha = 0.5)
 
-                                    if OP_FLAG ==True:
+                                    if OP_FLAG:
                                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                     else:
                                         A.legend(('Model','Model 2', 'Model 3','Model 4','Model 5','Model 6'), loc = 'upper right')
                     plot_bar_thr(df_thr_to_plot2, A)
-                    if OP_FLAG ==True:
+                    if OP_FLAG:
                         df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                     A.set_xlabel('Hours of the day')
@@ -2639,7 +2236,7 @@ def runVisual(parentFrame):
 
                 # df_thr_to_plot2.plot(kind='bar', legend=False, ax=A)
 
-                if OP_FLAG == True:
+                if OP_FLAG:
                     df_thr_to_plot2 = create_multiple_df_thr(df_thr_to_plot2, op_data, 'OPERATIONA_DATA')
 
                 plot_bar_thr(df_thr_to_plot2, A)
@@ -2656,53 +2253,13 @@ def runVisual(parentFrame):
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    # ============================================================================#
-    #                         DEPARTURE DELAY - RWY hold delay                    #
-    # ============================================================================#
-
-    # if Delay_FLAG == True:
     class DepDelay(tk.Frame):
-
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="RWY HOLD DELAY")
             label.pack(pady=10,padx=10)
 
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
-
-            if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
-
-            if (df_delay.empty == True):
+            if (df_delay.empty):
                 print("No departures. Nothing to show")
             else:
                 def delay(df_delay,df_dep_output):
@@ -2783,12 +2340,12 @@ def runVisual(parentFrame):
                     A = f.add_subplot(111)
                     A.plot(H_delay_time, H_delay, color)
                     #A.set_title('RWY HOLD DELAY', loc='left')
-                    if OP_FLAG == True: #Plot Operational Data
+                    if OP_FLAG: #Plot Operational Data
                         A.plot(OP_Time_H_Delay,OP_H_Delay, 'b')
                         A.legend(('Model','Operational Data'), loc = 'upper right')
 
 
-                if new_set_FLAG == True:
+                if new_set_FLAG:
                     if m >=1:
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
@@ -2797,7 +2354,7 @@ def runVisual(parentFrame):
                         hold_delay2 = delay(df_delay2,df_dep_output2)
                         print_Hold_delay(hold_delay2,'g')
 
-                        if OP_FLAG == True:
+                        if OP_FLAG:
                             A.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                         else:
                             A.legend(('Model', 'Model 2'), loc = 'upper right')
@@ -2805,7 +2362,7 @@ def runVisual(parentFrame):
                             hold_delay3 = delay(df_delay3,df_dep_output3)
                             print_Hold_delay(hold_delay3,'c')
 
-                            if OP_FLAG == True:
+                            if OP_FLAG:
                                 A.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                             else:
                                 A.legend(('Model', 'Model 2', 'Model 3'), loc = 'upper right')
@@ -2813,7 +2370,7 @@ def runVisual(parentFrame):
                                 hold_delay4 = delay(df_delay4,df_dep_output4)
                                 print_Hold_delay(hold_delay4,'m')
 
-                                if OP_FLAG == True:
+                                if OP_FLAG:
                                     A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 else:
                                     A.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -2821,7 +2378,7 @@ def runVisual(parentFrame):
                                     hold_delay5 = delay(df_delay5,df_dep_output5)
                                     print_Hold_delay(hold_delay5,'y')
 
-                                    if OP_FLAG == True:
+                                    if OP_FLAG:
                                         A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                     else:
                                         A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -2829,7 +2386,7 @@ def runVisual(parentFrame):
                                         hold_delay6 = delay(df_delay6,df_dep_output6)
                                         print_Hold_delay(hold_delay6,color='purple')
 
-                                        if OP_FLAG == True:
+                                        if OP_FLAG:
                                             A.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                         else:
                                             A.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -2862,52 +2419,14 @@ def runVisual(parentFrame):
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    # ============================================================================#
-    #                   DEPARTURE DELAY - PS delay                                #
-    # ============================================================================#
-
     class DepDelay2(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="PUSH/START DELAY")
             label.pack(pady=10,padx=10)
 
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY HOLD DELAY",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
-
-            if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
-
-            if (df_delay.empty == True):
+            if (df_delay.empty):
                 print("No departures. Nothing to show")
             else:
                 def delay(df_delay, df_dep_output):
@@ -2988,11 +2507,11 @@ def runVisual(parentFrame):
                     B = f.add_subplot(111)
                     B.plot(PS_time, PS_delay, color)
                     # B.set_title('PUSH/START DELAY', loc = 'right')
-                    if OP_FLAG == True:#Plot Operational Data
+                    if OP_FLAG:#Plot Operational Data
                         B.plot(OP_Time_PS_Delay,OP_PS_Delay, 'b')
                         # plt.legend(('Model','Operational Data'), loc = 'upper right')
 
-                if new_set_FLAG == True:
+                if new_set_FLAG:
 
                     if m >=1:
                         f = Figure(figsize=(5,5), dpi=100)
@@ -3002,7 +2521,7 @@ def runVisual(parentFrame):
                         Push_delay2 = delay(df_delay2, df_dep_output2)
                         print_PS_delay(Push_delay2,'g')
 
-                        if OP_FLAG == True:
+                        if OP_FLAG:
                             B.legend(('Model','Operational Data', 'Model 2'), loc = 'upper right')
                         else:
                             B.legend(('Model', 'Model 2'), loc = 'upper right')
@@ -3010,7 +2529,7 @@ def runVisual(parentFrame):
                             Push_delay3 = delay(df_delay3, df_dep_output3)
                             print_PS_delay(Push_delay3,'c')
 
-                            if OP_FLAG == True:
+                            if OP_FLAG:
                                 B.legend(('Model','Operational Data', 'Model 2', 'Model 3'), loc = 'upper right')
                             else:
                                 B.legend(('Model', 'Model 2', 'Model 3'), loc = 'upper right')
@@ -3018,7 +2537,7 @@ def runVisual(parentFrame):
                                 Push_delay4 = delay(df_delay4, df_dep_output4)
                                 print_PS_delay(Push_delay4,'m')
 
-                                if OP_FLAG == True:
+                                if OP_FLAG:
                                     B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
                                 else:
                                     B.legend(('Model', 'Model 2', 'Model 3', 'Model 4'), loc = 'upper right')
@@ -3026,7 +2545,7 @@ def runVisual(parentFrame):
                                     Push_delay5 = delay(df_delay5, df_dep_output5)
                                     print_PS_delay(Push_delay5,'y')
 
-                                    if OP_FLAG == True:
+                                    if OP_FLAG:
                                         B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
                                     else:
                                         B.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5'), loc = 'upper right')
@@ -3035,7 +2554,7 @@ def runVisual(parentFrame):
                                         print_PS_delay(Push_delay6, color='purple')
 
 
-                                        if OP_FLAG == True:
+                                        if OP_FLAG:
                                             B.legend(('Model','Operational Data', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
                                         else:
                                             B.legend(('Model', 'Model 2', 'Model 3', 'Model 4', 'Model 5', 'Model 6'), loc = 'upper right')
@@ -3067,53 +2586,14 @@ def runVisual(parentFrame):
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    # ============================================================================#
-    #                          ARRIVAL DELAY                                      #
-    # ============================================================================#
-
-    #if arr_delay_FLAG == True:
     class ArrivalDelay(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="ARRIVALS DELAY")
             label.pack(pady=10,padx=10)
 
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-
-            if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if Seq_FLAG == True:
-                button4 = ttk.Button(self, text="Sequence",
-                                    command=lambda: controller.show_frame(Seq))
-                button4.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
-
-            if (df_delay.empty == True):
+            if (df_delay.empty):
                     print("No departures. Nothing to show")
             else:
                 def ArrDelay(df_delay, df_arr_output):
@@ -3178,7 +2658,7 @@ def runVisual(parentFrame):
                     A.plot(arr_delay_time, arr_delay, color)
 
 
-                if new_set_FLAG == True:
+                if new_set_FLAG:
 
                     if m >=1:
                         f = Figure(figsize=(5,5), dpi=100)
@@ -3232,51 +2712,12 @@ def runVisual(parentFrame):
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    # ============================================================================#
-    #                           SEQUENCE                                          #
-    # ============================================================================#
-
-    # if Seq_FLAG == True:
     class Seq(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE")
             label.pack(pady=10,padx=10)
-
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-
-            if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
-
-            if ADA_buffer_FLAG == True:
-                button5 = ttk.Button(self, text="ADA Buffer",
-                                    command=lambda: controller.show_frame(ADAbuffer))
-                button5.pack()
 
             def sequenceArrOnly(df_arr_output, df_rwy_calcs, df_dep_output, number):
 
@@ -3548,10 +2989,10 @@ def runVisual(parentFrame):
 
             #------ ARRIVALS only -------#
 
-            if df_dep_output.empty ==True:
+            if df_dep_output.empty:
 
-                if new_set_FLAG == True:
-                    if df_dep_output2.empty ==True:#arr only
+                if new_set_FLAG:
+                    if df_dep_output2.empty:#arr only
                         if m==1: # two arr only comparison
                             f = Figure(figsize=(5,5), dpi=100)
                             A = f.add_subplot(111)
@@ -3674,7 +3115,7 @@ def runVisual(parentFrame):
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
                             #f.canvas.figure.savefig('sequence.png')
 
-                    elif df_arr_output2.empty ==True: # ARR only + DEP only
+                    elif df_arr_output2.empty: # ARR only + DEP only
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
@@ -3849,11 +3290,11 @@ def runVisual(parentFrame):
 
             #-------DEPARTURES only --------#
 
-            elif df_arr_output.empty ==True:
+            elif df_arr_output.empty:
 
-                if new_set_FLAG == True:
+                if new_set_FLAG:
 
-                    if df_dep_output2.empty ==True: # DEPonly + ARRonly
+                    if df_dep_output2.empty: # DEPonly + ARRonly
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
@@ -3910,7 +3351,7 @@ def runVisual(parentFrame):
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                    elif df_arr_output2.empty ==True: # DEPonly + DEPonly
+                    elif df_arr_output2.empty: # DEPonly + DEPonly
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
@@ -4086,7 +3527,7 @@ def runVisual(parentFrame):
 
             else:
 
-                if new_set_FLAG == True:
+                if new_set_FLAG:
                     if (df_dep_output2.empty ==False) and (df_arr_output2.empty ==False): #mixed both
                         if m==2: #MIXED +MIXED + MIXED
 
@@ -4375,7 +3816,7 @@ def runVisual(parentFrame):
                             toolbar.update()
                             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                    elif df_dep_output2.empty ==True:#arr only
+                    elif df_dep_output2.empty:#arr only
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
                         ax = f.add_subplot(111)
@@ -4435,7 +3876,7 @@ def runVisual(parentFrame):
                         toolbar.update()
                         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-                    elif df_arr_output2.empty ==True: # MIXED + ARRonly
+                    elif df_arr_output2.empty: # MIXED + ARRonly
 
                         f = Figure(figsize=(5,5), dpi=100)
                         A = f.add_subplot(111)
@@ -4558,43 +3999,12 @@ def runVisual(parentFrame):
                     canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    # ============================================================================#
-    #                           ADA buffer                                         #
-    # ============================================================================#
-
-    # if Seq_FLAG == True:
     class ADAbuffer(tk.Frame):
 
-        def __init__(self, parent, controller):
+        def __init__(self, parent):
             tk.Frame.__init__(self, parent)
             label = tk.Label(self, text="SEQUENCE")
             label.pack(pady=10,padx=10)
-
-            button1 = ttk.Button(self, text="Back to Home",
-                                command=lambda: controller.show_frame(StartPage))
-            button1.pack()
-            if convergenceFLAG ==True:
-                button1 = ttk.Button(self, text="Convergence Throughput",
-                                    command=lambda: controller.show_frame(Conv))
-                button1.pack()
-            if Thr_FLAG == True:
-                button = ttk.Button(self, text="Throughput",
-                                    command=lambda: controller.show_frame(Thr))
-                button.pack()
-
-            if Delay_FLAG == True:
-                button2 = ttk.Button(self, text="RWY Hold Delay",
-                                    command=lambda: controller.show_frame(DepDelay))
-                button2.pack()
-            if Delay_FLAG == True:
-                button5 = ttk.Button(self, text="Push/Start Delay",
-                                    command=lambda: controller.show_frame(DepDelay2))
-                button5.pack()
-
-            if arr_delay_FLAG == True:
-                button3 = ttk.Button(self, text="Arrivals Delay",
-                                    command=lambda: controller.show_frame(ArrivalDelay))
-                button3.pack()
 
             df_Buffer = pd.DataFrame()
             df_Buffer['ADA_Buffer'] = df_sequence_output['ADA Buffer']
@@ -4639,10 +4049,4 @@ def runVisual(parentFrame):
             canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
-    app = RAPIDvisual()
-
-    app.columnconfigure(0, weight=1)
-    app.rowconfigure(0, weight=1)
-    app.rowconfigure(1, weight=1)
-
-    app.mainloop()
+    visualWindow()

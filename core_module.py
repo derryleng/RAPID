@@ -1763,12 +1763,14 @@ def runModel(parentFrame):
             diff = 0
             average_hour = 0
             summ = 0
+
             if maxIter < 2:
                 averages.append(model.throughput)
                 maxIter += 1
-            elif (maxIter >= 2) and (maxIter < 10):       # minimum number of runs = 10
+
+            elif (maxIter >= 2) and (maxIter < 10):
                 for j in range(0, len(model.throughput)):
-                    for i in range (0, len(big_list)):  #len(biglist)
+                    for i in range (0, len(big_list)):
                         print('element sum = ', big_list[i][j])
                         summ = summ + big_list[i][j]
                     average_hour = summ / len(big_list)
@@ -1792,7 +1794,9 @@ def runModel(parentFrame):
                 print('difference list', difference)
                 maxIter += 1
                 summ = 0
+
             else:
+
                 for j in range(0, len(model.throughput)):
                     for i in range (0, len(big_list)):  #len(biglist)
                         print('element sum = ', big_list[i][j])
@@ -1837,4 +1841,5 @@ def runModel(parentFrame):
                 else:
                     maxIter += 1
                     print('maxRuns 2 =', maxIter)
+
             iter1 += 1
