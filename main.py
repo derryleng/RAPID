@@ -10,40 +10,23 @@ class mainWindow(tk.Tk):
         tk.Tk.__init__(self)
         self.title('RAPID')
         self.resizable(False, False)
-        inputFrame(self).grid(row=0, column=0, sticky='nsew', padx=(12,6), pady=5)
-        runFrame(self).grid(row=0, column=1, sticky='nsew', padx=(6,12), pady=5)
-        reqFrame(self).grid(row=1, column=0, columnspan=2, sticky='nsew', padx=12, pady=5, ipady=3)
+        inputFrame().grid(row=0, column=0, columnspan=2, sticky='nsew', padx=12, pady=5)
+        reqFrame(self).grid(row=1, column=0, columnspan=2, sticky='nsew', padx=12, pady=5)
         optFrame(self).grid(row=2, column=0, columnspan=2, sticky='nsew', padx=12, pady=5)
-        visualFrame(self).grid(row=3, column=0, columnspan=2, sticky='nsew', padx=12, pady=(5,12), ipady=3)
+        runFrame(self).grid(row=3, column=0, sticky='nsew', padx=(12, 6), pady=5)
+        visualFrame(self).grid(row=3, column=1, sticky='nsew', padx=(6, 12), pady=5)
         self.mainloop()
 
 
-class inputFrame(ttk.LabelFrame):
-    def __init__(self, master):
-        ttk.LabelFrame.__init__(self, text=' Input Settings ')
-        self.procFlag = tk.IntVar()
-        tk.Radiobutton(self, text='Process operational data', var=self.procFlag, value=1).pack(anchor='w')
-        tk.Radiobutton(self, text='Load existing input file', var=self.procFlag, value=0).pack(anchor='w')
-        self.loadedText = tk.StringVar(value='')
-        tk.Label(self, textvariable=self.loadedText).pack()
-        tk.Button(self, text='Choose File', command=lambda: self.getInput(master)).pack(expand=True, fill='both')
-
-    def getInput(self, master):
-        """
-        Switch between the two input options:
-        Option 0 (Analyse & Filter Operation Data) - leads to input_pre_process
-        Option 1 (Load existing INPUT file) - skips straight to core module (bypass input_pre_process)
-        """
-        master.filename = filedialog.askopenfilename()
-        if master.filename != '':
-            if bool(self.procFlag.get()):
-                runPreprocess(master.filename)
-            self.loadedText.set(master.filename.split('/')[-1])
+class inputFrame(tk.Frame):
+    def __init__(self):
+        tk.Frame.__init__(self)
+        tk.Button(self, text='Pre-Processing Operational Data', command=lambda: runPreprocess(filedialog.askopenfilename(title='Open operational data file'))).pack(side='left')
 
 
 class reqFrame(ttk.LabelFrame):
     def __init__(self, master):
-        ttk.LabelFrame.__init__(self, text=' Model Settings ')
+        ttk.LabelFrame.__init__(self, text=' 1. Required Model Settings ')
         master.req = {
             'n_input': tk.IntVar(value='50'),
             'minDep_altSID_input': tk.IntVar(value='60'),
@@ -74,7 +57,7 @@ class reqFrame(ttk.LabelFrame):
 
 class optFrame(ttk.LabelFrame):
     def __init__(self, master):
-        ttk.LabelFrame.__init__(self, text=' Enablers ')
+        ttk.LabelFrame.__init__(self, text=' 2. Optional Model Enablers ')
         master.opt = {
             'var6': tk.IntVar(),
             'var17': tk.IntVar(),
@@ -109,47 +92,45 @@ class optFrame(ttk.LabelFrame):
         tk.Checkbutton(self, text='ADDA', variable=master.opt['ADDA_thr']).grid(row=4, column=9, sticky='w')
 
 
-class visualFrame(ttk.LabelFrame):
-    def __init__(self, master):
-        ttk.LabelFrame.__init__(self, text=' Visualise Results ')
-        master.vis = {
-            'var11': tk.IntVar(),
-            'var12': tk.IntVar()
-        }
-        tk.Label(self, text="Compare results to").grid(row=1, column=0, columnspan=10, sticky='w')
-        tk.Checkbutton(self, text="operational data", variable=master.vis['var11']).place(x=105, y=-2)
-        tk.Checkbutton(self, text="other results", variable=master.vis['var12']).place(x=218, y=-2)
-        tk.Label(self, text=" - no. (up to 5)").place(x=306, y=0)
-        tk.Entry(self, width=5, text='0', variable=master.vis['var13']).place(x=390, y=1)
-        tk.Button(self, text='Visualise existing output data', command=lambda: self.runVisualExisting(master)).grid(row=2, column=0, sticky='w')
-
-    def runVisualExisting(self, master):
-        master.name_output_file = filedialog.askopenfilename(title='Open existing OUTPUT_*.xlsx file')
-        if master.name_output_file != '':
-            runVisual(master)
-
-
 class runFrame(ttk.LabelFrame):
     def __init__(self, master):
-        ttk.LabelFrame.__init__(self, text=' Run Settings ')
+        ttk.LabelFrame.__init__(self, text=' 3. Final Run Settings ')
         master.run = {
             'n_times_input': tk.IntVar(value='1'),
             'var7': tk.IntVar(),
             'var14': tk.IntVar()
         }
-        tk.Label(self, text='Number of runs            ').pack(anchor='w') # Trailing spaces are for spacing
-        tk.Entry(self, width=8, textvariable=master.run['n_times_input']).place(x=147, y=0)
-        tk.Checkbutton(self, text='I want to feel confident!', variable=master.run['var7']).pack(anchor='w')
-        tk.Checkbutton(self, text='Print a debug tab', variable=master.run['var14']).pack(anchor='w')
-        tk.Button(self, text='Run Model', command=lambda: self.runRAPID(master)).pack(expand=True, fill='both')
+        tk.Label(self, text='Number of runs').grid(row=0, column=0, sticky='w')
+        tk.Entry(self, width=8, textvariable=master.run['n_times_input']).grid(row=0, column=1, sticky='e')
+        tk.Checkbutton(self, text='I want to feel confident!', variable=master.run['var7']).grid(row=1, column=0, columnspan=2, sticky='w')
+        tk.Checkbutton(self, text='Print a debug tab', variable=master.run['var14']).grid(row=2, column=0, columnspan=2, sticky='w')
+        tk.Button(self, text='Load Data', command=lambda: self.loadModel(master)).grid(row=3, column=0, sticky='w')
+        tk.Button(self, text='Run Model', command=lambda: runModel(master)).grid(row=3, column=1, sticky='w')
 
-    def runRAPID(self, master):
-        """
-        Wrapper function which first runs the core RAPID model,
-        then runs the visual module.
-        """
-        runModel(master)
-        runVisual(master)
+    def loadModel(self, master):
+        master.name_input_file = filedialog.askopenfilename(title='Open existing INPUT_*.xlsx file')
+        if master.name_input_file != '':
+            runModel(master)
+
+
+class visualFrame(ttk.LabelFrame):
+    def __init__(self, master):
+        ttk.LabelFrame.__init__(self, text=' 4. Visualise Results ')
+        master.vis = {
+            'compare_op': tk.IntVar(),
+            'compare_set': tk.IntVar(),
+            'compare_set_num': tk.StringVar()
+        }
+        tk.Checkbutton(self, text="Compare to operational data", variable=master.vis['compare_op']).grid(row=0, column=0, columnspan=2, sticky='w')
+        tk.Checkbutton(self, text="Compare to other results (<6)", variable=master.vis['compare_set']).grid(row=1, column=0, columnspan=2, sticky='w')
+        tk.Entry(self, width=5, textvariable=master.vis['compare_set_num']).grid(row=2, column=0, columnspan=2, sticky='we')
+        tk.Button(self, text='Load Data', command=lambda: self.loadVisual(master)).grid(row=3, column=0, sticky='w')
+        tk.Button(self, text='Run Visual', command=lambda: runVisual(master)).grid(row=3, column=1, sticky='e')
+
+    def loadVisual(self, master):
+        master.name_output_file = filedialog.askopenfilename(title='Open existing OUTPUT_*.xlsx file')
+        if master.name_output_file != '':
+            runVisual(master)
 
 
 if __name__ == '__main__':

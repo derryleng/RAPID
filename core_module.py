@@ -1047,7 +1047,7 @@ class coreRAPID:
         return (self.currentGap)
 
 
-    # ------------------------ Departure Movement Function ----------------------- #
+    # ----------------------- Departure Movement Functions ----------------------- #
 
     def update_Departure_Delays(self, Current_time):
         if len(self.DepSTANDqueue)>0:
@@ -1677,12 +1677,21 @@ class coreRAPID:
             self.number_of_goArounds_queued+=sum(self.GoAroundCount[i])
 
 
+    def printDiagnosticMsgs(self):
+        for queue in ['RWYqueue1', 'RWYqueue2', 'DepSTANDqueue', 'TAXIhold', 'ARRIVALqueue', 'APPqueue', 'ArrHOLDqueue']:
+            eval_str = f'str(len(self.{queue}))'
+            remaining_aircraft = eval(eval_str)
+            if int(remaining_aircraft) > 0:
+                print(f'WARNING: there are [{remaining_aircraft}] aircraft remaining in {queue}')
+        print(f'Final number of queued arrival go-around cases: {self.number_of_goArounds_queued}')
+
+
 def runModel(parentFrame):
 
     # Variables from GUI
     global v
     v = {
-        'filename': parentFrame.filename,
+        'filename': parentFrame.name_input_file,
         'RECAT': bool(int(parentFrame.opt['var6'].get())), # Switch for modelling 'Radar Tower Separation' concept
         'RECAT_PWS': bool(int(parentFrame.opt['var17'].get())),
         'avgThr': bool(int(parentFrame.run['var7'].get())),
@@ -1712,12 +1721,7 @@ def runModel(parentFrame):
     averages = []
     difference = []
     iter1 = 0
-    iter2 = 0
-
-    if v['avgThr']:
-        maxIter = 10
-    else:
-        maxIter = v['maxRuns']
+    maxIter = 10 if v['avgThr'] else v['maxRuns']
 
     while (iter1 < maxIter):
 
@@ -1735,111 +1739,64 @@ def runModel(parentFrame):
         model.delayCalculation()
 
         # Print diagnostic messages
-        for queue in ['RWYqueue1', 'RWYqueue2', 'DepSTANDqueue', 'TAXIhold', 'ARRIVALqueue', 'APPqueue', 'ArrHOLDqueue']:
-            eval_str = f'str(len(model.{queue}))'
-            remaining_aircraft = eval(eval_str)
-            if int(remaining_aircraft) > 0:
-                print(f'WARNING: there are [{remaining_aircraft}] aircraft remaining in {queue}')
-        print(f'Final number of queued arrival go-around cases: {model.number_of_goArounds_queued}')
-        print(f'Time elapsed: {round(time.perf_counter() - timer_start, 4)} seconds\n\n')
+        model.printDiagnosticMsgs()
 
-        if not v['avgThr']:
 
+        def saveOutput():
             # Append column F to Throughput tab
             model.writeCell('Throughput', 'F', 1, 'Difference in thr averages')
             difference.append([0] * (model.workbook['Throughput'].max_row - 1))
             model.writeCell('Throughput', 'F', 2, str(difference))
 
             # Save workbook
-            parentFrame.name_output_file = f'OUTPUT_RAPID_v3.0_{time.strftime("%Y%m%d_%H%M%S", time.localtime())}.xlsx'
+            if v['avgThr']:
+                parentFrame.name_output_file = f'OUTPUT_RAPID_v3.0_{time.strftime("%Y%m%d_%H%M%S", time.localtime())}_iter_{iter1 + 1}.xlsx'
+            else:
+                parentFrame.name_output_file = f'OUTPUT_RAPID_v3.0_{time.strftime("%Y%m%d_%H%M%S", time.localtime())}.xlsx'
             model.workbook.save(parentFrame.name_output_file)
 
-            iter1 += 1
 
-        else:
+        # Calculate multi-run average throughput and save output
+        if v['avgThr']:
             big_list.append(model.throughput)
             average_run = []
             diff2 = []
             diff = 0
             average_hour = 0
             summ = 0
-
-            if maxIter < 2:
-                averages.append(model.throughput)
-                maxIter += 1
-
-            elif (maxIter >= 2) and (maxIter < 10):
-                for j in range(0, len(model.throughput)):
-                    for i in range (0, len(big_list)):
-                        print('element sum = ', big_list[i][j])
-                        summ = summ + big_list[i][j]
-                    average_hour = summ / len(big_list)
-                    average_run.append(average_hour)
-                    print('average_run=', average_run)
-                    summ = 0
-                averages.append(average_run)
-                average_run = []
-                print(averages)
-                for j in range(0, len(averages[0])):
-                    print('______________________ ', j)
-                    compare = averages[len(averages)-1][j]
-                    print('last run = ', compare)
-                    diff = compare - averages[len(averages)-2][j]
-                    print('diff = ', diff)
-                    diff2.append(diff)
-                    print('diff2 = ', diff2)
-                difference.append(diff2)
-                diff2 = []
-                print('diff = ', diff2)
-                print('difference list', difference)
-                maxIter += 1
-                summ = 0
-
-            else:
-
-                for j in range(0, len(model.throughput)):
-                    for i in range (0, len(big_list)):  #len(biglist)
-                        print('element sum = ', big_list[i][j])
-                        summ = summ + big_list[i][j]
-                    average_hour = summ / len(big_list)
-                    average_run.append(average_hour)
-                    print('average_run=', average_run)
-                    summ = 0
-                averages.append(average_run)
-                average_run = []
-                print(averages)
-                for j in range(0, len(averages[0])):
-                    print('______________________ ', j)
-                    compare = averages[len(averages)-1][j]
-                    print('last run = ', compare)
-                    diff = compare - averages[len(averages)-2][j]
-                    print('diff = ', diff)
-                    diff2.append(diff)
-                    print('diff2 = ', diff2)
-                difference.append(diff2)
-                diff2 = []
-                print('diff = ', diff2)
-                print('difference list', difference)
+            for j in range(0, len(model.throughput)):
+                for i in range (0, len(big_list)):
+                    print(f'element sum = {big_list[i][j]}')
+                    summ += big_list[i][j]
+                average_hour = summ / len(big_list)
+                average_run.append(average_hour)
+                print(f'average_run = {average_run}')
+            averages.append(average_run)
+            for j in range(0, len(averages[0])):
+                print(f'______________________ {j}')
+                compare = averages[len(averages)-1][j]
+                print(f'last run = {compare}')
+                diff = compare - averages[len(averages)-2][j]
+                print(f'diff = {diff}')
+                diff2.append(diff)
+                print(f'diff2 = {diff2}')
+            difference.append(diff2)
+            if maxIter >= 10:
                 for i in range(0, len(difference[0])):
-                    print("OK so far")
-                    if (difference[len(difference)-1][i] <= 0.1) and (difference[len(difference)-1][i] >= -0.1) :
-                        print('####### difference in averages = ', difference[len(difference)-1][i])
-                        iter2 = 0
+                    if difference[len(difference)-1][i] <= 0.1 and difference[len(difference)-1][i] >= -0.1 :
+                        print(f'difference in averages = {difference[len(difference)-1][i]}')
                     else:
-                        print('############condition false')
-                        iter2 = 1
+                        print('condition false')
+                        maxIter += 1
+                        print(f'maxRuns 2 = {maxIter}')
                         break
-                summ = 0
-                if iter2 == 0:
-                    print('maxRuns 1 =', maxIter)
-                    model.workbook['Throughput']['F' + str(1)].value = 'Difference in thr averages'
-                    extra_diff = [0] * (model.workbook['Throughput'].max_row-1)
-                    difference.append(extra_diff)
-                    model.workbook['Throughput']['F' + str(2)].value = str(difference)
-                    parentFrame.name_output_file = f'OUTPUT_RAPID_v3.0_{time.strftime("%Y%m%d_%H%M%S", time.localtime())}_iteration_{str(iter1 + 1)}.xlsx'
-                    model.workbook.save(parentFrame.name_output_file) # Choose file name once complete?
                 else:
-                    maxIter += 1
-                    print('maxRuns 2 =', maxIter)
+                    print(f'maxRuns 1 = {maxIter}')
+                    saveOutput()
+            else:
+                maxIter += 1
+        else:
+            saveOutput()
 
-            iter1 += 1
+        print(f'Time elapsed: {round(time.perf_counter() - timer_start, 4)} seconds\n\n')
+        iter1 += 1

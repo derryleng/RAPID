@@ -11,39 +11,6 @@ matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
-class dataImport(tk.Tk):
-    def __init__(self, m):
-        tk.Tk.__init__(self)
-        self.title("New set of data import")
-        new_data_sheet2 = tk.StringVar()
-        ttk.Label(self, text="Import new data set 2: ").grid(column=1, row=1, sticky='W')
-        ttk.Button(self, text="Import data 2", command=lambda: load_file(new_data_sheet2)).grid(column=2, row=1, sticky='W')
-        new_data2 = new_data_sheet2.get()
-        xls2 = pd.ExcelFile(new_data2)
-        df_thr2 = xls2.parse(5)
-        df_delay2 = xls2.parse(6)
-        df_dep_output2 = xls2.parse(4)
-        df_arr_output2 = xls2.parse(3)
-        df_rwy_calcs2 = xls2.parse(2)
-
-        if m >= 2:
-            new_data_sheet3 = tk.StringVar()
-            ttk.Label(self, text="Import new data set 3: ").grid(column=1, row=2, sticky='W')
-            ttk.Button(self, text="Import data 3", command=lambda: load_file(new_data_sheet3)).grid(column=2, row=2, sticky='W')
-            if m >= 3:
-                new_data_sheet4 = tk.StringVar()
-                ttk.Label(self, text="Import new data set 4: ").grid(column=1, row=3, sticky='W')
-                ttk.Button(self, text="Import data 4", command=lambda: load_file(new_data_sheet4)).grid(column=2, row=3, sticky='W')
-                if m >= 4:
-                    new_data_sheet5 = tk.StringVar()
-                    ttk.Label(self, text="Import new data set 5: ").grid(column=1, row=4, sticky='W')
-                    ttk.Button(self, text="Import data 5", command=lambda: load_file(new_data_sheet5)).grid(column=2, row=4, sticky='W')
-                    if m >= 5:
-                        new_data_sheet6 = tk.StringVar()
-                        ttk.Label(self, text="Import new data set 6: ").grid(column=1, row=5, sticky='W')
-                        ttk.Button(self, text="Import data 6", command=lambda: load_file(new_data_sheet6)).grid(column=2, row=5, sticky='W')
-        self.mainloop()
-
 
 def load_file(filename):
     filename.set(filedialog.askopenfilename())
@@ -53,15 +20,14 @@ def runVisual(parentFrame):
 
     average_FLAG = False
 
-    OP_FLAG = bool(int(parentFrame.vis['var11'].get()))
-    new_set_FLAG = bool(int(parentFrame.vis['var12'].get()))
-    m = int(parentFrame.vis['var13'].get())
+    OP_FLAG = bool(int(parentFrame.vis['compare_op'].get()))
+    new_set_FLAG = bool(int(parentFrame.vis['compare_set'].get()))
 
     if new_set_FLAG:
 
-        if m >= 1 :
-            dataImport(m)
+        m = int(parentFrame.vis['compare_set_num'].get())
 
+        if m >= 1 :
             win = tk.Tk()
             win.title("New set of data import")
             mainframe = ttk.Frame(win, padding="10 10 30 40")
