@@ -21,7 +21,7 @@ class mainWindow(tk.Tk):
 class inputFrame(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self)
-        tk.Button(self, text='Pre-Processing Operational Data', command=lambda: runPreprocess(filedialog.askopenfilename(title='Open operational data file'))).pack(side='left')
+        tk.Button(self, text='Pre-Processing Operational Data', command=runPreprocess).pack(side='left')
 
 
 class reqFrame(ttk.LabelFrame):
